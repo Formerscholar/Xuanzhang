@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 ,viewport-fit=cover, minimal-ui " />
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="企业管控平台" />
+  <meta name="keywords" content="企业管控平台" />
+  <meta name="robots" content="index,follow" />
+  <meta name="apple-mobile-web-app-title" content="唐玄账" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-orientation" content="portrait" />
+  <meta name="full-screen" content="yes" />
+  <meta name="x5-fullscreen" content="true" />
+  <meta name="browsermode" content="application" />
+  <meta name="x5-page-mode" content="app" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="author" content="chad, 2319315514@qq.com" />
+  <link rel="apple-touch-icon-precomposed" href="<%= BASE_URL %>favicon.ico" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= BASE_URL %>favicon.ico" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= BASE_URL %>favicon.ico" />
+  <meta name="msapplication-TileColor" content="#000" />
+  <meta name="msapplication-TileImage" content="<%= BASE_URL %>favicon.ico" />
+  <link rel="shortcut icon" type="image/ico" href="<%= BASE_URL %>favicon.ico" />
+  <title>唐玄账</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_1863578_73l6hj768yx.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>document.addEventListener("plusready", function () { var webview = plus.webview.currentWebview(); var first = null; plus.key.addEventListener("backbutton", function () { webview.canBack(function (e) { if (e.canBack) { webview.back() } else { if (!first) { first = new Date().getTime(); console.log("再按一次退出应用"); plus.nativeUI.toast("双击退出", { duration: "short" }); setTimeout(function () { first = null }, 1000) } else { if (new Date().getTime() - first < 1400) { plus.runtime.quit() } } } }) }, false) });</script>
+</body>
+
+</html>
