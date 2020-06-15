@@ -5,7 +5,6 @@
         <span>个人主页</span>
       </div>
       <div class="itemContent">
-        <!-- <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" /> -->
         <img :src="PropsImg" />
         <i class="el-icon-arrow-right"></i>
       </div>
@@ -14,8 +13,6 @@
 </template>
     
 <script>
-// import Avatar from '@/components/content/Avatar/Avatar'
-
 export default {
   name: 'gender',
   components: {},

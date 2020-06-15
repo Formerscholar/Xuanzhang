@@ -80,6 +80,7 @@ export default {
       from.append('role_id', this.userInfo.role_id)
       from.append('user_id', this.userInfo.id)
       from.append('token', this.$store.state.token)
+      from.append('email', '')
       from.append('is_statistic', this.userInfo.is_statistic)
       from.append('logo_url', '')
       from.append('department_head', 0)

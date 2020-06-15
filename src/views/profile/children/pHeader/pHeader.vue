@@ -2,7 +2,7 @@
   <div id="pHeader" class="my_header text-white bg-primary">
     <div class="topbox d-flex">
       <div class="logo d-flex">
-        <img v-if="imgUrl" :src="bestURL + imgUrl" alt="logo" />
+        <img v-if="imgUrl" :src="imgUrl" alt="logo" />
         <img src="../../../../assets/image/dpng.png" v-else alt="logo" />
 
         <div class="info">

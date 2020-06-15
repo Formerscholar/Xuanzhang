@@ -79,6 +79,7 @@ export default {
       from.append('remark', this.userInfo.remark)
       from.append('role_id', this.userInfo.role_id)
       from.append('user_id', this.userInfo.id)
+      from.append('email', this.email)
       from.append('token', this.$store.state.token)
       from.append('is_statistic', this.userInfo.is_statistic)
       from.append('logo_url', '')

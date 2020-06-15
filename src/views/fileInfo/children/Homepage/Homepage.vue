@@ -76,6 +76,7 @@ export default {
       from.append('role_id', this.userInfo.role_id)
       from.append('user_id', this.userInfo.id)
       from.append('token', this.$store.state.token)
+      from.append('email', '')
       from.append('is_statistic', this.userInfo.is_statistic)
       from.append('logo_url', this.PropsImg)
       from.append('department_head', 0)
@@ -88,7 +89,11 @@ export default {
       console.log('editUser', data)
     },
     ObtainUrl(data) {
-      this.PropsImg = data
+      if (this.userInfo.img_url == data) {
+        this.PropsImg = ''
+      } else {
+        this.PropsImg = data
+      }
     },
     goBack() {
       this.$router.go(-1)
@@ -100,9 +105,7 @@ export default {
         }
       })
       this.userInfo = JSON.parse(this.userInfo)
-      this.PropsImg = this.userInfo.img_url
-        ? bestURL + this.userInfo.img_url
-        : ''
+      this.PropsImg = this.userInfo.img_url ? this.userInfo.img_url : ''
     }
   }
 }
