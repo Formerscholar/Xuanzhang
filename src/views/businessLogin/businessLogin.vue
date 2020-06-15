@@ -52,12 +52,13 @@ export default {
   activated() {
     this.companyList = this.$store.state.loginDate.customers
     document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.paddingTop = '32px'
+    document.querySelector('#app').style.padding = '0px'
     document.querySelector('#app').style.backgroundColor = '#ededed'
   },
   deactivated() {
-    document.querySelector('#tab-bar').style.height = '59px'
     document.querySelector('#app').style.paddingTop = '62px'
+    document.querySelector('#app').style.paddingBottom = '59px'
+    document.querySelector('#tab-bar').style.height = '59px'
     document.querySelector('#app').style.backgroundColor = '#fff'
   }
 }
@@ -65,9 +66,9 @@ export default {
     
 <style lang="scss">
 #businessLogin {
-  height: 100vh;
   background-color: #ededed;
-  padding-top: 5.428571rem;
+  height: 100vh;
+  padding-top: 4.214286rem;
   .p_root_box {
     color: #747474;
     background-color: #ededed;

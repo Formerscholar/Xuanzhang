@@ -151,9 +151,10 @@ import {
   getEditDistributor,
   editDistributor,
   getEditSupplier,
-  editSupplier
+  editSupplier,
+  getAddContractOrder
 } from '@/network/client'
-
+import { getAddOutsourcingOrder } from '@/network/deal'
 export default {
   name: 'clientedit',
   components: { navbar, scroll },
@@ -207,7 +208,8 @@ export default {
       title: '',
       typeIndex: false,
       tasIDs: [],
-      tagsName: []
+      tagsName: [],
+      isQuire: false
     }
   },
   computed: {
@@ -348,23 +350,66 @@ export default {
       }
     },
     async comitBlack() {
+      this.isQuire = false
       if (this.title == 'client') {
-        if (this.typeIndex) {
-          const { code, msg } = await editDistributor(this.addDistributorDatas)
-          this.messageShow(code, msg)
-        } else {
-          const { code, msg } = await addDistributor(this.addDistributorData)
-          this.messageShow(code, msg)
+        const { data, code } = await getAddContractOrder({
+          token: this.$store.state.token
+        })
+        data.distributors.map(item => {
+          if (item.name == this.companyName) {
+            this.messageShow(400, '名称不能重复')
+            this.isQuire = true
+          }
+        })
+        if (!this.isQuire) {
+          if (this.typeIndex) {
+            const { code, msg } = await editDistributor(
+              this.addDistributorDatas
+            )
+            this.messageShow(code, msg)
+          } else {
+            const { code, msg } = await addDistributor(this.addDistributorData)
+            this.messageShow(code, msg)
+          }
         }
       } else if (this.title == 'supplier') {
-        if (this.typeIndex) {
-          const { code, msg } = await editSupplier(this.addDistributorDatas)
-          this.messageShow(code, msg)
-        } else {
-          const { code, msg } = await addSupplier(this.addDistributorData)
-          this.messageShow(code, msg)
+        const { data } = await getAddOutsourcingOrder({
+          token: this.$store.state.token
+        })
+        data.suppliers.map(item => {
+          if (item.name == this.companyName) {
+            this.messageShow(400, '名称不能重复')
+            this.isQuire = true
+          }
+        })
+        if (!this.isQuire) {
+          if (this.typeIndex) {
+            const { code, msg } = await editSupplier(this.addDistributorDatas)
+            this.messageShow(code, msg)
+          } else {
+            const { code, msg } = await addSupplier(this.addDistributorData)
+            this.messageShow(code, msg)
+          }
         }
       }
+
+      // if (this.title == 'client') {
+      //   if (this.typeIndex) {
+      //     const { code, msg } = await editDistributor(this.addDistributorDatas)
+      //     this.messageShow(code, msg)
+      //   } else {
+      //     const { code, msg } = await addDistributor(this.addDistributorData)
+      //     this.messageShow(code, msg)
+      //   }
+      // } else if (this.title == 'supplier') {
+      //   if (this.typeIndex) {
+      //     const { code, msg } = await editSupplier(this.addDistributorDatas)
+      //     this.messageShow(code, msg)
+      //   } else {
+      //     const { code, msg } = await addSupplier(this.addDistributorData)
+      //     this.messageShow(code, msg)
+      //   }
+      // }
     },
     async getDistributor() {
       const { data } = await getDistributorUser()
@@ -527,6 +572,7 @@ export default {
       this.gokhlist.county
   },
   deactivated() {
+    this.isQuire = false
     this.contacts = []
     this.tagsName = []
     this.tasIDs = []

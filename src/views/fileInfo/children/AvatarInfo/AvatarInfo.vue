@@ -1,22 +1,24 @@
 <template>
   <div class="fileInfoList">
-    <div class="listItem d-flex">
+    <div class="listItem d-flex" @click="goIndexInfo">
       <div class="itemText">
-        <span>头像</span>
+        <span>个人主页</span>
       </div>
       <div class="itemContent">
-        <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" />
+        <!-- <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" /> -->
+        <img :src="PropsImg" />
+        <i class="el-icon-arrow-right"></i>
       </div>
     </div>
   </div>
 </template>
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
+// import Avatar from '@/components/content/Avatar/Avatar'
 
 export default {
   name: 'gender',
-  components: { Avatar },
+  components: {},
   data() {
     return {}
   },
@@ -27,10 +29,10 @@ export default {
     }
   },
   methods: {
-    ObtainUrl(data) {
-      this.$emit('ImageUrl', data)
+    goIndexInfo() {
+      this.$router.push('/avatarInfo')
     }
-  },
+  }
 }
 </script>
     
@@ -55,8 +57,11 @@ export default {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-
       flex: 1;
+      img {
+        width: 2.857143rem;
+        height: 2.857143rem;
+      }
       span {
         color: #b3b3b3;
       }

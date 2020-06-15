@@ -1,6 +1,6 @@
 <template>
   <div id="Mission">
-    <mHeader @tike="tike" />
+    <mHeader />
     <!-- btns -->
     <cardbtns
       :designatedTasksList="designatedTasksList"
@@ -9,6 +9,7 @@
       @goDetails="goDetails"
       @loadMore="loadMore"
     />
+    <i class="el-icon-plus" @click="tike"></i>
   </div>
 </template>
     
@@ -125,8 +126,19 @@ export default {
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 #Mission {
   padding-top: 5.428571rem;
+  .el-icon-plus {
+    position: fixed;
+    bottom: 4.142857rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: #2a7bd0;
+    color: #fff;
+    border-radius: 50%;
+  }
 }
 </style>

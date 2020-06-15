@@ -6,7 +6,6 @@
       </div>
       <div class="itemContent">
         <span>{{getname}}</span>
-        <i class="el-icon-arrow-right"></i>
       </div>
     </div>
   </div>

@@ -128,6 +128,7 @@ export default {
     
 <style scoped lang="scss">
 #cardbox {
+  
   .box-card {
     margin-bottom: 0.714286rem;
     .box_name {

@@ -83,7 +83,9 @@ const staffEntry = () =>
   import('../views/manboard/children/staffEntry/staffEntry')
 
 const fileInfo = () => import('../views/fileInfo/fileInfo')
-
+const Email = () => import('../views/fileInfo/children/myArea/myArea')
+const Password = () => import('../views/fileInfo/children/password/password')
+const AvatarInfo = () => import('../views/fileInfo/children/Homepage/Homepage')
 const scan = () => import('../components/common/my_scan/my_scan')
 
 const Reimbursement = () => import('../views/Reimbursement/Reimbursement')
@@ -364,11 +366,24 @@ const routes = [
     name: 'data',
     component: Receivable,
   },
+  {
+    path: '/email',
+    component: Email,
+  },
+  {
+    path: '/password',
+    component: Password,
+  },
+  {
+    path: '/avatarInfo',
+    component: AvatarInfo,
+  },
 ]
 
 const router = new VueRouter({
   routes,
 })
+
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     if (!window.localStorage) {

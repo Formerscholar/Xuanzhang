@@ -2,7 +2,7 @@
   <div id="Client">
     <scroll class="scroll-wrapper">
       <borderCard @tabListTach="tabListTach">
-        <cardsearch :options="options" slot="search" @addcus="addcus" @Rendering="Rendering" />
+        <cardsearch :options="options" slot="search" @Rendering="Rendering" />
         <cardbox
           :distributor="distributor"
           @gokhlist="gokhlist"
@@ -10,12 +10,7 @@
           @refreshList="refreshList"
           slot="card"
         />
-        <cardsearchs
-          :optionss="optionss"
-          slot="Supplisearch"
-          @addcus="addcus"
-          @Rendering="Renderings"
-        />
+        <cardsearchs :optionss="optionss" slot="Supplisearch" @Rendering="Renderings" />
         <cardbox
           :distributor="supplier"
           @refreshList="refreshLists"
@@ -25,6 +20,7 @@
         />
       </borderCard>
     </scroll>
+    <i class="el-icon-plus" @click="btnsclickadd"></i>
     <van-action-sheet
       v-model="show"
       @select="onselect"
@@ -72,6 +68,11 @@ export default {
     }
   },
   methods: {
+    btnsclickadd() {
+      this.$store.state.gokhlist = []
+      this.show = true
+      document.querySelector('#tab-bar').style.height = '0px'
+    },
     Rendering(data) {
       this.distributor = data
     },
@@ -189,6 +190,17 @@ export default {
 <style lang="scss" scoped>
 #Client {
   height: calc(100vh - 9.642857rem);
+  .el-icon-plus {
+    position: fixed;
+    bottom: 7.142857rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: #2a7bd0;
+    color: #fff;
+    border-radius: 50%;
+  }
   .scroll-wrapper {
     padding: 0 1rem;
     position: absolute;

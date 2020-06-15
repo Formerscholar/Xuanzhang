@@ -2,8 +2,8 @@
   <div id="pHeader" class="my_header text-white bg-primary">
     <div class="topbox d-flex">
       <div class="logo d-flex">
-        <img v-if=" imgUrl == null" src="../../../../assets/image/dpng.png" alt="logo" />
-        <img :src="this.bestURL + imgUrl" v-else alt="logo" />
+        <img v-if="imgUrl" :src="bestURL + imgUrl" alt="logo" />
+        <img src="../../../../assets/image/dpng.png" v-else alt="logo" />
 
         <div class="info">
           <div class="name">
@@ -87,6 +87,7 @@ export default {
       position: relative;
       img {
         width: 4.285714rem;
+        height: 4.285714rem;
         border: 0.214286rem solid #67a6d9;
       }
       .el-icon-help {

@@ -7,9 +7,7 @@
       <div class="center" slot="center">
         <span>任务中心</span>
       </div>
-      <div class="right" slot="right" @click="tike">
-        <i class="el-icon-circle-plus-outline"></i>
-      </div>
+      <div slot="right"></div>
     </navbar>
   </div>
 </template>
@@ -25,9 +23,6 @@ export default {
   methods: {
     blackhome() {
       this.$router.go(-1)
-    },
-    tike() {
-      this.$emit('tike')
     }
   }
 }
@@ -43,15 +38,9 @@ export default {
       }
     }
     .center {
-      margin-left: 0.928571rem;
+      margin-left: -2.071429rem;
       span {
         font-size: 1.571429rem;
-      }
-    }
-    .right {
-      margin-right: 1.071429rem;
-      height: 100%;
-      i {
       }
     }
   }
