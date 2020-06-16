@@ -23,6 +23,12 @@ export default {
       timeout: null
     }
   },
+  watch: {
+    inputvalue: (newQuestion, oldQuestion) => {
+      console.log('newQuestion', newQuestion)
+      console.log('oldQuestion', oldQuestion)
+    }
+  },
   computed: {
     getDistributorsData() {
       return {

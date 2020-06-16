@@ -9,65 +9,82 @@
       </div>
       <div class="right" slot="right"></div>
     </navbar>
-    <div class="content">
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 仓库预警
-        <span>
-          预警信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 买价上浮
-        <span>
-          未读信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 付款超标
-        <span>
-          超标信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 备用金
-        <span>
-          溢出信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 超额发货
-        <span>
-          超额信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 提前支取
-        <span>
-          超额信息:
-          <em>0</em>
-        </span>
-      </el-card>
-      <el-card class="box-card">
-        <i class="el-icon-eleme"></i> 任务超时
-        <span>
-          超时信息:
-          <em>0</em>
-        </span>
-      </el-card>
-    </div>
+
+    <scroll class="scroll-wrapper">
+      <div class="content">
+        <el-card class="box-card" v-for="(item,index) in listItem " :key="index">
+          <div class="box-content">
+            <div class="item-logo">
+              <img :src="'http://219.83.161.11:8030/view/image/'+item.logo" alt="logo" />
+              <div class="item-title">{{item.title}}</div>
+            </div>
+            <div class="item-content">
+              <span>
+                {{item.right_text}}:
+                <em>{{item.right_content}}</em>
+              </span>
+            </div>
+          </div>
+        </el-card>
+      </div>
+    </scroll>
   </div>
 </template>
     
 <script>
 import navbar from '@/components/common/navbar/NavBar'
+import scroll from '@/components/common/scroll/scroll'
 
 export default {
-  components: { navbar },
+  data() {
+    return {
+      listItem: [
+        {
+          title: '仓库预警',
+          logo: 'storeWarn.png',
+          right_text: '预警信息',
+          right_content: 0
+        },
+        {
+          title: '买价上浮',
+          logo: 'buyPriceAdd.png',
+          right_text: '未读信息',
+          right_content: 0
+        },
+        {
+          title: '付款超标',
+          logo: 'payOver.png',
+          right_text: '超标信息',
+          right_content: 0
+        },
+        {
+          title: '备用金',
+          logo: 'standbyMoney.png',
+          right_text: '溢出信息',
+          right_content: 0
+        },
+        {
+          title: '超额发货',
+          logo: 'overDeliver.png',
+          right_text: '超额信息',
+          right_content: 0
+        },
+        {
+          title: '提前支取',
+          logo: 'aheadDraw.png',
+          right_text: '超额信息',
+          right_content: 0
+        },
+        {
+          title: '任务超时',
+          logo: 'taskOvertime.png',
+          right_text: '超时信息',
+          right_content: 0
+        }
+      ]
+    }
+  },
+  components: { navbar, scroll },
   activated() {
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
@@ -88,6 +105,7 @@ export default {
 <style scoped lang="scss">
 #early {
   padding-top: 5.428571rem;
+  height: calc(100vh - 5.428571rem);
   .p_root_box {
     .left {
       margin-left: 1.071429rem;
@@ -103,6 +121,43 @@ export default {
     .right {
       margin-right: 1.071429rem;
       .newbtn {
+      }
+    }
+  }
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    top: 5.428571rem;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    .content {
+      .box-card {
+        margin-bottom: 0.357143rem;
+        .box-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .item-logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            img {
+              width: 2.857143rem;
+              height: 2.857143rem;
+            }
+            .item-title {
+              margin-top: 0.357143rem;
+            }
+          }
+          .item-content {
+            span {
+              em {
+              }
+            }
+          }
+        }
       }
     }
   }
