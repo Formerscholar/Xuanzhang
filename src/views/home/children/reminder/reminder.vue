@@ -20,7 +20,13 @@
 <script>
 export default {
   name: 'reminder',
-  components: {}
+  components: {},
+  methods: {},
+  // activated() {
+  //   this.$bus.$on('Assembly', data => {
+  //     console.log(data)
+  //   })
+  // }
 }
 </script>
     

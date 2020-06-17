@@ -80,11 +80,11 @@ export default {
       ],
       text: '',
       ruleForm: {
-        // name: '',
-        // pass: ''
-        name: '18083795906',
+        name: '',
+        pass: ''
+        // name: '18083795906',
         // name: '18752715203',
-        pass: '123456'
+        // pass: '123456'
       },
       rules: {
         name: [

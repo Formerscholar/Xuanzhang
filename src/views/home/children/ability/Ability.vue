@@ -98,7 +98,12 @@ export default {
       ]
     }
   },
-  components: {}
+  components: {},
+  methods: {
+    // tobus() {
+    //   this.$bus.$emit('Assembly', this.abilityLists)
+    // }
+  }
 }
 </script>
     

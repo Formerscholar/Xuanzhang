@@ -1,5 +1,5 @@
 <template>
-  <div id="ShippedList">
+  <div id="shippedlist">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blacknext">
         <i class="el-icon-arrow-left"></i>
@@ -17,7 +17,7 @@
           <div class="row">
             <div class="left_box">
               <div class="top_img">
-                <img src="@/assets/image/logo.png" />
+                <img src="@/assets/image/smol_picter.png" />
               </div>
             </div>
             <div class="right_content">
@@ -54,15 +54,21 @@
               </div>
             </div>
           </div>
-          <template #right>
-            <van-button @click="PrintClick" square text="打印" type="info" class="delete-button" />
+          <template #left>
+            <van-button
+              @click="PrintClick(item)"
+              square
+              text="打印"
+              type="info"
+              class="delete-button"
+            />
           </template>
         </van-swipe-cell>
       </div>
     </scroll>
     <van-overlay :show="isShow" @click="closeOverlay">
       <!-- @click.stop -->
-      <div class="wrapper">
+      <div class="wrap">
         <div
           id="qrCode"
           class="qrconde"
@@ -129,14 +135,23 @@ export default {
         this.allmonty += parseFloat(item.total_funds)
       })
     },
-    PrintClick() {
-      this.isShow = true
-      this.$nextTick(() => {
-        this.bindQRCode()
-      })
+    PrintClick(item) {
+      console.log(item)
+      if (item != null) {
+        this.isShow = true
+        this.$nextTick(() => {
+          this.bindQRCode(item)
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: '暂未生成',
+          type: 'error'
+        })
+      }
     },
-    bindQRCode() {
-      this.textContent = bestURL + '/contract_255.html'
+    bindQRCode(item) {
+      this.textContent = item.print_html
       new this.$qrCode(this.$refs.qrCodeDiv, {
         text: this.textContent,
         width: 200,
@@ -154,8 +169,17 @@ export default {
 }
 </script>
     
+<style lang="scss">
+.content {
+  width: 100%;
+}
+.navBar {
+  z-index: 0;
+}
+</style>
+
 <style scoped lang="scss">
-#ShippedList {
+#shippedlist {
   padding-top: 5.428571rem;
   .p_root_box {
     color: #747474;
@@ -189,7 +213,7 @@ export default {
       }
       .row {
         margin-top: 0.571429rem;
-        padding: 0.714286rem 1rem;
+        padding: 0.714286rem 0;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -198,11 +222,12 @@ export default {
           width: 40px;
           .top_img {
             width: 2.142857rem;
-            height: 2.142857rem;
+            height: 4.714286rem;
             border-radius: 50%;
             overflow: hidden;
             img {
               width: 2.142857rem;
+              height: 4.714286rem;
             }
           }
         }
@@ -235,7 +260,7 @@ export default {
       }
     }
   }
-  .wrapper {
+  .wrap {
     display: flex;
     align-items: center;
     justify-content: center;

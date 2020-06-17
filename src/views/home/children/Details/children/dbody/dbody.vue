@@ -171,19 +171,13 @@ export default {
       this.$previewRefresh()
     },
     setAttr(type, attribute) {
-      if (type == 'type') {
-        if (attribute == 1) {
-          return 'success'
-        } else {
-          return 'danger'
-        }
-      } else {
-        if (attribute == 1) {
-          return '一般'
-        } else {
-          return '紧急'
-        }
-      }
+      return type == 'type'
+        ? attribute == 1
+          ? 'success'
+          : 'danger'
+        : attribute == 1
+        ? '一般'
+        : '紧急'
     },
     setTextStatus(type, status, user_status) {
       if (type == 'type') {

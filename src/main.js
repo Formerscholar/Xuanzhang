@@ -29,6 +29,8 @@ Vue.use(Toast)
 import QRCode from 'qrcodejs2'
 Vue.prototype.$qrCode = QRCode
 
+Vue.prototype.$bus = new Vue()
+
 new Vue({
   router,
   store,
