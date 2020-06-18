@@ -4,7 +4,7 @@
       v-for="(item, index) in goodsLists"
       :key="index"
       class="goodsListItem"
-      @click="listClick(item.id)"
+      @click="listClick(item)"
       @touchstart.prevent="touchin"
       @touchend.prevent="cleartime"
     >
@@ -114,15 +114,18 @@ export default {
       this.$emit('pushData', this.editData)
       this.contractOrder = data.contractOrder
     },
-    listClick(id) {
-      this.iid = id
+    listClick(item) {
+      this.iid = item.id
       if (!this.listIsShow) {
         this.listIsShow = false
         this.$router.push(`/contractdetails/${this.iid}`)
       } else {
         this.listIsShow = false
         this.show = true
-        this.$emit('isMaskShow', this.show)
+        this.$emit('isMaskShow', {
+          showed: this.show,
+          data: item
+        })
       }
     },
     touchin() {

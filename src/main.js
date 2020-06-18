@@ -26,9 +26,6 @@ import 'vant/lib/index.css'
 Vue.use(Vant)
 Vue.use(Toast)
 
-import QRCode from 'qrcodejs2'
-Vue.prototype.$qrCode = QRCode
-
 Vue.prototype.$bus = new Vue()
 
 new Vue({

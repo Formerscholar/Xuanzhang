@@ -93,18 +93,6 @@
       <van-button plain type="primary" @click="toShop">发货</van-button>
       <van-button plain type="primary">开票</van-button>
     </div>
-    <van-overlay :show="isShow" @click="closeOverlay">
-      <!-- @click.stop -->
-      <div class="wrapper">
-        <div
-          id="qrCode"
-          class="qrconde"
-          ref="qrCodeDiv"
-          v-if="imgData==''"
-          style="width: 200px;height: 200px"
-        ></div>
-      </div>
-    </van-overlay>
   </div>
 </template>
     
@@ -112,6 +100,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import { getEditContractOrder } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
+
 export default {
   data() {
     return {
@@ -159,28 +148,6 @@ export default {
         query: {
           data: this.editData
         }
-      })
-    },
-    bindQRCode() {
-      this.textContent = this.contractOrder.print_html
-      new this.$qrCode(this.$refs.qrCodeDiv, {
-        // text: this.textContent,
-        text: '123',
-        width: 200,
-        height: 200,
-        colorDark: '#333333',
-        colorLight: '#ffffff',
-        correctLevel: this.$qrCode.CorrectLevel.H
-      })
-    },
-    closeOverlay() {
-      this.isShow = false
-      this.$refs.qrCodeDiv.innerHTML = ''
-    },
-    PrintClick() {
-      this.isShow = true
-      this.$nextTick(() => {
-        this.bindQRCode()
       })
     },
     blacknext() {

@@ -34,13 +34,7 @@
     </van-overlay>
     <van-overlay :show="isShow" @click="closeOverlay">
       <div class="wrapper-qrCode">
-        <div
-          id="qrCode"
-          class="qrconde"
-          ref="qrCodeDiv"
-          v-if="imgData==''"
-          style="width: 200px;height: 200px"
-        ></div>
+        <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
@@ -51,7 +45,13 @@ import DealGoodsItem from './DealGoodsItem.vue'
 import Options from '@/views/deal/children/Options/Options'
 import { throttle } from '@/common/utils.js'
 import scroll from '@/components/common/scroll/scroll'
-import { getContractOrderList, deleteContractOrder } from '@/network/deal'
+import {
+  getContractOrderList,
+  deleteContractOrder,
+  getEditContractOrder
+} from '@/network/deal'
+import myVqr from '@/components/common/my_vqr/myVqr'
+
 export default {
   name: 'DealGoods',
   data() {
@@ -67,13 +67,16 @@ export default {
       entire: 1,
       Quote: 1,
       request: true,
-      show: false
+      show: false,
+      textContent: '',
+      print_html: ''
     }
   },
   components: {
     DealGoodsItem,
     Options,
-    scroll
+    scroll,
+    myVqr
   },
   created() {
     this.getOrderList(1)
@@ -100,32 +103,31 @@ export default {
     }
   },
   methods: {
-    bindQRCode() {
-      // this.textContent = this.contractOrder.print_html
-      this.textContent = '123'
-      new this.$qrCode(this.$refs.qrCodeDiv, {
-        text: this.textContent,
-        width: 200,
-        height: 200,
-        colorDark: '#333333',
-        colorLight: '#ffffff',
-        correctLevel: this.$qrCode.CorrectLevel.H
-      })
-    },
     printList() {
-      this.show = false
-      this.isShow = true
-      this.$nextTick(() => {
-        this.bindQRCode()
-      })
-      document.querySelector('#tab-bar').style.height = '59px'
+      if (this.print_html != '') {
+        this.show = false
+        this.isShow = true
+        this.textContent = this.print_html
+        document.querySelector('#tab-bar').style.height = '59px'
+      } else {
+        this.$message({
+          showClose: true,
+          message: '暂未生成',
+          type: 'error'
+        })
+      }
     },
     closeOverlay() {
       this.isShow = false
-      this.$refs.qrCodeDiv.innerHTML = ''
     },
-    isMaskShow(show) {
-      this.show = show
+    async isMaskShow(datas) {
+      this.show = datas.showed
+      const { data } = await getEditContractOrder({
+        id: datas.data.id,
+        token: this.$store.state.tonken,
+        _: new Date().getTime()
+      })
+      this.print_html = data.contractOrder.print_html
     },
     async VoidList() {
       this.show = false

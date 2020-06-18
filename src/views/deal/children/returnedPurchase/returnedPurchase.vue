@@ -295,7 +295,7 @@ export default {
       this.productlog = false
       this.radio = '0'
       clearTimeout(this.timer)
-      this.$router.go(-1)
+      this.$router.replace('/deal/contract')
     },
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants

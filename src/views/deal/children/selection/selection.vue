@@ -1,11 +1,13 @@
 <template>
   <div class="selection wrapper bg-primary my_header" ref="wrapper">
     <ul class="list text-white" ref="list">
+      <!-- mui-control-item mui-active -->
       <li
-        class="mui-control-item mui-active"
-        v-for="item in selectionList"
+        v-for="(item,index) in selectionList"
+        class="mui-control-item"
+        :class="{mui_active:index == currentIndex}"
         :key="item.id"
-        @click="selectionClick(item.id)"
+        @click="selectionClick(item.id,index)"
       >{{item.title}}</li>
     </ul>
   </div>
@@ -23,7 +25,9 @@ export default {
   },
   components: {},
   data() {
-    return {}
+    return {
+      currentIndex: 0
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -31,8 +35,12 @@ export default {
     })
   },
   methods: {
-    selectionClick(i) {
-      this.$emit('selectionClick', i)
+    selectionClick(i, index) {
+      this.currentIndex = index
+      this.$emit('selectionClick', {
+        i,
+        index
+      })
     },
     _initPics() {
       let itemWidth = 90
@@ -69,6 +77,9 @@ export default {
       margin-right: 1.285714rem;
       line-height: 2.857143rem;
       font-size: 1rem;
+    }
+    .mui_active {
+      border-bottom: 2px solid #fff;
     }
   }
 }

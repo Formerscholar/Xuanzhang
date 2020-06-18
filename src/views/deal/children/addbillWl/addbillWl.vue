@@ -218,7 +218,7 @@ export default {
       this.state = null
       this.tableData = null
       this.other = null
-      this.$router.go(-1)
+      this.$router.replace('/deal/aside')
     },
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants

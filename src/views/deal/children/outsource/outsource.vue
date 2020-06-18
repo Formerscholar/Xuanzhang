@@ -290,7 +290,7 @@ export default {
         this.OtherInstructions = ''
         this.fileList = []
         this.addressData = {}
-        this.$router.go(-1)
+        this.$router.replace('/deal/outsourcing')
       }
     },
     quxiaoClick() {
@@ -308,8 +308,7 @@ export default {
       this.OtherInstructions = ''
       this.fileList = []
       this.addressData = {}
-      // this.$router.replace('/deal/purchase')
-      this.$router.go(-1)
+      this.$router.replace('/deal/outsourcing')
     },
     async getAddOemOrders() {
       const { data } = await getAddOutsourcingOrder(this.getAddOemOrderData)
@@ -398,7 +397,7 @@ export default {
       this.productlog = false
       this.radio = '0'
       clearTimeout(this.timer)
-      this.$router.go(-1)
+      this.$router.replace('/deal/outsourcing')
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)

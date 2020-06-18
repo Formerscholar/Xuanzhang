@@ -8,7 +8,7 @@
         <span>结算</span>
       </div>
       <div class="right" slot="right">
-        <span>收入￥{{allmonty}}</span>
+        <span>收入￥{{allmonty.toFixed(2)}}</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper">
@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-          <template #left>
+          <template #right>
             <van-button
               @click="PrintClick(item)"
               square
@@ -69,13 +69,7 @@
     <van-overlay :show="isShow" @click="closeOverlay">
       <!-- @click.stop -->
       <div class="wrr">
-        <div
-          id="qrCode"
-          class="qrconde"
-          ref="qrCodeDiv"
-          v-if="imgData==''"
-          style="width: 200px;height: 200px"
-        ></div>
+        <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
@@ -86,6 +80,8 @@ import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 import { getSettlementRecordList } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
+import myVqr from '@/components/common/my_vqr/myVqr'
+
 export default {
   data() {
     return {
@@ -97,7 +93,7 @@ export default {
       deliveryRecordList: []
     }
   },
-  components: { navbar, scroll },
+  components: { navbar, scroll, myVqr },
   activated() {
     this.iid = this.$route.params.id
     this.getDeliverGoodsLists()
@@ -136,11 +132,10 @@ export default {
     },
     PrintClick(item) {
       console.log(item)
-      if (item != null) {
+      if (item.print_html != null) {
         this.isShow = true
-        this.$nextTick(() => {
-          this.bindQRCode(item)
-        })
+        this.textContent = item.print_html
+        console.log(this.textContent)
       } else {
         this.$message({
           showClose: true,
@@ -149,20 +144,8 @@ export default {
         })
       }
     },
-    bindQRCode(item) {
-      this.textContent = item.print_html
-      new this.$qrCode(this.$refs.qrCodeDiv, {
-        text: this.textContent,
-        width: 200,
-        height: 200,
-        colorDark: '#333333',
-        colorLight: '#ffffff',
-        correctLevel: this.$qrCode.CorrectLevel.H
-      })
-    },
     closeOverlay() {
       this.isShow = false
-      this.$refs.qrCodeDiv.innerHTML = ''
     }
   }
 }

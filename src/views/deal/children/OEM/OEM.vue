@@ -292,7 +292,7 @@ export default {
         this.OtherInstructions = ''
         this.fileList = []
         this.addressData = {}
-        this.$router.go(-1)
+        this.$router.replace('/deal/purchase')
       }
     },
     quxiaoClick() {
@@ -310,8 +310,7 @@ export default {
       this.OtherInstructions = ''
       this.fileList = []
       this.addressData = {}
-      // this.$router.replace('/deal/purchase')
-      this.$router.go(-1)
+      this.$router.replace('/deal/purchase')
     },
     async getAddOemOrders() {
       const { data } = await getAddOemOrder(this.getAddOemOrderData)
@@ -400,7 +399,7 @@ export default {
       this.productlog = false
       this.radio = '0'
       clearTimeout(this.timer)
-      this.$router.go(-1)
+      this.$router.replace('/deal/purchase')
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)

@@ -3,7 +3,12 @@
     <!-- 行 -->
     <div class="ability_item" v-for="(item,index) in abilityLists" :key="index">
       <!-- 列 -->
-      <div class="ability_item_list" v-for="(item1,index1) in item.children" :key="index1">
+      <div
+        class="ability_item_list"
+        v-for="(item1,index1) in item.children"
+        :key="index1"
+        @click="jumpPage(item1.path)"
+      >
         <i :class="`icons iconfont ${item1.icon_Url}`" :style="{color:item1.color}"></i>
         <span>{{item1.title}}</span>
       </div>
@@ -74,7 +79,8 @@ export default {
           children: [
             {
               icon_Url: 'icon-ziyuan138',
-              title: '新增订单'
+              title: '新增流水',
+              path: '/addbill'
             },
             {
               icon_Url: 'icon-shujuxiazai-01',
@@ -94,15 +100,29 @@ export default {
               title: '售后'
             }
           ]
+        },
+        {
+          children: [
+            {
+              icon_Url: 'icon-ziyuan138',
+              title: '新建合同',
+              path: '/create-contract'
+            },
+            {
+              icon_Url: 'icon-ziyuan138',
+              title: '发起委外',
+              path: '/outsource'
+            }
+          ]
         }
       ]
     }
   },
   components: {},
   methods: {
-    // tobus() {
-    //   this.$bus.$emit('Assembly', this.abilityLists)
-    // }
+    jumpPage(path) {
+      this.$router.replace(path)
+    }
   }
 }
 </script>

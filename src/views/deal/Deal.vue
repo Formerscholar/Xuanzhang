@@ -19,7 +19,8 @@ export default {
   name: 'Deal',
   data() {
     return {
-      selectionList: []
+      selectionList: [],
+      seletIndex: 0
     }
   },
   components: {
@@ -50,10 +51,14 @@ export default {
         }
         this.selectionList.push(obj)
       })
-      this.selectionClick(this.selectionList[0].id)
+      this.selectionClick({
+        i: this.selectionList[this.seletIndex].id,
+        index: this.seletIndex
+      })
     },
-    selectionClick(i) {
-      switch (i) {
+    selectionClick(data) {
+      this.seletIndex = data.index
+      switch (data.i) {
         case '27':
           this.$router.replace('/deal/sales')
           break

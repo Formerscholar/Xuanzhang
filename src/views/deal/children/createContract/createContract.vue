@@ -542,7 +542,7 @@ export default {
       this.fileList = fileList.slice(-3)
     },
     blacknext() {
-      this.$router.go(-1)
+      this.$router.replace('/deal/sales')
     },
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants
