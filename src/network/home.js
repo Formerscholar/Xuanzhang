@@ -28,11 +28,11 @@ export function getAddDesignatedTasks(params) {
     params,
   })
 }
-export function getUserIndex(data) {
+export function getUserIndex(params) {
   return request({
     url: '/Index/index',
     method: 'GET',
-    data,
+    params,
   })
 }
 
@@ -57,3 +57,4 @@ export function editUser(data) {
     data,
   })
 }
+

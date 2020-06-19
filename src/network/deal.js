@@ -94,6 +94,7 @@ export function getDeliverGoodsList(params) {
     params,
   })
 }
+
 export function getSettlementRecordList(params) {
   return request({
     url: '/Settlement/getSettlementRecordList',
@@ -335,6 +336,21 @@ export function getSettlementVariable(params) {
 export function deleteContractOrder(data) {
   return request({
     url: '/TradingCenter/deleteContractOrder',
+    method: 'POST',
+    data,
+  })
+}
+export function delDeliverRecord(data) {
+  return request({
+    url: '/DeliverGoods/delDeliverRecord',
+    method: 'POST',
+    data,
+  })
+}
+
+export function cancelDelDeliverRecord(data) {
+  return request({
+    url: '/DeliverGoods/cancelDelDeliverRecord',
     method: 'POST',
     data,
   })

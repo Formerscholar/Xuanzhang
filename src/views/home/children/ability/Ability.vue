@@ -67,7 +67,8 @@ export default {
             },
             {
               icon_Url: 'icon-ziyuan140',
-              title: '流水发货'
+              title: '流水发货',
+              path: '/Shipment'
             },
             {
               icon_Url: 'icon-zonghebaobiao-01',
@@ -112,6 +113,20 @@ export default {
               icon_Url: 'icon-ziyuan138',
               title: '发起委外',
               path: '/outsource'
+            },
+            {
+              icon_Url: 'icon-ziyuan140',
+              title: '合同发货',
+              path: '/ContractDelivery'
+            },
+            {
+              icon_Url: 'icon-ziyuan140',
+              title: '来料发货',
+              path: '/IncomingDelivery'
+            },
+            {
+              icon_Url: 'icon-shujuxiazai-01',
+              title: '委外收货'
             }
           ]
         }

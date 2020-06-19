@@ -101,11 +101,17 @@ const addDetails = () =>
   import('../views/Reimbursement/children/addDetails/addDetails')
 
 const selectTime = () => import('../components/content/selectTime/selectTime')
+
+const ContractDelivery = () =>
+  import('../views/home/children/ContractDelivery/ContractDelivery')
+const IncomingDelivery = () =>
+  import('../views/home/children/IncomingDelivery/IncomingDelivery')
+const Shipment = () => import('../views/home/children/Shipment/Shipment')
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '',
+    path: '/',
     redirect: '/home',
   },
   {
@@ -377,6 +383,18 @@ const routes = [
   {
     path: '/avatarInfo',
     component: AvatarInfo,
+  },
+  {
+    path: '/ContractDelivery',
+    component: ContractDelivery,
+  },
+  {
+    path: '/IncomingDelivery',
+    component: IncomingDelivery,
+  },
+  {
+    path: '/Shipment',
+    component: Shipment,
   },
 ]
 

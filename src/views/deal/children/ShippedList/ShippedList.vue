@@ -151,14 +151,7 @@ export default {
 }
 </script>
     
-<style lang="scss">
-.content {
-  width: 100%;
-}
-.navBar {
-  z-index: 0;
-}
-</style>
+
 
 <style scoped lang="scss">
 #shippedlist {

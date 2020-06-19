@@ -531,11 +531,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.navBar {
-  z-index: 0;
-}
-</style>
+
     
 <style scoped lang="scss">
 #clientedit {

@@ -28,7 +28,7 @@ export default {
   top: 0;
   max-width: 1024px;
   width: 100%;
-  z-index: 9999;
+  z-index: 10;
 }
 .left,
 .center,
