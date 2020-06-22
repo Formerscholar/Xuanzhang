@@ -107,6 +107,9 @@ const ContractDelivery = () =>
 const IncomingDelivery = () =>
   import('../views/home/children/IncomingDelivery/IncomingDelivery')
 const Shipment = () => import('../views/home/children/Shipment/Shipment')
+const TotalShipment = () =>
+  import('../views/home/children/TotalShipment/TotalShipment')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -395,6 +398,10 @@ const routes = [
   {
     path: '/Shipment',
     component: Shipment,
+  },
+  {
+    path: '/TotalShipment/:type',
+    component: TotalShipment,
   },
 ]
 

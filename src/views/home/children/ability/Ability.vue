@@ -68,7 +68,7 @@ export default {
             {
               icon_Url: 'icon-ziyuan140',
               title: '流水发货',
-              path: '/Shipment'
+              path: '/Ship'
             },
             {
               icon_Url: 'icon-zonghebaobiao-01',

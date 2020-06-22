@@ -6,6 +6,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 import './assets/css/style.scss'
+import './assets/icon-font/iconfont.css'
 
 import lrz from 'lrz'
 

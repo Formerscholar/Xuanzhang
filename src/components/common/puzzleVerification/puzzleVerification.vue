@@ -3,7 +3,7 @@
     <div class="puzzle-header">
       <span class="puzzle-header-left">拖动下方滑块完成拼图</span>
       <div>
-        <span class="re-btn iconfont icon-shuaxin" @click.stop="refreshImg"></span>
+        <span class="re-btn iconfont icon-shuaxinzhongjieban" @click.stop="refreshImg"></span>
         <!-- <span class="close-btn iconfont icon-guanbi" @click="closeVerificationBox"></span> -->
       </div>
     </div>
@@ -602,38 +602,5 @@ export default {
   left: 0;
   top: 0;
   z-index: 111;
-}
-
-@font-face {
-  font-family: 'iconfont';
-  src: url('../../../assets/icon-font/iconfont.eot?t=1565160368550'); /* IE9 */
-  src: url('../../../assets/icon-font/iconfont.eot?t=1565160368550#iefix')
-      format('embedded-opentype'),
-    /* IE6-IE8 */
-      url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAANUAAsAAAAAByQAAAMIAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCfAqCFIIkATYCJAMMCwgABCAFhG0HOhtkBsi+QDw2JxWVhBKVFukepjkT9iz2vr6/fAq8RxAPz4+9O/e9O9WkGj15Fk3LQ/NCJ41QaVASVSzTSJ7E2p//a/4CvASvALwTjbaVddq9o71hlfDegDawAW//1zQFGqAwEaokh6yK8jD/9/c4lxuw3PPkdI3ZegseIJGz/1WKn5AESUiaSApHHzJ2/2uCAT/S0Iz7q0i8eCKrBLgEQJauMPX/uZzeKPH5KSuXuSYd9aI4DiigvbFNViAJeovsrkAs8jyBdmME8ODibgRNyZwWiIdGO9DM+KXkU61Cc8XaFI9p0loe6Q3gNvh+fKdFk6KpMuceX5/7cPTJ/Tfy4spDEIxnBb+JihVAEueV9kOVKL4Ca1dZq6YAKXljibz/PCFRiGZmcSdYIInCJw6Toid+iM6+oYJmd5A8BW4pefDQFKWzc2SkXpr+P1LN9+L/JeF4UsZPUGWa/nUPMypPfme7Do2j785+zvL4Z37s1l/wcAEwhNPJqPMcHgerCdZ/wbrLlYRrg2tSMZ45fpHJLQ7humLaL9WW9r64yBa+7D3UcBOs/3jDHKz7+MTzgPkExVfzZnHa3qveHHJTfVjsFjh5X99QxlP8cdhYHOyY+Fmy4BUXoLG2ngiSbe2xv/AbW/8ptNb3/tiQ4MN+w2saBeoEoFUBLHjnAmBTaiLTUFPhO3zDUa2nvAqYK7g0MN39vv3VQzeXDK2GEihajELVagZN8go06bAKzVptQ7tlzuYOAyoqItuwZIgg9LpC0e05VL1eaJI/0GTYD5r1RgXaXcb2nh3mwiydMjlCPrpPaLwkVrZJlsLSAekidDgtCigT4tyEsCcp+dQlxcRjLMjvdV9EoeIkwgt0GYVhgiknc/KkPRNJdzpyXPWmtpdEsGQfIw5BfMj3BGU8iZjyOoulwucHiFYIObiBUGWfICxnekcqiQJAL+UxiHAt11Td0/pqhIJiLBFBNrKS0IonUKl61BzxiLa0RzS1QyatYqi8Pb8yer5d0M7co0aJGqn5TuHErmnksyD2aGIA')
-      format('woff2'),
-    url('../../../assets/icon-font/iconfont.woff?t=1565160368550')
-      format('woff'),
-    url('../../../assets/icon-font/iconfont.ttf?t=1565160368550')
-      format('truetype'),
-    /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-      url('../../../assets/icon-font/iconfont.svg?t=1565160368550#iconfont')
-      format('svg'); /* iOS 4.1- */
-}
-
-.iconfont {
-  font-family: 'iconfont' !important;
-  font-size: 1.142857rem;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-guanbi:before {
-  content: '\f01f1';
-}
-
-.icon-shuaxin:before {
-  content: '\e609';
 }
 </style>

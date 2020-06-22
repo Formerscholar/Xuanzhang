@@ -35,6 +35,7 @@ const state = {
     delivery: '',
     end_time: '',
     CreditDate: '',
+    Shipdata: '',
   },
   // 地址新增/修改
   AddressID: 0,

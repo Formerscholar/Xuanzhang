@@ -172,6 +172,20 @@ export function editContractOrder(data) {
     data: Qs.stringify(data),
   })
 }
+export function getAddDeliverGoods(params) {
+  return request({
+    url: '/DeliverGoods/getAddDeliverGoods',
+    method: 'GET',
+    params,
+  })
+}
+export function getAddDeliverGoodsProduct(params) {
+  return request({
+    url: '/DeliverGoods/getAddDeliverGoodsProduct',
+    method: 'GET',
+    params,
+  })
+}
 export function getAddDeliverGoodsDistributors(params) {
   return request({
     url: '/DeliverGoods/getAddDeliverGoodsDistributors',

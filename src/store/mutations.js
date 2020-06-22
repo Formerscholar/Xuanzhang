@@ -43,6 +43,8 @@ const mutations = {
       state.timers.ShipTimes = palyload.timers
     } else if (palyload.type == 'CreditDate') {
       state.timers.CreditDate = palyload.timers
+    } else if (palyload.type == 'Shipdata') {
+      state.timers.Shipdata = palyload.timers
     }
   },
   setAddress(state, palyload) {

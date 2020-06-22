@@ -57,6 +57,8 @@
         </van-swipe-cell>
       </div>
     </scroll>
+    <i class="el-icon-plus" @click="addContractDelivery
+"></i>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapr">
         <myVqr :Content="textContent"></myVqr>
@@ -100,6 +102,9 @@ export default {
     }
   },
   methods: {
+    addContractDelivery() {
+      this.$router.push('/TotalShipment/contract')
+    },
     printClick(html) {
       if (html != null) {
         console.log('打印二维码', html)
@@ -214,6 +219,17 @@ export default {
       font-weight: 700;
       color: #030303;
     }
+  }
+  .el-icon-plus {
+    position: fixed;
+    bottom: 3.357143rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: #2a7bd0;
+    color: #fff;
+    border-radius: 50%;
   }
   .scroll-wrapper {
     position: absolute;
