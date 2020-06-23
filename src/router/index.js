@@ -109,7 +109,9 @@ const IncomingDelivery = () =>
 const Shipment = () => import('../views/home/children/Shipment/Shipment')
 const TotalShipment = () =>
   import('../views/home/children/TotalShipment/TotalShipment')
-
+const IncomDelivery = () =>
+  import('../views/home/children/IncomDelivery/IncomDelivery')
+const Outsourc = () => import('../views/home/children/Outsourc/Outsourc')
 Vue.use(VueRouter)
 
 const routes = [
@@ -402,6 +404,16 @@ const routes = [
   {
     path: '/TotalShipment/:type',
     component: TotalShipment,
+  },
+  {
+    path: '/IncomDelivery/:type',
+    name: 'data',
+    component: IncomDelivery,
+  },
+  {
+    path: '/Outsourc/:type',
+    name: 'data',
+    component: Outsourc,
   },
 ]
 

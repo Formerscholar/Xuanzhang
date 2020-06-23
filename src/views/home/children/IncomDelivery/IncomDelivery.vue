@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>新增发货</span>
+        <span>来料发货</span>
       </div>
       <div slot="right" class="right" @click="primaryClick">
         <span>提交</span>
@@ -112,7 +112,8 @@ export default {
       num: [],
       distributor: 0,
       digit: 0,
-      pageType: ''
+      pageType: '',
+      itemList: {}
     }
   },
   components: {
@@ -131,14 +132,14 @@ export default {
     async primaryClick() {
       let Arr = []
       this.orderProducts.map((item, index) => {
-        Arr.push([item.contract_order_id, item.id, this.num[index]])
+        Arr.push([item.oem_order_id, item.id, this.num[index]])
       })
       const { code, msg } = await addDeliverRecord({
         distributor_id: this.distributor,
         shipping_details: Arr,
         token: this.$store.state.token,
         order_type: this.pageType,
-        order_id: this.orderProducts[0].contract_order_id,
+        order_id: this.orderProducts[0].oem_order_id,
         total_funds: this.Shipmentprice
       })
       if (code == 200) {
@@ -250,6 +251,13 @@ export default {
     }
     this.getAddDeliverGood()
     this.pageType = this.$route.params.type
+    this.itemList = this.$route.query.data
+    console.log(this.itemList, this.pageType)
+    this.inputvalue = this.itemList.name
+    this.distributor = this.itemList.distributor_id
+    this.handleSelect({ address: this.distributor })
+    this.ContractNum = this.itemList.order_number
+    this.ContractChange(this.itemList.id)
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
@@ -261,7 +269,8 @@ export default {
     this.restaurants = []
     this.Contractoptions = []
     this.tableData = []
-    ocument.querySelector('#app').style.paddingTop = '62px'
+    this.itemList = {}
+    document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
   }

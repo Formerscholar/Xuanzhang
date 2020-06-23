@@ -10,17 +10,22 @@
       <van-tabs v-model="active" @click="handleClick">
         <van-tab title="进行中" class="first">
           <el-card class="box-card" v-for="(item,index) in outsourcingOrderList" :key="index">
-            <div class="info">
+            <div
+              class="info"
+              @click.stop="listClick(item)"
+              @touchstart.prevent="touchin"
+              @touchend.prevent="cleartime"
+            >
               <span>
                 {{item.order_number}}
                 <em>负责:{{item.salesperson_name}}</em>
               </span>
-              <i>{{item.name_alias}}</i>
+              <i @click="Retrieves(item.distributor_id)">{{item.distributor_name}}</i>
             </div>
             <div class="schedule">
               <div class="item">
-                <span>入库</span>
                 <el-progress
+                  :format="formatOne"
                   :status="item.warehousing_progress<100?null:'warning'"
                   :text-inside="true"
                   :stroke-width="16"
@@ -29,8 +34,8 @@
                 ></el-progress>
               </div>
               <div class="item">
-                <span>发货</span>
                 <el-progress
+                  :format="formatTwo"
                   :status="item.delivery_schedule<100?null:'warning'"
                   :text-inside="true"
                   :show-text="item.delivery_schedule<30?false:true"
@@ -52,12 +57,12 @@
                 {{item.order_number}}
                 <em>负责人：{{item.salesperson_name}}</em>
               </span>
-              <i>{{item.name_alias}}</i>
+              <i>{{item.distributor_name}}</i>
             </div>
             <el-row class="schedule">
               <div class="item">
-                <span>入库</span>
                 <el-progress
+                  :format="formatOne"
                   :status="item.warehousing_progress<100?null:'warning'"
                   :text-inside="true"
                   :show-text="item.warehousing_progress<30?false:true"
@@ -66,9 +71,8 @@
                 ></el-progress>
               </div>
               <div class="item">
-                <span>发货</span>
-
                 <el-progress
+                  :format="formatTwo"
                   :show-text="item.delivery_schedule<30?false:true"
                   :status="item.delivery_schedule<100?null:'warning'"
                   :text-inside="true"
@@ -86,6 +90,13 @@
       </van-tabs>
     </scroll>
     <i class="el-icon-plus" @click="toOme"></i>
+    <van-overlay :show="show" @click="show = false" lock-scroll>
+      <div id="wrapper-click">
+        <div id="block">
+          <div class="propDivItem" @click="toShipPages">发货</div>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
@@ -101,11 +112,16 @@ export default {
   components: { scroll },
   data() {
     return {
+      Loop: null,
       active: 0,
       outsourcingOrderList: [],
       outsourcingOrderListed: [],
       indexTab: 0,
-      indexPage: 1
+      indexPage: 1,
+      listIsShow: false,
+      show: false,
+      item: {},
+      distributor_id: null
     }
   },
   activated() {
@@ -114,6 +130,7 @@ export default {
     this.getLiquidated()
   },
   deactivated() {
+    this.distributor_id = null
     this.outsourcingOrderList = []
     this.outsourcingOrderListed = []
   },
@@ -124,13 +141,52 @@ export default {
         page: this.indexPage,
         offset: 20,
         is_contract: 1,
-        distributor_id: null,
+        distributor_id: this.distributor_id,
         order_number: null,
+        other_order_number: null,
         _: new Date().getTime()
       }
     }
   },
   methods: {
+    Retrieves(id) {
+      this.indexPage = 1
+      this.distributor_id = id
+      this.outsourcingOrderList = []
+      this.getOrderList()
+    },
+    toShipPages() {
+      this.$router.push({
+        path: '/IncomDelivery/oem',
+        query: {
+          data: this.item
+        }
+      })
+    },
+    touchin() {
+      clearInterval(this.Loop)
+      this.Loop = setTimeout(() => {
+        this.listIsShow = true
+      }, 500)
+    },
+    cleartime() {
+      clearInterval(this.Loop)
+    },
+    listClick(item) {
+      this.item = item
+      if (!this.listIsShow) {
+        this.listIsShow = false
+      } else {
+        this.listIsShow = false
+        this.show = true
+      }
+    },
+    formatOne(percentage) {
+      return `入库 ${percentage}%`
+    },
+    formatTwo(percentage) {
+      return `发货 ${percentage}%`
+    },
     loadMore() {
       this.indexPage += 1
       if (!this.indexTab) {
@@ -166,6 +222,24 @@ export default {
     
 <style scoped lang="scss">
 #purchase {
+  #wrapper-click {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100% !important;
+    #block {
+      width: 14.285714rem;
+      background-color: #fff;
+      .propDivItem {
+        width: 100%;
+        height: 33.33%;
+        line-height: 4.857143rem;
+        text-align: center;
+        font-size: 1.428571rem;
+        color: #888;
+      }
+    }
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
@@ -207,8 +281,7 @@ export default {
           .item {
             flex: 1;
             padding: 0 0.857143rem;
-            position: relative;
-            top: -1.071429rem;
+
             span {
               position: relative;
               z-index: 99;
@@ -228,8 +301,7 @@ export default {
         .timer {
           overflow: auto;
           font-size: 0.857143rem;
-          position: relative;
-          top: -0.714286rem;
+
           .Delivery {
             float: left;
             color: #666666;

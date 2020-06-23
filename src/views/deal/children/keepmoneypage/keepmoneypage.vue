@@ -93,6 +93,9 @@ export default {
   },
   components: { navbar, timers },
   activated() {
+    if (this.$store.state.timers.CreditDate != '') {
+      this.timersList.CreditDate = this.$store.state.timers.CreditDate
+    }
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'

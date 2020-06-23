@@ -7,14 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@better-scroll/core": "^2.0.0-alpha.4",
     "@nutui/nutui": "^2.2.4",
+    "ant-design-vue": "^1.6.2",
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
     "cropperjs": "^1.5.7",
     "echarts": "^4.7.0",
     "element-china-area-data": "^4.1.2",
     "element-ui": "^2.13.1",
+    "fastclick": "^1.0.6",
     "lrz": "^4.9.40",
     "vant": "^2.8.1",
     "vue": "^2.6.11",

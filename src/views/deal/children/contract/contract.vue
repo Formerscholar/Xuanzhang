@@ -37,7 +37,10 @@
                 <div class="rightbox">
                   <div class="timer">
                     <div class="leftitem">{{item.order_number}}</div>
-                    <div class="rightitem">{{item.distributor_name}}</div>
+                    <div
+                      class="rightitem"
+                      @click="RetrieveData(item.distributor_id)"
+                    >{{item.distributor_name}}</div>
                   </div>
                   <div class="timers">
                     <div class="rightitem">交期:{{item.commitment_period}}</div>
@@ -111,7 +114,8 @@ export default {
       show: false,
       actions: [{ name: '发货' }, { name: '退货' }],
       DeliverList: 1,
-      FlowOrderList: 1
+      FlowOrderList: 1,
+      distributor_id: null
     }
   },
   computed: {
@@ -130,7 +134,7 @@ export default {
         token: this.$store.state.token,
         page: this.FlowOrderList,
         offset: 20,
-        distributor_id: null,
+        distributor_id: this.distributor_id,
         order_number: null,
         _: new Date().getTime()
       }
@@ -144,9 +148,15 @@ export default {
     this.deliveryRecordList = []
     this.DeliverList = 1
     this.flowOrderList = []
+    this.distributor_id = null
     this.FlowOrderList = 1
   },
   methods: {
+    RetrieveData(id) {
+      this.distributor_id = id
+      this.flowOrderList = []
+      this.getFlowOrderLists()
+    },
     loadMore() {
       if (this.isShow) {
         this.DeliverList += 1

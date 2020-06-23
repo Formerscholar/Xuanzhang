@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>新增发货</span>
+        <span>委外收货</span>
       </div>
       <div slot="right" class="right" @click="primaryClick">
         <span>提交</span>
@@ -91,7 +91,10 @@ import {
   getAddDeliverGoodsDistributors,
   getAddDeliverGoods,
   getAddDeliverGoodsProduct,
-  addDeliverRecord
+  addDeliverRecord,
+  addStorageRecord,
+  getAddStorageRecordSuppliers,
+  getAddStorageRecordProduct
 } from '@/network/deal'
 
 export default {
@@ -112,7 +115,8 @@ export default {
       num: [],
       distributor: 0,
       digit: 0,
-      pageType: ''
+      pageType: '',
+      itemList: {}
     }
   },
   components: {
@@ -131,14 +135,14 @@ export default {
     async primaryClick() {
       let Arr = []
       this.orderProducts.map((item, index) => {
-        Arr.push([item.contract_order_id, item.id, this.num[index]])
+        Arr.push([item.id, this.num[index]])
       })
-      const { code, msg } = await addDeliverRecord({
-        distributor_id: this.distributor,
-        shipping_details: Arr,
-        token: this.$store.state.token,
+      const { code, msg } = await addStorageRecord({
+        supplier_id: this.distributor,
         order_type: this.pageType,
-        order_id: this.orderProducts[0].contract_order_id,
+        apply_time: this.timersList.Shipdata,
+        shipping_details: Arr,
+        order_id: this.orderProducts[0].outsourcing_order_id,
         total_funds: this.Shipmentprice
       })
       if (code == 200) {
@@ -174,14 +178,14 @@ export default {
       this.Shipmentprice = numbs
     },
     async ContractChange(value) {
-      const { data } = await getAddDeliverGoodsProduct({
+      const { data } = await getAddStorageRecordProduct({
         token: this.$store.state.token,
-        distributor_id: this.distributor,
+        supplier_id: this.distributor,
         order_type: this.pageType,
         order_id: value,
         _: new Date().getTime()
       })
-      console.log('getAddDeliverGoodsProduct', data)
+      console.log('getAddStorageRecordProduct', data)
       this.tableData = []
       this.orderProducts = data.orderProducts
       data.orderProducts.map(item => {
@@ -194,11 +198,11 @@ export default {
       })
     },
     async getAddDeliverGood() {
-      const { data } = await getAddDeliverGoodsDistributors(
+      const { data } = await getAddStorageRecordSuppliers(
         this.getAddDeliverGoodData
       )
-      console.log('getAddDeliverGoodsDistributors', data)
-      data.distributors.map(item => {
+      console.log('getAddStorageRecordSuppliers', data)
+      data.suppliers.map(item => {
         this.restaurants.push({
           address: item.id,
           value: item.name
@@ -250,6 +254,13 @@ export default {
     }
     this.getAddDeliverGood()
     this.pageType = this.$route.params.type
+    this.itemList = this.$route.query.data
+    console.log(this.itemList, this.pageType)
+    this.inputvalue = this.itemList.name
+    this.distributor = this.itemList.supplier_id
+    this.handleSelect({ address: this.distributor })
+    this.ContractNum = this.itemList.order_number
+    this.ContractChange(this.itemList.id)
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
@@ -261,7 +272,8 @@ export default {
     this.restaurants = []
     this.Contractoptions = []
     this.tableData = []
-    ocument.querySelector('#app').style.paddingTop = '62px'
+    this.itemList = {}
+    document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
   }

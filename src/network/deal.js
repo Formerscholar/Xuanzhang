@@ -305,6 +305,13 @@ export function addDeliverRecord(data) {
     data: Qs.stringify(data),
   })
 }
+export function addStorageRecord(data) {
+  return request({
+    url: '/StorageRecord/addStorageRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
 export function deleteDeliverRecord(data) {
   return request({
     url: '/DeliverGoods/deleteDeliverRecord',
@@ -367,5 +374,19 @@ export function cancelDelDeliverRecord(data) {
     url: '/DeliverGoods/cancelDelDeliverRecord',
     method: 'POST',
     data,
+  })
+}
+export function getAddStorageRecordSuppliers(params) {
+  return request({
+    url: '/StorageRecord/getAddStorageRecordSuppliers',
+    method: 'GET',
+    params,
+  })
+}
+export function getAddStorageRecordProduct(params) {
+  return request({
+    url: '/StorageRecord/getAddStorageRecordProduct',
+    method: 'GET',
+    params,
   })
 }

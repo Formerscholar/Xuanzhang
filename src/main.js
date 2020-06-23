@@ -8,6 +8,10 @@ Vue.config.productionTip = false
 import './assets/css/style.scss'
 import './assets/icon-font/iconfont.css'
 
+import 'ant-design-vue/dist/antd.css'
+import antd from 'ant-design-vue'
+Vue.use(antd)
+
 import lrz from 'lrz'
 
 import ElementUI from 'element-ui'
@@ -26,6 +30,9 @@ import Vant, { Toast } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
 Vue.use(Toast)
+
+import FastClick from 'fastclick'
+FastClick.attach(document.body)
 
 Vue.prototype.$bus = new Vue()
 

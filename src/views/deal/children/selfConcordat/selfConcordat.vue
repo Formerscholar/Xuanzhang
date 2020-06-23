@@ -55,8 +55,8 @@
             </div>
             <div class="itemDown">
               <div class="Downitem">
-                <span>结算</span>
                 <el-progress
+                  :format="formatOne"
                   :status="item.settlement_progress < 100 ?null: 'warning'"
                   :text-inside="true"
                   :show-text="item.settlement_progress<50?false:true"
@@ -65,8 +65,8 @@
                 ></el-progress>
               </div>
               <div class="Downitem">
-                <span>发货</span>
                 <el-progress
+                  :format="formatTwo"
                   :status="item.delivery_schedule < 100 ?null: 'warning'"
                   :text-inside="true"
                   :show-text="item.delivery_schedule<50?false:true"
@@ -75,8 +75,8 @@
                 ></el-progress>
               </div>
               <div class="Downitem">
-                <span>开票</span>
                 <el-progress
+                  :format="formatThree"
                   :status="item.invoice_progress < 100 ?null: 'warning'"
                   :text-inside="true"
                   :show-text="item.invoice_progress<50?false:true"
@@ -150,6 +150,15 @@ export default {
     }
   },
   methods: {
+    formatOne(percentage) {
+      return `结算 ${percentage}%`
+    },
+    formatTwo(percentage) {
+      return `发货 ${percentage}%`
+    },
+    formatThree(percentage) {
+      return `开票 ${percentage}%`
+    },
     blackhome() {
       this.$router.go(-1)
     },
@@ -208,7 +217,7 @@ export default {
     overflow: hidden;
     .content_box {
       .assetsInfo {
-        padding: 10px 10px 0 10px;
+        padding: 0.714286rem 0.714286rem 0 0.714286rem;
         background-color: #f5f5f5;
         .card {
           .box-card {
@@ -239,7 +248,7 @@ export default {
       }
       .cards {
         background-color: #f5f5f5;
-        padding: 0 1.285714rem;
+        padding: 0 0.714286rem;
         overflow: hidden;
         .goodsListItem {
           background-color: #fff;
@@ -328,7 +337,7 @@ export default {
                 color: #fff;
                 z-index: 999;
                 left: 0.685714rem;
-                top: 0.198714rem;
+                top: -0.142857rem;
                 font-size: 0.642857rem;
               }
             }
