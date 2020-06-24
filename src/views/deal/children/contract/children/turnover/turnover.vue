@@ -135,7 +135,7 @@ export default {
     .center {
       margin-left: 0.928571rem;
       span {
-        font-size: 1.571429rem;
+        font-size: 1.142857rem;
       }
     }
     .right {

@@ -94,7 +94,13 @@
       <div id="wrapper-click">
         <div id="block">
           <div class="propDivItem" @click="toShipPages">发货</div>
+          <div class="propDivItem" @click="printClick">打印</div>
         </div>
+      </div>
+    </van-overlay>
+    <van-overlay :show="isShow" @click="isShow = false">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
@@ -106,10 +112,11 @@ import {
   getLiquidatedOemOrderList
 } from '@/network/deal'
 import scroll from '@/components/common/scroll/scroll'
+import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
   name: 'purchase',
-  components: { scroll },
+  components: { scroll, myVqr },
   data() {
     return {
       Loop: null,
@@ -119,6 +126,8 @@ export default {
       indexTab: 0,
       indexPage: 1,
       listIsShow: false,
+      isShow: false,
+      textContent: '',
       show: false,
       item: {},
       distributor_id: null
@@ -133,6 +142,7 @@ export default {
     this.distributor_id = null
     this.outsourcingOrderList = []
     this.outsourcingOrderListed = []
+    this.textContent = ''
   },
   computed: {
     getOrderListData() {
@@ -149,6 +159,11 @@ export default {
     }
   },
   methods: {
+    printClick() {
+      this.show = false
+      this.isShow = true
+      this.textContent = `http://219.83.161.11:8030/Vt/view?id=${this.item.id}&order_type=oem`
+    },
     Retrieves(id) {
       this.indexPage = 1
       this.distributor_id = id

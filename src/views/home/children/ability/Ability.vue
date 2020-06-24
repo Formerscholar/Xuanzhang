@@ -126,7 +126,8 @@ export default {
             },
             {
               icon_Url: 'icon-shujuxiazai-01',
-              title: '委外收货'
+              title: '委外收货',
+              path: '/Outsourc/outsourcing'
             }
           ]
         }

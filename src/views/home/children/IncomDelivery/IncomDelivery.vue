@@ -251,13 +251,15 @@ export default {
     }
     this.getAddDeliverGood()
     this.pageType = this.$route.params.type
-    this.itemList = this.$route.query.data
-    console.log(this.itemList, this.pageType)
-    this.inputvalue = this.itemList.name
-    this.distributor = this.itemList.distributor_id
-    this.handleSelect({ address: this.distributor })
-    this.ContractNum = this.itemList.order_number
-    this.ContractChange(this.itemList.id)
+    if (this.$route.query.data != null) {
+      this.itemList = this.$route.query.data
+      console.log(this.itemList, this.pageType)
+      this.inputvalue = this.itemList.name
+      this.distributor = this.itemList.distributor_id
+      this.handleSelect({ address: this.distributor })
+      this.ContractNum = this.itemList.order_number
+      this.ContractChange(this.itemList.id)
+    }
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
