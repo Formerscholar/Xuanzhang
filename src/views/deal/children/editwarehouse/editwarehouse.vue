@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>入库</span>
+        <span>入库编辑</span>
       </div>
       <div slot="right" class="right" @click="SubmitNow">
         <span>提交</span>
@@ -98,7 +98,9 @@ import {
   getAddWarehouseEnter,
   getMaterielList,
   addWarehouseEnter,
-  getMateriel
+  getMateriel,
+  getEditWarehouseEnter,
+  editWarehouseOut
 } from '@/network/deal'
 
 export default {
@@ -156,7 +158,9 @@ export default {
       DeliveryNotes: '',
       isFlowingShow: 0,
       isWeightShow: false,
-      isTemporary: '0'
+      isTemporary: '0',
+      iid: 0,
+      supplier_id: 0
     }
   },
   components: {
@@ -165,6 +169,9 @@ export default {
     scroll
   },
   activated() {
+    this.iid = this.$route.params.id
+    this.distributor_id = this.iid
+    this.getEditWarehouse()
     this.getAddDeliverGood()
     this.getMaterielLists()
     if (this.$store.state.timers.DeliveryDate != '') {
@@ -177,6 +184,12 @@ export default {
     })
   },
   deactivated() {
+    this.iid = 0
+    this.state = ''
+    this.DeliveryNotes = ''
+    this.tableData = []
+    this.shippingData = []
+    this.supplier_id = 0
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
@@ -189,14 +202,9 @@ export default {
       }
     },
     addAutonomousData() {
-      console.log(
-        '---------------addAutonomousData---------------',
-        this.distributor_id,
-        this.DeliveryNotes,
-        this.shippingData
-      )
       return {
-        supplier_id: this.distributor_id,
+        id: this.distributor_id,
+        supplier_id: this.supplier_id,
         detailed: this.DeliveryNotes,
         materiel_warehouse_enter_data: this.shippingData,
         token: this.$store.state.token
@@ -216,9 +224,44 @@ export default {
         company_id: 1,
         _: new Date().getTime()
       }
+    },
+    getEditWarehousData() {
+      return {
+        token: this.$store.state.token,
+        id: this.iid,
+        _: new Date().getTime()
+      }
     }
   },
   methods: {
+    async getEditWarehouse() {
+      const { data } = await getEditWarehouseEnter(this.getEditWarehousData)
+      console.log('getEditWarehouseEnter', data)
+      this.state = data.warehouseAccess.name
+      this.DeliveryNotes = data.warehouseAccess.remark
+      this.supplier_id = data.warehouseAccess.supplier_id
+      data.warehouseAccess.warehouseAccessDetail.map(item => {
+        let obj = {
+          goods: item.materiel_name,
+          model: item.materiel_model,
+          nums: item.number,
+          price: item.unit_price,
+          totalPrice: item.total_price
+        }
+        this.tableData.push(obj)
+        let arr = [
+          item.materiel_id,
+          item.materiel_name,
+          item.materiel_model,
+          item.number,
+          item.unit_price,
+          item.remark,
+          item.weight,
+          item.extra
+        ]
+        this.shippingData.push(arr)
+      })
+    },
     async getMaterielLists() {
       const { data } = await getMaterielList(this.getMaterielListData)
       this.materiel = data
@@ -368,7 +411,7 @@ export default {
       this.isShowed = false
     },
     async SubmitNow() {
-      const res = await addWarehouseEnter(this.addAutonomousData)
+      const res = await editWarehouseOut(this.addAutonomousData)
       console.log('addAutonomousDeliverRecord', res)
       if (res.code == 200) {
         this.blacknext()

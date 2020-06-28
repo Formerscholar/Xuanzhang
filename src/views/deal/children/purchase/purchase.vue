@@ -113,6 +113,7 @@ import {
 } from '@/network/deal'
 import scroll from '@/components/common/scroll/scroll'
 import myVqr from '@/components/common/my_vqr/myVqr'
+import { bestURL } from '@/network/baseURL'
 
 export default {
   name: 'purchase',
@@ -162,7 +163,7 @@ export default {
     printClick() {
       this.show = false
       this.isShow = true
-      this.textContent = `http://219.83.161.11:8030/Vt/view?id=${this.item.id}&order_type=oem`
+      this.textContent = `${bestURL}/Vt/view?id=${this.item.id}&order_type=oem`
     },
     Retrieves(id) {
       this.indexPage = 1

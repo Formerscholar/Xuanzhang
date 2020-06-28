@@ -263,6 +263,7 @@ export function getAddWarehouseEnter(params) {
     params,
   })
 }
+
 export function addWarehouseEnter(data) {
   return request({
     url: '/Warehouse/addWarehouseEnter',
@@ -361,6 +362,14 @@ export function deleteContractOrder(data) {
     data,
   })
 }
+export function delWarehouseRecord(data) {
+  return request({
+    url: '/Warehouse/delWarehouseRecord',
+    method: 'POST',
+    data,
+  })
+}
+
 export function delDeliverRecord(data) {
   return request({
     url: '/DeliverGoods/delDeliverRecord',
@@ -388,5 +397,20 @@ export function getAddStorageRecordProduct(params) {
     url: '/StorageRecord/getAddStorageRecordProduct',
     method: 'GET',
     params,
+  })
+}
+
+export function getEditWarehouseEnter(params) {
+  return request({
+    url: '/Warehouse/getEditWarehouseEnter',
+    method: 'GET',
+    params,
+  })
+}
+export function editWarehouseOut(data) {
+  return request({
+    url: '/Warehouse/editWarehouseOut',
+    method: 'POST',
+    data: Qs.stringify(data),
   })
 }

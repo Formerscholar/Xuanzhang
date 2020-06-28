@@ -15,7 +15,7 @@
         <el-card class="box-card" v-for="(item,index) in listItem " :key="index">
           <div class="box-content">
             <div class="item-logo">
-              <img :src="'http://219.83.161.11:8030/view/image/'+item.logo" alt="logo" />
+              <img :src="bestURL+'/view/image/'+item.logo" alt="logo" />
               <div class="item-title">{{item.title}}</div>
             </div>
             <div class="item-content">
@@ -34,10 +34,12 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
+import { bestURL } from '@/network/baseURL'
 
 export default {
   data() {
     return {
+      bestURL: '',
       listItem: [
         {
           title: '仓库预警',
@@ -86,6 +88,7 @@ export default {
   },
   components: { navbar, scroll },
   activated() {
+    this.bestURL = bestURL
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
   },

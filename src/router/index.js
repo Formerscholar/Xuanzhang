@@ -112,6 +112,9 @@ const TotalShipment = () =>
 const IncomDelivery = () =>
   import('../views/home/children/IncomDelivery/IncomDelivery')
 const Outsourc = () => import('../views/home/children/Outsourc/Outsourc')
+const editwarehouse = () =>
+  import('../views/deal/children/editwarehouse/editwarehouse')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -414,6 +417,10 @@ const routes = [
     path: '/Outsourc/:type',
     name: 'data',
     component: Outsourc,
+  },
+  {
+    path: '/editwarehouse/:id',
+    component: editwarehouse,
   },
 ]
 

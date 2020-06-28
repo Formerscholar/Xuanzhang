@@ -9,21 +9,29 @@
     >
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="入库清单" class="Delivery">
-          <el-card class="box-card" v-for="(item, index) in warehouseAccessList" :key="index">
-            <div class="topbox">
-              <span>
-                {{ item.order_number }}
-                <em>操作:{{ item.operator_name }}</em>
-              </span>
-              <i @click="gotodetails(item.supplier_id)">{{ item.name_alias }}</i>
-            </div>
-            <div class="botbox">
-              <span
-                :class="item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-              >{{ item.total_price }}</span>
-              <em>发货时间:{{ item.apply_time }}</em>
-            </div>
-          </el-card>
+          <div
+            v-for="(item, index) in warehouseAccessList"
+            :key="index"
+            @click="listClick(item)"
+            @touchstart.prevent="touchin"
+            @touchend.prevent="cleartime"
+          >
+            <el-card class="box-card">
+              <div class="topbox">
+                <span>
+                  {{ item.order_number }}
+                  <em>操作:{{ item.operator_name }}</em>
+                </span>
+                <i @click.stop="gotodetails(item.supplier_id)">{{ item.name_alias }}</i>
+              </div>
+              <div class="botbox">
+                <span
+                  :class="item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
+                >{{ item.total_price }}</span>
+                <em>发货时间:{{ item.apply_time }}</em>
+              </div>
+            </el-card>
+          </div>
         </van-tab>
         <van-tab title="明细列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
@@ -64,14 +72,35 @@
     />
     <i class="el-icon-plus" @click="show = !show" v-if="isShow" slot="reference"></i>
     <i class="el-icon-plus" @click="createAddbill" v-else></i>
+    <van-overlay :show="overlayShow" @click="overlayShow = false" lock-scroll>
+      <div id="wrapper-click">
+        <div id="block">
+          <div class="propDivItem" @click="editlists">编辑</div>
+          <div class="propDivItem" @click="VoidList">作废</div>
+          <div class="propDivItem" @click="printList">打印</div>
+        </div>
+      </div>
+    </van-overlay>
+    <van-overlay :show="myVqrShow" @click="myVqrShow = false">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
 <script>
-import { getWarehouseLists, getWarehouseDetailList } from '@/network/deal'
+import {
+  getWarehouseLists,
+  getWarehouseDetailList,
+  delWarehouseRecord
+} from '@/network/deal'
 import scroll from '@/components/common/scroll/scroll'
+import myVqr from '@/components/common/my_vqr/myVqr'
+import { bestURL } from '@/network/baseURL'
+
 export default {
-  components: { scroll },
+  components: { scroll, myVqr },
   data() {
     return {
       active: 0,
@@ -83,7 +112,12 @@ export default {
       actions: [{ name: '入库' }, { name: '退货' }],
       allIndex: 1,
       Library: 1,
-      detail: 1
+      detail: 1,
+      overlayShow: false,
+      listIsShow: false,
+      myVqrShow: false,
+      textContent: '',
+      iid: 0
     }
   },
   computed: {
@@ -95,6 +129,12 @@ export default {
         supplier_id: null,
         _: new Date().getTime()
       }
+    },
+    deleteContractOrderData() {
+      const form = new FormData()
+      form.append('token', this.$store.state.tonken)
+      form.append('id', this.iid)
+      return form
     }
   },
   activated() {
@@ -107,8 +147,43 @@ export default {
   deactivated() {
     this.warehouseAccessList = []
     this.flowOrderList = []
+    this.iid = 0
+    this.textContent = ''
   },
   methods: {
+    editlists() {
+      this.$router.push(`/editwarehouse/${this.iid}`)
+      this.show = false
+    },
+    async VoidList() {
+      this.show = false
+      const { msg } = await delWarehouseRecord(this.deleteContractOrderData)
+      this.$toast(msg)
+    },
+    printList() {
+      this.overlayShow = false
+      this.myVqrShow = true
+      this.textContent = `${bestURL}/view/html/run/warehouse_print.php?id=${this.iid}`
+    },
+    listClick(item) {
+      this.iid = item.id
+      if (!this.listIsShow) {
+        this.listIsShow = false
+      } else {
+        this.listIsShow = false
+        console.log(item)
+        this.overlayShow = true
+      }
+    },
+    touchin() {
+      clearInterval(this.Loop)
+      this.Loop = setTimeout(() => {
+        this.listIsShow = true
+      }, 500)
+    },
+    cleartime() {
+      clearInterval(this.Loop)
+    },
     loadMore() {
       if (this.isShow) {
         this.Library += 1
@@ -174,6 +249,25 @@ export default {
     
 <style scoped lang="scss">
 #aside {
+  #wrapper-click {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100% !important;
+    #block {
+      width: 14.285714rem;
+      height: 14.285714rem;
+      background-color: #fff;
+      .propDivItem {
+        width: 100%;
+        height: 33.33%;
+        line-height: 4.857143rem;
+        text-align: center;
+        font-size: 1.428571rem;
+        color: #888;
+      }
+    }
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
