@@ -1,6 +1,6 @@
 <template>
   <div id="addMaterial">
-    <van-nav-bar title="新建物料" left-arrow @click-left="onClickLeft" right-text="提交" />
+    <van-nav-bar :title="type?'修改物料':'查看物料'" left-arrow @click-left="onClickLeft" right-text="提交" />
     <scroll class="scroll-wrapper">
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
@@ -210,12 +210,13 @@ export default {
     
 <style scoped lang="scss">
 #addMaterial {
-  height: calc(100vh - 3.285714rem);
+  padding-top: 1.857143rem;
+  height: calc(100vh - 1.857143rem);
   .scroll-wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    top: 3.285714rem;
+    top: 5.142857rem;
     bottom: 0;
     overflow: hidden;
     .box-card {

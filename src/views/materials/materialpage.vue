@@ -123,6 +123,7 @@ export default {
   .head {
     display: flex;
     padding: 0 0.357143rem;
+    padding-top: 1.928571rem;
     justify-content: space-between;
     align-items: center;
     .head_icon {

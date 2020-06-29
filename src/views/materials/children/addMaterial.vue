@@ -216,7 +216,7 @@ export default {
       margin-bottom: 0.571429rem;
     }
   }
-  
+
   .uploadImage {
     .van-uploader {
       margin-left: 0.714286rem;
