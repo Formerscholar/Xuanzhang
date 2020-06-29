@@ -1,9 +1,9 @@
 <template>
   <div class="bg-primary text-white my_headers">
     <div class="header_bot">
-      <div class="bot_item my_scan" @click="scanClick">
-        <van-icon name="scan" class="icon" />
-        <span>扫一扫</span>
+      <div class="bot_item my_scan" @click="materialClick">
+        <van-icon name="cart-o" class="icon" />
+        <span>物料</span>
       </div>
       <div class="bot_item" @click="ReimbursementClick">
         <van-icon name="peer-pay" class="icon" />
@@ -37,8 +37,8 @@ export default {
     }
   },
   methods: {
-    scanClick() {
-      this.$emit('scanClick')
+    materialClick() {
+      this.$emit('materialClick')
     },
     goMission() {
       this.$emit('goMission')

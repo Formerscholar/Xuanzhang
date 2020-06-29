@@ -1,25 +1,31 @@
 <template>
   <div id="home">
-    <!-- topbar -->
-    <topbar />
+    <topbar @showCard="showCard" />
     <scroll class="scroll-wrapper">
       <div>
-        <!-- header -->
         <myHeader
           :isShow="isShow"
-          @scanClick="scanClick"
+          @materialClick="materialClick"
           @goMission="goMission"
           @ReimbursementClick="ReimbursementClick"
           @goEarly="goEarly"
         />
-        <!-- ability -->
         <Ability />
-        <!-- reminder -->
         <reminder />
-        <!-- echarts -->
         <myEcharts />
       </div>
     </scroll>
+
+    <van-overlay :show="overlayshow" @click="overlayshow = false">
+      <div class="wrappers">
+        <div class="block">
+          <div class="items" @click.stop="scanClick">
+            <van-icon name="scan" class="icon" />
+            <span>扫一扫</span>
+          </div>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -43,7 +49,10 @@ export default {
     reminder
   },
   data() {
-    return { isShow: false }
+    return {
+      isShow: false,
+      overlayshow: false
+    }
   },
   activated() {
     this.getUserDesignat()
@@ -62,6 +71,12 @@ export default {
     }
   },
   methods: {
+    materialClick() {
+      this.$router.push('/materialpage')
+    },
+    showCard() {
+      this.overlayshow = true
+    },
     goEarly() {
       this.$router.push('/early')
     },
@@ -79,6 +94,7 @@ export default {
     },
     scanClick() {
       this.$router.push('/scan')
+      this.overlayshow = false
     },
     goMission() {
       this.$router.push('/mission')
@@ -103,8 +119,44 @@ export default {
     left: 0;
     top: 5.428571rem;
     bottom: 4.214286rem;
-    width: 100%;
     overflow: hidden;
+  }
+  .wrappers {
+    height: 100%;
+    .block {
+      width: 10.714286rem;
+      border-radius: 5px;
+      background-color: #fff;
+      position: absolute;
+      right: 0.714286rem;
+      top: 5.571429rem;
+      padding: 0.357143rem;
+      &::before {
+        display: block;
+        content: '';
+        border-width: 0.571429rem 0.571429rem 0.571429rem 0.571429rem;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+        position: absolute;
+        right: 0.571429rem;
+        top: -1rem;
+      }
+      .items {
+        height: 2.857143rem;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.357143rem;
+        .icon {
+          font-size: 1.857143rem;
+          margin-right: 0.714286rem;
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
   }
 }
 </style>

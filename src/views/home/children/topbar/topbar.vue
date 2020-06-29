@@ -6,7 +6,7 @@
       <i class="el-icon-mic"></i>
     </div>
     <i class="el-icon-user" slot="center"></i>
-    <i class="el-icon-plus" slot="right"></i>
+    <i class="el-icon-plus" slot="right" @click="showCard"></i>
   </navbar>
 </template>
     
@@ -22,11 +22,16 @@ export default {
     return {
       input: ''
     }
+  },
+  methods: {
+    showCard() {
+      this.$emit('showCard')
+    }
   }
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" >
 .root_box {
   i {
     display: block;
@@ -48,7 +53,6 @@ export default {
         color: #ccc;
         position: absolute;
         left: 0.214286rem;
-        z-index: 9999;
       }
       input {
         padding: 0 1.714286rem;
@@ -57,7 +61,6 @@ export default {
         color: #ccc;
         position: relative;
         right: 2.071429rem;
-        z-index: 9999;
       }
     }
   }

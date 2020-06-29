@@ -115,6 +115,12 @@ const Outsourc = () => import('../views/home/children/Outsourc/Outsourc')
 const editwarehouse = () =>
   import('../views/deal/children/editwarehouse/editwarehouse')
 
+const materialpage = () => import('../views/materials/materialpage')
+
+const addMaterial = () => import('../views/materials/children/addMaterial')
+
+const editMaterial = () => import('../views/materials/children/editMaterial')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -421,6 +427,18 @@ const routes = [
   {
     path: '/editwarehouse/:id',
     component: editwarehouse,
+  },
+  {
+    path: '/materialpage',
+    component: materialpage,
+  },
+  {
+    path: '/addMaterial',
+    component: addMaterial,
+  },
+  {
+    path: '/editMaterial/:id/:type',
+    component: editMaterial,
   },
 ]
 
