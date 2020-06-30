@@ -1,15 +1,21 @@
 <template>
   <div id="addMaterial">
-    <van-nav-bar title="新建物料" left-arrow @click-left="onClickLeft" right-text="提交" />
+    <van-nav-bar
+      title="新建物料"
+      left-arrow
+      @click-left="onClickLeft"
+      right-text="提交"
+      @click-right="onsubmit"
+    />
     <scroll class="scroll-wrapper">
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
-          <span>上传图片</span>
-          <!-- <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" style="margin: 0 0.357143rem;" /> -->
-          <van-uploader :after-read="afterRead" />
+          <span>图片</span>
+          <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" style="margin: 0 0.357143rem;" />
         </el-row>
-        <van-field v-model="text" label="物料名称" />
-        <van-field v-model="text" label="物料规格" />
+        <van-field v-model="MaterialName
+" label="物料名称" />
+        <van-field v-model="specification" label="物料规格" />
         <el-row class="van-cell MaterialProperties">
           <span>物料属性</span>
           <el-select v-model="value" style="margin: 0 0.357143rem;">
@@ -34,7 +40,7 @@
           </el-select>
           <span class="Propertiestext">新增分类</span>
         </el-row>
-        <van-field label="物料编码" value="自动生成" readonly />
+        <van-field label="物料编码" :value="MaterialCode" readonly />
         <el-row class="van-cell MaterialProperties">
           <span>基本单位</span>
           <el-select v-model="valuess" placeholder="请选择" style="margin: 0 0.357143rem;">
@@ -47,17 +53,17 @@
           </el-select>
           <span class="Propertiestext">新增单位</span>
         </el-row>
-        <van-field v-model="number" type="number" label="物料价格" />
-        <van-field label="入库价格" value="自动生成" readonly />
-        <van-field label="出库价格" value="自动生成" readonly />
-        <van-field label="bom价格" value="自动生成" readonly />
+        <van-field v-model="MaterialPrice" type="number" label="物料价格" />
+        <van-field label="入库价格" :value="StoragePrices" readonly />
+        <van-field label="出库价格" :value="OutboundPrice" readonly />
+        <van-field label="bom价格" :value="bomPrice" readonly />
       </el-card>
       <el-card class="box-card">
         <el-row class="van-cell MaterialProperties">
           <span>默认仓库</span>
-          <el-select v-model="valuess" placeholder="请选择" style="margin: 0 0.357143rem;">
+          <el-select v-model="valuesss" placeholder="请选择" style="margin: 0 0.357143rem;">
             <el-option
-              v-for="item in optionsss"
+              v-for="item in optionssss"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -65,64 +71,51 @@
           </el-select>
           <span class="Propertiestext">新增仓库</span>
         </el-row>
-        <van-field v-model="digit" type="digit" label="库位号" />
+        <van-field v-model="LocationNum" type="digit" label="库位号" />
       </el-card>
       <el-card class="box-card">
         <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item title="库存预警" name="1">
-            <van-field v-model="digit" type="digit" label="最大库存" />
-            <van-field v-model="digit" type="digit" label="安全库存" />
-            <van-field v-model="digit" type="digit" label="最小库存" />
-            <van-field v-model="digit" type="digit" label="基本库存" />
+            <van-field v-model="MaximumInventory" type="digit" label="最大库存" />
+            <van-field v-model="SafetyStock" type="digit" label="安全库存" />
+            <van-field v-model="MinimumInventory" type="digit" label="最小库存" />
+            <van-field v-model="BasicInventory" type="digit" label="基本库存" />
           </el-collapse-item>
           <el-collapse-item title="物料详情" name="2">
-            <van-field v-model="text" label="重量" />
-            <van-field v-model="text" label="计件价格" />
-            <van-field v-model="text" label="产品材质" />
-            <van-field v-model="text" label="模具编码" />
-            <el-upload
-              class="upload-demo van-cell"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
+            <van-field v-model="Detailsweight" label="重量" />
+            <van-field v-model="DetailsPiecePrice" label="计件价格" />
+            <van-field v-model="DetailsproductMaterial
+" label="产品材质" />
+            <van-field v-model="DetailsMoldCode" label="模具编码" />
+
+            <el-row class="van-cell uploadImage">
               <span>模具照片</span>
-              <el-button size="small" type="primary">上传</el-button>
-            </el-upload>
+              <Avatar
+                :PropsImg="PropsMould"
+                @ObtainUrl="ObtainMouldUrl"
+                style="margin: 0 0.357143rem;"
+              />
+            </el-row>
           </el-collapse-item>
           <el-collapse-item title="质量验收及图纸" name="3">
-            <el-upload
-              class="upload-demo van-cell"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
-              <el-button size="small" type="primary">上传设计图</el-button>
-            </el-upload>
-            <el-upload
-              class="upload-demo van-cell"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
-              <el-button size="small" type="primary">上传文件</el-button>
-            </el-upload>
-            <van-field v-model="message" rows="1" autosize label="备注" type="textarea" />
+            <el-row class="van-cell uploadImage">
+              <span>设计图</span>
+              <Avatar
+                :PropsImg="Propsdesign"
+                @ObtainUrl="ObtaindesignUrl"
+                style="margin: 0 0.357143rem;"
+              />
+            </el-row>
+            <el-row class="van-cell uploadImage">
+              <span>文件</span>
+              <Avatar
+                :PropsImg="Propsfile"
+                @ObtainUrl="ObtainfileUrl"
+                style="margin: 0 0.357143rem;"
+              />
+            </el-row>
+
+            <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -133,6 +126,7 @@
 <script>
 import Avatar from '@/components/content/Avatar/Avatar'
 import scroll from '@/components/common/scroll/scroll'
+import { getAddMateriel, addMateriel } from '@/network/materials'
 
 export default {
   name: 'addMaterial',
@@ -140,6 +134,10 @@ export default {
     return {
       activeNames: [],
       PropsImg: '',
+      Propsfile: '',
+      Propsdesign: '',
+      PropsMould: '',
+      Remarks: '',
       options: [
         {
           value: '1',
@@ -151,28 +149,33 @@ export default {
         }
       ],
       value: '1',
-      optionss: [
-        {
-          value: '1',
-          label: '2222'
-        },
-        {
-          value: '2',
-          label: '111'
-        }
-      ],
+      optionss: [],
       values: '',
-      optionsss: [
-        {
-          value: '1',
-          label: '个'
-        }
-      ],
-      valuess: ''
+      optionsss: [],
+      valuess: '',
+      optionssss: [],
+      valuesss: '',
+      MaterialName: '',
+      specification: '',
+      MaterialCode: '自动生成',
+      StoragePrices: '自动生成',
+      OutboundPrice: '自动生成',
+      bomPrice: '自动生成',
+      MaterialPrice: '',
+      LocationNum: '',
+      MaximumInventory: 0,
+      SafetyStock: 0,
+      MinimumInventory: 0,
+      BasicInventory: 0,
+      Detailsweight: '',
+      DetailsPiecePrice: '',
+      DetailsproductMaterial: '',
+      DetailsMoldCode: ''
     }
   },
   components: { Avatar, scroll },
   activated() {
+    this.getAddMater()
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
@@ -180,23 +183,100 @@ export default {
     })
   },
   deactivated() {
+    this.optionss = []
+    this.optionsss = []
+    this.optionssss = []
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
   },
+  computed: {
+    getAddMaterielData() {
+      return {
+        token: this.$store.state.token,
+        _: new Date().getTime()
+      }
+    },
+    addMaterielData() {
+      return {
+        token: this.$store.state.token,
+        name: this.MaterialName,
+        specification: this.specification,
+        attribute: this.value == 1 ? 'product' : 'spare_parts',
+        materiel_category_id: this.values,
+        unit_id: this.valuess,
+        unit_price: this.MaterialPrice,
+        warehouse_id: this.valuesss,
+        warehouse_position: this.LocationNum,
+        design_chart: this.Propsdesign,
+        file_dir: this.Propsfile,
+        remark: this.Remarks,
+        piecework_price: this.DetailsPiecePrice,
+        img_url: this.PropsImg,
+        stock: this.BasicInventory
+      }
+    }
+  },
   methods: {
-    afterRead(file) {
-      // 此时可以自行将文件上传至服务器
-      console.log(file)
+    async onsubmit() {
+      const { code, msg } = await addMateriel(this.addMaterielData)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+        this.$router.replace('/materialpage')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
+    },
+    async getAddMater() {
+      const { data } = await getAddMateriel(this.getAddMaterielData)
+      console.log('getAddMateriel', data)
+      data.materielCategory.forEach((item, index) => {
+        let obj = {
+          value: item.id,
+          label: item.category_name
+        }
+        this.optionss.push(obj)
+      })
+      data.materielUnit.forEach(item => {
+        let obj = {
+          value: item.id,
+          label: item.unit_name
+        }
+        this.optionsss.push(obj)
+      })
+      data.materielWarehouse.forEach(item => {
+        let obj = {
+          value: item.id,
+          label: item.warehouse_name
+        }
+        this.optionssss.push(obj)
+      })
     },
     handleChange(val) {
       console.log(val)
     },
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.replace('/materialpage')
     },
     ObtainUrl(data) {
       this.PropsImg = data
+    },
+    ObtainfileUrl(data) {
+      this.Propsfile = data
+    },
+    ObtaindesignUrl(data) {
+      this.Propsfile = data
+    },
+    ObtainMouldUrl(data) {
+      this.PropsMould = data
     }
   }
 }
@@ -228,7 +308,7 @@ export default {
       flex: 1;
     }
     .Propertiestext {
-      width: 89px;
+      width: 6.357143rem;
     }
   }
 }

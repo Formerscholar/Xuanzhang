@@ -1,9 +1,11 @@
 <template>
   <div id="fileInfoList">
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
-      <img v-if="userImg" :src="userImg" @click="upload" />
-      <img v-else-if="PropsImg" :src="PropsImg" @click="upload" />
-      <img v-else src="@/assets/image/dpng.png" @click="upload" />
+      <div @click="upload" class="content_box">
+        <img v-if="userImg" :src="userImg" />
+        <img v-else-if="PropsImg" :src="PropsImg" />
+        <van-icon v-else name="photograph" />
+      </div>
     </simple-cropper>
   </div>
 </template>
@@ -44,5 +46,19 @@ export default {
     
 <style lang="scss" scoped>
 #fileInfoList {
+  .content_box {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dfe6e9;
+    border-radius: 5px;
+    overflow: hidden;
+    i {
+      color: #b2bec3;
+      font-size: 1.571429rem;
+    }
+  }
 }
 </style>

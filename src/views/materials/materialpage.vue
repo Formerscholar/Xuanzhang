@@ -8,36 +8,38 @@
       <van-tab title="物料列表" class="Delivery">
         <scroll class="scroll-wrapper">
           <van-swipe-cell v-for="(item,index) in materielList" :key="index">
-            <el-card class="box-card">
-              <div class="topbox">
-                <span>
-                  {{item.scope_of_business}}
-                  <em>产品</em>
-                </span>
-                <i>品名:{{item.name}} 规格:{{item.specification}}</i>
-              </div>
-              <div class="botbox">
-                <span class="black">{{item.stock}}{{item.unit_name}}</span>
-                <em>库位:{{item.warehouse_position}}</em>
-              </div>
-            </el-card>
+            <template #left>
+              <van-button
+                square
+                text="bom"
+                type="primary"
+                style="height: 4.714286rem;"
+                @click="tobomPage(item.id)"
+              />
+            </template>
+            <div @click="editClick(item.id)">
+              <el-card class="box-card">
+                <div class="topbox">
+                  <span>
+                    {{item.scope_of_business}}
+                    <em>产品</em>
+                  </span>
+                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
+                </div>
+                <div class="botbox">
+                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
+                  <em>库位:{{item.warehouse_position}}</em>
+                </div>
+              </el-card>
+            </div>
             <template #right>
-              <div class="content_right">
-                <van-button
-                  square
-                  text="查看"
-                  type="primary"
-                  class="delete-button"
-                  @click="ViewClick(item.id)"
-                />
-                <van-button
-                  square
-                  text="修改"
-                  type="danger"
-                  class="delete-button"
-                  @click="editClick(item.id)"
-                />
-              </div>
+              <van-button
+                square
+                text="废弃"
+                type="danger"
+                style="height: 4.714286rem;"
+                @click="Abandoned(item.id)"
+              />
             </template>
           </van-swipe-cell>
         </scroll>
@@ -50,7 +52,7 @@
 </template>
     
 <script>
-import { getMaterielList } from '@/network/materials'
+import { getMaterielList, editMaterielStatus } from '@/network/materials'
 import scroll from '@/components/common/scroll/scroll'
 
 export default {
@@ -69,6 +71,7 @@ export default {
     document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
+    this.materielList = []
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
@@ -87,11 +90,40 @@ export default {
     }
   },
   methods: {
-    editClick(id) {
-      this.$router.push(`/editMaterial/${id}/1`)
+    tobomPage(id) {
+      console.log('跳转bom页面', id)
     },
-    ViewClick(id) {
-      this.$router.push(`/editMaterial/${id}/0`)
+    async Abandoned(id) {
+      const { code, msg } = await editMaterielStatus({
+        token: this.$store.state.token,
+        id: id,
+        materiel_status: 'discard',
+        name: null,
+        specification: null,
+        attribute: 'product',
+        materiel_category_id: null,
+        unit_id: null
+      })
+      if (code == 200) {
+        this.materielList = []
+        this.getMaterie()
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
+    },
+    editClick(id) {
+      //  1 编辑权限开，0 仅查看权限
+      this.$router.push(`/editMaterial/${id}/1`)
+      // this.$router.push(`/editMaterial/${id}/0`)
     },
     addMaterial() {
       this.$router.push('/addMaterial')
