@@ -121,6 +121,8 @@ const addMaterial = () => import('../views/materials/children/addMaterial')
 
 const editMaterial = () => import('../views/materials/children/editMaterial')
 
+const bompage = () => import('../views/materials/children/bompage')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -439,6 +441,10 @@ const routes = [
   {
     path: '/editMaterial/:id/:type',
     component: editMaterial,
+  },
+  {
+    path: '/bompage/:id',
+    component: bompage,
   },
 ]
 

@@ -2,7 +2,12 @@
   <div id="materialpage">
     <div class="head">
       <van-icon name="arrow-left" class="head_icon" @click="onClickLeft" />
-      <van-search class="head_search" v-model="searchValue" placeholder="请输入搜索关键词" />
+      <van-search
+        class="head_search"
+        v-model="searchValue"
+        placeholder="请输入搜索关键词"
+        @search="primarySearch"
+      />
     </div>
     <van-tabs v-model="active">
       <van-tab title="物料列表" class="Delivery">
@@ -44,8 +49,84 @@
           </van-swipe-cell>
         </scroll>
       </van-tab>
-      <van-tab title="废弃物料">废弃物料</van-tab>
-      <van-tab title="临时物料">临时物料</van-tab>
+      <van-tab title="废弃物料" class="Delivery">
+        <scroll class="scroll-wrapper">
+          <van-swipe-cell v-for="(item,index) in wastelList" :key="index">
+            <template #left>
+              <van-button
+                square
+                text="bom"
+                type="primary"
+                style="height: 4.714286rem;"
+                @click="tobomPage(item.id)"
+              />
+            </template>
+            <div @click="editClick(item.id)">
+              <el-card class="box-card">
+                <div class="topbox">
+                  <span>
+                    {{item.scope_of_business}}
+                    <em>产品</em>
+                  </span>
+                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
+                </div>
+                <div class="botbox">
+                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
+                  <em>库位:{{item.warehouse_position}}</em>
+                </div>
+              </el-card>
+            </div>
+            <template #right>
+              <van-button
+                square
+                text="使用"
+                type="info"
+                style="height: 4.714286rem;"
+                @click="Abandoneds(item)"
+              />
+            </template>
+          </van-swipe-cell>
+        </scroll>
+      </van-tab>
+      <van-tab title="临时物料" class="Delivery">
+        <scroll class="scroll-wrapper">
+          <van-swipe-cell v-for="(item,index) in Temporary" :key="index">
+            <template #left>
+              <van-button
+                square
+                text="废弃"
+                type="danger"
+                style="height: 4.714286rem;"
+                @click="Abandonedss(item)"
+              />
+            </template>
+            <div>
+              <el-card class="box-card">
+                <div class="topbox">
+                  <span>
+                    {{item.scope_of_business}}
+                    <em>产品</em>
+                  </span>
+                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
+                </div>
+                <div class="botbox">
+                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
+                  <em>库位:{{item.warehouse_position}}</em>
+                </div>
+              </el-card>
+            </div>
+            <template #right>
+              <van-button
+                square
+                text="使用"
+                type="info"
+                style="height: 4.714286rem;"
+                @click="uses(item)"
+              />
+            </template>
+          </van-swipe-cell>
+        </scroll>
+      </van-tab>
     </van-tabs>
     <i class="el-icon-plus" @click="addMaterial"></i>
   </div>
@@ -61,17 +142,24 @@ export default {
     return {
       active: 0,
       searchValue: '',
-      materielList: []
+      materielList: [],
+      Temporary: [],
+      wastelList: []
     }
   },
   components: { scroll },
   activated() {
     this.getMaterie()
+    this.getwaste()
+    this.getTemporary()
+
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.materielList = []
+    this.wastelList = []
+    this.Temporary = []
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
@@ -87,11 +175,168 @@ export default {
         materiel_status: 'normal',
         _: new Date().getTime()
       }
+    },
+    getwasteData() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        materiel_name: null,
+        specification: null,
+        materiel_status: 'discard',
+        _: new Date().getTime()
+      }
+    },
+    getTemporaryData() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        materiel_name: null,
+        specification: null,
+        materiel_status: 'wait_check',
+        _: new Date().getTime()
+      }
     }
   },
   methods: {
+    async primarySearch(value) {
+      let datamateriel_status = ''
+      if (this.active == 0) {
+        datamateriel_status = 'normal'
+      } else if (this.active == 1) {
+        datamateriel_status = 'discard'
+      } else if (this.active == 2) {
+        datamateriel_status = 'wait_check'
+      }
+      const { data, code, msg } = await getMaterielList({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        materiel_name: value,
+        specification: null,
+        materiel_status: datamateriel_status,
+        _: new Date().getTime()
+      })
+      if (code == 200) {
+        if (this.active == 0) {
+          this.materielList = data.materielList
+        } else if (this.active == 1) {
+          this.wastelList = data.materielList
+        } else if (this.active == 2) {
+          this.Temporary = data.materielList
+        }
+
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
+    },
     tobomPage(id) {
-      console.log('跳转bom页面', id)
+      this.$router.push(`/bompage/${id}`)
+    },
+    async uses(data) {
+      console.log(data)
+
+      // const { code, msg } = await editMaterielStatus({
+      //   token: this.$store.state.token,
+      //   id: data.id,
+      //   materiel_status: 'normal',
+      //   name: data.name,
+      //   specification: data.specification,
+      //   attribute: data.attribute,
+      //   materiel_category_id: data.materiel_category_id,
+      //   unit_id: data.unit_id
+      // })
+      // if (code == 200) {
+      //   this.materielList = []
+      //   this.getMaterie()
+      //   this.wastelList = []
+      //   this.getwaste()
+      //   this.Temporary = []
+      //   this.getTemporary()
+      //   this.$message({
+      //     showClose: true,
+      //     message: msg,
+      //     type: 'success'
+      //   })
+      // } else {
+      //   this.$message({
+      //     showClose: true,
+      //     message: msg,
+      //     type: 'error'
+      //   })
+      // }
+    },
+    async Abandonedss(data) {
+      const { code, msg } = await editMaterielStatus({
+        token: this.$store.state.token,
+        id: data.id,
+        materiel_status: 'discard',
+        name: data.name,
+        specification: data.specification,
+        attribute: data.attribute,
+        materiel_category_id: data.materiel_category_id,
+        unit_id: data.unit_id
+      })
+      if (code == 200) {
+        this.materielList = []
+        this.getMaterie()
+        this.wastelList = []
+        this.getwaste()
+        this.Temporary = []
+        this.getTemporary()
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
+    },
+    async Abandoneds(data) {
+      const { code, msg } = await editMaterielStatus({
+        token: this.$store.state.token,
+        id: data.id,
+        materiel_status: 'normal',
+        name: data.name,
+        specification: data.specification,
+        attribute: data.attribute,
+        materiel_category_id: data.materiel_category_id,
+        unit_id: data.unit_id
+      })
+      if (code == 200) {
+        this.materielList = []
+        this.getMaterie()
+        this.wastelList = []
+        this.getwaste()
+        this.Temporary = []
+        this.getTemporary()
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
     },
     async Abandoned(id) {
       const { code, msg } = await editMaterielStatus({
@@ -107,6 +352,10 @@ export default {
       if (code == 200) {
         this.materielList = []
         this.getMaterie()
+        this.wastelList = []
+        this.getwaste()
+        this.Temporary = []
+        this.getTemporary()
         this.$message({
           showClose: true,
           message: msg,
@@ -121,9 +370,7 @@ export default {
       }
     },
     editClick(id) {
-      //  1 编辑权限开，0 仅查看权限
       this.$router.push(`/editMaterial/${id}/1`)
-      // this.$router.push(`/editMaterial/${id}/0`)
     },
     addMaterial() {
       this.$router.push('/addMaterial')
@@ -132,6 +379,16 @@ export default {
       const { data } = await getMaterielList(this.getMaterielData)
       console.log('getMaterielList', data)
       this.materielList = data.materielList
+    },
+    async getwaste() {
+      const { data } = await getMaterielList(this.getwasteData)
+      console.log('getwaste', data)
+      this.wastelList = data.materielList
+    },
+    async getTemporary() {
+      const { data } = await getMaterielList(this.getTemporaryData)
+      console.log('Temporary', data)
+      this.Temporary = data.materielList
     },
     onClickLeft() {
       this.$router.go(-1)

@@ -206,7 +206,6 @@ export default {
         })
       })
     },
-
     blacknext() {
       this.$router.go(-1)
     },

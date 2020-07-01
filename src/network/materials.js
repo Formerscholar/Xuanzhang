@@ -48,3 +48,35 @@ export function editMateriel(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function getAddSpareParts(params) {
+  return request({
+    url: '/materiel/getAddSpareParts',
+    method: 'GET',
+    params,
+  })
+}
+
+export function getMaterielBoom(params) {
+  return request({
+    url: '/materiel/getMaterielBoom',
+    method: 'GET',
+    params,
+  })
+}
+
+export function addSpareParts(data) {
+  return request({
+    url: '/materiel/addSpareParts',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function synchronizationBoom(data) {
+  return request({
+    url: '/materiel/synchronizationBoom',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
