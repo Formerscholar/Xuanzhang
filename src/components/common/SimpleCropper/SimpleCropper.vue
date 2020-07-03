@@ -6,8 +6,8 @@
     <input class="file" ref="file" type="file" accept="image/*" @change="uploadChange" />
     <div class="v-cropper-layer" ref="layer">
       <div class="layer-header">
-        <van-button type="primary" @click="confirmHandle">裁剪</van-button>
         <van-button @click="cancelHandle" type="info">取消</van-button>
+        <van-button type="primary" @click="confirmHandle">裁剪</van-button>
       </div>
       <img ref="cropperImg" />
     </div>

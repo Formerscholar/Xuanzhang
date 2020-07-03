@@ -28,8 +28,6 @@ import userName from '@/views/fileInfo/children/userName/userName'
 import gender from '@/views/fileInfo/children/gender/gender'
 import department from '@/views/fileInfo/children/department/department'
 import Roles from '@/views/fileInfo/children/Roles/Roles'
-import { bestURL, crosURl } from '@/network/baseURL'
-import { editUser } from '@/network/home'
 
 export default {
   name: 'Homepage',
@@ -46,7 +44,6 @@ export default {
     document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
-    this.subeditUser()
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
@@ -63,31 +60,9 @@ export default {
     },
     getdisplayName() {
       return this.userInfo.role.display_name
-    },
-    editUserData() {
-      let from = new FormData()
-      from.append('username', this.userInfo.username)
-      from.append('password', '')
-      from.append('name', this.userInfo.name)
-      from.append('sex', this.userInfo.sex)
-      from.append('id_number', this.userInfo.id_number)
-      from.append('department_id', this.userInfo.department_id)
-      from.append('remark', this.userInfo.remark)
-      from.append('role_id', this.userInfo.role_id)
-      from.append('user_id', this.userInfo.id)
-      from.append('token', this.$store.state.token)
-      from.append('email', '')
-      from.append('is_statistic', this.userInfo.is_statistic)
-      from.append('logo_url', this.PropsImg)
-      from.append('department_head', 0)
-      return from
     }
   },
   methods: {
-    async subeditUser() {
-      const { data } = await editUser(this.editUserData)
-      console.log('editUser', data)
-    },
     ObtainUrl(data) {
       if (this.userInfo.img_url == data) {
         this.PropsImg = ''
@@ -105,7 +80,9 @@ export default {
         }
       })
       this.userInfo = JSON.parse(this.userInfo)
-      this.PropsImg = this.userInfo.img_url ? this.userInfo.img_url : ''
+      this.PropsImg = this.userInfo.img_url
+        ? this.userInfo.img_url.substr(1)
+        : ''
     }
   }
 }

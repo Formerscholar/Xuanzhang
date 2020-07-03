@@ -246,35 +246,35 @@ export default {
     async uses(data) {
       console.log(data)
 
-      // const { code, msg } = await editMaterielStatus({
-      //   token: this.$store.state.token,
-      //   id: data.id,
-      //   materiel_status: 'normal',
-      //   name: data.name,
-      //   specification: data.specification,
-      //   attribute: data.attribute,
-      //   materiel_category_id: data.materiel_category_id,
-      //   unit_id: data.unit_id
-      // })
-      // if (code == 200) {
-      //   this.materielList = []
-      //   this.getMaterie()
-      //   this.wastelList = []
-      //   this.getwaste()
-      //   this.Temporary = []
-      //   this.getTemporary()
-      //   this.$message({
-      //     showClose: true,
-      //     message: msg,
-      //     type: 'success'
-      //   })
-      // } else {
-      //   this.$message({
-      //     showClose: true,
-      //     message: msg,
-      //     type: 'error'
-      //   })
-      // }
+      const { code, msg } = await editMaterielStatus({
+        token: this.$store.state.token,
+        id: data.id,
+        materiel_status: 'normal',
+        name: data.name,
+        specification: data.specification,
+        attribute: data.attribute,
+        materiel_category_id: 8,
+        unit_id: 9
+      })
+      if (code == 200) {
+        this.materielList = []
+        this.getMaterie()
+        this.wastelList = []
+        this.getwaste()
+        this.Temporary = []
+        this.getTemporary()
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error'
+        })
+      }
     },
     async Abandonedss(data) {
       const { code, msg } = await editMaterielStatus({

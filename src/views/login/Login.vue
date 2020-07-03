@@ -82,8 +82,7 @@ export default {
       ruleForm: {
         // name: '',
         // pass: ''
-        name: '18083795906',
-        // name: '18752715203',
+        name: '18083795906', // '18752715203',
         pass: '123456'
       },
       rules: {

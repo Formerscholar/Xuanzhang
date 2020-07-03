@@ -144,7 +144,7 @@ export default {
     async getdealitem() {
       const { data } = await getDesignatedTasksDetail(this.getdealitemData)
       console.log('getDesignatedTasksDetail', data)
-      this.imgSrc = data.userInfo[0].img_url
+      this.imgSrc = data.userInfo[0].img_url.substr(1)
       this.designatedTasksDetail = data.designatedTasksDetail.reverse()
       this.jobTitle = data.designatedTasks.operator_role
       this.designatedTasks = data.designatedTasks

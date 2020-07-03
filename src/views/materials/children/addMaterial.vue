@@ -11,7 +11,12 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" style="margin: 0 0.357143rem;" />
+          <van-uploader
+            :after-read="afterRead"
+            :max-size="10 * 1024 * 1024"
+            v-model="fileList"
+            multiple
+          />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -38,7 +43,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增分类</span>
+          <!-- <span class="Propertiestext">新增分类</span> -->
         </el-row>
         <van-field label="物料编码" :value="MaterialCode" readonly />
         <el-row class="van-cell MaterialProperties">
@@ -51,7 +56,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增单位</span>
+          <!-- <span class="Propertiestext">新增单位</span> -->
         </el-row>
         <van-field v-model="MaterialPrice" type="number" label="物料价格" />
         <van-field label="入库价格" :value="StoragePrices" readonly />
@@ -69,7 +74,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增仓库</span>
+          <!-- <span class="Propertiestext">新增仓库</span> -->
         </el-row>
         <van-field v-model="LocationNum" type="digit" label="库位号" />
       </el-card>
@@ -90,28 +95,31 @@
 
             <el-row class="van-cell uploadImage">
               <span>模具照片</span>
-              <Avatar
-                :PropsImg="PropsMould"
-                @ObtainUrl="ObtainMouldUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
           </el-collapse-item>
           <el-collapse-item title="质量验收及图纸" name="3">
             <el-row class="van-cell uploadImage">
               <span>设计图</span>
-              <Avatar
-                :PropsImg="Propsdesign"
-                @ObtainUrl="ObtaindesignUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
             <el-row class="van-cell uploadImage">
               <span>文件</span>
-              <Avatar
-                :PropsImg="Propsfile"
-                @ObtainUrl="ObtainfileUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
 
@@ -124,14 +132,14 @@
 </template>
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
 import scroll from '@/components/common/scroll/scroll'
-import { getAddMateriel, addMateriel } from '@/network/materials'
+import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
 
 export default {
   name: 'addMaterial',
   data() {
     return {
+      fileList: [],
       activeNames: [],
       PropsImg: '',
       Propsfile: '',
@@ -173,7 +181,7 @@ export default {
       DetailsMoldCode: ''
     }
   },
-  components: { Avatar, scroll },
+  components: { scroll },
   activated() {
     this.getAddMater()
     document.querySelector('#tab-bar').style.height = '0px'
@@ -218,6 +226,14 @@ export default {
     }
   },
   methods: {
+    async afterRead(file) {
+      console.log(file)
+      const { data } = await uploadImg({
+        user_image: file.content,
+        token: this.$store.state.token
+      })
+      this.PropsImg = data.url
+    },
     async onsubmit() {
       const { code, msg } = await addMateriel(this.addMaterielData)
       if (code == 200) {
@@ -265,18 +281,6 @@ export default {
     },
     onClickLeft() {
       this.$router.replace('/materialpage')
-    },
-    ObtainUrl(data) {
-      this.PropsImg = data
-    },
-    ObtainfileUrl(data) {
-      this.Propsfile = data
-    },
-    ObtaindesignUrl(data) {
-      this.Propsfile = data
-    },
-    ObtainMouldUrl(data) {
-      this.PropsMould = data
     }
   }
 }

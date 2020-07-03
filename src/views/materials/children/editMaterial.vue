@@ -5,7 +5,12 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <Avatar :PropsImg="PropsImg" @ObtainUrl="ObtainUrl" style="margin: 0 0.357143rem;" />
+          <van-uploader
+            :after-read="afterRead"
+            :max-size="10 * 1024 * 1024"
+            v-model="fileList"
+            multiple
+          />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -20,7 +25,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext"></span>
+          <!-- <span class="Propertiestext"></span> -->
         </el-row>
         <el-row class="van-cell MaterialProperties">
           <span>物料分类</span>
@@ -32,7 +37,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增分类</span>
+          <!-- <span class="Propertiestext">新增分类</span> -->
         </el-row>
         <van-field label="物料编码" :value="MaterialCode" readonly />
         <el-row class="van-cell MaterialProperties">
@@ -45,7 +50,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增单位</span>
+          <!-- <span class="Propertiestext">新增单位</span> -->
         </el-row>
         <van-field v-model="MaterialPrice" type="number" label="物料价格" />
         <van-field label="入库价格" :value="StoragePrices" readonly />
@@ -63,7 +68,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <span class="Propertiestext">新增仓库</span>
+          <!-- <span class="Propertiestext">新增仓库</span> -->
         </el-row>
         <van-field v-model="LocationNum" type="digit" label="库位号" />
       </el-card>
@@ -84,31 +89,33 @@
 
             <el-row class="van-cell uploadImage">
               <span>模具照片</span>
-              <Avatar
-                :PropsImg="PropsMould"
-                @ObtainUrl="ObtainMouldUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
           </el-collapse-item>
           <el-collapse-item title="质量验收及图纸" name="3">
             <el-row class="van-cell uploadImage">
               <span>设计图</span>
-              <Avatar
-                :PropsImg="Propsdesign"
-                @ObtainUrl="ObtaindesignUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
             <el-row class="van-cell uploadImage">
               <span>文件</span>
-              <Avatar
-                :PropsImg="Propsfile"
-                @ObtainUrl="ObtainfileUrl"
-                style="margin: 0 0.357143rem;"
+              <van-uploader
+                :after-read="afterRead"
+                :max-size="10 * 1024 * 1024"
+                v-model="fileList"
+                multiple
               />
             </el-row>
-
             <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
           </el-collapse-item>
         </el-collapse>
@@ -116,16 +123,21 @@
     </scroll>
   </div>
 </template>
+
+
+
+
+
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
 import scroll from '@/components/common/scroll/scroll'
-import { editMateriel, getEditMateriel } from '@/network/materials'
+import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 
 export default {
   name: 'addMaterial',
   data() {
     return {
+      fileList: [],
       iid: 0,
       type: false,
       activeNames: [],
@@ -172,12 +184,11 @@ export default {
       unit_id: ''
     }
   },
-  components: { Avatar, scroll },
+  components: { scroll },
   activated() {
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false
     this.getEditMater()
-
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
@@ -225,6 +236,14 @@ export default {
     }
   },
   methods: {
+    async afterRead(file) {
+      console.log(file)
+      const { data } = await uploadImg({
+        user_image: file.content,
+        token: this.$store.state.token
+      })
+      this.PropsImg = data.url
+    },
     async getEditMater() {
       const { data } = await getEditMateriel(this.getEditMaterData)
       console.log('getEditMateriel', data)
@@ -272,7 +291,7 @@ export default {
           }
         })
         this.LocationNum = item.warehouse_position
-        this.PropsImg = item.img_url
+        this.fileList.push({ url: item.img_url })
         this.Propsfile = item.file_dir
         this.Propsdesign = item.design_chart
         this.Remarks = item.remark
@@ -309,18 +328,6 @@ export default {
     },
     onClickLeft() {
       this.$router.replace('/materialpage')
-    },
-    ObtainUrl(data) {
-      this.PropsImg = data
-    },
-    ObtainfileUrl(data) {
-      this.Propsfile = data
-    },
-    ObtaindesignUrl(data) {
-      this.Propsfile = data
-    },
-    ObtainMouldUrl(data) {
-      this.PropsMould = data
     }
   }
 }
@@ -330,6 +337,7 @@ export default {
 #addMaterial {
   padding-top: 1.857143rem;
   height: calc(100vh - 1.857143rem);
+
   .scroll-wrapper {
     position: absolute;
     left: 0;

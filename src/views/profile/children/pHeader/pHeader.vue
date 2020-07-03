@@ -23,7 +23,6 @@
 </template>
     
 <script>
-import { bestURL, crosURl } from '@/network/baseURL'
 import { getUserDesignatedTasks } from '@/network/home'
 
 export default {
@@ -39,7 +38,6 @@ export default {
     }
   },
   activated() {
-    this.bestURL = bestURL
     this.getUserDesignat()
   },
   computed: {
@@ -58,7 +56,7 @@ export default {
         this.getUserDesignatedTasksData
       )
       this.dataInfo = data.userInfo[0]
-      this.imgUrl = this.dataInfo.img_url
+      this.imgUrl = this.dataInfo.img_url.substr(1)
       this.jobName = this.dataInfo.role.display_name
       this.phone = this.formatPhone(this.dataInfo.username)
       this.name = this.dataInfo.name

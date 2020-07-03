@@ -80,3 +80,11 @@ export function synchronizationBoom(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function uploadImg(data) {
+  return request({
+    url: '/materiel/uploadImage3',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

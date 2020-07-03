@@ -11,7 +11,6 @@
 </template>
     
 <script>
-import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
 
 export default {
@@ -37,8 +36,8 @@ export default {
     },
     // 上传头像成功回调
     uploadHandle(data) {
-      this.userImg = bestURL + data
-      this.$emit('ObtainUrl', data)
+      this.userImg = data.substr(1)
+      this.$emit('ObtainUrl', data.substr(1))
     }
   }
 }
