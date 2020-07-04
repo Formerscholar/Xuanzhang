@@ -18,7 +18,7 @@
                 square
                 text="bom"
                 type="primary"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="tobomPage(item.id)"
               />
             </template>
@@ -42,7 +42,7 @@
                 square
                 text="废弃"
                 type="danger"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="Abandoned(item.id)"
               />
             </template>
@@ -57,7 +57,7 @@
                 square
                 text="bom"
                 type="primary"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="tobomPage(item.id)"
               />
             </template>
@@ -81,7 +81,7 @@
                 square
                 text="使用"
                 type="info"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="Abandoneds(item)"
               />
             </template>
@@ -96,7 +96,7 @@
                 square
                 text="废弃"
                 type="danger"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="Abandonedss(item)"
               />
             </template>
@@ -120,7 +120,7 @@
                 square
                 text="使用"
                 type="info"
-                style="height: 4.714286rem;"
+                style="height: 4.714286rem;width: 4.571429rem;"
                 @click="uses(item)"
               />
             </template>

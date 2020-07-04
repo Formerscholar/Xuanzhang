@@ -352,41 +352,39 @@ export default {
     async comitBlack() {
       this.isQuire = false
       if (this.title == 'client') {
-        const { data, code } = await getAddContractOrder({
-          token: this.$store.state.token
-        })
-        data.distributors.map(item => {
-          if (item.name == this.companyName) {
-            this.messageShow(400, '名称不能重复')
-            this.isQuire = true
-          }
-        })
-        if (!this.isQuire) {
-          if (this.typeIndex) {
-            const { code, msg } = await editDistributor(
-              this.addDistributorDatas
-            )
-            this.messageShow(code, msg)
-          } else {
+        if (this.typeIndex) {
+          const { code, msg } = await editDistributor(this.addDistributorDatas)
+          this.messageShow(code, msg)
+        } else {
+          const { data, code } = await getAddContractOrder({
+            token: this.$store.state.token
+          })
+          data.distributors.map(item => {
+            if (item.name == this.companyName) {
+              this.messageShow(400, '名称不能重复')
+              this.isQuire = true
+            }
+          })
+          if (!this.isQuire) {
             const { code, msg } = await addDistributor(this.addDistributorData)
             this.messageShow(code, msg)
           }
         }
       } else if (this.title == 'supplier') {
-        const { data } = await getAddOutsourcingOrder({
-          token: this.$store.state.token
-        })
-        data.suppliers.map(item => {
-          if (item.name == this.companyName) {
-            this.messageShow(400, '名称不能重复')
-            this.isQuire = true
-          }
-        })
-        if (!this.isQuire) {
-          if (this.typeIndex) {
-            const { code, msg } = await editSupplier(this.addDistributorDatas)
-            this.messageShow(code, msg)
-          } else {
+        if (this.typeIndex) {
+          const { code, msg } = await editSupplier(this.addDistributorDatas)
+          this.messageShow(code, msg)
+        } else {
+          const { data } = await getAddOutsourcingOrder({
+            token: this.$store.state.token
+          })
+          data.suppliers.map(item => {
+            if (item.name == this.companyName) {
+              this.messageShow(400, '名称不能重复')
+              this.isQuire = true
+            }
+          })
+          if (!this.isQuire) {
             const { code, msg } = await addSupplier(this.addDistributorData)
             this.messageShow(code, msg)
           }
