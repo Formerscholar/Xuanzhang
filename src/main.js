@@ -26,10 +26,11 @@ import preview from 'vue-photo-preview'
 import 'vue-photo-preview/dist/skin.css'
 Vue.use(preview)
 
-import Vant, { Toast } from 'vant'
+import Vant, { Toast, Dialog } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
 Vue.use(Toast)
+Vue.prototype.$dialog = Dialog
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body)

@@ -17,7 +17,7 @@
         <van-field v-model="specification" label="物料规格" />
         <el-row class="van-cell MaterialProperties">
           <span>物料属性</span>
-          <el-select v-model="value" style="margin: 0 0.357143rem;">
+          <el-select v-model="value" style="margin: 0 1.285714rem;">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -29,7 +29,7 @@
         </el-row>
         <el-row class="van-cell MaterialProperties">
           <span>物料分类</span>
-          <el-select v-model="values" placeholder="请选择" style="margin: 0 0.357143rem;">
+          <el-select v-model="values" placeholder="请选择" style="margin: 0 1.285714rem;">
             <el-option
               v-for="item in optionss"
               :key="item.value"
@@ -42,7 +42,7 @@
         <van-field label="物料编码" :value="MaterialCode" readonly />
         <el-row class="van-cell MaterialProperties">
           <span>基本单位</span>
-          <el-select v-model="valuess" placeholder="请选择" style="margin: 0 0.357143rem;">
+          <el-select v-model="valuess" placeholder="请选择" style="margin: 0 1.285714rem;">
             <el-option
               v-for="item in optionsss"
               :key="item.value"
@@ -60,7 +60,7 @@
       <el-card class="box-card">
         <el-row class="van-cell MaterialProperties">
           <span>默认仓库</span>
-          <el-select v-model="valuesss" placeholder="请选择" style="margin: 0 0.357143rem;">
+          <el-select v-model="valuesss" placeholder="请选择" style="margin: 0 1.285714rem;">
             <el-option
               v-for="item in optionssss"
               :key="item.value"
@@ -74,49 +74,69 @@
       </el-card>
       <el-card class="box-card">
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="库存预警" name="1">
-            <van-field v-model="MaximumInventory" type="digit" label="最大库存" />
-            <van-field v-model="SafetyStock" type="digit" label="安全库存" />
-            <van-field v-model="MinimumInventory" type="digit" label="最小库存" />
-            <van-field v-model="BasicInventory" type="digit" label="基本库存" />
+          <el-collapse-item title="库存预警" name="1" style="padding-left: 1rem;">
+            <van-field
+              v-model="MaximumInventory"
+              type="digit"
+              label="最大库存"
+              style="padding-left: 0;"
+            />
+            <van-field v-model="SafetyStock" type="digit" label="安全库存" style="padding-left: 0;" />
+            <van-field
+              v-model="MinimumInventory"
+              type="digit"
+              label="最小库存"
+              style="padding-left: 0;"
+            />
+            <van-field v-model="BasicInventory" type="digit" label="基本库存" style="padding-left: 0;" />
           </el-collapse-item>
-          <el-collapse-item title="物料详情" name="2">
-            <van-field v-model="Detailsweight" label="重量" />
-            <van-field v-model="DetailsPiecePrice" label="计件价格" />
+          <el-collapse-item title="物料详情" name="2" style="padding-left: 1rem;">
+            <van-field v-model="Detailsweight" label="重量" style="padding-left: 0;" />
+            <van-field v-model="DetailsPiecePrice" label="计件价格" style="padding-left: 0;" />
             <van-field v-model="DetailsproductMaterial
-" label="产品材质" />
-            <van-field v-model="DetailsMoldCode" label="模具编码" />
+" label="产品材质" style="padding-left: 0;" />
+            <van-field v-model="DetailsMoldCode" label="模具编码" style="padding-left: 0;" />
 
-            <el-row class="van-cell uploadImage">
+            <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>模具照片</span>
               <van-uploader
                 :after-read="afterRead"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileList"
                 multiple
+                style=" margin-left: 2.142857rem;"
               />
             </el-row>
           </el-collapse-item>
-          <el-collapse-item title="质量验收及图纸" name="3">
-            <el-row class="van-cell uploadImage">
+          <el-collapse-item title="质量验收及图纸" name="3" style="padding-left: 1rem;">
+            <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>设计图</span>
               <van-uploader
                 :after-read="afterRead"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileList"
                 multiple
+                style=" margin-left: 3.14286rem;"
               />
             </el-row>
-            <el-row class="van-cell uploadImage">
+            <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>文件</span>
               <van-uploader
                 :after-read="afterRead"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileList"
                 multiple
+                style=" margin-left: 4.14286rem;"
               />
             </el-row>
-            <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
+            <van-field
+              v-model="Remarks"
+              rows="1"
+              autosize
+              label="备注"
+              type="textarea"
+              style="padding-left: 0;"
+            />
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -196,7 +216,6 @@ export default {
     })
   },
   deactivated() {
-    this.onsubmit()
     this.iid = 0
     this.type = false
     this.optionss = []
@@ -291,7 +310,7 @@ export default {
           }
         })
         this.LocationNum = item.warehouse_position
-        this.fileList.push({ url: item.img_url })
+        // this.fileList.push({ url: item.img_url })
         this.Propsfile = item.file_dir
         this.Propsdesign = item.design_chart
         this.Remarks = item.remark
@@ -327,7 +346,17 @@ export default {
       console.log(val)
     },
     onClickLeft() {
-      this.$router.replace('/materialpage')
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '确认是否修改内容?'
+        })
+        .then(() => {
+          this.onsubmit()
+        })
+        .catch(() => {
+          this.$router.replace('/materialpage')
+        })
     }
   }
 }
@@ -352,7 +381,7 @@ export default {
 
   .uploadImage {
     .van-uploader {
-      margin-left: 0.714286rem;
+      margin-left: 3.928571rem;
     }
   }
   .MaterialProperties {
