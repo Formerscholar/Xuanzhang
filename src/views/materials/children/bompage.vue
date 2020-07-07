@@ -1,6 +1,6 @@
 <template>
   <div id="bompage">
-    <navbar class="p_root_box">
+    <navbar class="p_root_box bg-primary">
       <div class="left" slot="left" @click="blacknext">
         <i class="el-icon-arrow-left"></i>
       </div>
@@ -196,9 +196,9 @@ export default {
 <style scoped lang="scss">
 #bompage {
   padding-top: 5.428571rem;
+
   .p_root_box {
-    color: #747474;
-    background-color: #fff;
+    color: #fff;
     border: none;
     box-shadow: none;
 
@@ -208,7 +208,6 @@ export default {
     .center {
       font-size: 1.285714rem;
       margin-left: 0.428571rem;
-      color: #030303;
     }
     .right {
       font-size: 1.285714rem;

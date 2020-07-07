@@ -1,5 +1,6 @@
 <template>
   <div id="addMaterial">
+    <div class="topheader bg-primary"></div>
     <van-nav-bar
       title="新建物料"
       left-arrow
@@ -288,12 +289,15 @@ export default {
     
 <style scoped lang="scss">
 #addMaterial {
-  height: calc(100vh - 3.285714rem);
+  height: calc(100vh - 5.214285rem);
+  .topheader {
+    height: 1.928571rem;
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    top: 3.285714rem;
+    top: 5.214285rem;
     bottom: 0;
     overflow: hidden;
     .box-card {

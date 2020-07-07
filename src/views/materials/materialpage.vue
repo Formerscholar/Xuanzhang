@@ -1,5 +1,6 @@
 <template>
   <div id="materialpage">
+    <div class="topheader bg-primary"></div>
     <div class="head">
       <van-icon name="arrow-left" class="head_icon" @click="onClickLeft" />
       <van-search
@@ -409,10 +410,12 @@ export default {
     
 <style scoped lang="scss">
 #materialpage {
+  .topheader {
+    height: 1.928571rem;
+  }
   .head {
     display: flex;
     padding: 0 0.357143rem;
-    padding-top: 1.928571rem;
     justify-content: space-between;
     align-items: center;
     .head_icon {

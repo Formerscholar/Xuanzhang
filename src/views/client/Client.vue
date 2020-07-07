@@ -1,5 +1,6 @@
 <template>
   <div id="Client">
+    <div style="height:1.571429rem; " class="bg-primary"></div>
     <scroll class="scroll-wrapper">
       <borderCard @tabListTach="tabListTach">
         <cardsearch :options="options" slot="search" @Rendering="Rendering" />
@@ -205,7 +206,7 @@ export default {
     padding: 0 1rem;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 1.571429rem;
     bottom: 4.214286rem;
     width: 100%;
     overflow: hidden;

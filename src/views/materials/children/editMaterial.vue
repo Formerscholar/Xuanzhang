@@ -1,5 +1,6 @@
 <template>
   <div id="addMaterial">
+    <div class="topheader bg-primary"></div>
     <van-nav-bar title="修改物料" left-arrow @click-left="onClickLeft" />
     <scroll class="scroll-wrapper">
       <el-card class="box-card">
@@ -216,6 +217,15 @@ export default {
     })
   },
   deactivated() {
+    this.$dialog
+      .confirm({
+        title: '提示',
+        message: '确认是否修改内容?'
+      })
+      .then(() => {
+        this.onsubmit()
+      })
+
     this.iid = 0
     this.type = false
     this.optionss = []
@@ -346,17 +356,7 @@ export default {
       console.log(val)
     },
     onClickLeft() {
-      this.$dialog
-        .confirm({
-          title: '提示',
-          message: '确认是否修改内容?'
-        })
-        .then(() => {
-          this.onsubmit()
-        })
-        .catch(() => {
-          this.$router.replace('/materialpage')
-        })
+      this.$router.replace('/materialpage')
     }
   }
 }
@@ -364,9 +364,10 @@ export default {
     
 <style scoped lang="scss">
 #addMaterial {
-  padding-top: 1.857143rem;
   height: calc(100vh - 1.857143rem);
-
+  .topheader {
+    height: 1.928571rem;
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
