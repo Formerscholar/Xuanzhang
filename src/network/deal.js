@@ -414,3 +414,11 @@ export function editWarehouseOut(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function getAddDeliverGoodsOrderNumber(params) {
+  return request({
+    url: '/DeliverGoods/getAddDeliverGoodsOrderNumber',
+    method: 'GET',
+    params,
+  })
+}

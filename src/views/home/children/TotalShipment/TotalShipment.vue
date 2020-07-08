@@ -18,13 +18,7 @@
             <span>客户名称</span>
           </el-col>
           <el-col :span="16">
-            <el-autocomplete
-              style="width:100%;"
-              v-model="inputvalue"
-              :fetch-suggestions="querySearchAsync"
-              placeholder="请输入客户名称"
-              @select="handleSelect"
-            ></el-autocomplete>
+            <van-field :value="names" disabled />
           </el-col>
         </el-row>
         <el-row class="van-cell">
@@ -91,7 +85,8 @@ import {
   getAddDeliverGoodsDistributors,
   getAddDeliverGoods,
   getAddDeliverGoodsProduct,
-  addDeliverRecord
+  addDeliverRecord,
+  getAddDeliverGoodsOrderNumber
 } from '@/network/deal'
 
 export default {
@@ -107,9 +102,11 @@ export default {
       inputvalue: '',
       ContractNum: '',
       Shipmentmessage: '',
+      names: '',
       Shipmentprice: 0,
       selectionId: 0,
       num: [],
+      orderList: [],
       distributor: 0,
       digit: 0,
       pageType: ''
@@ -125,9 +122,29 @@ export default {
         token: this.$store.state.token,
         _: new Date().getTime()
       }
+    },
+    getAddDeliverGoodsOrderData() {
+      return {
+        token: this.$store.state.token,
+        order_type: this.pageType,
+        _: new Date().getTime()
+      }
     }
   },
   methods: {
+    async getAddDeliverGoodsOrder() {
+      const { data } = await getAddDeliverGoodsOrderNumber(
+        this.getAddDeliverGoodsOrderData
+      )
+      console.log('getAddDeliverGoodsOrderNumber', data)
+      this.orderList = data.orderList
+      this.orderList.forEach((item, index) => {
+        this.Contractoptions.push({
+          value: item.id,
+          label: item.order_number
+        })
+      })
+    },
     async primaryClick() {
       let Arr = []
       this.orderProducts.map((item, index) => {
@@ -139,7 +156,8 @@ export default {
         token: this.$store.state.token,
         order_type: this.pageType,
         order_id: this.orderProducts[0].contract_order_id,
-        total_funds: this.Shipmentprice
+        total_funds: this.Shipmentprice,
+        apply_time: this.timersList.Shipdata
       })
       if (code == 200) {
         this.$message({
@@ -174,6 +192,12 @@ export default {
       this.Shipmentprice = numbs
     },
     async ContractChange(value) {
+      this.orderList.forEach((item, index) => {
+        if (item.id == value) {
+          this.names = item.name
+          this.distributor = item.distributor_id
+        }
+      })
       const { data } = await getAddDeliverGoodsProduct({
         token: this.$store.state.token,
         distributor_id: this.distributor,
@@ -236,20 +260,21 @@ export default {
         _: new Date().getTime()
       })
       console.log('getAddDeliverGoods', data)
-      data.orderList.map(item => {
-        this.Contractoptions.push({
-          value: item.id,
-          label: item.order_number
-        })
-      })
+      // data.orderList.map(item => {
+      //   this.Contractoptions.push({
+      //     value: item.id,
+      //     label: item.order_number
+      //   })
+      // })
     }
   },
   activated() {
     if (this.$store.state.timers.Shipdata != '') {
       this.timersList.Shipdata = this.$store.state.timers.Shipdata
     }
-    this.getAddDeliverGood()
     this.pageType = this.$route.params.type
+    this.getAddDeliverGoodsOrder()
+    this.getAddDeliverGood()
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
@@ -261,6 +286,7 @@ export default {
     this.restaurants = []
     this.Contractoptions = []
     this.tableData = []
+    this.orderList = []
     ocument.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
