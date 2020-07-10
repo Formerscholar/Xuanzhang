@@ -123,6 +123,9 @@ const editMaterial = () => import('../views/materials/children/editMaterial')
 
 const bompage = () => import('../views/materials/children/bompage')
 
+const LargeScreen = () =>
+  import('../views/home/children/LargeScreen/LargeScreen')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -445,6 +448,10 @@ const routes = [
   {
     path: '/bompage/:id',
     component: bompage,
+  },
+  {
+    path: '/LargeScreen',
+    component: LargeScreen,
   },
 ]
 

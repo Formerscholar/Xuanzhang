@@ -57,4 +57,10 @@ export function editUser(data) {
     data,
   })
 }
-
+export function getlargeAcreenOrderProduct(params) {
+  return request({
+    url: '/DeliverGoods/getlargeAcreenOrderProduct',
+    method: 'GET',
+    params,
+  })
+}

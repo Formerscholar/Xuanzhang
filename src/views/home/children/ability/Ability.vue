@@ -130,6 +130,15 @@ export default {
               path: '/Outsourc/outsourcing'
             }
           ]
+        },
+        {
+          children: [
+            {
+              icon_Url: 'icon-ziyuan138',
+              title: '大屏幕',
+              path: '/LargeScreen'
+            }
+          ]
         }
       ]
     }
