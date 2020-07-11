@@ -6,12 +6,7 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <van-uploader
-            :after-read="afterRead"
-            :max-size="10 * 1024 * 1024"
-            v-model="fileList"
-            multiple
-          />
+          <van-uploader :after-read="afterRead" :max-size="10 * 1024 * 1024" v-model="fileList" />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -101,9 +96,9 @@
             <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>模具照片</span>
               <van-uploader
-                :after-read="afterRead"
+                :after-read="afterReads"
                 :max-size="10 * 1024 * 1024"
-                v-model="fileList"
+                v-model="fileLists"
                 multiple
                 style=" margin-left: 2.142857rem;"
               />
@@ -113,9 +108,9 @@
             <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>设计图</span>
               <van-uploader
-                :after-read="afterRead"
+                :after-read="afterReadss"
                 :max-size="10 * 1024 * 1024"
-                v-model="fileList"
+                v-model="fileListss"
                 multiple
                 style=" margin-left: 3.14286rem;"
               />
@@ -123,9 +118,9 @@
             <el-row class="van-cell uploadImage" style="padding-left: 0;">
               <span>文件</span>
               <van-uploader
-                :after-read="afterRead"
+                :after-read="afterReadsss"
                 :max-size="10 * 1024 * 1024"
-                v-model="fileList"
+                v-model="fileListsss"
                 multiple
                 style=" margin-left: 4.14286rem;"
               />
@@ -153,12 +148,16 @@
 <script>
 import scroll from '@/components/common/scroll/scroll'
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   name: 'addMaterial',
   data() {
     return {
       fileList: [],
+      fileLists: [],
+      fileListss: [],
+      fileListsss: [],
       iid: 0,
       type: false,
       activeNames: [],
@@ -217,17 +216,12 @@ export default {
     })
   },
   deactivated() {
-    this.$dialog
-      .confirm({
-        title: '提示',
-        message: '确认是否修改内容?'
-      })
-      .then(() => {
-        this.onsubmit()
-      })
-
     this.iid = 0
     this.type = false
+    this.fileList = []
+    this.fileLists = []
+    this.fileListss = []
+    this.fileListsss = []
     this.optionss = []
     this.optionsss = []
     this.optionssss = []
@@ -265,13 +259,37 @@ export default {
     }
   },
   methods: {
+    async afterReads(file) {
+      console.log(file)
+      const { data } = await uploadImg({
+        user_image: file.content,
+        token: this.$store.state.token
+      })
+      // this.PropsImg = data.url.split(bestURL)[1]
+      // console.log(this.PropsImg)
+    },
+    async afterReadsss(file) {
+      const { data } = await uploadImg({
+        user_image: file.content,
+        token: this.$store.state.token
+      })
+      this.Propsfile = data.url.split(bestURL)[1]
+    },
+    async afterReadss(file) {
+      const { data } = await uploadImg({
+        user_image: file.content,
+        token: this.$store.state.token
+      })
+      this.Propsdesign = data.url.split(bestURL)[1]
+    },
     async afterRead(file) {
       console.log(file)
       const { data } = await uploadImg({
         user_image: file.content,
         token: this.$store.state.token
       })
-      this.PropsImg = data.url
+      this.PropsImg = data.url.split(bestURL)[1]
+      console.log(this.PropsImg)
     },
     async getEditMater() {
       const { data } = await getEditMateriel(this.getEditMaterData)
@@ -320,7 +338,10 @@ export default {
           }
         })
         this.LocationNum = item.warehouse_position
-        // this.fileList.push({ url: item.img_url })
+        if (item.img_url) {
+          this.fileList.push({ url: bestURL + item.img_url })
+          this.PropsImg = item.img_url
+        }
         this.Propsfile = item.file_dir
         this.Propsdesign = item.design_chart
         this.Remarks = item.remark
@@ -336,6 +357,7 @@ export default {
       })
     },
     async onsubmit() {
+      console.log(this.addMaterielData)
       const { code, msg } = await editMateriel(this.addMaterielData)
       if (code == 200) {
         this.$message({
@@ -356,7 +378,17 @@ export default {
       console.log(val)
     },
     onClickLeft() {
-      this.$router.replace('/materialpage')
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '确认是否修改内容?'
+        })
+        .then(() => {
+          this.onsubmit()
+        })
+        .catch(() => {
+          this.$router.replace('/materialpage')
+        })
     }
   }
 }

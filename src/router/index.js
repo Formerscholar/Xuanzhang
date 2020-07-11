@@ -126,6 +126,9 @@ const bompage = () => import('../views/materials/children/bompage')
 const LargeScreen = () =>
   import('../views/home/children/LargeScreen/LargeScreen')
 
+const ScreenItem = () =>
+  import('../views/home/children/LargeScreen/children/ScreenItem.vue')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -453,6 +456,12 @@ const routes = [
     path: '/LargeScreen',
     component: LargeScreen,
   },
+  {
+    path: '/ScreenItem',
+    name: 'data',
+    component: ScreenItem,
+  },
+  
 ]
 
 const router = new VueRouter({

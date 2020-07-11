@@ -135,7 +135,7 @@ export default {
           children: [
             {
               icon_Url: 'icon-ziyuan138',
-              title: '大屏幕',
+              title: '生产任务',
               path: '/LargeScreen'
             }
           ]
