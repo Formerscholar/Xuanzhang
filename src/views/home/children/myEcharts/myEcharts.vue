@@ -7,7 +7,12 @@
 <script>
 export default {
   name: 'myEcharts',
-  components: {},
+  created() {
+    this.calcMonth()
+  },
+  activated() {
+    this.calcMonth()
+  },
   data() {
     return {
       option: {
@@ -41,20 +46,7 @@ export default {
           {
             type: 'category',
             boundaryGap: false,
-            data: [
-              '一月',
-              '二月',
-              '三月',
-              '四月',
-              '五月',
-              '六月',
-              '七月',
-              '八月',
-              '九月',
-              '十月',
-              '十一月',
-              '十二月'
-            ]
+            data: []
           }
         ],
         yAxis: [
@@ -108,7 +100,32 @@ export default {
       }
     }
   },
-  mounted() {}
+  methods: {
+    calcMonth() {
+      let Arr = [
+        '一月',
+        '二月',
+        '三月',
+        '四月',
+        '五月',
+        '六月',
+        '七月',
+        '八月',
+        '九月',
+        '十月',
+        '十一月',
+        '十二月'
+      ]
+      let Month = new Date().getMonth()
+      let newArr = []
+      Arr.forEach((item, index) => {
+        if (index <= Month) {
+          newArr.push(item)
+        }
+      })
+      this.option.xAxis[0].data = newArr
+    }
+  }
 }
 </script>
     

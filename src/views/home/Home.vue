@@ -1,6 +1,7 @@
 <template>
   <div id="home">
     <topbar @showCard="showCard" />
+
     <scroll class="scroll-wrapper">
       <div>
         <myHeader

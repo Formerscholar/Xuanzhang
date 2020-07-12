@@ -6,7 +6,12 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <van-uploader :after-read="afterRead" :max-size="10 * 1024 * 1024" v-model="fileList" />
+          <van-uploader
+            :after-read="afterRead"
+            :max-size="10 * 1024 * 1024"
+            v-model="fileList"
+            :max-count="1"
+          />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -56,7 +61,12 @@
       <el-card class="box-card">
         <el-row class="van-cell MaterialProperties">
           <span>默认仓库</span>
-          <el-select v-model="valuesss" placeholder="请选择" style="margin: 0 1.285714rem;">
+          <el-select
+            v-model="valuesss"
+            placeholder="请选择"
+            style="margin: 0 1.285714rem;"
+            @change="WarehouseSelect"
+          >
             <el-option
               v-for="item in optionssss"
               :key="item.value"
@@ -99,7 +109,7 @@
                 :after-read="afterReads"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileLists"
-                multiple
+                :max-count="1"
                 style=" margin-left: 2.142857rem;"
               />
             </el-row>
@@ -111,7 +121,7 @@
                 :after-read="afterReadss"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileListss"
-                multiple
+                :max-count="1"
                 style=" margin-left: 3.14286rem;"
               />
             </el-row>
@@ -121,7 +131,7 @@
                 :after-read="afterReadsss"
                 :max-size="10 * 1024 * 1024"
                 v-model="fileListsss"
-                multiple
+                :max-count="1"
                 style=" margin-left: 4.14286rem;"
               />
             </el-row>
@@ -217,6 +227,8 @@ export default {
   },
   deactivated() {
     this.iid = 0
+    this.valuesss = ''
+    this.warehouse_id = 0
     this.type = false
     this.fileList = []
     this.fileLists = []
@@ -335,6 +347,7 @@ export default {
         data.materielWarehouse.forEach(item2 => {
           if (item2.id == item.warehouse_id) {
             this.valuesss = item2.warehouse_name
+            this.warehouse_id = item2.id
           }
         })
         this.LocationNum = item.warehouse_position
@@ -356,6 +369,9 @@ export default {
         this.warehouse_id = item.warehouse_id
       })
     },
+    WarehouseSelect(value) {
+      this.warehouse_id = value
+    },
     async onsubmit() {
       console.log(this.addMaterielData)
       const { code, msg } = await editMateriel(this.addMaterielData)
@@ -365,6 +381,7 @@ export default {
           message: msg,
           type: 'success'
         })
+
         this.$router.replace('/materialpage')
       } else {
         this.$message({

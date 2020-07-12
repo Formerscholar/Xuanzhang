@@ -50,45 +50,6 @@
           </van-swipe-cell>
         </scroll>
       </van-tab>
-      <van-tab title="废弃物料" class="Delivery">
-        <scroll class="scroll-wrapper">
-          <van-swipe-cell v-for="(item,index) in wastelList" :key="index">
-            <template #left>
-              <van-button
-                square
-                text="bom"
-                type="primary"
-                style="height: 4.714286rem;width: 4.571429rem;"
-                @click="tobomPage(item.id)"
-              />
-            </template>
-            <div @click="editClick(item.id)">
-              <el-card class="box-card">
-                <div class="topbox">
-                  <span>
-                    {{item.scope_of_business}}
-                    <em>产品</em>
-                  </span>
-                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
-                </div>
-                <div class="botbox">
-                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
-                  <em>库位:{{item.warehouse_position}}</em>
-                </div>
-              </el-card>
-            </div>
-            <template #right>
-              <van-button
-                square
-                text="使用"
-                type="info"
-                style="height: 4.714286rem;width: 4.571429rem;"
-                @click="Abandoneds(item)"
-              />
-            </template>
-          </van-swipe-cell>
-        </scroll>
-      </van-tab>
       <van-tab title="临时物料" class="Delivery">
         <scroll class="scroll-wrapper">
           <van-swipe-cell v-for="(item,index) in Temporary" :key="index">
@@ -144,22 +105,20 @@ export default {
       active: 0,
       searchValue: '',
       materielList: [],
-      Temporary: [],
-      wastelList: []
+      Temporary: []
     }
   },
-  components: { scroll },
+  components: {
+    scroll
+  },
   activated() {
     this.getMaterie()
-    this.getwaste()
     this.getTemporary()
-
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.materielList = []
-    this.wastelList = []
     this.Temporary = []
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
@@ -177,17 +136,6 @@ export default {
         _: new Date().getTime()
       }
     },
-    getwasteData() {
-      return {
-        token: this.$store.state.token,
-        page: 1,
-        offset: 20,
-        materiel_name: null,
-        specification: null,
-        materiel_status: 'discard',
-        _: new Date().getTime()
-      }
-    },
     getTemporaryData() {
       return {
         token: this.$store.state.token,
@@ -202,12 +150,10 @@ export default {
   },
   methods: {
     async primarySearch(value) {
-      let datamateriel_status = ''
+      let datamateriel_status
       if (this.active == 0) {
         datamateriel_status = 'normal'
       } else if (this.active == 1) {
-        datamateriel_status = 'discard'
-      } else if (this.active == 2) {
         datamateriel_status = 'wait_check'
       }
       const { data, code, msg } = await getMaterielList({
@@ -223,8 +169,6 @@ export default {
         if (this.active == 0) {
           this.materielList = data.materielList
         } else if (this.active == 1) {
-          this.wastelList = data.materielList
-        } else if (this.active == 2) {
           this.Temporary = data.materielList
         }
 
@@ -245,8 +189,6 @@ export default {
       this.$router.push(`/bompage/${id}`)
     },
     async uses(data) {
-      console.log(data)
-
       const { code, msg } = await editMaterielStatus({
         token: this.$store.state.token,
         id: data.id,
@@ -260,8 +202,6 @@ export default {
       if (code == 200) {
         this.materielList = []
         this.getMaterie()
-        this.wastelList = []
-        this.getwaste()
         this.Temporary = []
         this.getTemporary()
         this.$message({
@@ -291,39 +231,6 @@ export default {
       if (code == 200) {
         this.materielList = []
         this.getMaterie()
-        this.wastelList = []
-        this.getwaste()
-        this.Temporary = []
-        this.getTemporary()
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success'
-        })
-      } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error'
-        })
-      }
-    },
-    async Abandoneds(data) {
-      const { code, msg } = await editMaterielStatus({
-        token: this.$store.state.token,
-        id: data.id,
-        materiel_status: 'normal',
-        name: data.name,
-        specification: data.specification,
-        attribute: data.attribute,
-        materiel_category_id: data.materiel_category_id,
-        unit_id: data.unit_id
-      })
-      if (code == 200) {
-        this.materielList = []
-        this.getMaterie()
-        this.wastelList = []
-        this.getwaste()
         this.Temporary = []
         this.getTemporary()
         this.$message({
@@ -353,8 +260,6 @@ export default {
       if (code == 200) {
         this.materielList = []
         this.getMaterie()
-        this.wastelList = []
-        this.getwaste()
         this.Temporary = []
         this.getTemporary()
         this.$message({
@@ -381,18 +286,13 @@ export default {
       console.log('getMaterielList', data)
       this.materielList = data.materielList
     },
-    async getwaste() {
-      const { data } = await getMaterielList(this.getwasteData)
-      console.log('getwaste', data)
-      this.wastelList = data.materielList
-    },
     async getTemporary() {
       const { data } = await getMaterielList(this.getTemporaryData)
       console.log('Temporary', data)
       this.Temporary = data.materielList
     },
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.replace('/home')
     },
     onClickRight() {
       console.log('搜索')
@@ -427,12 +327,12 @@ export default {
     }
   }
   .Delivery {
-    height: calc(100vh - 7rem);
+    height: calc(100vh - 8.928571rem);
     .scroll-wrapper {
       position: absolute;
       left: 0;
       right: 0;
-      top: 3.571429rem;
+      top: 3.142857rem;
       bottom: 0;
       width: 100%;
       overflow: hidden;
