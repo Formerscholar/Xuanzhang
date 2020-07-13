@@ -97,7 +97,7 @@ import scroll from '@/components/common/scroll/scroll'
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 
 import {
   getAddDeliverGoodsDistributors,

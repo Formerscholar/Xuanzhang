@@ -1,6 +1,6 @@
-var timer
+var timer: any
 
-export function throttle(fn, delay) {
+export function throttle(fn: any, delay: number): void {
   if (timer) {
     clearTimeout(timer)
   }
@@ -10,7 +10,7 @@ export function throttle(fn, delay) {
   }, delay)
 }
 // 时间格式化
-export function setTimerType(timer) {
+export function setTimerType(timer: any): string {
   let d = new Date(timer)
   let ConvertedYear = d.getFullYear().toString()
   let ConvertedMonth = (d.getMonth() + 1).toString()
@@ -20,6 +20,7 @@ export function setTimerType(timer) {
   ConvertedDate = ConvertedDate.length < 2 ? '0' + ConvertedDate : ConvertedDate
   return `${ConvertedYear}-${ConvertedMonth}-${ConvertedDate}`
 }
+
 // export function debounce(func, delay = 500) {
 //   let timer = null
 //   return function(...args) {

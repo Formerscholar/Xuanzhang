@@ -5,7 +5,7 @@
 </template>
     
 <script>
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 
 export default {
   name: 'timers',

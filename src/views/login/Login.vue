@@ -80,14 +80,14 @@ export default {
       ],
       text: '',
       ruleForm: {
-        name: '',
-        pass: ''
+        // name: '',
+        // pass: ''
         // name: '15852884584',
         // pass: 'xinba123'
         // name: '18752715203',
         // pass: '123456'
-        // name: '18083795906',
-        // pass: '123456'
+        name: '18083795906',
+        pass: '123456'
       },
       rules: {
         name: [

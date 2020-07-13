@@ -461,7 +461,6 @@ const routes = [
     name: 'data',
     component: ScreenItem,
   },
-  
 ]
 
 const router = new VueRouter({

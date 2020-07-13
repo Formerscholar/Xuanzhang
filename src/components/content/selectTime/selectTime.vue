@@ -23,7 +23,7 @@
     
 <script>
 import navbar from '@/components/common/navbar/NavBar'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 
 export default {
   name: 'selectTime',

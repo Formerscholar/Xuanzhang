@@ -98,7 +98,7 @@ import {
   uploadImage
 } from '@/network/home'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 export default {
   name: 'Newtask',
   data() {

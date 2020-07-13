@@ -37,6 +37,9 @@ FastClick.attach(document.body)
 
 Vue.prototype.$bus = new Vue()
 
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
+
 new Vue({
   router,
   store,

@@ -64,3 +64,10 @@ export function getlargeAcreenOrderProduct(params) {
     params,
   })
 }
+export function changeProductStatus(params) {
+  return request({
+    url: '/DeliverGoods/changeProductStatus',
+    method: 'GET',
+    params,
+  })
+}

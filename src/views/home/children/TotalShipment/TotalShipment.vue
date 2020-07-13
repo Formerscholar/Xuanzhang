@@ -79,7 +79,7 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 
 import {
   getAddDeliverGoodsDistributors,

@@ -90,7 +90,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 import {
   getAddSettlementRecordDistributors,
   addSettlementRecord,

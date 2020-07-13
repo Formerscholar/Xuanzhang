@@ -59,7 +59,7 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import { setTimerType } from '@/common/utils.js'
+import { setTimerType } from '@/common/utils.ts'
 import timers from '@/components/content/timers/timers'
 import {
   getAddFlowOrder,

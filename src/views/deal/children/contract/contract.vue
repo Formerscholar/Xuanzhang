@@ -99,7 +99,7 @@ import {
   deleteFlowOrderProduct
 } from '@/network/deal'
 import scroll from '@/components/common/scroll/scroll'
-import { throttle } from '@/common/utils.js'
+import { throttle } from '@/common/utils.ts'
 
 export default {
   name: 'contract',

@@ -26,10 +26,16 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
+                <div @click.stop="changeProduct(item.id)">
+                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
+                  <van-tag v-else type="success">备用状态</van-tag>
+                </div>
+                <div @click.stop="changeProduct(item.id)">
+                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                  <van-tag v-else type="success">整装待发</van-tag>
+                </div>
                 <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.product_name}}</div>
-                <div class="titleItem">产品型号:{{item.product_model}}</div>
-                <div class="titleItem">生产型号:{{item.production_specification}}</div>
+                <div class="titleItem">{{item.commitment_period}}</div>
               </div>
             </el-card>
           </scroll>
@@ -49,13 +55,12 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
+                <div @click.stop="changeProduct(item.id)">
+                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                  <van-tag v-else type="success">整装待发</van-tag>
+                </div>
                 <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.product_name}}</div>
-                <div class="titleItem">产品型号:{{item.product_model}}</div>
-                <div
-                  class="titleItem"
-                  v-if="item.production_specification"
-                >生产型号:{{item.production_specification}}</div>
+                <div class="titleItem">{{item.commitment_period}}</div>
               </div>
             </el-card>
           </scroll>
@@ -75,13 +80,12 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
+                <div @click.stop="changeProduct(item.id)">
+                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                  <van-tag v-else type="success">整装待发</van-tag>
+                </div>
                 <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.product_name}}</div>
-                <div class="titleItem">产品型号:{{item.product_model}}</div>
-                <div
-                  class="titleItem"
-                  v-if="item.production_specification"
-                >生产型号:{{item.production_specification}}</div>
+                <div class="titleItem">{{item.commitment_period}}</div>
               </div>
             </el-card>
           </scroll>
@@ -95,7 +99,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 
-import { getlargeAcreenOrderProduct } from '@/network/home'
+import { getlargeAcreenOrderProduct, changeProductStatus } from '@/network/home'
 
 export default {
   data() {
@@ -123,10 +127,10 @@ export default {
     if (this.Opage == 1) {
       this.getlargeAcreen()
     }
-    if (this.Opage == 1) {
+    if (this.Tpage == 1) {
       this.getlargeAcreens()
     }
-    if (this.Opage == 1) {
+    if (this.Spage == 1) {
       this.getlargeAcreenss()
     }
 
@@ -179,6 +183,36 @@ export default {
     }
   },
   methods: {
+    async changeProduct(id) {
+      let order_type
+      if (this.deactivated == 0) {
+        order_type = 'contract'
+      }
+      if (this.deactivated == 1) {
+        order_type = 'flow'
+      }
+      if (this.deactivated == 2) {
+        order_type = 'oem'
+      }
+      const { code } = await changeProductStatus({
+        token: this.$store.state.token,
+        order_type,
+        id,
+        _: new Date().getTime()
+      })
+      if (code == 200) {
+        console.log(this.deactivated)
+        if (this.deactivated == 0) {
+          this.getlargeAcreen()
+        }
+        if (this.deactivated == 1) {
+          this.getlargeAcreens()
+        }
+        if (this.deactivated == 2) {
+          this.getlargeAcreenss()
+        }
+      }
+    },
     loadMoress() {
       if (this.IsTpagess) {
         this.Spage += 1
@@ -217,7 +251,7 @@ export default {
         path: '/ScreenItem',
         query: {
           active: this.active,
-          data: JSON.stringify(data)
+          data: JSON.parse(JSON.stringify(data))
         }
       })
     },
@@ -240,6 +274,7 @@ export default {
       const { data } = await getlargeAcreenOrderProduct(
         this.getlargeAcreenOrderData
       )
+      // data.companyOrderType
       console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
       if (this.Opage > 1) {
         if (!data.unfinishedOrderProductList.length) {
@@ -323,6 +358,9 @@ export default {
       .titleItem {
         height: 100%;
         padding: 0 0.357143rem;
+        min-width: 4.714286rem;
+        color: #636e72;
+        font-size: 0.857143rem;
       }
     }
   }
