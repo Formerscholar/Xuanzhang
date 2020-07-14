@@ -26,16 +26,29 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
-                <div @click.stop="changeProduct(item.id)">
-                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
-                  <van-tag v-else type="success">备用状态</van-tag>
+                <div class="div_col">
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
+                    <van-tag v-else type="success">备用状态</van-tag>
+                  </div>
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                    <van-tag v-else type="success">整装待发</van-tag>
+                  </div>
+                  <div class="titleItem">{{item.order_number}}</div>
+                  <div class="titleItem">公司简称</div>
                 </div>
-                <div @click.stop="changeProduct(item.id)">
-                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                  <van-tag v-else type="success">整装待发</van-tag>
+                <div class="div_col">
+                  <div class="titleItem">{{item.product_name}}</div>
+                  <div class="titleItem">{{item.product_model}}</div>
+                  <div class="titleItem">{{item.commitment_period}}</div>
                 </div>
-                <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.commitment_period}}</div>
+                <van-progress
+                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
+                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
+                  style=" margin: .571429rem 0;"
+                />
               </div>
             </el-card>
           </scroll>
@@ -55,12 +68,29 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
-                <div @click.stop="changeProduct(item.id)">
-                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                  <van-tag v-else type="success">整装待发</van-tag>
+                <div class="div_col">
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
+                    <van-tag v-else type="success">备用状态</van-tag>
+                  </div>
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                    <van-tag v-else type="success">整装待发</van-tag>
+                  </div>
+                  <div class="titleItem">{{item.order_number}}</div>
+                  <div class="titleItem">公司简称</div>
                 </div>
-                <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.commitment_period}}</div>
+                <div class="div_col">
+                  <div class="titleItem">{{item.product_name}}</div>
+                  <div class="titleItem">{{item.product_model}}</div>
+                  <div class="titleItem">{{item.commitment_period}}</div>
+                </div>
+                <van-progress
+                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
+                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
+                  style=" margin: .571429rem 0;"
+                />
               </div>
             </el-card>
           </scroll>
@@ -80,12 +110,29 @@
               style="margin-bottom:.357143rem;"
             >
               <div class="titleBox" @click="pageHandleClick(item)">
-                <div @click.stop="changeProduct(item.id)">
-                  <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                  <van-tag v-else type="success">整装待发</van-tag>
+                <div class="div_col">
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
+                    <van-tag v-else type="success">备用状态</van-tag>
+                  </div>
+                  <div @click.stop="changeProduct(item.id)">
+                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                    <van-tag v-else type="success">整装待发</van-tag>
+                  </div>
+                  <div class="titleItem">{{item.order_number}}</div>
+                  <div class="titleItem">公司简称</div>
                 </div>
-                <div class="titleItem">{{item.order_number}}</div>
-                <div class="titleItem">{{item.commitment_period}}</div>
+                <div class="div_col">
+                  <div class="titleItem">{{item.product_name}}</div>
+                  <div class="titleItem">{{item.product_model}}</div>
+                  <div class="titleItem">{{item.commitment_period}}</div>
+                </div>
+                <van-progress
+                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
+                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
+                  style=" margin: .571429rem 0;"
+                />
               </div>
             </el-card>
           </scroll>
@@ -106,6 +153,7 @@ export default {
     return {
       active: 0,
       deactivated: 0,
+      currentRate: 0,
       allpage: 1,
       Opage: 1,
       Tpage: 1,
@@ -352,15 +400,18 @@ export default {
       height: calc(100vh - 8.571429rem);
     }
     .titleBox {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      .div_col {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.357143rem;
+      }
       .titleItem {
         height: 100%;
         padding: 0 0.357143rem;
         min-width: 4.714286rem;
         color: #636e72;
-        font-size: 0.857143rem;
+        font-size: 1.142857rem;
       }
     }
   }

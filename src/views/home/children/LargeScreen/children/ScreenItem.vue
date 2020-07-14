@@ -13,13 +13,13 @@
       <el-card class="box-card">
         <div class="titles">
           {{itemData.order_number}}
-          <!-- <van-circle
+          <van-circle
             v-model="currentRate"
-            :rate="parseInt((itemData.number - itemData.surplus_number ) / itemData.number * 100) || 0"
+            :rate="Math.round(((itemData.number - itemData.surplus_number) / itemData.number)*100)"
             :speed="100"
-            text="发货进度"
-          />-->
-          <dv-percent-pond :config="config" style="width:14.285714rem; height:7.142857rem;" />
+            :color="gradientColor"
+            :text="'发货进度:' +  Math.round(((itemData.number - itemData.surplus_number) / itemData.number)*100) + '%'"
+          />
         </div>
         <div class="interfes">
           <span v-if="itemData.product_name">{{itemData.product_name}}</span>
@@ -34,23 +34,6 @@
           <span v-if="itemData.task_remark">生产备注:{{itemData.task_remark}}</span>
         </div>
       </el-card>
-      <!-- <a-card :bordered="false" style="width: 100%">
-        <p v-if="itemData.order_number">{{itemData.order_number}}</p>
-        <p v-if="itemData.product_name">产品名称:{{itemData.product_name}}</p>
-        <p v-if="itemData.product_model">产品型号:{{itemData.product_model}}</p>
-        <p v-if="itemData.production_specification">生产型号:{{itemData.production_specification}}</p>
-        <p v-if="itemData.surplus_number">待产数量:{{itemData.surplus_number}}</p>
-        <p v-if="itemData.commitment_period">承诺交期:{{itemData.commitment_period}}</p>
-        <p v-if="itemData.task_remark">生产备注:{{itemData.task_remark}}</p>
-        <p>
-          <el-progress
-            :format="progressnum"
-            :text-inside="true"
-            :stroke-width="26"
-            :percentage="parseInt((itemData.number - itemData.surplus_number ) / itemData.number * 100) || 0"
-          ></el-progress>
-        </p>
-      </a-card>-->
     </div>
   </div>
 </template>
@@ -67,35 +50,27 @@ export default {
       active: 0,
       itemData: {},
       currentRate: 0,
-      config: {
-        value: [55],
-        textColor: '#74b9ff',
-        localGradient: true
+      gradientColor: {
+        '0%': '#3fecff',
+        '100%': '#6149f6'
       }
     }
   },
   activated() {
     this.active = this.$route.query.active
     this.itemData = this.$route.query.data
-    // this.calcpercentValue()
     document.querySelector('#tab-bar').style.height = '0px'
     document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.active = 0
+    this.config.value = [0]
     this.itemData = {}
     document.querySelector('#app').style.paddingTop = '62px'
     document.querySelector('#app').style.paddingBottom = '59px'
     document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
-    calcpercentValue() {
-      let numA = this.itemData.number - this.itemData.surplus_number
-      let numB = numA / this.itemData.number
-      let num = parseInt(numB * 100)
-      this.config.value = [num]
-      console.log(this.config)
-    },
     blacknext() {
       this.$router.go(-1)
     },
