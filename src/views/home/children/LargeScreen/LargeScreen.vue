@@ -11,7 +11,7 @@
     </navbar>
     <div class="content">
       <van-tabs v-model="active" @click="tabsClick">
-        <van-tab title="合同订单">
+        <van-tab title="合同订单" v-if="isOShow">
           <scroll
             class="scroll_wrapper"
             ref="scrolls"
@@ -25,35 +25,43 @@
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="titleBox" @click="pageHandleClick(item)">
-                <div class="div_col">
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
-                    <van-tag v-else type="success">备用状态</van-tag>
-                  </div>
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                    <van-tag v-else type="success">整装待发</van-tag>
-                  </div>
-                  <div class="titleItem">{{item.order_number}}</div>
-                  <div class="titleItem">公司简称</div>
+              <div class="content_box">
+                <div class="title_box">
+                  <span>{{item.order_number}}</span>
+                  <span>公司简称</span>
                 </div>
-                <div class="div_col">
-                  <div class="titleItem">{{item.product_name}}</div>
-                  <div class="titleItem">{{item.product_model}}</div>
-                  <div class="titleItem">{{item.commitment_period}}</div>
+                <div class="content_child">
+                  <div class="left_box">
+                    <span>{{item.product_name}}</span>
+                    <span>{{item.product_model}}</span>
+                    <span>交期:{{item.commitment_period}}</span>
+                  </div>
+                  <div class="right_box">
+                    <div class="child_right">
+                      <van-tag type="success">备用状态</van-tag>
+                    </div>
+                    <div @click="changeProduct(item.id)" class="child_right">
+                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                      <van-tag v-else type="success">整装待发</van-tag>
+                    </div>
+                  </div>
                 </div>
                 <van-progress
-                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
                   :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: .571429rem 0;"
+                  style=" margin: 0.714286rem 0;"
                 />
+                <div class="click_more" @click="pageHandleClick(item)">
+                  <span>
+                    查看具体生产要求
+                    <a-icon type="right-circle" />
+                  </span>
+                </div>
               </div>
             </el-card>
           </scroll>
         </van-tab>
-        <van-tab title="流水订单" class="scroll_content">
+        <van-tab title="流水订单" v-if="isTShow">
           <scroll
             class="scroll_wrapper"
             ref="scroll"
@@ -67,35 +75,43 @@
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="titleBox" @click="pageHandleClick(item)">
-                <div class="div_col">
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
-                    <van-tag v-else type="success">备用状态</van-tag>
-                  </div>
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                    <van-tag v-else type="success">整装待发</van-tag>
-                  </div>
-                  <div class="titleItem">{{item.order_number}}</div>
-                  <div class="titleItem">公司简称</div>
+              <div class="content_box">
+                <div class="title_box">
+                  <span>{{item.order_number}}</span>
+                  <span>公司简称</span>
                 </div>
-                <div class="div_col">
-                  <div class="titleItem">{{item.product_name}}</div>
-                  <div class="titleItem">{{item.product_model}}</div>
-                  <div class="titleItem">{{item.commitment_period}}</div>
+                <div class="content_child">
+                  <div class="left_box">
+                    <span>{{item.product_name}}</span>
+                    <span>{{item.product_model}}</span>
+                    <span>交期:{{item.commitment_period}}</span>
+                  </div>
+                  <div class="right_box">
+                    <div class="child_right">
+                      <van-tag type="success">备用状态</van-tag>
+                    </div>
+                    <div @click="changeProduct(item.id)" class="child_right">
+                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                      <van-tag v-else type="success">整装待发</van-tag>
+                    </div>
+                  </div>
                 </div>
                 <van-progress
-                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
                   :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: .571429rem 0;"
+                  style=" margin: 0.714286rem 0;"
                 />
+                <div class="click_more" @click="pageHandleClick(item)">
+                  <span>
+                    查看具体生产要求
+                    <a-icon type="right-circle" />
+                  </span>
+                </div>
               </div>
             </el-card>
           </scroll>
         </van-tab>
-        <van-tab title="代工订单">
+        <van-tab title="代工订单" v-if="isSShow">
           <scroll
             class="scroll_wrapper"
             ref="scrollss"
@@ -109,30 +125,38 @@
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="titleBox" @click="pageHandleClick(item)">
-                <div class="div_col">
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">备用状态</van-tag>
-                    <van-tag v-else type="success">备用状态</van-tag>
-                  </div>
-                  <div @click.stop="changeProduct(item.id)">
-                    <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                    <van-tag v-else type="success">整装待发</van-tag>
-                  </div>
-                  <div class="titleItem">{{item.order_number}}</div>
-                  <div class="titleItem">公司简称</div>
+              <div class="content_box">
+                <div class="title_box">
+                  <span>{{item.order_number}}</span>
+                  <span>公司简称</span>
                 </div>
-                <div class="div_col">
-                  <div class="titleItem">{{item.product_name}}</div>
-                  <div class="titleItem">{{item.product_model}}</div>
-                  <div class="titleItem">{{item.commitment_period}}</div>
+                <div class="content_child">
+                  <div class="left_box">
+                    <span>{{item.product_name}}</span>
+                    <span>{{item.product_model}}</span>
+                    <span>交期:{{item.commitment_period}}</span>
+                  </div>
+                  <div class="right_box">
+                    <div class="child_right">
+                      <van-tag type="success">备用状态</van-tag>
+                    </div>
+                    <div @click="changeProduct(item.id)" class="child_right">
+                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                      <van-tag v-else type="success">整装待发</van-tag>
+                    </div>
+                  </div>
                 </div>
                 <van-progress
-                  :pivot-text="'发货进度:' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  color="linear-gradient(to right, #81ecec, #e84393)"
+                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
                   :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: .571429rem 0;"
+                  style=" margin: 0.714286rem 0;"
                 />
+                <div class="click_more" @click="pageHandleClick(item)">
+                  <span>
+                    查看具体生产要求
+                    <a-icon type="right-circle" />
+                  </span>
+                </div>
               </div>
             </el-card>
           </scroll>
@@ -163,7 +187,10 @@ export default {
       ProductListss: [],
       IsTpage: true,
       IsTpages: true,
-      IsTpagess: true
+      IsTpagess: true,
+      isOShow: false,
+      isTShow: false,
+      isSShow: false
     }
   },
   components: {
@@ -322,7 +349,9 @@ export default {
       const { data } = await getlargeAcreenOrderProduct(
         this.getlargeAcreenOrderData
       )
-      // data.companyOrderType
+      this.isOShow = data.companyOrderType.contract ? true : false
+      this.isTShow = data.companyOrderType.flow ? true : false
+      this.isSShow = data.companyOrderType.oem ? true : false
       console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
       if (this.Opage > 1) {
         if (!data.unfinishedOrderProductList.length) {
@@ -397,21 +426,70 @@ export default {
       bottom: 0;
       width: 100%;
       overflow: hidden;
+      padding: 1.428571rem 0.714286rem;
       height: calc(100vh - 8.571429rem);
-    }
-    .titleBox {
-      .div_col {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.357143rem;
-      }
-      .titleItem {
-        height: 100%;
-        padding: 0 0.357143rem;
-        min-width: 4.714286rem;
-        color: #636e72;
-        font-size: 1.142857rem;
+      .box-card {
+        .content_box {
+          .title_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 2.142857rem;
+            padding: 0 1.857143rem;
+            border-bottom: 1px solid #f2f2f2;
+            span {
+              font-size: 0.857143rem;
+              font-weight: 700;
+              margin: 0 0.357143rem;
+              &:first-child {
+                color: #e1712c;
+              }
+              &:last-child {
+                color: #565656;
+              }
+            }
+          }
+          .content_child {
+            padding: 0.357143rem 1.857143rem 0 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left_box {
+              display: flex;
+              flex-direction: column;
+              span {
+                font-size: 1rem;
+                color: #868686;
+                &:first-child {
+                  font-weight: 700;
+                  color: #545454;
+                }
+                &:last-child {
+                  font-size: 0.857143rem;
+                }
+              }
+            }
+            .right_box {
+              display: flex;
+              flex-direction: column;
+              .child_right {
+                margin-bottom: 0.714286rem;
+                &:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+          .click_more {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span {
+              font-size: 0.714286rem;
+              color: #6b6b6b;
+            }
+          }
+        }
       }
     }
   }

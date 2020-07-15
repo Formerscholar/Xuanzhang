@@ -16,158 +16,167 @@
     <div class="titlebox">
       <div class="topbox">
         <div class="leftbox">
-          <img src="@/assets/image/Transparent_logo.png" alt />
+          <img v-if="img_url" :src="img_url" alt="logo" />
+          <img v-else src="@/assets/image/Transparent_logo.png" alt="logo" />
         </div>
-        <div class="centerbox">
-          <div class="namebox">
-            <span>{{titleName.name}}</span>
-            <span class="bordertext">默认</span>
+        <div class="flex_box">
+          <div class="centerbox">
+            <div class="namebox">
+              <span>{{titleName.name}}</span>
+              <span class="bordertext">默认</span>
+            </div>
+            <div class="firm">
+              <span>{{titleName.compserName}}</span>
+            </div>
           </div>
-          <div class="firm">
-            <span>{{titleName.compserName}}</span>
+          <div class="rightbox">
+            <i class="el-icon-discover"></i>
           </div>
-        </div>
-        <div class="rightbox">
-          <i class="el-icon-discover"></i>
         </div>
       </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="我的申请" class="itembox" name="first">
-        <div class="body_box">
-          <div class="btn">
-            <button>查看已完成的申请</button>
-          </div>
-          <div class="card">
-            <el-card class="box-card topcard">
-              <ul>
-                <li>
-                  <span>审批中</span>
-                  <em>500.00</em>
-                </li>
-                <li>
-                  <span>待审票</span>
-                  <em>0.00</em>
-                </li>
-                <li>
-                  <span>待付款</span>
-                  <em>0.00</em>
-                </li>
-                <li>
-                  <span>我的借款</span>
-                  <em>0.00</em>
-                </li>
-              </ul>
-            </el-card>
-          </div>
-          <div
-            class="cardban"
-            v-for="(item,index) in reimbursementList"
-            :key="index"
-            @click="reimburClick(item.id)"
-          >
-            <el-card class="box-card">
-              <el-row class="item1">
-                <div class="leftbox">
-                  <span>{{item.created_at}}</span>
-                </div>
-                <div class="rightbox">
-                  <div class="timer">
-                    <span>{{item.operator_name}}</span>
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <div class="btn">
+              <button>查看已完成的申请</button>
+            </div>
+            <div class="card">
+              <el-card class="box-card topcard">
+                <ul>
+                  <li>
+                    <span>审批中</span>
+                    <em>500.00</em>
+                  </li>
+                  <li>
+                    <span>待审票</span>
+                    <em>0.00</em>
+                  </li>
+                  <li>
+                    <span>待付款</span>
+                    <em>0.00</em>
+                  </li>
+                  <li>
+                    <span>我的借款</span>
+                    <em>0.00</em>
+                  </li>
+                </ul>
+              </el-card>
+            </div>
+            <div
+              class="cardban"
+              v-for="(item,index) in reimbursementList"
+              :key="index"
+              @click="reimburClick(item.id)"
+            >
+              <el-card class="box-card">
+                <el-row class="item1">
+                  <div class="leftbox">
+                    <span>{{item.created_at}}</span>
                   </div>
-                </div>
-              </el-row>
-              <el-row class="item2">
-                <div class="leftbox">
-                  <span>{{item.reason}}</span>
-                </div>
-                <div class="rightbox">
-                  <span>{{item.money}}</span>
-                </div>
-              </el-row>
-            </el-card>
+                  <div class="rightbox">
+                    <div class="timer">
+                      <span>{{item.operator_name}}</span>
+                    </div>
+                  </div>
+                </el-row>
+                <el-row class="item2">
+                  <div class="leftbox">
+                    <span>{{item.reason}}</span>
+                  </div>
+                  <div class="rightbox">
+                    <span>{{item.money}}</span>
+                  </div>
+                </el-row>
+              </el-card>
+            </div>
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
           </div>
-          <div class="text">
-            <span>已经加载全部数据</span>
-          </div>
-        </div>
+        </scroll>
       </el-tab-pane>
       <el-tab-pane label="待审批" class="itembox" name="second">
-        <div class="body_box">
-          <div class="boxbtn">
-            <div class="ltext">
-              <span class="approval">
-                <i class="el-icon-s-promotion"></i>
-                <span>待我审批</span>
-                <span>
-                  (
-                  <em>1</em>
-                  )
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <div class="boxbtn">
+              <div class="ltext">
+                <span class="approval">
+                  <i class="el-icon-s-promotion"></i>
+                  <span>待我审批</span>
+                  <span>
+                    (
+                    <em>1</em>
+                    )
+                  </span>
                 </span>
-              </span>
-              <span class="copy">
-                <em>@</em>
-                <span>抄送我的</span>
-                <span>
-                  (
-                  <em>0</em>
-                  )
+                <span class="copy">
+                  <em>@</em>
+                  <span>抄送我的</span>
+                  <span>
+                    (
+                    <em>0</em>
+                    )
+                  </span>
                 </span>
-              </span>
+              </div>
+              <div class="rtext">
+                <span class="apphistory">
+                  <span>审批历史</span>
+                  <i class="el-icon-arrow-right"></i>
+                </span>
+              </div>
             </div>
-            <div class="rtext">
-              <span class="apphistory">
-                <span>审批历史</span>
-                <i class="el-icon-arrow-right"></i>
-              </span>
-            </div>
-          </div>
 
-          <div class="cardmoney">
-            <el-card class="box-card">
-              <el-row class="item1" style="margin-bottom: 1.428571rem;">
-                <div class="leftbox">
-                  <span>
-                    <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                    <em style="margin-left: .714286rem;">吴鹏</em>
-                  </span>
-                </div>
-                <div class="rightbox">
-                  <div class="timer">
-                    <span>2020/05/05</span>
-                    <i class="el-icon-arrow-right"></i>
+            <div class="cardmoney">
+              <el-card class="box-card">
+                <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                  <div class="leftbox">
+                    <span>
+                      <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                      <em style="margin-left: .714286rem;">吴鹏</em>
+                    </span>
                   </div>
-                </div>
-              </el-row>
-              <el-row class="item1">
-                <div class="leftbox">
-                  <span>
-                    ￥
-                    <em>500.00</em>
-                  </span>
-                </div>
-                <div class="rightbox">
-                  <div class="timer">
-                    <el-tag type="primiry">部门经理</el-tag>
+                  <div class="rightbox">
+                    <div class="timer">
+                      <span>2020/05/05</span>
+                      <i class="el-icon-arrow-right"></i>
+                    </div>
                   </div>
-                </div>
-              </el-row>
-              <el-row class="item2">
-                <div class="leftbox">
-                  <span>招待费</span>
-                </div>
-                <div class="rightbox">
-                  <span>500.00</span>
-                </div>
-              </el-row>
-            </el-card>
+                </el-row>
+                <el-row class="item1">
+                  <div class="leftbox">
+                    <span>
+                      ￥
+                      <em>500.00</em>
+                    </span>
+                  </div>
+                  <div class="rightbox">
+                    <div class="timer">
+                      <el-tag type="primiry">部门经理</el-tag>
+                    </div>
+                  </div>
+                </el-row>
+                <el-row class="item2">
+                  <div class="leftbox">
+                    <span>招待费</span>
+                  </div>
+                  <div class="rightbox">
+                    <span>500.00</span>
+                  </div>
+                </el-row>
+              </el-card>
+            </div>
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
           </div>
-          <div class="text">
-            <span>已经加载全部数据</span>
-          </div>
-        </div>
+        </scroll>
       </el-tab-pane>
-      <el-tab-pane label="应用中心" name="third">角色管理</el-tab-pane>
+      <el-tab-pane label="应用中心" name="third">
+        <scroll class="scroll-wrapper">角色管理</scroll>
+      </el-tab-pane>
     </el-tabs>
 
     <!-- body -->
@@ -175,20 +184,22 @@
 </template>
     
 <script>
+import scroll from '@/components/common/scroll/scroll'
 import navbar from '@/components/common/navbar/NavBar'
 import { getReimbursementLists } from '@/network/Reimbursement.js'
 
 export default {
   name: 'Reimbursement',
   components: {
-    navbar
+    navbar,
+    scroll
   },
   data() {
     return {
       activeName: 'first',
       reimbursementList: [],
       titleName: {},
-      // 状态列表
+      img_url: '',
       StateList: []
     }
   },
@@ -227,10 +238,9 @@ export default {
         this.getReimbursementListsState
       )
       console.log('reimbursementList', data)
-
+      this.img_url = data.userInfo[0].img_url.substr(1)
       this.StateList = data.is_verified
       this.reimbursementList = data.reimbursementList
-
       this.titleName = {
         name: data.userInfo[0].name || '姓名',
         compserName: data.userInfo[0].user_compser_name || '公司全称'
@@ -273,12 +283,13 @@ export default {
     .topbox {
       height: 5.571429rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
-      padding: 0.357143rem 1.071429rem;
+      padding: 0 1.071429rem 0.357143rem 1.071429rem;
       .leftbox {
-        width: 4.642857rem;
+        width: 5.642857rem;
         height: 4.642857rem;
+        margin-right: 1.071429rem;
         img {
           width: 100%;
           height: 100%;
@@ -286,9 +297,14 @@ export default {
           background-color: #fff;
         }
       }
+      .flex_box {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        padding: 0 0.357143rem;
+      }
       .centerbox {
-        position: relative;
-        left: -2.055714rem;
         font-size: 1.571429rem;
         height: 70%;
         display: flex;
@@ -313,10 +329,13 @@ export default {
         }
       }
       .rightbox {
-        position: relative;
-        top: -1.357143rem;
-        right: 0.214286rem;
+        width: 4.642857rem;
+        height: 4.642857rem;
         i {
+          position: relative;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           font-size: 2rem;
         }
       }
@@ -335,6 +354,17 @@ export default {
 
   .el-tabs {
     .itembox {
+      height: calc(100vh - 13.857143rem);
+
+      .scroll-wrapper {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+
       .body_box {
         padding: 0.357143rem 0.714286rem;
         background-color: #f3f3f3;
@@ -465,6 +495,7 @@ export default {
               margin-top: 0.5rem;
               .leftbox {
                 flex: 1;
+                overflow: hidden;
                 span {
                   color: #525252;
                   font-size: 1.142857rem;
@@ -474,6 +505,7 @@ export default {
                 text-align: right;
                 font-weight: 700;
                 font-size: 1.142857rem;
+                margin-left: 0.357143rem;
                 span {
                 }
               }

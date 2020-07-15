@@ -118,6 +118,7 @@ export default {
   .scroll-wrapper {
     position: absolute;
     left: 0;
+    right: 0;
     top: 5.428571rem;
     bottom: 4.214286rem;
     overflow: hidden;

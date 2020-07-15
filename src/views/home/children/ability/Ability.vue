@@ -1,18 +1,13 @@
 <template>
   <div class="ability">
-    <!-- 行 -->
-    <div class="ability_item" v-for="(item,index) in abilityLists" :key="index">
-      <!-- 列 -->
-      <div
-        class="ability_item_list"
-        v-for="(item1,index1) in item.children"
-        :key="index1"
-        @click="jumpPage(item1.path)"
-      >
-        <i :class="`icons iconfont ${item1.icon_Url}`" :style="{color:item1.color}"></i>
-        <span>{{item1.title}}</span>
-      </div>
-    </div>
+    <ul class="ability_item">
+      <li v-for="(item,index) in abilityList" :key="index">
+        <div @click="jumpPage(item.path)" class="ability_item_list">
+          <i :class="`icons iconfont ${item.icon_Url}`" :style="{color:item.color}"></i>
+          <span>{{item.title}}</span>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
     
@@ -21,124 +16,107 @@ export default {
   name: 'Ability',
   data() {
     return {
-      abilityLists: [
+      abilityList: [
         {
-          children: [
-            {
-              icon_Url: 'icon-zhaogongshichang',
-              title: '计件考核',
-              color: '#ff7f12'
-            },
-            {
-              icon_Url: 'icon-tuikuanshouhou',
-              title: '提现操作'
-            },
-            {
-              icon_Url: 'icon-ziyuan142',
-              title: '检验考核',
-              color: '#ff5b2b'
-            },
-            {
-              icon_Url: 'icon-daifahuo',
-              title: '收货质检'
-            },
-            {
-              icon_Url: 'icon-lvyoumenpiao',
-              title: '开据发票',
-              color: '#ff7f12'
-            }
-          ]
+          icon_Url: 'icon-zhaogongshichang',
+          title: '计件考核',
+          color: '#ff7f12'
         },
         {
-          children: [
-            {
-              icon_Url: 'icon-wochuangjiande1',
-              title: '客户管理',
-              color: '#038900'
-            },
-            {
-              icon_Url: 'icon-ziyuan174',
-              title: '委外入库',
-              color: '#038900'
-            },
-            {
-              icon_Url: 'icon-daishouhuo',
-              title: '代工发货'
-            },
-            {
-              icon_Url: 'icon-ziyuan140',
-              title: '流水发货',
-              path: '/Ship'
-            },
-            {
-              icon_Url: 'icon-zonghebaobiao-01',
-              title: '流水计划'
-            }
-          ]
+          icon_Url: 'icon-tuikuanshouhou',
+          title: '提现操作'
         },
         {
-          children: [
-            {
-              icon_Url: 'icon-ziyuan138',
-              title: '新增流水',
-              path: '/addbill'
-            },
-            {
-              icon_Url: 'icon-shujuxiazai-01',
-              title: '合同收货'
-            },
-            {
-              icon_Url: 'icon-ziyuan140',
-              title: '任务管理',
-              color: '#ff7f12'
-            },
-            {
-              icon_Url: 'icon-ziyuan146',
-              title: '统计报表'
-            },
-            {
-              icon_Url: 'icon-kefu',
-              title: '售后'
-            }
-          ]
+          icon_Url: 'icon-ziyuan142',
+          title: '检验考核',
+          color: '#ff5b2b'
         },
         {
-          children: [
-            {
-              icon_Url: 'icon-ziyuan138',
-              title: '新建合同',
-              path: '/create-contract'
-            },
-            {
-              icon_Url: 'icon-ziyuan138',
-              title: '发起委外',
-              path: '/outsource'
-            },
-            {
-              icon_Url: 'icon-ziyuan140',
-              title: '合同发货',
-              path: '/ContractDelivery'
-            },
-            {
-              icon_Url: 'icon-ziyuan140',
-              title: '来料发货',
-              path: '/IncomingDelivery'
-            },
-            {
-              icon_Url: 'icon-shujuxiazai-01',
-              title: '委外收货',
-              path: '/Outsourc/outsourcing'
-            }
-          ]
+          icon_Url: 'icon-daifahuo',
+          title: '收货质检'
         },
         {
-          children: [
-            {
-              icon_Url: 'icon-ziyuan138',
-              title: '生产任务',
-              path: '/LargeScreen'
-            }
-          ]
+          icon_Url: 'icon-lvyoumenpiao',
+          title: '开据发票',
+          color: '#ff7f12'
+        },
+        {
+          icon_Url: 'icon-wochuangjiande1',
+          title: '客户管理',
+          color: '#038900',
+          path: '/client'
+        },
+        {
+          icon_Url: 'icon-ziyuan174',
+          title: '委外入库',
+          color: '#038900',
+          path: '/deal/outsourcing'
+        },
+        {
+          icon_Url: 'icon-daishouhuo',
+          title: '代工发货',
+          path: '/oem'
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '流水发货',
+          path: '/Ship'
+        },
+        {
+          icon_Url: 'icon-zonghebaobiao-01',
+          title: '流水计划'
+        },
+        {
+          icon_Url: 'icon-ziyuan138',
+          title: '新增流水',
+          path: '/addbill'
+        },
+        {
+          icon_Url: 'icon-shujuxiazai-01',
+          title: '合同收货'
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '任务管理',
+          color: '#ff7f12'
+        },
+        {
+          icon_Url: 'icon-ziyuan146',
+          title: '统计报表'
+        },
+        {
+          icon_Url: 'icon-kefu',
+          title: '售后'
+        },
+        {
+          icon_Url: 'icon-ziyuan138',
+          title: '新建合同',
+          path: '/create-contract'
+        },
+        {
+          icon_Url: 'icon-ziyuan138',
+          title: '发起委外',
+          path: '/outsource'
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '合同发货',
+          path: '/ContractDelivery'
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '来料发货',
+          path: '/IncomingDelivery'
+        },
+        {
+          icon_Url: 'icon-shujuxiazai-01',
+          title: '委外收货',
+          path: '/Outsourc/outsourcing'
+        },
+        {
+          icon_Url: 'icon-ziyuan138',
+          title: '生产任务',
+          path: '/LargeScreen'
         }
       ]
     }
@@ -164,18 +142,19 @@ export default {
   align-items: center;
 
   .ability_item {
-    margin: 0.428571rem;
     width: 100%;
     padding: 0.357143rem;
     .ability_item_list {
-      width: 20%;
-      flex: 1;
+      float: left;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      flex: 1;
+      width: 20%;
+      margin-bottom: 0.357143rem;
       overflow: hidden;
-      float: left;
+
       .icons {
         font-size: 2rem;
         color: #2a88ff;

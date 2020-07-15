@@ -39,7 +39,8 @@ export default {
 <style lang="scss">
 #Profile {
   margin-top: 14px;
-  .van-pull-refresh {
+  .van-pull-refresh,
+  .van-pull-refresh__track {
     min-height: calc(100vh - 5.428571rem);
   }
 }

@@ -69,6 +69,7 @@ export default {
       } else {
         this.PropsImg = data
       }
+      this.$router.replace('/profile')
     },
     goBack() {
       this.$router.go(-1)
