@@ -22,14 +22,6 @@ module.exports = {
   },
 
   configureWebpack: {
-    // externals: {
-    //   vue: 'Vue',
-    //   'vue-router': 'VueRouter',
-    //   'element-ui': 'ElementUI',
-    //   'ant-design-vue': 'antd',
-    //   axios: 'axios',
-    //   vuex: 'Vuex',
-    // },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.json'],
     },
