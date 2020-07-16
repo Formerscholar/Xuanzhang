@@ -37,13 +37,47 @@
                 </a-select>
               </div>
             </div>
-            <el-card
+            <div
               class="box-card"
               v-for="(item,index) in ProductList"
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="content_box">
+              <div
+                class="background_box"
+                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
+              ></div>
+              <div class="content_box" @click="pageHandleClick(item)">
+                <div class="title_box">
+                  <div class="left_title">
+                    <span>{{item.order_number}}</span>
+                    <span>公司简称</span>
+                  </div>
+                  <div class="right_title">
+                    <span>数量:1000件</span>
+                  </div>
+                </div>
+                <div class="content_child">
+                  <div class="left_box">
+                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <div class="left_box_content">
+                      <span>{{item.product_name}}</span>
+                      <span>{{item.product_model}}</span>
+                      <span>交期:{{item.commitment_period}}</span>
+                    </div>
+                  </div>
+                  <div class="right_box">
+                    <div class="child_right">
+                      <van-tag type="success">备用状态</van-tag>
+                    </div>
+                    <div @click="changeProduct(item.id)" class="child_right">
+                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
+                      <van-tag v-else type="success">整装待发</van-tag>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="content_box">
                 <div class="title_box">
                   <span>{{item.order_number}}</span>
                   <span>公司简称</span>
@@ -67,7 +101,7 @@
                 <van-progress
                   :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
                   :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: 0.714286rem 0;"
+                  style=" margin: 0.714286rem 0; height: 1px;"
                 />
                 <div class="click_more" @click="pageHandleClick(item)">
                   <span>
@@ -75,8 +109,8 @@
                     <a-icon type="right-circle" />
                   </span>
                 </div>
-              </div>
-            </el-card>
+              </div>-->
+            </div>
           </scroll>
         </van-tab>
         <van-tab title="流水订单" v-if="isTShow">
@@ -105,22 +139,34 @@
                 </a-select>
               </div>
             </div>
-            <el-card
+            <div
               class="box-card"
               v-for="(item,index) in ProductLists"
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="content_box">
+              <div
+                class="background_box"
+                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
+              ></div>
+              <div class="content_box" @click="pageHandleClick(item)">
                 <div class="title_box">
-                  <span>{{item.order_number}}</span>
-                  <span>公司简称</span>
+                  <div class="left_title">
+                    <span>{{item.order_number}}</span>
+                    <span>公司简称</span>
+                  </div>
+                  <div class="right_title">
+                    <span>数量:1000件</span>
+                  </div>
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <span>{{item.product_name}}</span>
-                    <span>{{item.product_model}}</span>
-                    <span>交期:{{item.commitment_period}}</span>
+                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <div class="left_box_content">
+                      <span>{{item.product_name}}</span>
+                      <span>{{item.product_model}}</span>
+                      <span>交期:{{item.commitment_period}}</span>
+                    </div>
                   </div>
                   <div class="right_box">
                     <div class="child_right">
@@ -132,19 +178,8 @@
                     </div>
                   </div>
                 </div>
-                <van-progress
-                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: 0.714286rem 0;"
-                />
-                <div class="click_more" @click="pageHandleClick(item)">
-                  <span>
-                    查看具体生产要求
-                    <a-icon type="right-circle" />
-                  </span>
-                </div>
               </div>
-            </el-card>
+            </div>
           </scroll>
         </van-tab>
         <van-tab title="代工订单" v-if="isSShow">
@@ -173,22 +208,34 @@
                 </a-select>
               </div>
             </div>
-            <el-card
+            <div
               class="box-card"
               v-for="(item,index) in ProductListss"
               :key="index"
               style="margin-bottom:.357143rem;"
             >
-              <div class="content_box">
+              <div
+                class="background_box"
+                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
+              ></div>
+              <div class="content_box" @click="pageHandleClick(item)">
                 <div class="title_box">
-                  <span>{{item.order_number}}</span>
-                  <span>公司简称</span>
+                  <div class="left_title">
+                    <span>{{item.order_number}}</span>
+                    <span>公司简称</span>
+                  </div>
+                  <div class="right_title">
+                    <span>数量:1000件</span>
+                  </div>
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <span>{{item.product_name}}</span>
-                    <span>{{item.product_model}}</span>
-                    <span>交期:{{item.commitment_period}}</span>
+                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <div class="left_box_content">
+                      <span>{{item.product_name}}</span>
+                      <span>{{item.product_model}}</span>
+                      <span>交期:{{item.commitment_period}}</span>
+                    </div>
                   </div>
                   <div class="right_box">
                     <div class="child_right">
@@ -200,19 +247,8 @@
                     </div>
                   </div>
                 </div>
-                <van-progress
-                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: 0.714286rem 0;"
-                />
-                <div class="click_more" @click="pageHandleClick(item)">
-                  <span>
-                    查看具体生产要求
-                    <a-icon type="right-circle" />
-                  </span>
-                </div>
               </div>
-            </el-card>
+            </div>
           </scroll>
         </van-tab>
       </van-tabs>
@@ -262,7 +298,6 @@ export default {
     if (this.Spage == 1) {
       this.getlargeAcreenss()
     }
-
   },
   deactivated() {
     /*
@@ -326,35 +361,45 @@ export default {
         this.getlargeAcreenss()
       }
     },
-    async changeProduct(id) {
-      let order_type
-      if (this.deactivated == 0) {
-        order_type = 'contract'
-      }
-      if (this.deactivated == 1) {
-        order_type = 'flow'
-      }
-      if (this.deactivated == 2) {
-        order_type = 'oem'
-      }
-      const { code } = await changeProductStatus({
-        token: this.$store.state.token,
-        order_type,
-        id,
-        _: new Date().getTime()
-      })
-      if (code == 200) {
-        console.log(this.deactivated)
-        if (this.deactivated == 0) {
-          this.getlargeAcreen()
-        }
-        if (this.deactivated == 1) {
-          this.getlargeAcreens()
-        }
-        if (this.deactivated == 2) {
-          this.getlargeAcreenss()
-        }
-      }
+    changeProduct(id) {
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否更改状态?'
+        })
+        .then(async () => {
+          let order_type
+          if (this.deactivated == 0) {
+            order_type = 'contract'
+          }
+          if (this.deactivated == 1) {
+            order_type = 'flow'
+          }
+          if (this.deactivated == 2) {
+            order_type = 'oem'
+          }
+          const { code } = await changeProductStatus({
+            token: this.$store.state.token,
+            order_type,
+            id,
+            _: new Date().getTime()
+          })
+          if (code == 200) {
+            console.log(this.deactivated)
+            if (this.deactivated == 0) {
+              this.getlargeAcreen()
+            }
+            if (this.deactivated == 1) {
+              this.getlargeAcreens()
+            }
+            if (this.deactivated == 2) {
+              this.getlargeAcreenss()
+            }
+          }
+        })
+        .catch(() => {
+          // on cancel
+        })
     },
     loadMoress() {
       if (this.IsTpagess) {
@@ -495,7 +540,7 @@ export default {
       bottom: 0;
       width: 100%;
       overflow: hidden;
-      padding: 0 0.714286rem;
+      background-color: #eeeeee;
       height: calc(100vh - 8.571429rem);
       .search_box {
         display: flex;
@@ -511,9 +556,20 @@ export default {
         }
       }
       .box-card {
+        position: relative;
+        background-color: #fff;
+        .background_box {
+          height: 7.071429rem;
+          background-color: #2a89ff;
+        }
         .content_box {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
           .title_box {
             display: flex;
+            width: 100%;
             justify-content: space-between;
             align-items: center;
             height: 2.142857rem;
@@ -523,31 +579,36 @@ export default {
               font-size: 0.857143rem;
               font-weight: 700;
               margin: 0 0.357143rem;
-              &:first-child {
-                color: #f9ca24;
-              }
-              &:last-child {
-                color: #565656;
-              }
+              color: #565656;
             }
           }
           .content_child {
-            padding: 0.357143rem 1.857143rem 0 2.5rem;
+            padding: 0.357143rem 2.071429rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             .left_box {
               display: flex;
-              flex-direction: column;
-              span {
-                font-size: 1rem;
-                color: #868686;
-                &:first-child {
-                  font-weight: 700;
+              img {
+                width: 4.214286rem;
+                height: 4.214286rem;
+                border: 0.214286rem solid #cacc61;
+                margin-right: 0.357143rem;
+              }
+              .left_box_content {
+                display: flex;
+                flex-direction: column;
+
+                span {
+                  font-size: 1rem;
                   color: #545454;
-                }
-                &:last-child {
-                  font-size: 0.857143rem;
+                  &:first-child {
+                    font-weight: 700;
+                  }
+                  &:last-child {
+                    font-size: 0.857143rem;
+                  }
                 }
               }
             }
