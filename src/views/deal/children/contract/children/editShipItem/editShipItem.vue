@@ -193,8 +193,7 @@ export default {
     if (this.$store.state.timers.DeliveryDate != '') {
       this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
     }
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
+
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -210,9 +209,6 @@ export default {
     this.DeliveryNotes = ''
     this.iid = ''
     this.distributor_id = ''
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   computed: {
     getAddDeliverData() {
@@ -273,7 +269,6 @@ export default {
         this.getEditDeliveData
       )
       if (code !== 200) {
-        document.querySelector('.navBar').style.zIndex = '0'
         this.$message.error(msg)
         let time = setTimeout(() => {
           this.$router.replace('/deal/contract')

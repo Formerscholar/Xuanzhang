@@ -57,15 +57,10 @@ export default {
     this.getCompleteDesignated()
     this.getDesignated()
     this.getUserDesignat()
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.designatedTasksList = []
     this.UserDesignatedTasksData = []
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   destroyed() {
     this.getUserDesignatedTasksData = {}

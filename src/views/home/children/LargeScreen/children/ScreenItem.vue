@@ -59,16 +59,11 @@ export default {
   activated() {
     this.active = this.$route.query.active
     this.itemData = this.$route.query.data
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.active = 0
     this.config.value = [0]
     this.itemData = {}
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
     blacknext() {

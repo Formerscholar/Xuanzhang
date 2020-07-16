@@ -494,8 +494,7 @@ export default {
     }
 
     this.getDistributor()
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
+
     this.gokhlist = this.$store.state.gokhlist
     this.enterprise = this.gokhlist.name
     this.cutting = this.gokhlist.name_alias
@@ -525,9 +524,6 @@ export default {
     this.SalesOptions = []
     this.tableData = []
     this.form = {}
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   }
 }
 </script>

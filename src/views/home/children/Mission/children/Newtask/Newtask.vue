@@ -139,8 +139,6 @@ export default {
   },
   components: { navbar, timers, scroll },
   async activated() {
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
     if (this.$store.state.timers.end_time != '') {
       this.timersList.end_time = this.$store.state.timers.end_time
     }
@@ -163,9 +161,6 @@ export default {
     })
   },
   deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
     this.$refs.upload.clearFiles()
   },
   computed: {

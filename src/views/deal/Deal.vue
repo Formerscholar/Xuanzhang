@@ -8,10 +8,13 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
+    <MainTabBar />
   </div>
 </template>
 
 <script>
+import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
+
 import selection from '@/views/deal/children/selection/selection'
 import { getleft } from '@/network/deal'
 
@@ -24,7 +27,8 @@ export default {
     }
   },
   components: {
-    selection
+    selection,
+    MainTabBar
   },
   activated() {
     this.getleftlist()

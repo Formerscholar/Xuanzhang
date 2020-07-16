@@ -108,7 +108,6 @@ export default {
         this.show = false
         this.isShow = true
         this.textContent = this.print_html
-        document.querySelector('#tab-bar').style.height = '59px'
       } else {
         this.$message({
           showClose: true,
@@ -131,7 +130,6 @@ export default {
     },
     async VoidList() {
       this.show = false
-      document.querySelector('#tab-bar').style.height = '59px'
       const { msg } = await deleteContractOrder(this.deleteContractOrderData)
       this.$toast(msg)
     },
@@ -146,7 +144,6 @@ export default {
         }
       })
       this.show = false
-      document.querySelector('#tab-bar').style.height = '59px'
     },
     selectIndex(i) {
       this.pageIndex = i

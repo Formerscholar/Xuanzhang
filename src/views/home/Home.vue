@@ -27,10 +27,13 @@
         </div>
       </div>
     </van-overlay>
+    <MainTabBar />
   </div>
 </template>
 
 <script>
+import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
+
 import topbar from '@/views/home/children/topbar/topbar'
 import myHeader from '@/views/home/children/myHeader/myHeader'
 import Ability from '@/views/home/children/ability/Ability'
@@ -47,7 +50,8 @@ export default {
     Ability,
     myEcharts,
     scroll,
-    reminder
+    reminder,
+    MainTabBar
   },
   data() {
     return {

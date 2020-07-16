@@ -8,7 +8,7 @@
 
 <script>
 import BScroll from 'better-scroll'
-
+import { throttle } from '@/common/utils'
 export default {
   name: 'Scroll',
   props: {
@@ -35,7 +35,11 @@ export default {
     })
     if (this.probeType === 2 || this.probeType === 3) {
       this.scroll.on('scroll', position => {
-        this.$emit('scroll', position)
+        if (position.y > 50) {
+          throttle(() => {
+            this.$emit('scroll', position)
+          }, 300)
+        }
       })
     }
     if (this.pullUpLoad) {

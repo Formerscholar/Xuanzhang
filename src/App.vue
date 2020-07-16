@@ -5,22 +5,17 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-    <MainTabBar></MainTabBar>
   </div>
 </template>
 
 <script>
-import MainTabBar from './components/content/MainTabBar/MainTabBar'
 import { getlogin, getIndex } from '@/network/login.js'
-
 export default {
-  name: 'app',
-  components: { MainTabBar },
   created() {
-    this.getlogin()
     setInterval(() => {
       this.getlogin()
     }, 1500000)
+    this.getlogin()
   },
   methods: {
     async gettime() {
@@ -80,16 +75,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
   font-family: 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
     '\5b8b\4f53', sans-serif, Avenir, Helvetica;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 62px;
-  padding-bottom: 59px;
-  max-width: 1024px;
-  margin: 0 auto;
+  max-width: 73.142857rem;
+
   .fade-enter,
   .fade-leave-to {
     opacity: 0;

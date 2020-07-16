@@ -43,10 +43,8 @@ export default {
   activated() {
     this.deliveryRecordItem = this.$route.query.data
     console.log(this.deliveryRecordItem)
-    document.querySelector('#tab-bar').style.height = '0px'
   },
   deactivated() {
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   computed: {
     deleteDeliverData() {

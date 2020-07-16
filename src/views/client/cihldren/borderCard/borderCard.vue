@@ -30,6 +30,7 @@ export default {
 }
 </script>
     
+
 <style scoped lang="scss">
 #borderCard {
   .border-card {

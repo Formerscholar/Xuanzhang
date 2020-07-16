@@ -30,10 +30,13 @@
       :actions="actions"
       cancel-text="取消"
     />
+    <MainTabBar />
   </div>
 </template>
     
 <script>
+import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
+
 import clientheader from '@/views/client/cihldren/clientheader/clientheader'
 import borderCard from '@/views/client/cihldren/borderCard/borderCard'
 import cardsearch from '@/views/client/cihldren/cardsearch/cardsearch'
@@ -55,7 +58,8 @@ export default {
     cardsearch,
     cardsearchs,
     cardbox,
-    scroll
+    scroll,
+    MainTabBar
   },
   data() {
     return {
@@ -72,7 +76,6 @@ export default {
     btnsclickadd() {
       this.$store.state.gokhlist = []
       this.show = true
-      document.querySelector('#tab-bar').style.height = '0px'
     },
     Rendering(data) {
       this.distributor = data
@@ -129,11 +132,9 @@ export default {
     },
     addcus() {
       this.show = true
-      document.querySelector('#tab-bar').style.height = '0px'
     },
     onshow() {
       this.show = false
-      document.querySelector('#tab-bar').style.height = '59px'
     },
     onselect(index) {
       if (this.titlename == '客户') {
@@ -178,19 +179,16 @@ export default {
     this.getSupplier()
     this.getAddContract()
     this.getAddOutsourcing()
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.options = []
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
   }
 }
 </script>
     
 <style lang="scss" scoped>
 #Client {
-  height: calc(100vh - 9.642857rem);
+  height: calc(100vh - 1.571429rem);
   .el-icon-plus {
     position: fixed;
     bottom: 7.142857rem;

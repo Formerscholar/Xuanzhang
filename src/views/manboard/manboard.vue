@@ -158,10 +158,8 @@ export default {
   activated() {
     this.getUserLists()
     this.getResignation()
-    document.querySelector('#tab-bar').style.height = '0px'
   },
   deactivated() {
-    document.querySelector('#tab-bar').style.height = '59px'
   }
 }
 </script>

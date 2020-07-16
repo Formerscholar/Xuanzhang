@@ -93,15 +93,10 @@ export default {
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
     this.getAddReimbursementData()
     this.setNewCost()
   },
   deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
     setNewCost() {

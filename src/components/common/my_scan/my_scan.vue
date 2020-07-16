@@ -30,16 +30,11 @@ export default {
   },
   components: { navbar },
   activated() {
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
     this.startRecognize()
     this.startScan()
   },
   deactivated() {
     this.closeScan()
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
     startRecognize() {

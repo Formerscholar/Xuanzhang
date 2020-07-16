@@ -187,16 +187,11 @@ export default {
   },
   activated() {
     this.getDeliverGoods()
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.deliveryRecordList = []
     this.pages = 1
     this.textContent = ''
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   }
 }
 </script>

@@ -1,4 +1,4 @@
-var timer: any
+let timer: any
 
 export function throttle(fn: any, delay: number): void {
   if (timer) {

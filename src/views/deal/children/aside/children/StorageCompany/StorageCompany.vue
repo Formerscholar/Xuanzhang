@@ -82,14 +82,8 @@ export default {
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
-  deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
-  },
+
   computed: {
     getDistributorDate() {
       return {

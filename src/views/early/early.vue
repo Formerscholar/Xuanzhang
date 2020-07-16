@@ -89,13 +89,8 @@ export default {
   components: { navbar, scroll },
   activated() {
     this.bestURL = bestURL
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
     blackhome() {

@@ -26,7 +26,6 @@ export default {
   text-align: center;
   position: fixed;
   top: 0;
-  max-width: 1024px;
   width: 100%;
   z-index: 1;
 }

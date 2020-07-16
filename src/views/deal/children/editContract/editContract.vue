@@ -304,8 +304,7 @@ export default {
     this.getAddContract()
   },
   activated() {
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
+    
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -389,9 +388,7 @@ export default {
     this.shippingData = []
     this.ContractField1Input = []
     this.iid = ''
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
+   
   },
   computed: {
     getAddContractOrderData() {

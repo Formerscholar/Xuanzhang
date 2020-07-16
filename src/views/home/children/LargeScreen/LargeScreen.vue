@@ -18,7 +18,25 @@
             :probe-type="3"
             :pull-up-load="true"
             @pullingUp="loadMores"
+            @scroll="clickscroll"
           >
+            <div class="search_box">
+              <div class="search_left">
+                <span class="search_text">商务</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="jack">洽谈</a-select-option>
+                  <a-select-option value="lucy">生产</a-select-option>
+                  <a-select-option value="Yiminghe">发货</a-select-option>
+                </a-select>
+              </div>
+              <div class="search_right">
+                <span class="search_text">生产</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="0">整装待发</a-select-option>
+                  <a-select-option value="1">正在生产</a-select-option>
+                </a-select>
+              </div>
+            </div>
             <el-card
               class="box-card"
               v-for="(item,index) in ProductList"
@@ -68,7 +86,25 @@
             :probe-type="3"
             :pull-up-load="true"
             @pullingUp="loadMore"
+            @scroll="clickscroll"
           >
+            <div class="search_box">
+              <div class="search_left">
+                <span class="search_text">商务</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="jack">洽谈</a-select-option>
+                  <a-select-option value="lucy">生产</a-select-option>
+                  <a-select-option value="Yiminghe">发货</a-select-option>
+                </a-select>
+              </div>
+              <div class="search_right">
+                <span class="search_text">生产</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="0">整装待发</a-select-option>
+                  <a-select-option value="1">正在生产</a-select-option>
+                </a-select>
+              </div>
+            </div>
             <el-card
               class="box-card"
               v-for="(item,index) in ProductLists"
@@ -118,7 +154,25 @@
             :probe-type="3"
             :pull-up-load="true"
             @pullingUp="loadMoress"
+            @scroll="clickscroll"
           >
+            <div class="search_box">
+              <div class="search_left">
+                <span class="search_text">商务</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="jack">洽谈</a-select-option>
+                  <a-select-option value="lucy">生产</a-select-option>
+                  <a-select-option value="Yiminghe">发货</a-select-option>
+                </a-select>
+              </div>
+              <div class="search_right">
+                <span class="search_text">生产</span>
+                <a-select style="width: 8.571429rem" @change="handleChange">
+                  <a-select-option value="0">整装待发</a-select-option>
+                  <a-select-option value="1">正在生产</a-select-option>
+                </a-select>
+              </div>
+            </div>
             <el-card
               class="box-card"
               v-for="(item,index) in ProductListss"
@@ -209,8 +263,6 @@ export default {
       this.getlargeAcreenss()
     }
 
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     /*
@@ -224,9 +276,6 @@ export default {
       this.ProductLists = []
       this.ProductListss = []
     */
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   computed: {
     getlargeAcreenOrderData() {
@@ -258,6 +307,25 @@ export default {
     }
   },
   methods: {
+    handleChange(value) {
+      console.log(`selected ${value}`)
+    },
+    clickscroll() {
+      this.allpage = 1
+      this.Opage = 1
+      this.Tpage = 1
+      this.Spage = 1
+      if (this.deactivated == 0) {
+        this.ProductList = []
+        this.getlargeAcreen()
+      } else if (this.deactivated == 1) {
+        this.ProductLists = []
+        this.getlargeAcreens()
+      } else if (this.deactivated == 2) {
+        this.ProductListss = []
+        this.getlargeAcreenss()
+      }
+    },
     async changeProduct(id) {
       let order_type
       if (this.deactivated == 0) {
@@ -418,6 +486,7 @@ export default {
     }
   }
   .content {
+    height: calc(100vh - 5.428571rem);
     .scroll_wrapper {
       position: absolute;
       left: 0;
@@ -426,8 +495,21 @@ export default {
       bottom: 0;
       width: 100%;
       overflow: hidden;
-      padding: 1.428571rem 0.714286rem;
+      padding: 0 0.714286rem;
       height: calc(100vh - 8.571429rem);
+      .search_box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.357143rem 0.714286rem;
+        .search_left,
+        .search_right {
+          .search_text {
+            margin-right: 0.357143rem;
+            font-size: 1.142857rem;
+          }
+        }
+      }
       .box-card {
         .content_box {
           .title_box {
@@ -442,7 +524,7 @@ export default {
               font-weight: 700;
               margin: 0 0.357143rem;
               &:first-child {
-                color: #e1712c;
+                color: #f9ca24;
               }
               &:last-child {
                 color: #565656;

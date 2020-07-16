@@ -82,8 +82,6 @@ export default {
       ruleForm: {
         // name: '',
         // pass: ''
-        // name: '15852884584',
-        // pass: 'xinba123'
         // name: '18752715203',
         // pass: '123456'
         name: '18083795906',
@@ -185,14 +183,6 @@ export default {
         item.style.borderBottom = '1px solid #f3f3f3'
         item.style.fontSize = '1.285714rem '
       })
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.paddingTop = '0px'
-    document.querySelector('#app').style.paddingBottom = '0px'
-  },
-  deactivated() {
-    document.querySelector('#tab-bar').style.height = '59px'
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '62px'
   }
 }
 </script>

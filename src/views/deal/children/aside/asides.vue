@@ -238,10 +238,8 @@ export default {
       }
     },
     openClick() {
-      document.querySelector('#tab-bar').style.height = '0px'
     },
     closedClick() {
-      document.querySelector('#tab-bar').style.height = '59px'
     }
   }
 }

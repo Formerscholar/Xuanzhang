@@ -142,17 +142,12 @@ export default {
     this.contractstate = order_number
     this.Settlementstate = operator_name
     this.distributor_id = distributor_id
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
+
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
   },
-  deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
-  },
+  deactivated() {},
   computed: {
     getAddSettlementData() {
       return {

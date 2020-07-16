@@ -96,7 +96,6 @@ export default {
     if (this.$store.state.timers.CreditDate != '') {
       this.timersList.CreditDate = this.$store.state.timers.CreditDate
     }
-    document.querySelector('#tab-bar').style.height = '0px'
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -105,7 +104,6 @@ export default {
   },
   deactivated() {
     this.paramsData = {}
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   methods: {
     blacknext() {

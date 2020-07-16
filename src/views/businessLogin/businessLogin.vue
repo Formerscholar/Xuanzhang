@@ -51,16 +51,8 @@ export default {
   },
   activated() {
     this.companyList = this.$store.state.loginDate.customers
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
-    document.querySelector('#app').style.backgroundColor = '#ededed'
   },
-  deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
-    document.querySelector('#app').style.backgroundColor = '#fff'
-  }
+  deactivated() {}
 }
 </script>
     

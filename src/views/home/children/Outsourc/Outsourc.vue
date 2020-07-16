@@ -264,8 +264,6 @@ export default {
       this.ContractChange(this.itemList.id)
     }
 
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -276,9 +274,6 @@ export default {
     this.Contractoptions = []
     this.tableData = []
     this.itemList = {}
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   }
 }
 </script>

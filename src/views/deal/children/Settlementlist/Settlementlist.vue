@@ -97,14 +97,9 @@ export default {
   activated() {
     this.iid = this.$route.params.id
     this.getDeliverGoodsLists()
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
   },
   deactivated() {
     this.allmonty = 0
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   computed: {
     getDeliverGoodData() {

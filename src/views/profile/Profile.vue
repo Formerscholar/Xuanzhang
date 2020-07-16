@@ -5,10 +5,13 @@
       <pHeader @toProfileInfo="toProfileInfo" />
       <pOptions />
     </van-pull-refresh>
+    <MainTabBar />
   </div>
 </template>
 
 <script>
+import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
+
 import pNavBar from '@/views/profile/children/pNavBar/pNavBar'
 import pHeader from '@/views/profile/children/pHeader/pHeader'
 import pOptions from '@/views/profile/children/pOptions/pOptions'
@@ -22,7 +25,8 @@ export default {
   components: {
     pNavBar,
     pHeader,
-    pOptions
+    pOptions,
+    MainTabBar
   },
   methods: {
     toProfileInfo() {
@@ -36,12 +40,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss" >
 #Profile {
-  margin-top: 14px;
-  .van-pull-refresh,
-  .van-pull-refresh__track {
-    min-height: calc(100vh - 5.428571rem);
+  padding-top: 5.428571rem;
+  .van-pull-refresh {
   }
 }
 </style>

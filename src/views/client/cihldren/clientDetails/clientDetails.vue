@@ -88,8 +88,7 @@ export default {
       this.dataOfClient()
       this.dataOfSupplier()
     }
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
+   
   },
   deactivated() {
     this.paramsData = {}
@@ -106,9 +105,7 @@ export default {
     this.Bank = ''
     this.account = ''
     this.representative = ''
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
+  
   },
   methods: {
     callbackbtn() {

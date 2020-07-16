@@ -119,7 +119,6 @@ export default {
   },
   components: { navbar, scroll, timers },
   activated() {
-    document.querySelector('#tab-bar').style.height = '0px'
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -153,7 +152,6 @@ export default {
     this.tableData = []
     this.restaurant = []
     this.restaurants = []
-    document.querySelector('#tab-bar').style.height = '59px'
   },
   computed: {
     getAddDeliverGoodsDistributorData() {

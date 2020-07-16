@@ -52,12 +52,8 @@ export default {
       console.log(data)
     }
   },
-  activated() {
-    document.querySelector('#tab-bar').style.height = '0px'
-  },
-  deactivated() {
-    document.querySelector('#tab-bar').style.height = '59px'
-  }
+  activated() {},
+  deactivated() {}
 }
 </script>
     

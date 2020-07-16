@@ -41,15 +41,8 @@ export default {
   activated() {
     this.type = this.$route.params.type
     console.log(this.type)
-    document.querySelector('#tab-bar').style.height = '0px'
-    document.querySelector('#app').style.padding = '0px'
-    document.querySelector('textarea').style.border = 'none'
   },
-  deactivated() {
-    document.querySelector('#app').style.paddingTop = '62px'
-    document.querySelector('#app').style.paddingBottom = '59px'
-    document.querySelector('#tab-bar').style.height = '59px'
-  },
+  deactivated() {},
   methods: {
     blacknext() {
       this.$router.go(-1)
