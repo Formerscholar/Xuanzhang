@@ -141,7 +141,9 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {},
+  deactivated() {
+    this.restaurants = []
+  },
   computed: {
     getAddFlowOrderData() {
       return {
@@ -186,7 +188,7 @@ export default {
       this.distributors.map((item, index) => {
         let obj = {
           value: item.name,
-          address: index.toString()
+          address: item.id
         }
         this.restaurants.push(obj)
       })
@@ -304,6 +306,8 @@ export default {
 }
 </script>
     
+
+
 <style lang="scss" scoped>
 #addbill {
   padding-top: 5.428571rem;

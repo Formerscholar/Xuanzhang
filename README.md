@@ -4,7 +4,92 @@
 1. 优化 生产任务 列表项 UI
 2. 重构 全局过滤器 重构 时间格式化函数 减少模块依赖关系
 3. 优化 部分模块 局部过滤器优化DOM内容 减少DOM操作
+4. 新增 生产任务 数据接口对接 过滤器拼接
+5. 修复 新增流水 客户名称不全问题
 &. 修复 已知 BUG
+```
+
+LargeScreen.vue 练习知识
+
+```
+vue ：
+
+	computed 的 get set
+
+	 firstName: {
+       get: function() {
+         return this.firstNames
+       },
+       set: function(newValue) {
+         this.firstNames = newValue
+       }
+     }
+
+
+	watch vue监听
+
+	 watch: {
+      allpage(olddata, newdata) {
+        console.log(olddata, newdata)
+      }
+     },
+
+	vue 过滤器
+
+		全局：
+
+			import * as filter from './common/filter'
+			Object.keys(filter).forEach((item) => {
+				Vue.filter(item, filter[item])
+			})
+
+		局部：
+
+			<span>{{cardinfo.Balance | Balance}}</span>
+
+			filters: {
+				Balance(value) {
+				  return `余额:${value}元`
+				}
+			}
+
+	vue3.0
+
+原生js：
+
+	Object对象扩展
+
+	深度复制对象   ...运算符
+
+	遍历对象
+	 1.	Object.keys(obj)  属性名
+		Object.values(obj) 属性值
+
+	 2. for (const key in this.twoOBJ) {
+			console.log('属性名' + key)
+			console.log('属性值' + this.twoOBJ[key])
+		}
+
+
+	fun函数 内 this指向
+
+		当前运行环境 前端环境是 window
+
+	变量作用域 var let const 区别
+
+	js动画
+
+react：
+
+	react 生命周期
+
+	react HOOKs 销毁 回调
+
+	useEffect(() => {
+		queryHandler();
+		return componentWillUnmount;
+	}, []);
+
 ```
 
 # 7.16 更新内容

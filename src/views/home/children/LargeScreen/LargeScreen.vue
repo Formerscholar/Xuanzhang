@@ -63,7 +63,7 @@
                     <span>公司简称</span>
                   </div>
                   <div class="right_title">
-                    <span>数量:1000件</span>
+                    <span>{{item.surplus_number | setSurplusNumber}}</span>
                   </div>
                 </div>
                 <div class="content_child">
@@ -72,7 +72,7 @@
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
-                      <span>交期:{{item.commitment_period}}</span>
+                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
                     </div>
                   </div>
                   <div class="right_box">
@@ -165,7 +165,7 @@
                     <span>公司简称</span>
                   </div>
                   <div class="right_title">
-                    <span>数量:1000件</span>
+                    <span>{{item.surplus_number | setSurplusNumber}}</span>
                   </div>
                 </div>
                 <div class="content_child">
@@ -174,7 +174,7 @@
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
-                      <span>交期:{{item.commitment_period}}</span>
+                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
                     </div>
                   </div>
                   <div class="right_box">
@@ -234,7 +234,7 @@
                     <span>公司简称</span>
                   </div>
                   <div class="right_title">
-                    <span>数量:1000件</span>
+                    <span>{{item.surplus_number | setSurplusNumber}}</span>
                   </div>
                 </div>
                 <div class="content_child">
@@ -243,7 +243,7 @@
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
-                      <span>交期:{{item.commitment_period}}</span>
+                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
                     </div>
                   </div>
                   <div class="right_box">
@@ -334,6 +334,10 @@ export default {
     //   console.log('属性值' + this.twoOBJ[key])
     // }
 
+    // Object.keys(this.twoOBJ).forEach(key => {
+    //   console.log(key, this.twoOBJ[key])
+    // })
+
     this.allpage = 1
     if (this.Opage == 1) {
       this.getlargeAcreen()
@@ -412,6 +416,14 @@ export default {
     // allpage(olddata, newdata) {
     //   console.log(olddata, newdata)
     // }
+  },
+  filters: {
+    setCommitmentPeriod(value) {
+      return '交期:' + value
+    },
+    setSurplusNumber(value) {
+      return '待产数量:' + value + '件'
+    }
   },
   updated() {
     // console.log('firstName = ' + this.firstNames)
