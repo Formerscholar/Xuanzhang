@@ -40,6 +40,11 @@ Vue.prototype.$bus = new Vue()
 import dataV from '@jiaminghi/data-view'
 Vue.use(dataV)
 
+import * as filter from './common/filter'
+Object.keys(filter).forEach((item) => {
+  Vue.filter(item, filter[item])
+})
+
 new Vue({
   router,
   store,

@@ -87,7 +87,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
+
 import {
   getAddDeliverGoodsDistributors,
   addDeliverRecord
@@ -101,7 +101,7 @@ export default {
       states: '',
       contractAmount: 0,
       timersList: {
-        ShipTimes: setTimerType(new Date().getTime())
+        ShipTimes: new Date().getTime()
       },
       OtherInstructions: '',
       PartyContract: '',

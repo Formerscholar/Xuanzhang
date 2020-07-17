@@ -20,6 +20,13 @@
             @pullingUp="loadMores"
             @scroll="clickscroll"
           >
+            <!-- <div class="hello">
+              <div id="example">
+                <p>firstName值: {{firstName}}</p>
+                <p>lastName值: {{lastName}}</p>
+              </div>
+              <button @click="ClickCeshi">点击改变Name的值</button>
+            </div>-->
             <div class="search_box">
               <div class="search_left">
                 <span class="search_text">商务</span>
@@ -50,7 +57,9 @@
               <div class="content_box" @click="pageHandleClick(item)">
                 <div class="title_box">
                   <div class="left_title">
-                    <span>{{item.order_number}}</span>
+                    <!-- <input type="text" > -->
+                    <!-- <span>{{item.order_number | orderNum}}</span> -->
+                    <span>{{item.order_number }}</span>
                     <span>公司简称</span>
                   </div>
                   <div class="right_title">
@@ -59,7 +68,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <img src="@/assets/image/dpng.png" alt="logo" />
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -70,7 +79,7 @@
                     <div class="child_right">
                       <van-tag type="success">备用状态</van-tag>
                     </div>
-                    <div @click="changeProduct(item.id)" class="child_right">
+                    <div @click.stop="changeProduct(item.id)" class="child_right">
                       <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
                       <van-tag v-else type="success">整装待发</van-tag>
                     </div>
@@ -161,7 +170,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <img src="@/assets/image/dpng.png" alt="logo" />
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -172,7 +181,7 @@
                     <div class="child_right">
                       <van-tag type="success">备用状态</van-tag>
                     </div>
-                    <div @click="changeProduct(item.id)" class="child_right">
+                    <div @click.stop="changeProduct(item.id)" class="child_right">
                       <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
                       <van-tag v-else type="success">整装待发</van-tag>
                     </div>
@@ -230,7 +239,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/Transparent_logo.png" alt="logo" />
+                    <img src="@/assets/image/dpng.png" alt="logo" />
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -241,7 +250,7 @@
                     <div class="child_right">
                       <van-tag type="success">备用状态</van-tag>
                     </div>
-                    <div @click="changeProduct(item.id)" class="child_right">
+                    <div @click.stop="changeProduct(item.id)" class="child_right">
                       <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
                       <van-tag v-else type="success">整装待发</van-tag>
                     </div>
@@ -281,13 +290,50 @@ export default {
       isOShow: false,
       isTShow: false,
       isSShow: false
+      // firstNames: '张',
+      // lastNames: '三',
+      // oneObj: {
+      //   data: '001',
+      //   upOBJ: {
+      //     val: '456',
+      //     downOBJ: {
+      //       num: 1,
+      //       setter: 8
+      //     }
+      //   }
+      // },
+      // twoOBJ: {},
+      // twoOBJ: {
+      //   one: 'chad',
+      //   two: 'why',
+      //   three: 'mht'
+      // }
     }
   },
   components: {
     navbar,
     scroll
   },
+  // filters: {
+  //   orderNum(value) {
+  //     return '合同号: ' + value
+  //   }
+  // },
   activated() {
+    // console.log('oneObj = ', this.oneObj)
+    // console.log('twoOBJ = ', this.twoOBJ)
+    // this.twoOBJ = { ...this.oneObj }
+    // console.log('oneObj = ', this.oneObj)
+    // console.log('twoOBJ = ', this.twoOBJ)
+
+    // console.log('属性名', Object.keys(this.twoOBJ))
+    // console.log('属性值', Object.values(this.twoOBJ))
+
+    // for (const key in this.twoOBJ) {
+    //   console.log('属性名' + key)
+    //   console.log('属性值' + this.twoOBJ[key])
+    // }
+
     this.allpage = 1
     if (this.Opage == 1) {
       this.getlargeAcreen()
@@ -331,17 +377,51 @@ export default {
         _: new Date().getTime()
       }
     },
-    getlargeAcreenOrderDatass() {
-      return {
-        token: this.$store.state.token,
-        page: this.allpage,
-        offset: 20,
-        order_type: 'oem',
-        _: new Date().getTime()
+    getlargeAcreenOrderDatass: {
+      get() {
+        return {
+          token: this.$store.state.token,
+          page: this.allpage,
+          offset: 20,
+          order_type: 'oem',
+          _: new Date().getTime()
+        }
+      },
+      set(newValue) {
+        console.log(newValue)
       }
     }
+    // firstName: {
+    //   get: function() {
+    //     return this.firstNames
+    //   },
+    //   set: function(newValue) {
+    //     this.firstNames = newValue
+    //   }
+    // },
+    // lastName: {
+    //   get: function() {
+    //     return this.lastNames
+    //   },
+    //   set: function(newValue) {
+    //     this.lastNames = newValue
+    //   }
+    // }
+  },
+  watch: {
+    // allpage(olddata, newdata) {
+    //   console.log(olddata, newdata)
+    // }
+  },
+  updated() {
+    // console.log('firstName = ' + this.firstNames)
+    // console.log('lastName = ' + this.lastNames)
   },
   methods: {
+    // ClickCeshi() {
+    //   this.firstNames = '三'
+    //   this.lastNames = '张'
+    // },
     handleChange(value) {
       console.log(`selected ${value}`)
     },
@@ -560,7 +640,7 @@ export default {
         background-color: #fff;
         .background_box {
           height: 7.071429rem;
-          background-color: #2a89ff;
+          background-color: #d1e8ff;
         }
         .content_box {
           position: absolute;
@@ -577,7 +657,6 @@ export default {
             border-bottom: 1px solid #f2f2f2;
             span {
               font-size: 0.857143rem;
-              font-weight: 700;
               margin: 0 0.357143rem;
               color: #565656;
             }
@@ -594,7 +673,7 @@ export default {
                 width: 4.214286rem;
                 height: 4.214286rem;
                 border: 0.214286rem solid #cacc61;
-                margin-right: 0.357143rem;
+                margin-right: 1.071429rem;
               }
               .left_box_content {
                 display: flex;

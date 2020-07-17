@@ -200,7 +200,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
 import scroll from '@/components/common/scroll/scroll'
-import { setTimerType } from '@/common/utils.ts'
+
 import {
   getAddContractOrder,
   uploadFile,
@@ -276,8 +276,8 @@ export default {
         address: ''
       },
       timersList: {
-        Sign: setTimerType(new Date().getTime()),
-        committed: setTimerType(new Date().getTime())
+        Sign: new Date().getTime(),
+        committed: new Date().getTime()
       },
       imgUrl: '',
       listData: [],
@@ -314,12 +314,12 @@ export default {
       this.addressData.id = this.$store.state.Address.id
       this.$store.commit('setAddress', {})
     }
-   
+
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
   },
-  
+
   computed: {
     getAddContractOrderData() {
       return {

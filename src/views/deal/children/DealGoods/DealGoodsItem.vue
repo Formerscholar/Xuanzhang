@@ -13,8 +13,7 @@
           <div class="contract">
             <em style="color:#E6A23C;">{{ item.contract }}</em>
             <span style="margin-left:.357143rem;">
-              销售:
-              <i>{{ item.name }}</i>
+              <i>{{ item.name |SetName }}</i>
             </span>
           </div>
         </div>
@@ -54,16 +53,13 @@
       <div class="itemdondon">
         <div class="topLeft layout">
           <div class="Amount">
-            总额:
-            <i>{{ item.Amount }}</i>
-            元
+            <i>{{ item.Amount | SetAmount }}</i>
           </div>
         </div>
         <div class="topRight layout"></div>
         <div class="topRight layout">
           <div class="Delivery">
-            交期：
-            <i>{{ item.Delivery }}</i>
+            <i>{{ item.Delivery | SetDelivery }}</i>
           </div>
         </div>
       </div>
@@ -105,6 +101,17 @@ export default {
         token: this.$store.state.tonken,
         _: new Date().getTime()
       }
+    }
+  },
+  filters: {
+    SetName(value) {
+      return '销售:' + value
+    },
+    SetAmount(value) {
+      return '总额:' + value + '元'
+    },
+    SetDelivery(value) {
+      return '交期:' + value
     }
   },
   methods: {

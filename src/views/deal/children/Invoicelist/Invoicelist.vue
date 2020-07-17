@@ -8,7 +8,7 @@
         <span>收据</span>
       </div>
       <div class="right" slot="right">
-        <span>收入￥{{allmonty.toFixed(2)}}</span>
+        <span>{{allmonty.toFixed(2) | setAllmonty}}</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper">
@@ -30,16 +30,14 @@
                 </div>
                 <div class="right">
                   <span>
-                    日期:
-                    <em>{{item.created_at}}</em>
+                    <em>{{item.created_at | setCreatedAt}}</em>
                   </span>
                 </div>
               </div>
               <div class="childrow mgdata">
                 <div class="left">
                   <span>
-                    合同号:
-                    <em>{{item.order_number}}</em>
+                    <em>{{item.order_number | setOrderNumber}}</em>
                   </span>
                 </div>
                 <div class="right"></div>
@@ -49,7 +47,7 @@
                   <span class="black">{{item.name}}</span>
                 </div>
                 <div class="right">
-                  <span>￥{{item.amount_of_invoice}}</span>
+                  <span>{{item.amount_of_invoice | setAmountOfInvoice}}</span>
                 </div>
               </div>
             </div>
@@ -110,6 +108,20 @@ export default {
         distributor_id: this.iid,
         _: new Date().getTime()
       }
+    }
+  },
+  filters: {
+    setAllmonty(value) {
+      return '收入￥' + value
+    },
+    setCreatedAt(value) {
+      return '日期:' + value
+    },
+    setOrderNumber(value) {
+      return '合同号:' + value
+    },
+    setAmountOfInvoice(value) {
+      return '￥' + value
     }
   },
   methods: {

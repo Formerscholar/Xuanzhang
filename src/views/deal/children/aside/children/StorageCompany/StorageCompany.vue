@@ -18,7 +18,7 @@
             <ul>
               <li>
                 <span>总金额</span>
-                <em>{{distributorNew.notInvoiceMoney}}</em>
+                <em>{{distributorNew.notInvoiceMoney }}</em>
               </li>
               <li>
                 <span>总欠款</span>
@@ -43,7 +43,7 @@
             <div class="rightbox">
               <div class="timer">
                 <div class="leftitem">{{item.order_number}}</div>
-                <div class="rightitem">发货时间:{{item.apply_time}}</div>
+                <div class="rightitem">{{item.apply_time | setApplyTime}}</div>
               </div>
               <div class="article">
                 <div class="leftitem">{{item.product_name}}</div>
@@ -83,7 +83,11 @@ export default {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
-
+  filters: {
+    setApplyTime(value) {
+      return '发货时间:' + value
+    }
+  },
   computed: {
     getDistributorDate() {
       return {

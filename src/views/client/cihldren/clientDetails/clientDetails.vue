@@ -14,20 +14,16 @@
     <div class="body">
       <el-card class="box-card">
         <div class="clientName">
-          个人名称:
-          <span>{{clientName}}</span>
+          <span>{{clientName | SetClientName}}</span>
         </div>
         <div class="clientIdCard">
-          身份证号:
-          <span>{{clientIdCard}}</span>
+          <span>{{clientIdCard | SetClientId}}</span>
         </div>
         <div class="clientAderss">
-          地址:
-          <span>{{clientAderss}}</span>
+          <span>{{clientAderss | SetClientAderss}}</span>
         </div>
         <div class="clientSales">
-          销售负责人:
-          <span>{{clientSales}}</span>
+          <span>{{clientSales | SetClientSales}}</span>
         </div>
         <div class="clientTable">
           <el-table :data="tableData" stripe style="width: 100%">
@@ -40,13 +36,13 @@
       </el-card>
       <el-card class="box-card" v-if="typeShow">
         <div>开票资料</div>
-        <div>名称:{{name}}</div>
-        <div>税号:{{TaxID}}</div>
-        <div>地址:{{address}}</div>
-        <div>电话:{{phone}}</div>
-        <div>开户行:{{Bank}}</div>
-        <div>账号:{{account}}</div>
-        <div>法人代表:{{representative}}</div>
+        <div>{{name | SetName}}</div>
+        <div>{{TaxID | SetTaxID}}</div>
+        <div>{{address | SetAddress}}</div>
+        <div>{{phone | SetPhone}}</div>
+        <div>{{Bank | SetBank}}</div>
+        <div>{{account | SetAccount}}</div>
+        <div>{{representative | SetRepresentativet}}</div>
       </el-card>
     </div>
   </div>
@@ -78,6 +74,41 @@ export default {
   components: {
     navbar
   },
+  filters: {
+    SetClientName(value) {
+      return '个人名称:' + value
+    },
+    SetClientId(value) {
+      return '身份证号:' + value
+    },
+    SetClientAderss(value) {
+      return '地址:' + value
+    },
+    SetClientSales(value) {
+      return '销售负责人:' + value
+    },
+    SetName(value) {
+      return '名称:' + value
+    },
+    SetTaxID(value) {
+      return '税号:' + value
+    },
+    SetAddress(value) {
+      return '地址:' + value
+    },
+    SetPhone(value) {
+      return '电话:' + value
+    },
+    SetBank(value) {
+      return '开户行:' + value
+    },
+    SetAccount(value) {
+      return '账号:' + value
+    },
+    SetRepresentativet(value) {
+      return '法人代表:' + value
+    }
+  },
   activated() {
     this.paramsData = this.$route.query.data
     if (this.paramsData.status == 2) {
@@ -88,7 +119,6 @@ export default {
       this.dataOfClient()
       this.dataOfSupplier()
     }
-   
   },
   deactivated() {
     this.paramsData = {}
@@ -105,7 +135,6 @@ export default {
     this.Bank = ''
     this.account = ''
     this.representative = ''
-  
   },
   methods: {
     callbackbtn() {

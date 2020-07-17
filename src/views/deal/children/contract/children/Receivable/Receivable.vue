@@ -90,7 +90,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
+
 import {
   getAddSettlementRecordDistributors,
   addSettlementRecord,
@@ -114,7 +114,7 @@ export default {
       Settlementstate: '',
       Products: 0,
       timersList: {
-        DeliveryDate: setTimerType(new Date().getTime())
+        DeliveryDate: new Date().getTime()
       },
       DeliveryNotes: '',
       settlement_type: '',

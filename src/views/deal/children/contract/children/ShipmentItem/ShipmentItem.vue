@@ -13,11 +13,11 @@
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="body">
-        <div>合同号:{{deliveryRecordItem.order_number}}</div>
-        <div>操作人:{{deliveryRecordItem.operator_name}}</div>
-        <div>公司:{{deliveryRecordItem.name}}</div>
-        <div>金额:{{deliveryRecordItem.total_money}}</div>
-        <div>时间:{{deliveryRecordItem.created_at}}</div>
+        <div>{{deliveryRecordItem.order_number | setOrderNumber}}</div>
+        <div>{{deliveryRecordItem.operator_name | setOperatorName}}</div>
+        <div>{{deliveryRecordItem.name | setRecordItemName}}</div>
+        <div>{{deliveryRecordItem.total_money | setRecordItemTotalMoney}}</div>
+        <div>{{deliveryRecordItem.created_at | setRecordItemCreated}}</div>
         <div class="btns">
           <van-button type="warning" @click="deleteDeliver">作废</van-button>
           <van-button type="info" @click="editShip">编辑</van-button>
@@ -44,7 +44,23 @@ export default {
     this.deliveryRecordItem = this.$route.query.data
     console.log(this.deliveryRecordItem)
   },
-  deactivated() {
+  deactivated() {},
+  filters: {
+    setOrderNumber(value) {
+      return '合同号:' + value
+    },
+    setOperatorName(value) {
+      return '操作人:' + value
+    },
+    setRecordItemName(value) {
+      return '公司:' + value
+    },
+    setRecordItemTotalMoney(value) {
+      return '金额:' + value
+    },
+    setRecordItemCreated(value) {
+      return '时间:' + value
+    }
   },
   computed: {
     deleteDeliverData() {

@@ -23,7 +23,6 @@
     
 <script>
 import navbar from '@/components/common/navbar/NavBar'
-import { setTimerType } from '@/common/utils.ts'
 
 export default {
   name: 'selectTime',
@@ -50,7 +49,7 @@ export default {
     confirmClick(value) {
       this.$store.commit('setNewTimers', {
         type: this.type,
-        timers: setTimerType(value)
+        timers: value
       })
       this.blacknext()
     },

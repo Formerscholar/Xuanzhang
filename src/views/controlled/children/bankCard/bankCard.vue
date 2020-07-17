@@ -9,8 +9,7 @@
       <div class="botn_text d-flex">
         <div class="couten_box"></div>
         <div class="Balance">
-          余额:
-          <span>{{cardinfo.Balance}}</span> 元
+          <span>{{cardinfo.Balance | Balance}}</span>
         </div>
       </div>
     </div>
@@ -25,6 +24,11 @@ export default {
     cardinfo: {
       type: Object,
       default: {}
+    }
+  },
+  filters: {
+    Balance(value) {
+      return `余额:${value}元`
     }
   }
 }

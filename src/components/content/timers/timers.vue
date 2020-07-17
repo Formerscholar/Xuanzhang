@@ -1,12 +1,10 @@
 <template>
   <div id="timers">
-    <van-field @click="toTimers(type)" :label="title" :value="valueData" readonly />
+    <van-field @click="toTimers(type)" :label="title" :value="valueData | setTimerType" readonly />
   </div>
 </template>
     
 <script>
-import { setTimerType } from '@/common/utils.ts'
-
 export default {
   name: 'timers',
   props: {
@@ -19,8 +17,8 @@ export default {
       default: ''
     },
     valueData: {
-      type: String,
-      default: setTimerType(new Date().getTime())
+      type: Date | Number,
+      default: new Date().getTime()
     }
   },
   methods: {

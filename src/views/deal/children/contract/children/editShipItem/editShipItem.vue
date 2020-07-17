@@ -98,7 +98,6 @@
 import navbar from '@/components/common/navbar/NavBar'
 import scroll from '@/components/common/scroll/scroll'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
 
 import {
   getAddDeliverGoodsDistributors,
@@ -124,7 +123,7 @@ export default {
       Amounts: 0,
       number: '',
       timersList: {
-        DeliveryDate: setTimerType(new Date().getTime())
+        DeliveryDate: new Date().getTime()
       },
       distributors: [],
       materiel: [],

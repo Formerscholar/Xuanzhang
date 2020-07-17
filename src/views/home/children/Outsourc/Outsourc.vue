@@ -85,7 +85,6 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
 
 import {
   getAddDeliverGoodsDistributors,
@@ -101,7 +100,7 @@ export default {
   data() {
     return {
       timersList: {
-        Shipdata: setTimerType(new Date().getTime())
+        Shipdata: new Date().getTime()
       },
       restaurants: [],
       Contractoptions: [],

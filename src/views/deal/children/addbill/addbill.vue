@@ -70,7 +70,6 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import { setTimerType } from '@/common/utils.ts'
 import timers from '@/components/content/timers/timers'
 import { getAddFlowOrder, getMaterielList, addFlowOrder } from '@/network/deal'
 export default {
@@ -85,7 +84,7 @@ export default {
       isShowed: false,
       tableData: [],
       timersList: {
-        delivery: setTimerType(new Date().getTime())
+        delivery: new Date().getTime()
       },
       restaurants: [],
       state: '',

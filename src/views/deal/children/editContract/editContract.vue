@@ -200,7 +200,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
 import scroll from '@/components/common/scroll/scroll'
-import { setTimerType } from '@/common/utils.ts'
+
 import {
   getAddContractOrder,
   uploadFile,
@@ -304,7 +304,6 @@ export default {
     this.getAddContract()
   },
   activated() {
-    
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'
     })
@@ -388,7 +387,6 @@ export default {
     this.shippingData = []
     this.ContractField1Input = []
     this.iid = ''
-   
   },
   computed: {
     getAddContractOrderData() {

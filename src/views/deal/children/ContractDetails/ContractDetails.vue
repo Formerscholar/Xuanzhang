@@ -15,31 +15,28 @@
       <div class="text_arr">
         <div class="row">
           <span>
-            客户信息:
-            <em>{{contractOrder.distributor_name}}</em>
+            <em>{{contractOrder.distributor_name | SetDistributorName}}</em>
           </span>
         </div>
         <div class="row">
           <span>
-            合同编号:
-            <em>{{contractOrder.order_number}}</em>
+            <em>{{contractOrder.order_number | SetOrderNumber}}</em>
           </span>
         </div>
         <div class="row">
           <span>
-            对应合同:
-            <em>{{contractOrder.platform}}</em>
+            <em>{{contractOrder.platform | SetPlatform}}</em>
           </span>
         </div>
         <div class="row">
           <span>
-            公司联系人:{{contractOrder.self_lxr}}
+            {{contractOrder.self_lxr | SetSelfLxr}}
             <em>{{contractOrder.self_lxr_tel}}</em>
           </span>
         </div>
         <div class="row">
           <span>
-            客户联系人:{{contractOrder.kehu_lxr}}
+            {{contractOrder.kehu_lxr |SetKehuLxr}}
             <em>{{contractOrder.kehu_lxr_tel}}</em>
           </span>
         </div>
@@ -52,7 +49,7 @@
           <div class="right">
             <div class="text_row">
               <div class="left_title">{{item.product_name}}</div>
-              <div class="right_txt">￥{{item.unit_price}}*{{item.number}}</div>
+              <div class="right_txt">{{item.unit_price | SetUnitPrice}}{{item.number}}</div>
             </div>
             <div class="text_row">
               <div class="left_title">{{item.product_model}}</div>
@@ -67,12 +64,10 @@
       </el-card>
       <div class="operationList">
         <div class="listitem">
-          付款方式
-          <em>{{contractOrder.pay_method_content}}</em>
+          <em>{{contractOrder.pay_method_content | SetPayMethodContent}}</em>
         </div>
         <div class="listitem">
-          交货日期
-          <em>{{contractOrder.updated_at}}</em>
+          <em>{{contractOrder.updated_at | SetUpdatedAt}}</em>
         </div>
         <div class="listitem">
           质量要求
@@ -83,8 +78,7 @@
           <em></em>
         </div>
         <div class="listitem">
-          其他要素
-          <em>{{contractOrder.remark}}</em>
+          <em>{{contractOrder.remark | SetRemark}}</em>
         </div>
       </div>
     </div>
@@ -116,7 +110,35 @@ export default {
     this.iid = this.$route.params.id
     this.getEditContractOrders()
   },
-
+  filters: {
+    SetDistributorName(value) {
+      return '客户信息:' + value
+    },
+    SetOrderNumber(value) {
+      return '客户信息:' + value
+    },
+    SetPlatform(value) {
+      return '对应合同:' + value
+    },
+    SetSelfLxr(value) {
+      return '公司联系人:' + value
+    },
+    SetKehuLxr(value) {
+      return '客户联系人:' + value
+    },
+    SetUnitPrice(value) {
+      return '￥:' + value + '*'
+    },
+    SetPayMethodContent(value) {
+      return '付款方式 ' + value
+    },
+    SetUpdatedAt(value) {
+      return '交货日期 ' + value
+    },
+    SetRemark(value) {
+      return '其他要素 ' + value
+    }
+  },
   computed: {
     getEditContractOrderData() {
       return {

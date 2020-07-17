@@ -98,13 +98,12 @@ import {
   uploadImage
 } from '@/network/home'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
 export default {
   name: 'Newtask',
   data() {
     return {
       timersList: {
-        end_time: setTimerType(new Date().getTime())
+        end_time: new Date().getTime()
       },
       dialogImageUrl: '',
       dialogVisible: false,

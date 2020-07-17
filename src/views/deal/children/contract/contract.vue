@@ -14,15 +14,15 @@
               <div class="topbox">
                 <span>
                   {{ item.order_number }}
-                  <em>操作:{{ item.operator_name }}</em>
+                  <em>{{ item.operator_name |setOperatorName }}</em>
                 </span>
                 <i @click.stop="gotodetails(item.distributor_id)">{{ item.name_alias }}</i>
               </div>
               <div class="botbox">
                 <span
                   :class="item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                >￥{{ item.total_funds }}</span>
-                <em>发货时间:{{ item.created_at }}</em>
+                >{{ item.total_funds |setTotalFundse }}</span>
+                <em>{{ item.created_at |setCreated}}</em>
               </div>
             </div>
           </el-card>
@@ -43,11 +43,11 @@
                     >{{item.distributor_name}}</div>
                   </div>
                   <div class="timers">
-                    <div class="rightitem">交期:{{item.commitment_period}}</div>
+                    <div class="rightitem">{{item.commitment_period | setCommitmentPeriod}}</div>
                   </div>
                   <div class="article">
                     <div class="leftitem">{{item.product_name}}</div>
-                    <div class="rightitem">数量:{{item.number}}</div>
+                    <div class="rightitem">{{item.number | setNumber}}</div>
                   </div>
                   <div class="literature">
                     <div class="leftitem">{{item.product_model}}</div>
@@ -138,6 +138,23 @@ export default {
         order_number: null,
         _: new Date().getTime()
       }
+    }
+  },
+  filters: {
+    setOperatorName(value) {
+      return '操作:' + value
+    },
+    setTotalFundse(value) {
+      return '￥' + value
+    },
+    setCreated(value) {
+      return '发货时间:' + value
+    },
+    setCommitmentPeriod(value) {
+      return '交期:' + value
+    },
+    setNumber(value) {
+      return '数量:' + value
     }
   },
   activated() {

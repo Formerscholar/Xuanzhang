@@ -19,9 +19,7 @@
               <span>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</span>
             </span>
             <span class="cz_Sales">
-              应收:
-              <span>{{item.arrearsCount}}</span>
-              元
+              <span>{{item.arrearsCount | arrears}}</span>
             </span>
           </div>
         </div>
@@ -62,6 +60,11 @@ export default {
     distributor: {
       type: Array,
       default: []
+    }
+  },
+  filters: {
+    arrears(value) {
+      return `应收:${value}元`
     }
   },
   methods: {
@@ -128,7 +131,6 @@ export default {
     
 <style scoped lang="scss">
 #cardbox {
-  
   .box-card {
     margin-bottom: 0.714286rem;
     .box_name {

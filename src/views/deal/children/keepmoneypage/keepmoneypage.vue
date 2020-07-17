@@ -72,7 +72,6 @@
 <script>
 import navbar from '@/components/common/navbar/NavBar'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
 
 export default {
   data() {
@@ -87,7 +86,7 @@ export default {
       restaurant: [],
       CreditAmount: 0,
       timersList: {
-        CreditDate: setTimerType(new Date().getTime())
+        CreditDate: new Date().getTime()
       }
     }
   },

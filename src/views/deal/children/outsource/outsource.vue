@@ -112,7 +112,7 @@
 import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
 import timers from '@/components/content/timers/timers'
-import { setTimerType } from '@/common/utils.ts'
+
 import scroll from '@/components/common/scroll/scroll'
 import {
   getAddOutsourcingOrder,
@@ -125,8 +125,8 @@ export default {
     return {
       state: '',
       timersList: {
-        SigningDate: setTimerType(new Date().getTime()),
-        ContractField: setTimerType(new Date().getTime())
+        SigningDate: new Date().getTime(),
+        ContractField: new Date().getTime()
       },
       tableData: [],
       isShowed: false,

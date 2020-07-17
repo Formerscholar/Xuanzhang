@@ -18,7 +18,7 @@
             >
               <span>
                 {{item.order_number}}
-                <em>负责:{{item.salesperson_name}}</em>
+                <em>{{item.salesperson_name | setSalespersonName}}</em>
               </span>
               <i @click="Retrieves(item.distributor_id)">{{item.distributor_name}}</i>
             </div>
@@ -45,8 +45,8 @@
               </div>
             </div>
             <el-row class="timer">
-              <div class="Delivery">预设价格:{{item.amount_of_discount}}</div>
-              <div class="Settlement">交期:{{item.commitment_period}}</div>
+              <div class="Delivery">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+              <div class="Settlement">{{item.commitment_period | setCommitmentPeriode}}</div>
             </el-row>
           </el-card>
         </van-tab>
@@ -55,7 +55,7 @@
             <div class="info">
               <span>
                 {{item.order_number}}
-                <em>负责人：{{item.salesperson_name}}</em>
+                <em>{{item.salesperson_name | setSalespersonName}}</em>
               </span>
               <i>{{item.distributor_name}}</i>
             </div>
@@ -82,8 +82,8 @@
               </div>
             </el-row>
             <el-row class="timer">
-              <div class="Delivery">交期:{{item.commitment_period}}</div>
-              <div class="Settlement">成交价格:{{item.amount_of_discount}}</div>
+              <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
+              <div class="Settlement">{{item.amount_of_discount | setAmountInDiscount}}</div>
             </el-row>
           </el-card>
         </van-tab>
@@ -157,6 +157,20 @@ export default {
         other_order_number: null,
         _: new Date().getTime()
       }
+    }
+  },
+  filters: {
+    setSalespersonName(value) {
+      return '负责人:' + value
+    },
+    setCommitmentPeriode(value) {
+      return '交期:' + value
+    },
+    setAmountOfDiscount(value) {
+      return '预设价格:' + value
+    },
+    setAmountInDiscount(value) {
+      return '成交价格:' + value
     }
   },
   methods: {

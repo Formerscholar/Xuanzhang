@@ -127,8 +127,7 @@ export default {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
-  deactivated() {
-  },
+  deactivated() {},
 
   computed: {
     getDistributorDate() {
