@@ -6,12 +6,7 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <van-uploader
-            :after-read="afterRead"
-            :max-size="10 * 1024 * 1024"
-            v-model="fileList"
-            :max-count="1"
-          />
+          <img :src="img_URL" alt="logo" @click="imgClick" />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -147,24 +142,20 @@
         </el-collapse>
       </el-card>
     </scroll>
+    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
   </div>
 </template>
-
-
-
-
-
     
 <script>
 import scroll from '@/components/common/scroll/scroll'
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
-
+import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
 export default {
   name: 'addMaterial',
   data() {
     return {
-      fileList: [],
+      // fileList: [],
       fileLists: [],
       fileListss: [],
       fileListsss: [],
@@ -175,6 +166,7 @@ export default {
       Propsfile: '',
       Propsdesign: '',
       PropsMould: '',
+      img_URL: '',
       Remarks: '',
       options: [
         {
@@ -210,11 +202,12 @@ export default {
       DetailsproductMaterial: '',
       DetailsMoldCode: '',
       attribute: 1,
+      uploadParam: 4,
       category_id: 0,
       unit_id: ''
     }
   },
-  components: { scroll },
+  components: { scroll, SimpleCropper },
   activated() {
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false
@@ -224,17 +217,17 @@ export default {
     })
   },
   deactivated() {
-    this.iid = 0
-    this.valuesss = ''
-    this.warehouse_id = 0
-    this.type = false
-    this.fileList = []
-    this.fileLists = []
-    this.fileListss = []
-    this.fileListsss = []
-    this.optionss = []
-    this.optionsss = []
-    this.optionssss = []
+    this.$dialog
+      .confirm({
+        title: '提示',
+        message: '确认是否修改内容?'
+      })
+      .then(() => {
+        this.onsubmit()
+      })
+      .catch(() => {
+        this.clearData()
+      })
   },
   computed: {
     addMaterielData() {
@@ -266,6 +259,14 @@ export default {
     }
   },
   methods: {
+    uploadHandle(data) {
+      this.img_URL = data.substr(1)
+      this.PropsImg = this.img_URL.split(bestURL)[1]
+      console.log(this.img_URL, this.PropsImg)
+    },
+    imgClick() {
+      this.$refs['cropper'].upload()
+    },
     async afterReads(file) {
       console.log(file)
       const { data } = await uploadImg({
@@ -289,15 +290,15 @@ export default {
       })
       this.Propsdesign = data.url.split(bestURL)[1]
     },
-    async afterRead(file) {
-      console.log(file)
-      const { data } = await uploadImg({
-        user_image: file.content,
-        token: this.$store.state.token
-      })
-      this.PropsImg = data.url.split(bestURL)[1]
-      console.log(this.PropsImg)
-    },
+    // async afterRead(file) {
+    //   console.log(file)
+    //   const { data } = await uploadImg({
+    //     user_image: file.content,
+    //     token: this.$store.state.token
+    //   })
+    //   this.PropsImg = data.url.split(bestURL)[1]
+    //   console.log(this.PropsImg)
+    // },
     async getEditMater() {
       const { data } = await getEditMateriel(this.getEditMaterData)
       console.log('getEditMateriel', data)
@@ -347,7 +348,8 @@ export default {
         })
         this.LocationNum = item.warehouse_position
         if (item.img_url) {
-          this.fileList.push({ url: bestURL + item.img_url })
+          // this.fileList.push({ url: bestURL + item.img_url })
+          this.img_URL = bestURL + item.img_url
           this.PropsImg = item.img_url
         }
         this.Propsfile = item.file_dir
@@ -376,8 +378,6 @@ export default {
           message: msg,
           type: 'success'
         })
-
-        this.$router.replace('/materialpage')
       } else {
         this.$message({
           showClose: true,
@@ -385,22 +385,27 @@ export default {
           type: 'error'
         })
       }
+      this.clearData()
     },
     handleChange(val) {
       console.log(val)
     },
     onClickLeft() {
-      this.$dialog
-        .confirm({
-          title: '提示',
-          message: '确认是否修改内容?'
-        })
-        .then(() => {
-          this.onsubmit()
-        })
-        .catch(() => {
-          this.$router.replace('/materialpage')
-        })
+      this.$router.replace('/materialpage')
+    },
+    clearData() {
+      this.iid = 0
+      this.valuesss = ''
+      this.warehouse_id = 0
+      this.type = false
+      this.img_URL = ''
+      this.PropsImg = ''
+      this.fileLists = []
+      this.fileListss = []
+      this.fileListsss = []
+      this.optionss = []
+      this.optionsss = []
+      this.optionssss = []
     }
   }
 }
@@ -425,7 +430,9 @@ export default {
   }
 
   .uploadImage {
-    .van-uploader {
+    img {
+      width: 5.714286rem;
+      height: 5.714286rem;
       margin-left: 3.928571rem;
     }
   }

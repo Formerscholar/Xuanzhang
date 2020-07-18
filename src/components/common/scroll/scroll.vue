@@ -21,7 +21,6 @@ export default {
       default: false
     }
   },
-  components: {},
   data() {
     return {
       scroll: null
@@ -65,5 +64,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.content {
+  min-height: 100vh;
+}
 </style>

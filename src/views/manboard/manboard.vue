@@ -159,8 +159,7 @@ export default {
     this.getUserLists()
     this.getResignation()
   },
-  deactivated() {
-  }
+  deactivated() {}
 }
 </script>
 

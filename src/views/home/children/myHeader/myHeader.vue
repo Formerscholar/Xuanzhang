@@ -14,7 +14,7 @@
         <span>预警</span>
       </div>
       <div class="bot_item" @click="goMission">
-        <i class="el-icon-more my_more" v-show="isShow"></i>
+        <i class="my_more" v-show="isShow">{{isShow}}</i>
         <van-icon name="apps-o" class="icon" />
         <span>任务</span>
       </div>
@@ -32,8 +32,8 @@ export default {
   },
   props: {
     isShow: {
-      type: Boolean,
-      default: false
+      type: Number,
+      default: 0
     }
   },
   methods: {
@@ -77,11 +77,17 @@ export default {
       align-items: center;
       position: relative;
       .my_more {
-        color: red;
+        width: 1.428571rem;
+        height: 1.428571rem;
+        text-align: center;
+        line-height: 1.428571rem;
+        font-size: 1rem;
+        color: #f6f6f6;
+        background-color: #fc5c65;
+        border-radius: 50%;
         position: absolute;
         top: 0;
         right: 1.428571rem;
-        font-size: 1.714286rem;
       }
       div {
         font-size: 2.571429rem;

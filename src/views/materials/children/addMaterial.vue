@@ -12,12 +12,8 @@
       <el-card class="box-card">
         <el-row class="van-cell uploadImage">
           <span>图片</span>
-          <van-uploader
-            :after-read="afterRead"
-            :max-size="10 * 1024 * 1024"
-            v-model="fileList"
-            multiple
-          />
+          <img v-if="img_URL" :src="img_URL" alt="logo" @click="imgClick" />
+          <img v-else src="@/assets/image/dpng.png" alt="logo" @click="imgClick" />
         </el-row>
         <van-field v-model="MaterialName
 " label="物料名称" />
@@ -129,13 +125,15 @@
         </el-collapse>
       </el-card>
     </scroll>
+    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
   </div>
 </template>
     
 <script>
 import scroll from '@/components/common/scroll/scroll'
 import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
-
+import { bestURL, crosURl } from '@/network/baseURL'
+import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
 export default {
   name: 'addMaterial',
   data() {
@@ -147,6 +145,7 @@ export default {
       Propsdesign: '',
       PropsMould: '',
       Remarks: '',
+      img_URL: '',
       options: [
         {
           value: '1',
@@ -179,10 +178,11 @@ export default {
       Detailsweight: '',
       DetailsPiecePrice: '',
       DetailsproductMaterial: '',
-      DetailsMoldCode: ''
+      DetailsMoldCode: '',
+      uploadParam: 4
     }
   },
-  components: { scroll },
+  components: { scroll, SimpleCropper },
   activated() {
     this.getAddMater()
     document.querySelectorAll('input').forEach(item => {
@@ -222,6 +222,14 @@ export default {
     }
   },
   methods: {
+    uploadHandle(data) {
+      this.img_URL = data.substr(1)
+      this.PropsImg = this.img_URL.split(bestURL)[1]
+      console.log(this.img_URL, this.PropsImg)
+    },
+    imgClick() {
+      this.$refs['cropper'].upload()
+    },
     async afterRead(file) {
       console.log(file)
       const { data } = await uploadImg({
@@ -301,8 +309,10 @@ export default {
   }
 
   .uploadImage {
-    .van-uploader {
-      margin-left: 0.714286rem;
+    img {
+      width: 5.714286rem;
+      height: 5.714286rem;
+      margin-left: 3.928571rem;
     }
   }
   .MaterialProperties {

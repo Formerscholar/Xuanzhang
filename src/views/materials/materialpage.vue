@@ -12,29 +12,36 @@
     </div>
     <van-tabs v-model="active">
       <van-tab title="物料列表" class="Delivery">
-        <scroll class="scroll-wrapper">
+        <scroll
+          class="scroll-wrapper"
+          ref="scroll"
+          :probe-type="3"
+          :pull-up-load="true"
+          @pullingUp="loadMores"
+          @scroll="clickscroll"
+        >
           <van-swipe-cell v-for="(item,index) in materielList" :key="index">
             <template #left>
               <van-button
                 square
                 text="bom"
                 type="primary"
-                style="height: 4.714286rem;width: 4.571429rem;"
+                style="height: 5.857143rem;width: 4.571429rem;"
                 @click="tobomPage(item.id)"
               />
             </template>
             <div @click="editClick(item.id)">
               <el-card class="box-card">
-                <div class="topbox">
-                  <span>
-                    {{item.scope_of_business}}
-                    <em>产品</em>
-                  </span>
-                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
-                </div>
-                <div class="botbox">
-                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
-                  <em>库位:{{item.warehouse_position}}</em>
+                <div class="content_box_card">
+                  <div class="left_card"></div>
+                  <div class="right_card">
+                    <span>{{item.name}}</span>
+                    <span>{{item.specification}}</span>
+                    <span>
+                      {{item.stock}}
+                      <em>当前库存</em>
+                    </span>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -43,7 +50,7 @@
                 square
                 text="废弃"
                 type="danger"
-                style="height: 4.714286rem;width: 4.571429rem;"
+                style="height: 5.857143rem;width: 4.571429rem;"
                 @click="Abandoned(item.id)"
               />
             </template>
@@ -51,29 +58,36 @@
         </scroll>
       </van-tab>
       <van-tab title="临时物料" class="Delivery">
-        <scroll class="scroll-wrapper">
+        <scroll
+          class="scroll-wrapper"
+          ref="scrolls"
+          :probe-type="3"
+          :pull-up-load="true"
+          @pullingUp="loadMores"
+          @scroll="clickscroll"
+        >
           <van-swipe-cell v-for="(item,index) in Temporary" :key="index">
             <template #left>
               <van-button
                 square
                 text="废弃"
                 type="danger"
-                style="height: 4.714286rem;width: 4.571429rem;"
+                style="height: 5.857143rem;width: 4.571429rem;"
                 @click="Abandonedss(item)"
               />
             </template>
             <div>
               <el-card class="box-card">
-                <div class="topbox">
-                  <span>
-                    {{item.scope_of_business}}
-                    <em>产品</em>
-                  </span>
-                  <i>品名:{{item.name}} 规格:{{item.specification}}</i>
-                </div>
-                <div class="botbox">
-                  <span class="black">{{item.stock}}{{item.unit_name}}</span>
-                  <em>库位:{{item.warehouse_position}}</em>
+                <div class="content_box_card">
+                  <div class="left_card"></div>
+                  <div class="right_card">
+                    <span>{{item.name}}</span>
+                    <span>{{item.specification}}</span>
+                    <span>
+                      {{item.stock}}
+                      <em>当前库存</em>
+                    </span>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -82,7 +96,7 @@
                 square
                 text="使用"
                 type="info"
-                style="height: 4.714286rem;width: 4.571429rem;"
+                style="height: 5.857143rem;width: 4.571429rem;"
                 @click="uses(item)"
               />
             </template>
@@ -105,7 +119,12 @@ export default {
       active: 0,
       searchValue: '',
       materielList: [],
-      Temporary: []
+      Temporary: [],
+      allPage: 1,
+      onePage: 1,
+      twoPage: 1,
+      isOne: true,
+      isTwo: true
     }
   },
   components: {
@@ -116,6 +135,11 @@ export default {
     this.getTemporary()
   },
   deactivated() {
+    this.allPage = 1
+    this.onePage = 1
+    this.twoPage = 1
+    this.isOne = true
+    this.isTwo = true
     this.materielList = []
     this.Temporary = []
   },
@@ -123,7 +147,7 @@ export default {
     getMaterielData() {
       return {
         token: this.$store.state.token,
-        page: 1,
+        page: this.allPage,
         offset: 20,
         materiel_name: null,
         specification: null,
@@ -134,7 +158,7 @@ export default {
     getTemporaryData() {
       return {
         token: this.$store.state.token,
-        page: 1,
+        page: this.allPage,
         offset: 20,
         materiel_name: null,
         specification: null,
@@ -144,11 +168,46 @@ export default {
     }
   },
   methods: {
+    clickscroll() {
+      this.allPage = 1
+      if (!this.active) {
+        this.onePage = 1
+        this.isOne = true
+        this.materielList = []
+        this.getMaterie()
+      } else {
+        this.twoPage = 1
+        this.isTwo = true
+        this.Temporary = []
+        this.getTemporary()
+      }
+    },
+    loadMores() {
+      if (!this.active) {
+        if (this.isOne) {
+          this.allPage = ++this.onePage
+          this.getMaterie()
+          this.$refs.scroll.finishPullUp()
+        } else {
+          this.$toast('没有更多数据了')
+          this.$refs.scroll.finishPullUp()
+        }
+      } else {
+        if (this.isTwo) {
+          this.allPage = ++this.twoPage
+          this.getTemporary()
+          this.$refs.scrolls.finishPullUp()
+        } else {
+          this.$toast('没有更多数据了')
+          this.$refs.scrolls.finishPullUp()
+        }
+      }
+    },
     async primarySearch(value) {
       let datamateriel_status
-      if (this.active == 0) {
+      if (!this.active) {
         datamateriel_status = 'normal'
-      } else if (this.active == 1) {
+      } else {
         datamateriel_status = 'wait_check'
       }
       const { data, code, msg } = await getMaterielList({
@@ -161,9 +220,9 @@ export default {
         _: new Date().getTime()
       })
       if (code == 200) {
-        if (this.active == 0) {
+        if (!this.active) {
           this.materielList = data.materielList
-        } else if (this.active == 1) {
+        } else {
           this.Temporary = data.materielList
         }
 
@@ -195,9 +254,7 @@ export default {
         unit_id: 9
       })
       if (code == 200) {
-        this.materielList = []
         this.getMaterie()
-        this.Temporary = []
         this.getTemporary()
         this.$message({
           showClose: true,
@@ -224,9 +281,7 @@ export default {
         unit_id: data.unit_id
       })
       if (code == 200) {
-        this.materielList = []
         this.getMaterie()
-        this.Temporary = []
         this.getTemporary()
         this.$message({
           showClose: true,
@@ -253,9 +308,7 @@ export default {
         unit_id: null
       })
       if (code == 200) {
-        this.materielList = []
         this.getMaterie()
-        this.Temporary = []
         this.getTemporary()
         this.$message({
           showClose: true,
@@ -279,12 +332,24 @@ export default {
     async getMaterie() {
       const { data } = await getMaterielList(this.getMaterielData)
       console.log('getMaterielList', data)
-      this.materielList = data.materielList
+      if (data.materielList.length) {
+        data.materielList.map(item => {
+          this.materielList.push(item)
+        })
+      } else {
+        this.isOne = false
+      }
     },
     async getTemporary() {
       const { data } = await getMaterielList(this.getTemporaryData)
       console.log('Temporary', data)
-      this.Temporary = data.materielList
+      if (data.materielList.length) {
+        data.materielList.map(item => {
+          this.Temporary.push(item)
+        })
+      } else {
+        this.isTwo = false
+      }
     },
     onClickLeft() {
       this.$router.replace('/home')
@@ -297,8 +362,10 @@ export default {
 </script>
 
 <style lang="scss">
-.van-tabs__line {
-  background-color: #3390ff;
+#materialpage {
+  .van-tabs__line {
+    background-color: #3390ff;
+  }
 }
 </style>
 
@@ -343,45 +410,81 @@ export default {
     }
     .box-card {
       margin-bottom: 0.571429rem;
-      .topbox {
+      .content_box_card {
+        overflow: auto;
+        padding: 0 0.714286rem;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        span {
-          font-size: 0.857143rem;
-          color: #ff9d17;
-          font-weight: 700;
-          em {
-            color: #acacac;
-            padding-left: 0.571429rem;
-            font-weight: normal;
+        justify-content: flex-start;
+        align-items: center;
+        .left_card {
+          float: left;
+          width: 4.214286rem;
+          height: 4.214286rem;
+          background-color: #e8e8e8;
+          border-radius: 0.357143rem;
+          margin-right: 1.428571rem;
+        }
+        .right_card {
+          float: left;
+          display: flex;
+          flex-direction: column;
+          span {
+            font-size: 1rem;
+            color: #686868;
+            &:first-child {
+              font-size: 1.142857rem;
+              font-weight: 700;
+              color: #666666;
+            }
+            &:last-child {
+              color: #ffcc00;
+            }
+            em {
+              color: #c6c6c6;
+              font-weight: 700;
+            }
           }
         }
-        i {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #000;
-        }
       }
-      .botbox {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        font-size: 0.857143rem;
-        margin-top: 0.714286rem;
-        span {
-          font-weight: 700;
-        }
-        .black {
-          color: #000000;
-        }
-        .red {
-          color: red;
-        }
-        em {
-          color: #acacac;
-        }
-      }
+      // .topbox {
+      //   display: flex;
+      //   justify-content: space-between;
+      //   align-items: flex-end;
+      //   span {
+      //     font-size: 0.857143rem;
+      //     color: #ff9d17;
+      //     font-weight: 700;
+      //     em {
+      //       color: #acacac;
+      //       padding-left: 0.571429rem;
+      //       font-weight: normal;
+      //     }
+      //   }
+      //   i {
+      //     font-size: 1rem;
+      //     font-weight: 700;
+      //     color: #000;
+      //   }
+      // }
+      // .botbox {
+      //   display: flex;
+      //   justify-content: space-between;
+      //   align-items: flex-end;
+      //   font-size: 0.857143rem;
+      //   margin-top: 0.714286rem;
+      //   span {
+      //     font-weight: 700;
+      //   }
+      //   .black {
+      //     color: #000000;
+      //   }
+      //   .red {
+      //     color: red;
+      //   }
+      //   em {
+      //     color: #acacac;
+      //   }
+      // }
     }
   }
   .el-icon-plus {

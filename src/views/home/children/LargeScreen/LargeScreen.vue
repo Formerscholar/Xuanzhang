@@ -291,7 +291,7 @@ export default {
       isTShow: false,
       isSShow: false
       // firstNames: '张',
-      // lastNames: '三',
+      // lastNames: '三'
       // oneObj: {
       //   data: '001',
       //   upOBJ: {
@@ -401,6 +401,7 @@ export default {
     //   },
     //   set: function(newValue) {
     //     this.firstNames = newValue
+    //     return newValue
     //   }
     // },
     // lastName: {
@@ -409,6 +410,7 @@ export default {
     //   },
     //   set: function(newValue) {
     //     this.lastNames = newValue
+    //     return newValue
     //   }
     // }
   },
@@ -426,8 +428,10 @@ export default {
     }
   },
   updated() {
-    // console.log('firstName = ' + this.firstNames)
-    // console.log('lastName = ' + this.lastNames)
+    // console.log('firstName = ' + this.firstName)
+    // console.log('lastName = ' + this.lastName)
+    // console.log('firstNames = ' + this.firstNames)
+    // console.log('lastNames = ' + this.lastNames)
   },
   methods: {
     // ClickCeshi() {

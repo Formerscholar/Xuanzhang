@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      isShow: false,
+      isShow: 0,
       overlayshow: false
     }
   },
@@ -63,7 +63,7 @@ export default {
     this.getUserDesignat()
   },
   deactivated() {
-    this.isShow = false
+    this.isShow = 0
   },
   computed: {
     getUserDesignatedTasksData() {
@@ -89,13 +89,7 @@ export default {
       const { data } = await getUserDesignatedTasks(
         this.getUserDesignatedTasksData
       )
-      data.designatedTasksList.map((item, index) => {
-        if (item.user_status == 0) {
-          this.isShow = true
-        } else {
-          this.isShow = false
-        }
-      })
+      this.isShow = data.designatedTasksList.length
     },
     scanClick() {
       this.$router.push('/scan')

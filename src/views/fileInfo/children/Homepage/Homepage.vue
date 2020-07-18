@@ -41,8 +41,7 @@ export default {
   activated() {
     this.activeInfo()
   },
-  deactivated() {
-  },
+  deactivated() {},
   computed: {
     name() {
       return this.userInfo.name
