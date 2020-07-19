@@ -109,11 +109,8 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import timers from '@/components/content/timers/timers'
 
-import scroll from '@/components/common/scroll/scroll'
 import {
   getAddOutsourcingOrder,
   getReceivingInformationList,
@@ -212,7 +209,7 @@ export default {
       number: 0
     }
   },
-  components: { navbar, timers, scroll },
+
   activated() {
     this.getAddOemOrders()
     if (this.$store.state.timers.SigningDate != '') {

@@ -73,8 +73,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
 import { getCollectInvoiceRecordList } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
 import myVqr from '@/components/common/my_vqr/myVqr'
@@ -90,7 +88,7 @@ export default {
       deliveryRecordList: []
     }
   },
-  components: { navbar, scroll, myVqr },
+  components: { myVqr },
   activated() {
     this.iid = this.$route.params.id
     this.getDeliverGoodsLists()

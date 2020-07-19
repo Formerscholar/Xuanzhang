@@ -103,7 +103,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { getUserList } from '@/network/login'
 export default {
   data() {
@@ -113,7 +112,7 @@ export default {
       Resignation: []
     }
   },
-  components: { navbar },
+
   computed: {
     getUserListData() {
       return {

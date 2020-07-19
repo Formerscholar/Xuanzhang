@@ -83,9 +83,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import timers from '@/components/content/timers/timers'
-
 import {
   getAddDeliverGoodsDistributors,
   getAddDeliverGoods,
@@ -116,7 +113,6 @@ export default {
     }
   },
   components: {
-    navbar,
     timers
   },
   computed: {

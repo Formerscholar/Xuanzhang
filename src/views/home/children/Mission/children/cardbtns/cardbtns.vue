@@ -141,14 +141,13 @@
 </template>
     
 <script>
-import scroll from '@/components/common/scroll/scroll'
 export default {
   data() {
     return {
       activeName: 'first'
     }
   },
-  components: { scroll },
+
   props: {
     designatedTasksList: {
       type: Array,

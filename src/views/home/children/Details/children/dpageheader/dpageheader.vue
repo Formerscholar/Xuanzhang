@@ -13,11 +13,9 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   name: 'dpageheader',
-  components: { navbar },
+
   methods: {
     goBack() {
       this.$router.go(-1)

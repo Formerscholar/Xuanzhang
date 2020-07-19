@@ -8,6 +8,13 @@ Vue.config.productionTip = false
 import './assets/css/style.scss'
 import './assets/icon-font/iconfont.css'
 
+import navbar from '@/components/common/navbar/NavBar'
+import timers from '@/components/content/timers/timers'
+import scroll from '@/components/common/scroll/scroll'
+Vue.component('scroll', scroll)
+Vue.component('timers', timers)
+Vue.component('navbar', navbar)
+
 import 'ant-design-vue/dist/antd.css'
 import antd from 'ant-design-vue'
 Vue.use(antd)

@@ -9,14 +9,13 @@
     
 <script>
 import companyCard from '@/views/businessLogin/children/companyCard/companyCard'
-import navbar from '@/components/common/navbar/NavBar'
+
 import { getIndex } from '@/network/login.js'
 
 export default {
   name: 'businessLogin',
   components: {
     companyCard,
-    navbar
   },
   data() {
     return {

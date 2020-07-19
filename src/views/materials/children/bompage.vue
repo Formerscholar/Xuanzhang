@@ -35,7 +35,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import {
   getAddSpareParts,
   getMaterielBoom,
@@ -56,7 +55,7 @@ export default {
       tableData: []
     }
   },
-  components: { navbar },
+
   activated() {
     this.getAddSpare()
     this.iid = this.$route.params.id

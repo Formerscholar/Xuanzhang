@@ -147,7 +147,6 @@
 </template>
     
 <script>
-import scroll from '@/components/common/scroll/scroll'
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
@@ -207,7 +206,7 @@ export default {
       unit_id: ''
     }
   },
-  components: { scroll, SimpleCropper },
+  components: { SimpleCropper },
   activated() {
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false

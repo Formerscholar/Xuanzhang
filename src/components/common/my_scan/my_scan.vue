@@ -17,8 +17,6 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import navbar from '@/components/common/navbar/NavBar'
-
 let scan = null
 let styles = { frameColor: '#2a88ff', scanbarColor: '#2a88ff' }
 let filter
@@ -28,7 +26,6 @@ export default {
       codeUrl: ''
     }
   },
-  components: { navbar },
   activated() {
     this.startRecognize()
     this.startScan()

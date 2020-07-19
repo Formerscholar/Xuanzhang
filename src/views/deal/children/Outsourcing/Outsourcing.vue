@@ -111,13 +111,13 @@ import {
   getUndischargedOutsourcingOrderList,
   getLiquidatedOutsourcingOrderList
 } from '@/network/deal'
-import scroll from '@/components/common/scroll/scroll'
+
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
 
 export default {
   name: 'Outsourcing',
-  components: { scroll, myVqr },
+  components: { myVqr },
   data() {
     return {
       Loop: null,

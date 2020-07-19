@@ -266,9 +266,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-
 import { getlargeAcreenOrderProduct, changeProductStatus } from '@/network/home'
 
 export default {
@@ -310,10 +307,7 @@ export default {
       // }
     }
   },
-  components: {
-    navbar,
-    scroll
-  },
+
   // filters: {
   //   orderNum(value) {
   //     return '合同号: ' + value

@@ -9,11 +9,10 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 export default {
   name: 'con_navbar',
-  components: { navbar },
   methods: {
     callBack() {
       this.$router.go(-1)

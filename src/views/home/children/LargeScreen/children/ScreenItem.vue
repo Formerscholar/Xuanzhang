@@ -39,11 +39,8 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   components: {
-    navbar
   },
   data() {
     return {

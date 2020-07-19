@@ -23,7 +23,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import areaList from '@/common/area'
 
 export default {
@@ -35,9 +34,8 @@ export default {
     }
   },
   components: {
-    navbar
   },
-  
+
   methods: {
     onSave(content) {
       console.log('save', content)

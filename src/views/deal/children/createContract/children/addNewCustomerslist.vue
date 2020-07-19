@@ -27,7 +27,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 export default {
   data() {
@@ -42,7 +42,6 @@ export default {
     }
   },
   components: {
-    navbar
   },
   methods: {
     blacknext() {

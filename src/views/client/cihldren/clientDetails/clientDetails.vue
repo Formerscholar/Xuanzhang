@@ -49,8 +49,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   name: 'clientDetails',
   data() {
@@ -72,7 +70,6 @@ export default {
     }
   },
   components: {
-    navbar
   },
   filters: {
     SetClientName(value) {

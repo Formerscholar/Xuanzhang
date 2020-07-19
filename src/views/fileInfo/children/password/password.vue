@@ -31,7 +31,6 @@
 
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { editUser } from '@/network/home'
 
 export default {
@@ -41,7 +40,7 @@ export default {
       email: ''
     }
   },
-  components: { navbar },
+
   methods: {
     goBack() {
       this.$router.go(-1)
@@ -60,8 +59,7 @@ export default {
   activated() {
     this.activeInfo()
   },
-  deactivated() {
-  },
+  deactivated() {},
   computed: {
     editUserData() {
       let from = new FormData()

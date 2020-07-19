@@ -91,7 +91,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { getEditContractOrder } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
 
@@ -105,7 +104,6 @@ export default {
       imgData: ''
     }
   },
-  components: { navbar },
   activated() {
     this.iid = this.$route.params.id
     this.getEditContractOrders()

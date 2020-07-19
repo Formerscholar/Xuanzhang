@@ -84,10 +84,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-import timers from '@/components/content/timers/timers'
-
 import {
   getAddDeliverGoodsDistributors,
   addDeliverRecord
@@ -117,7 +113,7 @@ export default {
       distributor_id: ''
     }
   },
-  components: { navbar, scroll, timers },
+  components: { timers },
   activated() {
     document.querySelectorAll('input').forEach(item => {
       item.style.border = 'none'

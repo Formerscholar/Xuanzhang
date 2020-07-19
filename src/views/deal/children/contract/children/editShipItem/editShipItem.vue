@@ -95,10 +95,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-import timers from '@/components/content/timers/timers'
-
 import {
   getAddDeliverGoodsDistributors,
   editAutonomousReturnRecord,
@@ -178,7 +174,7 @@ export default {
       iid: ''
     }
   },
-  components: { navbar, scroll, timers },
+  components: { timers },
   created() {
     this.getAddDeliverGood()
   },

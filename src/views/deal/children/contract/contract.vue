@@ -98,12 +98,12 @@ import {
   getFlowOrderList,
   deleteFlowOrderProduct
 } from '@/network/deal'
-import scroll from '@/components/common/scroll/scroll'
+
 import { throttle } from '@/common/utils.ts'
 
 export default {
   name: 'contract',
-  components: { scroll },
+
   data() {
     return {
       active: 0,

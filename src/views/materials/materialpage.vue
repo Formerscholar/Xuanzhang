@@ -110,7 +110,6 @@
     
 <script>
 import { getMaterielList, editMaterielStatus } from '@/network/materials'
-import scroll from '@/components/common/scroll/scroll'
 
 export default {
   name: 'materialpage',
@@ -127,9 +126,7 @@ export default {
       isTwo: true
     }
   },
-  components: {
-    scroll
-  },
+
   activated() {
     this.getMaterie()
     this.getTemporary()

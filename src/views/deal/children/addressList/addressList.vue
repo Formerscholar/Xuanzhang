@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   name: 'addressEdit',
   data() {
@@ -30,9 +28,7 @@ export default {
       list: []
     }
   },
-  components: {
-    navbar
-  },
+  components: {},
   created() {},
   activated() {
     if (this.$route.params.data.length > 0) {

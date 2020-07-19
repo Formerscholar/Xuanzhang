@@ -197,9 +197,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import scroll from '@/components/common/scroll/scroll'
 
 import {
   getAddContractOrder,
@@ -209,7 +207,6 @@ import {
   addContractOrder,
   getMaterielList
 } from '@/network/deal'
-import timers from '@/components/content/timers/timers'
 
 export default {
   name: 'createContract',
@@ -296,7 +293,7 @@ export default {
       shippingData: []
     }
   },
-  components: { navbar, scroll, timers },
+  components: { timers },
   created() {
     this.getAddContract()
   },

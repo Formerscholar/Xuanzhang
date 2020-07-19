@@ -16,7 +16,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 import { logout } from '@/network/login'
 
 export default {
@@ -25,7 +25,6 @@ export default {
     return {}
   },
   components: {
-    navbar
   },
   methods: {
     gobaseLogin() {

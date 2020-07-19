@@ -65,9 +65,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { getSupplierDetail } from '@/network/deal'
-import scroll from '@/components/common/scroll/scroll'
 
 export default {
   data() {
@@ -78,7 +76,7 @@ export default {
       orderList: []
     }
   },
-  components: { navbar, scroll },
+
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()

@@ -104,9 +104,8 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import scroll from '@/components/common/scroll/scroll'
+
 import {
   getDistributorUser,
   addDistributor,
@@ -121,7 +120,7 @@ import { getAddOutsourcingOrder } from '@/network/deal'
 
 export default {
   name: 'clientedit',
-  components: { navbar, scroll },
+
   data() {
     return {
       tagsName: [],

@@ -48,7 +48,6 @@ import {
   getAddContractOrder
 } from '@/network/client'
 import { getAddOutsourcingOrder } from '@/network/deal'
-import scroll from '@/components/common/scroll/scroll'
 
 export default {
   name: 'Client',
@@ -58,7 +57,7 @@ export default {
     cardsearch,
     cardsearchs,
     cardbox,
-    scroll,
+
     MainTabBar
   },
   data() {

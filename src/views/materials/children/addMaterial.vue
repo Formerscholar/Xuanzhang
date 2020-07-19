@@ -130,7 +130,6 @@
 </template>
     
 <script>
-import scroll from '@/components/common/scroll/scroll'
 import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
@@ -182,7 +181,7 @@ export default {
       uploadParam: 4
     }
   },
-  components: { scroll, SimpleCropper },
+  components: { SimpleCropper },
   activated() {
     this.getAddMater()
     document.querySelectorAll('input').forEach(item => {

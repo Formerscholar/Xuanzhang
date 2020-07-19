@@ -22,8 +22,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   name: 'selectTime',
   data() {
@@ -35,7 +33,6 @@ export default {
     }
   },
   components: {
-    navbar
   },
   activated() {
     this.type = this.$route.params.type

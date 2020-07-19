@@ -11,12 +11,11 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 export default {
   name: 'topbar',
   components: {
-    navbar
   },
   data() {
     return {

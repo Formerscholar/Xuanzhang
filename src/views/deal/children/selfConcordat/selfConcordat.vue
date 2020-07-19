@@ -109,9 +109,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { getDistributorDetail } from '@/network/deal'
-import scroll from '@/components/common/scroll/scroll'
 
 export default {
   name: 'selfConcordat',
@@ -122,7 +120,7 @@ export default {
       orderList: []
     }
   },
-  components: { navbar, scroll },
+
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()

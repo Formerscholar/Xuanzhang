@@ -28,9 +28,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-
 import { deleteDeliverRecord } from '@/network/deal'
 export default {
   name: 'ShipmentItem',
@@ -39,7 +36,7 @@ export default {
       deliveryRecordItem: {}
     }
   },
-  components: { navbar, scroll },
+
   activated() {
     this.deliveryRecordItem = this.$route.query.data
     console.log(this.deliveryRecordItem)

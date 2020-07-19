@@ -89,15 +89,12 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-
 import {
   addDesignatedTasks,
   getAddDesignatedTasks,
   uploadImage
 } from '@/network/home'
-import timers from '@/components/content/timers/timers'
+
 export default {
   name: 'Newtask',
   data() {
@@ -136,7 +133,7 @@ export default {
       AssignArr: []
     }
   },
-  components: { navbar, timers, scroll },
+
   async activated() {
     if (this.$store.state.timers.end_time != '') {
       this.timersList.end_time = this.$store.state.timers.end_time

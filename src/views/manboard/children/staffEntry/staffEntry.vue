@@ -82,7 +82,7 @@
     
 <script>
 import Avatar from '@/components/content/Avatar/Avatar'
-import navbar from '@/components/common/navbar/NavBar'
+
 import { getDepartments, getRoles, addUser } from '@/network/login'
 import { bestURL, crosURl } from '@/network/baseURL'
 export default {
@@ -103,13 +103,12 @@ export default {
       dataImgUrl: ''
     }
   },
-  components: { navbar, Avatar },
+  components: { Avatar },
   activated() {
     this.getDepartment()
     this.getRolesList()
   },
-  deactivated() {
-  },
+  deactivated() {},
   computed: {
     getDepartmentData() {
       return {

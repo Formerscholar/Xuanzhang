@@ -184,16 +184,11 @@
 </template>
     
 <script>
-import scroll from '@/components/common/scroll/scroll'
-import navbar from '@/components/common/navbar/NavBar'
 import { getReimbursementLists } from '@/network/Reimbursement.js'
 
 export default {
   name: 'Reimbursement',
-  components: {
-    navbar,
-    scroll
-  },
+
   data() {
     return {
       activeName: 'first',
@@ -216,8 +211,7 @@ export default {
   activated() {
     this.getReimburse()
   },
-  deactivated() {
-  },
+  deactivated() {},
   methods: {
     blackhome() {
       this.$router.go(-1)

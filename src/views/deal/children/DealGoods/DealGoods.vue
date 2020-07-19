@@ -44,7 +44,7 @@
 import DealGoodsItem from './DealGoodsItem.vue'
 import Options from '@/views/deal/children/Options/Options'
 import { throttle } from '@/common/utils.ts'
-import scroll from '@/components/common/scroll/scroll'
+
 import {
   getContractOrderList,
   deleteContractOrder,
@@ -75,7 +75,7 @@ export default {
   components: {
     DealGoodsItem,
     Options,
-    scroll,
+
     myVqr
   },
   created() {

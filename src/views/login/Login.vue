@@ -63,12 +63,12 @@
 
 <script>
 import { getlogin, getIndex } from '@/network/login.js'
-import navbar from '@/components/common/navbar/NavBar'
+
 import PuzzleVerification from '@/components/common/puzzleVerification/puzzleVerification'
 
 export default {
   name: 'Login',
-  components: { navbar, PuzzleVerification },
+  components: { PuzzleVerification },
   data() {
     return {
       MaskShow: false,

@@ -33,13 +33,12 @@
 
 <script>
 import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
-
 import topbar from '@/views/home/children/topbar/topbar'
 import myHeader from '@/views/home/children/myHeader/myHeader'
 import Ability from '@/views/home/children/ability/Ability'
 import myEcharts from '@/views/home/children/myEcharts/myEcharts'
 import reminder from '@/views/home/children/reminder/reminder'
-import scroll from '@/components/common/scroll/scroll'
+
 import { getUserDesignatedTasks } from '@/network/home'
 
 export default {
@@ -49,7 +48,7 @@ export default {
     myHeader,
     Ability,
     myEcharts,
-    scroll,
+
     reminder,
     MainTabBar
   },

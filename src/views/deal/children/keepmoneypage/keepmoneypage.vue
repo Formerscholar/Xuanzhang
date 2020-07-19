@@ -70,9 +70,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import timers from '@/components/content/timers/timers'
-
 export default {
   data() {
     return {
@@ -90,7 +87,7 @@ export default {
       }
     }
   },
-  components: { navbar, timers },
+  components: { timers },
   activated() {
     if (this.$store.state.timers.CreditDate != '') {
       this.timersList.CreditDate = this.$store.state.timers.CreditDate

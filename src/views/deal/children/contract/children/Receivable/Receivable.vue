@@ -87,10 +87,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
-import timers from '@/components/content/timers/timers'
-
 import {
   getAddSettlementRecordDistributors,
   addSettlementRecord,
@@ -124,8 +120,6 @@ export default {
     }
   },
   components: {
-    navbar,
-    scroll,
     timers
   },
   activated() {

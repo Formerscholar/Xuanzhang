@@ -68,9 +68,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { regionData, CodeToText } from 'element-china-area-data'
-import timers from '@/components/content/timers/timers'
 import { getAddFlowOrder, getMaterielList, addFlowOrder } from '@/network/deal'
 export default {
   name: 'addbill',
@@ -130,7 +128,6 @@ export default {
       shippingData: []
     }
   },
-  components: { navbar, timers },
   activated() {
     this.getAddFlow()
     this.getMateriel()

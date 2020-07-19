@@ -7,12 +7,11 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 export default {
   name: 'oTopbar',
   components: {
-    navbar
   }
 }
 </script>

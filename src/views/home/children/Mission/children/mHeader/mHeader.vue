@@ -13,12 +13,11 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 export default {
   name: 'mHeader',
   components: {
-    navbar
   },
   methods: {
     blackhome() {

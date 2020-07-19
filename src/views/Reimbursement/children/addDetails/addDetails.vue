@@ -94,7 +94,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 
 import { getAddReimbursement } from '@/network/Reimbursement.js'
 
@@ -142,7 +142,6 @@ export default {
     }
   },
   components: {
-    navbar
   },
   mounted() {
     document.querySelector('.money .left input').style.border = 'none'

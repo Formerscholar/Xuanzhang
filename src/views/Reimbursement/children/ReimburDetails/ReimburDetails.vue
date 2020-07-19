@@ -90,11 +90,10 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import { reimbursementDetail } from '@/network/Reimbursement.js'
 export default {
   name: 'ReimburDetails',
-  components: { navbar },
+
   data() {
     return {
       iid: 0,

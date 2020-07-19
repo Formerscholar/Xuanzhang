@@ -67,8 +67,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
 import {
@@ -78,7 +76,7 @@ import {
 } from '@/network/deal'
 
 export default {
-  components: { navbar, scroll, myVqr },
+  components: { myVqr },
   data() {
     return {
       deliveryRecordList: [],

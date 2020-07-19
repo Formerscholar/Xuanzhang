@@ -22,7 +22,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
 import Avatar from '@/components/content/Avatar/Avatar'
 import userName from '@/views/fileInfo/children/userName/userName'
 import gender from '@/views/fileInfo/children/gender/gender'
@@ -31,7 +30,7 @@ import Roles from '@/views/fileInfo/children/Roles/Roles'
 
 export default {
   name: 'Homepage',
-  components: { navbar, Avatar, userName, gender, department, Roles },
+  components: { Avatar, userName, gender, department, Roles },
   data() {
     return {
       userInfo: {},

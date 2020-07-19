@@ -32,8 +32,6 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-import scroll from '@/components/common/scroll/scroll'
 import { bestURL } from '@/network/baseURL'
 
 export default {
@@ -86,12 +84,11 @@ export default {
       ]
     }
   },
-  components: { navbar, scroll },
+
   activated() {
     this.bestURL = bestURL
   },
-  deactivated() {
-  },
+  deactivated() {},
   methods: {
     blackhome() {
       this.$router.go(-1)

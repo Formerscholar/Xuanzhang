@@ -66,7 +66,7 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
+ 
 import {
   getAddReimbursement,
   addReimbursement
@@ -87,7 +87,6 @@ export default {
     }
   },
   components: {
-    navbar
   },
   activated() {
     document.querySelectorAll('input').forEach(item => {

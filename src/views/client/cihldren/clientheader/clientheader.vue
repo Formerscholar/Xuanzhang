@@ -11,22 +11,17 @@
 </template>
     
 <script>
-import navbar from '@/components/common/navbar/NavBar'
-
 export default {
   name: 'clientheader',
-  components: { navbar },
-  props:{
-    
-  }
+  props: {}
 }
 </script>
     
 <style scoped lang="scss">
 #clientheader {
   .p_root_box {
-      span {
-        font-size: 1.571429rem;
+    span {
+      font-size: 1.571429rem;
     }
   }
 }
