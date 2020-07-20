@@ -164,7 +164,7 @@ export default {
 
 <style scoped lang="scss">
 #manboard {
-  padding-top: 1rem;
+  padding-top: 5.428571rem;
   .Controlled_root {
     font-size: 1.285714rem;
     background-color: #fff;

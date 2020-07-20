@@ -59,7 +59,7 @@ export default {
     
 <style lang="scss">
 #Controlled {
-  padding-top: 1rem;
+  padding-top: 5.428571rem;
   height: 100vh;
 }
 </style>
