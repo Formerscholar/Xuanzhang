@@ -362,7 +362,7 @@ export default {
         token: this.$store.state.token,
         page: this.allpage,
         offset: 20,
-        order_type: 'contract',
+        order_type: '0',
         _: new Date().getTime()
       }
     },

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const Home = () => import('../views/home/Home')
+
+const homeManu = () => import('@/views/homeManu/homeManu')
 const Mission = () => import('../views/home/children/Mission/Mission')
 const Newtask = () =>
   import('../views/home/children/Mission/children/Newtask/Newtask')
@@ -460,6 +462,10 @@ const routes = [
     path: '/ScreenItem',
     name: 'data',
     component: ScreenItem,
+  },
+  {
+    path: '/homeManu',
+    component: homeManu,
   },
 ]
 

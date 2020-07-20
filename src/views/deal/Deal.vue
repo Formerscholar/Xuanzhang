@@ -3,11 +3,9 @@
     <!-- selection -->
     <selection :selectionList="selectionList" @selectionClick="selectionClick" />
     <!-- goods -->
-    <transition name="van-fade">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
-    </transition>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <MainTabBar />
   </div>
 </template>

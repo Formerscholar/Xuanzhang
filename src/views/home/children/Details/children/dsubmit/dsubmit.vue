@@ -156,6 +156,21 @@ export default {
     }
   },
   methods: {
+    setDataTrueO() {
+      this.completeVisible = true
+    },
+    setDataTrueT() {
+      this.centerDialogVisible = true
+    },
+    setDataTrueS() {
+      this.confirmDialogVisible = true
+    },
+    setDataTrueF() {
+      this.cancelVisible = true
+    },
+    setDataTrueFI() {
+      this.referVisible = true
+    },
     async getdealitem() {
       const { data } = await getDesignatedTasksDetail(this.getdealitemData)
       this.data = data
@@ -171,10 +186,9 @@ export default {
               '" data-status="1" data-type="1">提交</span><button/>'
             document.querySelector('#confirm').innerHTML = html
             html = ''
-            document.querySelector('#confirm').addEventListener('click', () => {
-              console.log('--------提交confirm---------')
-              this.referVisible = true
-            })
+            document
+              .querySelector('#confirm')
+              .addEventListener('click', this.setDataTrueFI)
           } else {
             html +=
               '<button type="button" class="btn btn-info"><span data-toggle="modal" data-target="#userComplete" data-id="' +
@@ -182,10 +196,9 @@ export default {
               '" data-status="0" data-type="1">取消提交</span></ a>'
             document.querySelector('#reject').innerHTML = html
             html = ''
-            document.querySelector('#reject').addEventListener('click', () => {
-              console.log('--------取消提交reject---------')
-              this.cancelVisible = true
-            })
+            document
+              .querySelector('#reject')
+              .addEventListener('click', this.setDataTrueF)
           }
         }
       } else {
@@ -197,20 +210,18 @@ export default {
               '" data-status="1" data-type="2">确认</span></button>'
             document.querySelector('#confirm').innerHTML = html
             html = ''
-            document.querySelector('#confirm').addEventListener('click', () => {
-              console.log('--------确认confirm---------')
-              this.confirmDialogVisible = true
-            })
+            document
+              .querySelector('#confirm')
+              .addEventListener('click', this.setDataTrueS)
             html =
               '<button type="button" id="reject" class="btn btn-danger"><span data-toggle="modal" data-target="#userComplete" data-id="' +
               this.data.designatedTasks.id +
               '" data-status="2" data-type="2">驳回</span></button>'
             document.querySelector('#reject').innerHTML = html
             html = ''
-            document.querySelector('#reject').addEventListener('click', () => {
-              console.log('--------驳回reject---------')
-              this.centerDialogVisible = true
-            })
+            document
+              .querySelector('#reject')
+              .addEventListener('click', this.setDataTrueT)
           } else if (this.data.designatedTasks.status == 1) {
             html =
               '<button type="danger" id="reject"   class="btn btn-danger"><span data-toggle="modal" data-target="#userComplete" data-id="' +
@@ -218,10 +229,9 @@ export default {
               '" data-status="2" data-type="2">驳回</span></button>'
             document.querySelector('#reject').innerHTML = html
             html = ''
-            document.querySelector('#reject').addEventListener('click', () => {
-              console.log('--------驳回reject---------')
-              this.centerDialogVisible = true
-            })
+            document
+              .querySelector('#reject')
+              .addEventListener('click', this.setDataTrueT)
           } else if (this.data.designatedTasks.status == 2) {
             html =
               '<button type="button" class="btn btn-success"><span data-toggle="modal" data-target="#userComplete" data-id="' +
@@ -229,13 +239,30 @@ export default {
               '" data-status="1" data-type="2">完成</span></button>'
             document.querySelector('#confirm').innerHTML = html
             html = ''
-            document.querySelector('#confirm').addEventListener('click', () => {
-              console.log('--------完成confirm---------')
-              this.completeVisible = true
-            })
+            document
+              .querySelector('#confirm')
+              .addEventListener('click', this.setDataTrueO)
           }
         }
       }
+
+      this.$once('hook:deactivated', () => {
+        document
+          .querySelector('#confirm')
+          .removeEventListener('click', this.setDataTrueFI)
+        document
+          .querySelector('#reject')
+          .removeEventListener('click', this.setDataTrueF)
+        document
+          .querySelector('#confirm')
+          .removeEventListener('click', this.setDataTrueS)
+        document
+          .querySelector('#reject')
+          .removeEventListener('click', this.setDataTrueT)
+        document
+          .querySelector('#confirm')
+          .removeEventListener('click', this.setDataTrueO)
+      })
     },
     //驳回确认
     async RejectConfirmation(e) {

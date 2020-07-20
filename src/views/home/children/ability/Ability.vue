@@ -84,39 +84,45 @@ export default {
           icon_Url: 'icon-ziyuan146',
           title: '统计报表'
         },
+        // {
+        //   icon_Url: 'icon-kefu',
+        //   title: '售后'
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan138',
+        //   title: '新建合同',
+        //   path: '/create-contract'
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan138',
+        //   title: '发起委外',
+        //   path: '/outsource'
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan140',
+        //   title: '合同发货',
+        //   path: '/ContractDelivery'
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan140',
+        //   title: '来料发货',
+        //   path: '/IncomingDelivery'
+        // },
+        // {
+        //   icon_Url: 'icon-shujuxiazai-01',
+        //   title: '委外收货',
+        //   path: '/Outsourc/outsourcing'
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan138',
+        //   title: '生产任务',
+        //   path: '/LargeScreen'
+        // },
         {
-          icon_Url: 'icon-kefu',
-          title: '售后'
-        },
-        {
-          icon_Url: 'icon-ziyuan138',
-          title: '新建合同',
-          path: '/create-contract'
-        },
-        {
-          icon_Url: 'icon-ziyuan138',
-          title: '发起委外',
-          path: '/outsource'
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '合同发货',
-          path: '/ContractDelivery'
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '来料发货',
-          path: '/IncomingDelivery'
-        },
-        {
-          icon_Url: 'icon-shujuxiazai-01',
-          title: '委外收货',
-          path: '/Outsourc/outsourcing'
-        },
-        {
-          icon_Url: 'icon-ziyuan138',
-          title: '生产任务',
-          path: '/LargeScreen'
+          icon_Url: 'el-icon-menu',
+          title: '全部',
+          color: '#b2bec3',
+          path: '/homeManu'
         }
       ]
     }
@@ -158,6 +164,10 @@ export default {
       .icons {
         font-size: 2rem;
         color: #2a88ff;
+        height: 3rem;
+        width: 3rem;
+        line-height: 3rem;
+        text-align: center;
       }
       span {
         margin-top: 0.428571rem;

@@ -457,6 +457,12 @@ export default {
       document.addEventListener('touchmove', self.moving)
       document.addEventListener('mouseup', self.moveEnd)
       document.addEventListener('touchend', self.moveEnd)
+      this.$once('hook:beforeDestroy', () => {
+        document.removeEventListener('mousemove', self.moving)
+        document.removeEventListener('touchmove', self.moving)
+        document.removeEventListener('mouseup', self.moveEnd)
+        document.removeEventListener('touchend', self.moveEnd)
+      })
     }
   }
 }
