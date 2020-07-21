@@ -17,10 +17,10 @@ export default {
     }
   },
   created() {
+    this.getlogin()
     setInterval(() => {
       this.getlogin()
-    }, 1500000)
-    this.getlogin()
+    }, 1200000)
   },
   watch: {
     $route(to, from) {

@@ -119,7 +119,7 @@ export default {
         //   path: '/LargeScreen'
         // },
         {
-          icon_Url: 'icon-ziyuan138',
+          icon_Url: 'icon-tixing',
           title: '全部',
           color: '#b2bec3',
           path: '/homeManu'

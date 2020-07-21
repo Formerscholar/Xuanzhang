@@ -29,19 +29,34 @@
             </div>-->
             <div class="search_box">
               <div class="search_left">
-                <span class="search_text">商务</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="jack">洽谈</a-select-option>
-                  <a-select-option value="lucy">生产</a-select-option>
-                  <a-select-option value="Yiminghe">发货</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="businessValue"
+                  placeholder="商务状态"
+                  @change="businesChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in business"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
               <div class="search_right">
-                <span class="search_text">生产</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="0">整装待发</a-select-option>
-                  <a-select-option value="1">正在生产</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="workshopValue"
+                  placeholder="商务状态"
+                  @change="workshopChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in workshop"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
             </div>
             <div
@@ -133,19 +148,34 @@
           >
             <div class="search_box">
               <div class="search_left">
-                <span class="search_text">商务</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="jack">洽谈</a-select-option>
-                  <a-select-option value="lucy">生产</a-select-option>
-                  <a-select-option value="Yiminghe">发货</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="businessValue"
+                  placeholder="商务状态"
+                  @change="businesChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in business"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
               <div class="search_right">
-                <span class="search_text">生产</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="0">整装待发</a-select-option>
-                  <a-select-option value="1">正在生产</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="workshopValue"
+                  placeholder="商务状态"
+                  @change="workshopChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in workshop"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
             </div>
             <div
@@ -202,19 +232,34 @@
           >
             <div class="search_box">
               <div class="search_left">
-                <span class="search_text">商务</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="jack">洽谈</a-select-option>
-                  <a-select-option value="lucy">生产</a-select-option>
-                  <a-select-option value="Yiminghe">发货</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="businessValue"
+                  placeholder="商务状态"
+                  @change="businesChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in business"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
               <div class="search_right">
-                <span class="search_text">生产</span>
-                <a-select style="width: 8.571429rem" @change="handleChange">
-                  <a-select-option value="0">整装待发</a-select-option>
-                  <a-select-option value="1">正在生产</a-select-option>
-                </a-select>
+                <el-select
+                  v-model="workshopValue"
+                  placeholder="商务状态"
+                  @change="workshopChange"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in workshop"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </div>
             </div>
             <div
@@ -286,7 +331,33 @@ export default {
       IsTpagess: true,
       isOShow: false,
       isTShow: false,
-      isSShow: false
+      isSShow: false,
+      businessValue: '',
+      business: [
+        {
+          value: '1',
+          label: '洽谈'
+        },
+        {
+          value: '2',
+          label: '生产'
+        },
+        {
+          value: '3',
+          label: '发货'
+        }
+      ],
+      workshopValue: '',
+      workshop: [
+        {
+          value: '1',
+          label: '整装待发'
+        },
+        {
+          value: '2',
+          label: '正在生产'
+        }
+      ]
       // firstNames: '张',
       // lastNames: '三'
       // oneObj: {
@@ -432,8 +503,11 @@ export default {
     //   this.firstNames = '三'
     //   this.lastNames = '张'
     // },
-    handleChange(value) {
-      console.log(`selected ${value}`)
+    businesChange(value) {
+      console.log(`businesChange ${value}`)
+    },
+    workshopChange(value) {
+      console.log(`workshopChange ${value}`)
     },
     clickscroll() {
       this.allpage = 1
@@ -636,13 +710,11 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background-color: #fff;
         padding: 0.357143rem 0.714286rem;
         .search_left,
         .search_right {
-          .search_text {
-            margin-right: 0.357143rem;
-            font-size: 1.142857rem;
-          }
+          flex: 1;
         }
       }
       .box-card {

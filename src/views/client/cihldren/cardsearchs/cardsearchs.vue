@@ -5,9 +5,10 @@
         v-model="inputvalue"
         :fetch-suggestions="querySearchAsync"
         placeholder="请输入供应商名称"
+        prefix-icon="el-icon-search"
         @select="handleSelect"
+        @change="handleChange"
       ></el-autocomplete>
-      <el-button class="search_btn" type="info" plain @click="searchClick">搜索</el-button>
     </div>
   </div>
 </template>
@@ -67,8 +68,9 @@ export default {
     },
     handleSelect(item) {
       this.inputID = item.address
+      this.handleChange()
     },
-    async searchClick() {
+    async handleChange(value) {
       const { data } = await getSuppliers(this.getDistributorsData)
       this.$emit('Rendering', data.supplier)
       this.inputvalue = ''
@@ -81,7 +83,7 @@ export default {
 #cardsearch {
   .search {
     display: flex;
-    padding: 0.714286rem 0;
+    padding: 0.714286rem;
     justify-content: space-between;
     .el-autocomplete {
       flex: 1;

@@ -2,11 +2,9 @@
   <div id="borderCard">
     <van-tabs v-model="active" class="border-card" @click="handleClick">
       <van-tab title="客户列表" class="CustomerList">
-        <slot name="search"></slot>
         <slot name="card"></slot>
       </van-tab>
       <van-tab title="供应商列表" class="SupplierList">
-        <slot name="Supplisearch"></slot>
         <slot name="Supplicard"></slot>
       </van-tab>
     </van-tabs>

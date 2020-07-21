@@ -1,9 +1,16 @@
 <template>
   <div id="Client">
-    <div style="height:1.571429rem; " class="bg-primary"></div>
+    <navbar class="Controlled_root">
+      <i slot="left"></i>
+      <div class="title text-black" slot="center">
+        <span>客户</span>
+      </div>
+      <i slot="right" class="el-icon-circle-plus-outline" @click="btnsclickadd"></i>
+    </navbar>
+    <cardsearch v-if="!searchID" :options="options" slot="search" @Rendering="Rendering" />
+    <cardsearchs v-else :optionss="optionss" slot="Supplisearch" @Rendering="Renderings" />
     <scroll class="scroll-wrapper">
       <borderCard @tabListTach="tabListTach">
-        <cardsearch :options="options" slot="search" @Rendering="Rendering" />
         <cardbox
           :distributor="distributor"
           @gokhlist="gokhlist"
@@ -11,7 +18,6 @@
           @refreshList="refreshList"
           slot="card"
         />
-        <cardsearchs :optionss="optionss" slot="Supplisearch" @Rendering="Renderings" />
         <cardbox
           :distributor="supplier"
           @refreshList="refreshLists"
@@ -21,7 +27,6 @@
         />
       </borderCard>
     </scroll>
-    <i class="el-icon-plus" @click="btnsclickadd"></i>
     <van-action-sheet
       v-model="show"
       @select="onselect"
@@ -66,6 +71,8 @@ export default {
       distributor: [],
       supplier: [],
       options: [],
+      searchValue: '',
+      searchID: 0,
       optionss: [],
       show: false,
       actions: [{ name: '个人客户' }, { name: '企业客户' }]
@@ -123,6 +130,8 @@ export default {
       })
     },
     tabListTach(e) {
+      console.log(e)
+      this.searchID = e
       if (e == 0) {
         this.titlename = '客户'
       } else if (e == 1) {
@@ -187,23 +196,34 @@ export default {
     
 <style lang="scss" scoped>
 #Client {
-  height: calc(100vh - 1.571429rem);
-  .el-icon-plus {
-    position: fixed;
-    bottom: 7.142857rem;
-    right: 3.357143rem;
-    padding: 0.571429rem;
-    z-index: 999;
-    font-size: 2.714286rem;
-    background-color: #2a7bd0;
-    color: #fff;
-    border-radius: 50%;
+  padding-top: 5.428571rem;
+  .Controlled_root {
+    font-size: 1.285714rem;
+    box-shadow: 0 0 15px 3px #fff;
+    border: none;
+    font-weight: 700;
+    .el-icon-arrow-left {
+      color: #fff;
+      display: block;
+      font-size: 1.714286rem;
+      margin-left: 1.714286rem;
+    }
+    .title {
+      margin-left: 3.285714rem;
+      color: #fff;
+    }
+    .el-icon-circle-plus-outline {
+      font-size: 1.714286rem;
+      margin-right: 0.714286rem;
+      color: #fff;
+    }
   }
+
   .scroll-wrapper {
     padding: 0 1rem;
     position: absolute;
     left: 0;
-    top: 1.571429rem;
+    top: 9.142857rem;
     bottom: 4.214286rem;
     width: 100%;
     overflow: hidden;

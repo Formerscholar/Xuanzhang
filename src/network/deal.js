@@ -422,3 +422,11 @@ export function getAddDeliverGoodsOrderNumber(params) {
     params,
   })
 }
+
+export function getFlowDeliverDetail(params) {
+  return request({
+    url: '/DeliverGoods/getFlowDeliverDetail',
+    method: 'GET',
+    params,
+  })
+}

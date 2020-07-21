@@ -2,25 +2,18 @@
   <div id="cardbox">
     <van-swipe-cell v-for="(item,index) in distributor" :key="index">
       <el-card class="box-card">
-        <div @click="gokhlist(item)">
-          <div class="box_name">
-            <span class="kh_name">
-              <span>{{item.name}}</span>
-            </span>
-            <span class="my_name">
-              <span style="color:#409EFF">{{item.uname}}</span>
+        <div class="content" @click="gokhlist(item)">
+          <div class="left_box">
+            <span class="kh_name">{{item.name}}</span>
+            <span class="kh_address">{{item.province}}{{item.contacts_address}}</span>
+            <span class="kh_phone">
+              <i>{{item.uname}}</i>
+              <em>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</em>
             </span>
           </div>
-          <div class="box_info">
-            <span class="phone_info">
-              <span
-                style="color:#409EFF;margin-right:1.071429rem"
-              >{{item.contacts.length != 0 ?item.contacts[0].contacts:''}}</span>
-              <span>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</span>
-            </span>
-            <span class="cz_Sales">
-              <span>{{item.arrearsCount | arrears}}</span>
-            </span>
+          <div class="right_box">
+            <span class="kh_moneny">￥{{item.arrearsCount}}</span>
+            <span class="kh_created">{{item.created_at | getCreatedAt}}</span>
           </div>
         </div>
       </el-card>
@@ -63,8 +56,8 @@ export default {
     }
   },
   filters: {
-    arrears(value) {
-      return `应收:${value}元`
+    getCreatedAt(value) {
+      return value.split(' ')[0]
     }
   },
   methods: {
@@ -133,50 +126,50 @@ export default {
 #cardbox {
   .box-card {
     margin-bottom: 0.714286rem;
-    .box_name {
+    padding: 0.357143rem;
+    .content {
       display: flex;
       justify-content: space-between;
-      .kh_name {
-        .el-tag {
-        }
-      }
-      .my_name {
-        .el-tag {
-        }
-      }
-    }
-    .box_info {
-      margin: 0.714286rem 0;
-      display: flex;
-      justify-content: space-between;
-      .phone_info {
-        .el-tag {
-        }
-      }
-      .contract_info {
-        .el-tag {
-        }
-      }
-      .Arrears_info {
-        .el-tag {
-        }
-      }
-    }
-    .box_cz {
-      display: flex;
-      justify-content: space-between;
-      .cz_Sales {
-        .el-tag {
-        }
-      }
-      .cz_cz {
+      align-items: center;
+      .left_box {
         flex: 1;
         display: flex;
-        justify-content: flex-end;
-        .el-tag {
-          &:nth-child(2) {
-            margin: 0 0.357143rem;
+        flex-direction: column;
+        overflow: hidden;
+
+        .kh_name {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #020202;
+        }
+        .kh_address {
+          font-size: 0.857143rem;
+          color: #727272;
+        }
+        .kh_phone {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          font-size: 0.857143rem;
+          color: #89c2ec;
+          i {
+            margin-right: 0.714286rem;
           }
+        }
+      }
+      .right_box {
+        width: 5.714286rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .kh_moneny {
+          margin-bottom: 1.428571rem;
+          color: #d6503e;
+          font-size: 1rem;
+        }
+        .kh_created {
+          font-size: 0.714286rem;
+          color: #a5a5a5;
         }
       }
     }

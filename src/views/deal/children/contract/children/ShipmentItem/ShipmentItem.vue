@@ -12,51 +12,68 @@
       </div>
     </navbar>
     <scroll class="scroll-wrapper">
-      <div class="body">
-        <div>{{deliveryRecordItem.order_number | setOrderNumber}}</div>
-        <div>{{deliveryRecordItem.operator_name | setOperatorName}}</div>
-        <div>{{deliveryRecordItem.name | setRecordItemName}}</div>
-        <div>{{deliveryRecordItem.total_money | setRecordItemTotalMoney}}</div>
-        <div>{{deliveryRecordItem.created_at | setRecordItemCreated}}</div>
-        <div class="btns">
-          <van-button type="warning" @click="deleteDeliver">作废</van-button>
-          <van-button type="info" @click="editShip">编辑</van-button>
+      <el-card class="content_wrap">
+        <div class="Company">{{deliveryRecordItem.name }}</div>
+        <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div>
+        <div class="itembox">
+          <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
+          <span>{{deliveryRecordItem.operator_name |setOperatorName }}</span>
         </div>
+      </el-card>
+      <el-card class="product_box">
+        <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
+          <div class="wrap_left">
+            <div class="img"></div>
+            <div class="text">
+              <p>{{item.product_name}}</p>
+              <p>{{item.product_model}}</p>
+              <div class="wrap_right">
+                <span>{{item.unit_price}}×{{item.weight}}×{{item.number}}=￥{{item.total_funds}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap_money">{{deliveryRecordItem.total_money | setRecordItemTotalMoney }}</div>
+      </el-card>
+      <div class="btns">
+        <van-button type="warning" @click="deleteDeliver">作废</van-button>
+        <van-button type="info" @click="editShip">编辑</van-button>
       </div>
     </scroll>
   </div>
 </template>
     
 <script>
-import { deleteDeliverRecord } from '@/network/deal'
+import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
 export default {
   name: 'ShipmentItem',
   data() {
     return {
-      deliveryRecordItem: {}
+      deliveryRecordItem: {},
+      iid: 0,
+      deliverGoodsDetail: []
     }
   },
 
   activated() {
     this.deliveryRecordItem = this.$route.query.data
+    this.iid = this.deliveryRecordItem.id
+    this.getFlowDeliverD()
     console.log(this.deliveryRecordItem)
   },
-  deactivated() {},
   filters: {
     setOrderNumber(value) {
-      return '合同号:' + value
+      return '发货单号:' + value
     },
     setOperatorName(value) {
       return '操作人:' + value
     },
-    setRecordItemName(value) {
-      return '公司:' + value
-    },
     setRecordItemTotalMoney(value) {
-      return '金额:' + value
+      return '总金额:￥' + value
     },
     setRecordItemCreated(value) {
-      return '时间:' + value
+      return '发货时间:' + value
     }
   },
   computed: {
@@ -66,9 +83,26 @@ export default {
       from.append('id', this.deliveryRecordItem.id)
       from.append('order_type', 'flow')
       return from
+    },
+    getFlowDeliverData() {
+      return {
+        id: this.iid,
+        token: this.$store.state.token,
+        _: new Date().getTime()
+      }
     }
   },
+
   methods: {
+    async getFlowDeliverD() {
+      const { data } = await getFlowDeliverDetail(this.getFlowDeliverData)
+      console.log('getFlowDeliverDetail', data)
+      this.deliverGoodsDetail = data.deliverGoodsDetail
+      this.$once('hook:deactivated', () => {
+        this.iid = 0
+        this.deliverGoodsDetail = []
+      })
+    },
     editShip() {
       this.$router.push({
         path: '/editShipItem',
@@ -118,6 +152,76 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden;
+    padding: 0.714286rem;
+    .content_wrap {
+      padding: 0.714286rem 1.071429rem;
+      margin-bottom: 0.357143rem;
+      .Company {
+        margin-bottom: 0.714286rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #726860;
+      }
+      .Numbers {
+        margin-bottom: 0.357143rem;
+        font-size: 0.857143rem;
+        font-weight: 700;
+        color: #5b534d;
+      }
+      .itembox {
+        font-size: 0.857143rem;
+        font-weight: 700;
+        color: #5b534d;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+        }
+      }
+    }
+    .product_box {
+      .wrap_item {
+        padding: 0.357143rem;
+        border-bottom: 1px solid #f2f2f2;
+
+        .wrap_left {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .img {
+            width: 5.928571rem;
+            height: 5.928571rem;
+            background-color: #655d55;
+            margin-right: 0.714286rem;
+          }
+          .text {
+            flex: 1;
+            font-size: 1.285714rem;
+            color: #675f57;
+            p {
+              margin-bottom: 0.357143rem;
+            }
+            .wrap_right {
+              width: 100%;
+              display: flex;
+              justify-content: flex-end;
+              span {
+                font-size: 1.142857rem;
+                color: #786e65;
+              }
+            }
+          }
+        }
+      }
+      .wrap_money {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        padding: 0.357143rem;
+        font-size: 1.142857rem;
+        color: #848484;
+      }
+    }
   }
 }
 </style>
