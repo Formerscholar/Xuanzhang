@@ -220,7 +220,6 @@ export default {
   }
 
   .scroll-wrapper {
-    padding: 0 1rem;
     position: absolute;
     left: 0;
     top: 9.142857rem;

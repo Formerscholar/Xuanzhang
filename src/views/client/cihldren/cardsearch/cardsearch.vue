@@ -4,7 +4,6 @@
       <el-autocomplete
         v-model="inputvalue"
         :fetch-suggestions="querySearchAsync"
-        placeholder="请输入客户名称"
         prefix-icon="el-icon-search"
         @select="handleSelect"
         @change="handleChange"
@@ -85,6 +84,13 @@ export default {
 }
 </script>
     
+<style lang="scss">
+.el-input--small .el-input__inner {
+  background-color: #f2f2f2;
+}
+</style>
+
+
 <style scoped lang="scss">
 #cardsearch {
   .search {

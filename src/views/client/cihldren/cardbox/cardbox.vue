@@ -1,7 +1,7 @@
 <template>
   <div id="cardbox">
     <van-swipe-cell v-for="(item,index) in distributor" :key="index">
-      <el-card class="box-card">
+      <div class="box-card">
         <div class="content" @click="gokhlist(item)">
           <div class="left_box">
             <span class="kh_name">{{item.name}}</span>
@@ -16,7 +16,7 @@
             <span class="kh_created">{{item.created_at | getCreatedAt}}</span>
           </div>
         </div>
-      </el-card>
+      </div>
       <template #right>
         <div style=" height: 100%;display: flex;flex-direction: column;">
           <van-button
@@ -124,27 +124,31 @@ export default {
     
 <style scoped lang="scss">
 #cardbox {
+  padding: 0.714286rem 1.071429rem;
   .box-card {
     margin-bottom: 0.714286rem;
-    padding: 0.357143rem;
+
+    border-bottom: 1px solid #f2f2f2;
     .content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 0.357143rem;
       .left_box {
         flex: 1;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-
         .kh_name {
-          font-size: 1rem;
+          font-size: 1.428571rem;
           font-weight: 700;
           color: #020202;
+          font-family: 'SimHei';
         }
         .kh_address {
-          font-size: 0.857143rem;
+          font-size: 1rem;
           color: #727272;
+          margin-bottom: 0.357143rem;
         }
         .kh_phone {
           display: flex;
@@ -163,7 +167,7 @@ export default {
         flex-direction: column;
         align-items: flex-end;
         .kh_moneny {
-          margin-bottom: 1.428571rem;
+          margin-bottom: 2rem;
           color: #d6503e;
           font-size: 1rem;
         }

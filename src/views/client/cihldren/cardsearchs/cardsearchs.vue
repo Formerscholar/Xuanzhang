@@ -4,7 +4,6 @@
       <el-autocomplete
         v-model="inputvalue"
         :fetch-suggestions="querySearchAsync"
-        placeholder="请输入供应商名称"
         prefix-icon="el-icon-search"
         @select="handleSelect"
         @change="handleChange"
@@ -13,6 +12,13 @@
   </div>
 </template>
     
+<style lang="scss">
+.el-input--small .el-input__inner {
+  background-color: #f2f2f2;
+}
+</style>
+
+
 <script>
 import { getSuppliers } from '@/network/client'
 export default {
