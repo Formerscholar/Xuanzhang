@@ -12,8 +12,8 @@
         <div class="topLeft layout">
           <div class="contract">
             <em style="color:#E6A23C;">{{ item.contract }}</em>
-            <span style="margin-left:.357143rem;">
-              <i>{{ item.name |SetName }}</i>
+            <span style="margin-left:.714286rem;">
+              <i>{{ item.name }}</i>
             </span>
           </div>
         </div>
@@ -51,6 +51,18 @@
         </div>
       </div>
       <div class="itemdondon">
+        <div class="tags">
+          <van-tag
+            plain
+            v-if="item.isIndex"
+            :type="tagsType(item.business_status)"
+          >{{item.business_status | setbusiness_status}}</van-tag>
+          <van-tag
+            plain
+            v-if="item.isIndex"
+            :type="item.che_status  ? 'success' : 'warning'"
+          >{{item.che_status ? '整装待发' : '启动生产'}}</van-tag>
+        </div>
         <div class="topLeft layout">
           <div class="Amount">
             <i>{{ item.Amount | SetAmount }}</i>
@@ -108,13 +120,35 @@ export default {
       return '销售:' + value
     },
     SetAmount(value) {
-      return '总额:' + value + '元'
+      return '￥' + value
     },
     SetDelivery(value) {
       return '交期:' + value
+    },
+    setbusiness_status(value) {
+      if (value == 0) {
+        return '洽谈'
+      } else if (value == 1) {
+        return '生产'
+      } else if (value == 2) {
+        return '发货'
+      } else if (value == 3) {
+        return '无状态'
+      }
     }
   },
   methods: {
+    tagsType(business_status) {
+      if (business_status == 0) {
+        return 'danger'
+      } else if (business_status == 1) {
+        return 'warning'
+      } else if (business_status == 2) {
+        return 'success'
+      } else if (business_status == 3) {
+        return 'primary'
+      }
+    },
     async getEditContractOrders() {
       const { data } = await getEditContractOrder(this.getEditContractOrderData)
       this.editData = data
@@ -160,13 +194,6 @@ export default {
 }
 </script>
 
-<style >
-.rool {
-  height: 100%;
-}
-.van-overlay {
-}
-</style>
 
 
 <style lang="scss">
@@ -270,6 +297,13 @@ export default {
     .topLeft,
     .topRight {
       padding: 0;
+    }
+    .tags {
+      .van-tag {
+        height: 1rem;
+        font-size: 0.857143rem;
+        margin-right: 0.214286rem;
+      }
     }
   }
 }

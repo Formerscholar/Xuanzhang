@@ -52,6 +52,8 @@ Object.keys(filter).forEach((item) => {
   Vue.filter(item, filter[item])
 })
 
+
+
 new Vue({
   router,
   store,

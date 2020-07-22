@@ -147,6 +147,7 @@ export default {
     },
     selectIndex(i) {
       this.pageIndex = i
+      console.log(this.pageIndex)
     },
     loadMore() {
       console.log('loadMore', this.pageIndex)
@@ -190,6 +191,7 @@ export default {
         if (data.contractOrderList.length != 0) {
           data.contractOrderList.forEach(item => {
             this.goodsLists.push({
+              isIndex: 1,
               id: item.id,
               contract: item.order_number,
               Amount: item.amount_of_discount,
@@ -197,6 +199,8 @@ export default {
               Delivery: item.contract_date,
               name: item.operator_name,
               distributor_id: item.distributor_id,
+              che_status: item.che_status,
+              business_status: item.business_status,
               schedule: {
                 Settlement: item.settlement_progress * 1,
                 Ship: item.delivery_schedule * 1,

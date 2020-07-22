@@ -65,6 +65,32 @@ i {
   padding: 0 0.714286rem !important;
 }
 
+.el-input--small .el-input__inner {
+  background-color: #f2f2f2;
+}
+
+#manboard,
+#borderCard {
+
+  .van-tabs__line {
+    display: none;
+  }
+
+  .van-tabs--line .van-tabs__wrap {
+    height: 5rem !important;
+  }
+
+  .van-tab__text {
+    width: 100%;
+    text-align: center;
+
+    &:first-child {
+      border-right: 1px solid #e8e8e8;
+    }
+  }
+}
+
+
 #createContract {
   .van-cell {
     padding: .714286rem 1.428571rem;

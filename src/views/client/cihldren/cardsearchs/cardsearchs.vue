@@ -12,11 +12,7 @@
   </div>
 </template>
     
-<style lang="scss">
-.el-input--small .el-input__inner {
-  background-color: #f2f2f2;
-}
-</style>
+
 
 
 <script>

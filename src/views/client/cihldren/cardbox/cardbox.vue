@@ -7,12 +7,12 @@
             <span class="kh_name">{{item.name}}</span>
             <span class="kh_address">{{item.province}}{{item.contacts_address}}</span>
             <span class="kh_phone">
-              <i>{{item.uname}}</i>
+              <i>{{item.contacts.length != 0 ?item.contacts[0].contacts:''}}</i>
               <em>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</em>
             </span>
           </div>
           <div class="right_box">
-            <span class="kh_moneny">￥{{item.arrearsCount}}</span>
+            <span class="kh_moneny">￥{{item.arrearsCount }}</span>
             <span class="kh_created">{{item.created_at | getCreatedAt}}</span>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default {
     
 <style scoped lang="scss">
 #cardbox {
-  padding: 0.714286rem 1.071429rem;
+  padding: 0.714286rem 1.142857rem;
   .box-card {
     margin-bottom: 0.714286rem;
 
@@ -140,10 +140,11 @@ export default {
         flex-direction: column;
         overflow: hidden;
         .kh_name {
-          font-size: 1.428571rem;
+          font-size: 1.357143rem;
           font-weight: 700;
           color: #020202;
           font-family: 'SimHei';
+          margin-bottom: 0.071429rem;
         }
         .kh_address {
           font-size: 1rem;
@@ -154,7 +155,7 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          font-size: 0.857143rem;
+          font-size: 1rem;
           color: #89c2ec;
           i {
             margin-right: 0.714286rem;
@@ -167,12 +168,12 @@ export default {
         flex-direction: column;
         align-items: flex-end;
         .kh_moneny {
-          margin-bottom: 2rem;
+          margin-bottom: 2.142857rem;
           color: #d6503e;
-          font-size: 1rem;
+          font-size: 1.142857rem;
         }
         .kh_created {
-          font-size: 0.714286rem;
+          font-size: 1rem;
           color: #a5a5a5;
         }
       }

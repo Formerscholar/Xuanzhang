@@ -197,6 +197,7 @@ export default {
 <style lang="scss" scoped>
 #Client {
   padding-top: 5.428571rem;
+
   .Controlled_root {
     font-size: 1.285714rem;
     box-shadow: 0 0 15px 3px #fff;
