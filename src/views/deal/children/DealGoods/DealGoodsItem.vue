@@ -55,7 +55,7 @@
           <van-tag
             plain
             v-if="item.isIndex"
-            :type="tagsType(item.business_status)"
+            :type="item.business_status | tagsType"
           >{{item.business_status | setbusiness_status}}</van-tag>
           <van-tag
             plain
@@ -135,20 +135,20 @@ export default {
       } else if (value == 3) {
         return '无状态'
       }
+    },
+    tagsType(value) {
+      if (value == 0) {
+        return 'danger'
+      } else if (value == 1) {
+        return 'warning'
+      } else if (value == 2) {
+        return 'success'
+      } else if (value == 3) {
+        return 'primary'
+      }
     }
   },
   methods: {
-    tagsType(business_status) {
-      if (business_status == 0) {
-        return 'danger'
-      } else if (business_status == 1) {
-        return 'warning'
-      } else if (business_status == 2) {
-        return 'success'
-      } else if (business_status == 3) {
-        return 'primary'
-      }
-    },
     async getEditContractOrders() {
       const { data } = await getEditContractOrder(this.getEditContractOrderData)
       this.editData = data
