@@ -1,15 +1,20 @@
 <template>
   <div id="materialpage">
-    <div class="topheader bg-primary"></div>
-    <div class="head">
-      <van-icon name="arrow-left" class="head_icon" @click="onClickLeft" />
-      <van-search
-        class="head_search"
-        v-model="searchValue"
-        placeholder="请输入搜索关键词"
-        @search="primarySearch"
-      />
-    </div>
+    <navbar class="p_root_box bg-primary">
+      <div class="left" slot="left" @click="onClickLeft">
+        <i class="el-icon-arrow-left"></i>
+      </div>
+      <div class="center" slot="center">
+        <span>物料</span>
+      </div>
+      <div slot="right"></div>
+    </navbar>
+    <van-search
+      class="head_search"
+      v-model="searchValue"
+      placeholder="请输入搜索关键词"
+      @search="primarySearch"
+    />
     <van-tabs v-model="active">
       <van-tab title="物料列表" class="Delivery">
         <scroll
@@ -369,20 +374,19 @@ export default {
     
 <style scoped lang="scss">
 #materialpage {
-  .topheader {
-    height: 1.928571rem;
-  }
-  .head {
-    display: flex;
-    padding: 0 0.357143rem;
-    justify-content: space-between;
-    align-items: center;
-    .head_icon {
-      font-size: 1.428571rem;
-      padding-left: 10px;
+  padding-top: 5.428571rem;
+  .p_root_box {
+    .left {
+      margin-left: 1.071429rem;
+      i {
+        font-size: 1.571429rem;
+      }
     }
-    .head_search {
-      flex: 1;
+    .center {
+      margin-left: -2.071429rem;
+      span {
+        font-size: 1.428571rem;
+      }
     }
   }
   .Delivery {

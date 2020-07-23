@@ -71,3 +71,10 @@ export function changeProductStatus(params) {
     params,
   })
 }
+export function getLargeAcreenOrderProduct(params) {
+  return request({
+    url: '/DeliverGoods/getLargeAcreenOrderProduct',
+    method: 'GET',
+    params,
+  })
+}

@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build",
-    "module": "esnext",
+    "module": "es2015",
     "target": "es5",
-    "lib": ["esnext", "dom"],
+    "lib": ["es2015", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",

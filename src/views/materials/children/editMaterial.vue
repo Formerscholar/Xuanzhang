@@ -1,126 +1,180 @@
 <template>
   <div id="addMaterial">
-    <div class="topheader bg-primary"></div>
-    <van-nav-bar title="修改物料" left-arrow @click-left="onClickLeft" />
+    <navbar class="p_root_box bg-primary">
+      <div class="left" slot="left" @click="onClickLeft">
+        <i class="el-icon-arrow-left"></i>
+      </div>
+      <div class="center" slot="center">
+        <span @click="clickISWrite">{{isWrite?'编辑' :'查看'}}物料</span>
+      </div>
+      <div slot="right" class="right">
+        <span>二维码</span>
+      </div>
+    </navbar>
     <scroll class="scroll-wrapper">
-      <el-card class="box-card">
-        <el-row class="van-cell uploadImage">
-          <span>图片</span>
+      <van-swipe class="swiper" :autoplay="3000" indicator-color="white">
+        <van-swipe-item>
           <img :src="img_URL" alt="logo" @click="imgClick" />
-        </el-row>
-        <van-field v-model="MaterialName
-" label="物料名称" />
-        <van-field v-model="specification" label="物料规格" />
-        <el-row class="van-cell MaterialProperties">
-          <span>物料属性</span>
-          <el-select v-model="value" style="margin: 0 1.285714rem;">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext"></span> -->
-        </el-row>
-        <el-row class="van-cell MaterialProperties">
-          <span>物料分类</span>
-          <el-select v-model="values" placeholder="请选择" style="margin: 0 1.285714rem;">
-            <el-option
-              v-for="item in optionss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext">新增分类</span> -->
-        </el-row>
-        <van-field label="物料编码" :value="MaterialCode" readonly />
-        <el-row class="van-cell MaterialProperties">
-          <span>基本单位</span>
-          <el-select v-model="valuess" placeholder="请选择" style="margin: 0 1.285714rem;">
-            <el-option
-              v-for="item in optionsss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext">新增单位</span> -->
-        </el-row>
-        <van-field v-model="MaterialPrice" type="number" label="物料价格" />
-        <van-field label="入库价格" :value="StoragePrices" readonly />
-        <van-field label="出库价格" :value="OutboundPrice" readonly />
-        <van-field label="bom价格" :value="bomPrice" readonly />
-      </el-card>
-      <el-card class="box-card">
-        <el-row class="van-cell MaterialProperties">
-          <span>默认仓库</span>
-          <el-select
-            v-model="valuesss"
-            placeholder="请选择"
-            style="margin: 0 1.285714rem;"
-            @change="WarehouseSelect"
-          >
-            <el-option
-              v-for="item in optionssss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext">新增仓库</span> -->
-        </el-row>
-        <van-field v-model="LocationNum" type="digit" label="库位号" />
-      </el-card>
-      <el-card class="box-card">
-        <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="库存预警" name="1" style="padding-left: 1rem;">
-            <van-field
-              v-model="MaximumInventory"
-              type="digit"
-              label="最大库存"
-              style="padding-left: 0;"
-            />
-            <van-field v-model="SafetyStock" type="digit" label="安全库存" style="padding-left: 0;" />
-            <van-field
-              v-model="MinimumInventory"
-              type="digit"
-              label="最小库存"
-              style="padding-left: 0;"
-            />
-            <van-field v-model="BasicInventory" type="digit" label="基本库存" style="padding-left: 0;" />
-          </el-collapse-item>
-          <el-collapse-item title="物料详情" name="2" style="padding-left: 1rem;">
-            <van-field v-model="Detailsweight" label="重量" style="padding-left: 0;" />
-            <van-field v-model="DetailsPiecePrice" label="计件价格" style="padding-left: 0;" />
-            <van-field v-model="DetailsproductMaterial
-" label="产品材质" style="padding-left: 0;" />
-            <van-field v-model="DetailsMoldCode" label="模具编码" style="padding-left: 0;" />
-
-            <el-row class="van-cell uploadImage" style="padding-left: 0;">
-              <span>模具照片</span>
-              <van-uploader
-                :after-read="afterReads"
-                :max-size="10 * 1024 * 1024"
-                v-model="fileLists"
-                :max-count="1"
-                style=" margin-left: 2.142857rem;"
-              />
-            </el-row>
-          </el-collapse-item>
-          <el-collapse-item title="质量验收及图纸" name="3" style="padding-left: 1rem;">
-            <el-row class="van-cell uploadImage" style="padding-left: 0;">
-              <span>设计图</span>
-              <van-uploader
-                :after-read="afterReadss"
-                :max-size="10 * 1024 * 1024"
-                v-model="fileListss"
-                :max-count="1"
-                style=" margin-left: 3.14286rem;"
-              />
-            </el-row>
-            <el-row class="van-cell uploadImage" style="padding-left: 0;">
+        </van-swipe-item>
+        <van-swipe-item>
+          <img :src="fileLists" alt="模具照片" @click="imgClick" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img :src="fileListss" alt="设计图" @click="imgClick" />
+        </van-swipe-item>
+      </van-swipe>
+      <div class="compitem">
+        <div class="content_nums">
+          <div class="left">
+            <span class="stock">库存</span>
+            <span class="stocknums">2911件</span>
+          </div>
+          <div class="right">
+            <span>
+              编码:
+              <em>{{MaterialCode}}</em>
+            </span>
+          </div>
+        </div>
+        <div class="content_name">
+          <div class="left_box">
+            <span class="left_name">{{MaterialName}}</span>
+            <span class="left_number">{{specification}}</span>
+          </div>
+          <div class="right_box">
+            <span>库存不足</span>
+          </div>
+        </div>
+      </div>
+      <div class="listItems">
+        <div class="lists">
+          <span class="list_name">物料属性</span>
+          <div class="list_data">
+            <span>{{value}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">物料分类</span>
+          <div class="list_data">
+            <span>{{values}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">基本单位</span>
+          <div class="list_data">
+            <span>{{valuess}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">物料价格</span>
+          <div class="list_data">
+            <span>{{MaterialPrice}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">入库价格</span>
+          <div class="list_data">
+            <span>{{StoragePrices}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">出库价格</span>
+          <div class="list_data">
+            <span>{{OutboundPrice}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">bom价格</span>
+          <div class="list_data">
+            <span>{{bomPrice}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">默认仓库</span>
+          <div class="list_data">
+            <span>{{valuesss}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">库位号</span>
+          <div class="list_data">
+            <span>{{LocationNum}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">最大库存</span>
+          <div class="list_data">
+            <span>{{MaximumInventory}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">安全库存</span>
+          <div class="list_data">
+            <span>{{SafetyStock}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">最小库存</span>
+          <div class="list_data">
+            <span>{{MinimumInventory}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">基本库存</span>
+          <div class="list_data">
+            <span>{{BasicInventory}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">重量</span>
+          <div class="list_data">
+            <span>{{Detailsweight}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">计件价格</span>
+          <div class="list_data">
+            <span>{{DetailsPiecePrice}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">产品材质</span>
+          <div class="list_data">
+            <span>{{DetailsproductMaterial}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">模具编码</span>
+          <div class="list_data">
+            <span>{{DetailsMoldCode}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="lists">
+          <span class="list_name">备注</span>
+          <div class="list_data">
+            <span>{{Remarks}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+      </div>
+      <!-- 
               <span>文件</span>
               <van-uploader
                 :after-read="afterReadsss"
@@ -129,20 +183,14 @@
                 :max-count="1"
                 style=" margin-left: 4.14286rem;"
               />
-            </el-row>
-            <van-field
-              v-model="Remarks"
-              rows="1"
-              autosize
-              label="备注"
-              type="textarea"
-              style="padding-left: 0;"
-            />
-          </el-collapse-item>
-        </el-collapse>
-      </el-card>
+      -->
     </scroll>
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <simple-cropper
+      style="opacity: 0;"
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    />
   </div>
 </template>
     
@@ -203,7 +251,8 @@ export default {
       attribute: 1,
       uploadParam: 4,
       category_id: 0,
-      unit_id: ''
+      unit_id: '',
+      isWrite: false
     }
   },
   components: { SimpleCropper },
@@ -216,17 +265,20 @@ export default {
     })
   },
   deactivated() {
-    this.$dialog
-      .confirm({
-        title: '提示',
-        message: '确认是否修改内容?'
-      })
-      .then(() => {
-        this.onsubmit()
-      })
-      .catch(() => {
-        this.clearData()
-      })
+    if (this.isWrite) {
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '确认是否修改内容?'
+        })
+        .then(() => {
+          this.onsubmit()
+        })
+        .catch(() => {
+          this.clearData()
+        })
+    }
+    this.isWrite = false
   },
   computed: {
     addMaterielData() {
@@ -258,6 +310,10 @@ export default {
     }
   },
   methods: {
+    clickISWrite() {
+      this.isWrite = !this.isWrite
+      console.log(this.isWrite)
+    },
     uploadHandle(data) {
       this.img_URL = data.substr(1)
       this.PropsImg = this.img_URL.split(bestURL)[1]
@@ -412,9 +468,24 @@ export default {
     
 <style scoped lang="scss">
 #addMaterial {
-  height: calc(100vh - 1.857143rem);
-  .topheader {
-    height: 1.928571rem;
+  padding-top: 5.428571rem;
+  .p_root_box {
+    .left {
+      margin-left: 1.071429rem;
+      i {
+        font-size: 1.571429rem;
+      }
+    }
+    .center {
+      margin-left: 2.928571rem;
+      span {
+        font-size: 1.428571rem;
+      }
+    }
+    .right {
+      font-size: 1.142857rem;
+      margin-right: 1.071429rem;
+    }
   }
   .scroll-wrapper {
     position: absolute;
@@ -428,20 +499,100 @@ export default {
     }
   }
 
-  .uploadImage {
+  .swiper {
+    width: 100%;
+    height: 16.214286rem;
     img {
-      width: 5.714286rem;
-      height: 5.714286rem;
-      margin-left: 3.928571rem;
+      width: 100%;
+      height: 100%;
     }
   }
-  .MaterialProperties {
-    display: flex;
-    .el-select {
-      flex: 1;
+  .compitem {
+    padding: 0 1.714286rem;
+    margin-top: 1.285714rem;
+    border-bottom: 0.428571rem solid #f5f5f5;
+    .content_nums {
+      border-bottom: 1px solid #e6e6e6;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 0.357143rem;
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        .stock {
+          font-size: 0.857143rem;
+          color: #0c0c0c;
+        }
+        .stocknums {
+          font-size: 1.571429rem;
+          color: #e8956b;
+        }
+      }
+      .right {
+        font-size: 1.142857rem;
+        color: #969696;
+      }
     }
-    .Propertiestext {
-      width: 6.357143rem;
+    .content_name {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 1.571429rem;
+      .left_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 1.571429rem;
+        .left_name {
+          font-size: 1.285714rem;
+          margin-bottom: 1.142857rem;
+          color: #000;
+        }
+        .left_number {
+          font-size: 1rem;
+          color: #a4a4a4;
+        }
+      }
+      .right_box {
+        span {
+          height: 1.571429rem;
+          width: 5.5rem;
+          background-color: #f80002;
+          font-size: 1.142857rem;
+          color: #fff;
+          border-radius: 0.357143rem;
+          padding: 0.357143rem;
+        }
+      }
+    }
+  }
+
+  .listItems {
+    padding: 0.357143rem 1.714286rem;
+    border-bottom: 0.428571rem solid #f5f5f5;
+    .lists {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 3rem;
+      .list_name {
+        font-size: 1.142857rem;
+        color: #9d9d9d;
+      }
+      .list_data {
+        font-size: 1.142857rem;
+        span {
+          color: #3a3a3a;
+        }
+        .van-icon {
+          margin-left: 2rem;
+          color: #e1e1e1;
+        }
+      }
     }
   }
 }

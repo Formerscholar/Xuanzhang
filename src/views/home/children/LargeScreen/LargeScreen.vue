@@ -46,7 +46,7 @@
               <div class="search_right">
                 <el-select
                   v-model="workshopValue"
-                  placeholder="商务状态"
+                  placeholder="车间状态"
                   @change="workshopChange"
                   style="width:100%"
                 >
@@ -83,7 +83,8 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/dpng.png" alt="logo" />
+                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -92,11 +93,16 @@
                   </div>
                   <div class="right_box">
                     <div class="child_right">
-                      <van-tag type="success">备用状态</van-tag>
+                      <van-tag
+                        :type="item.business_status | setbusinessstatus"
+                        :color="item.business_status == 1 ? '#FFCC33':'' "
+                      >{{item.business_status | setbusinessName}}</van-tag>
                     </div>
                     <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                      <van-tag v-else type="success">整装待发</van-tag>
+                      <van-tag
+                        :type="item.status | setchestatus"
+                        :color="item.status == 0 ? '#FFCC33':'' "
+                      >{{item.status | setcheName}}</van-tag>
                     </div>
                   </div>
                 </div>
@@ -149,13 +155,13 @@
             <div class="search_box">
               <div class="search_left">
                 <el-select
-                  v-model="businessValue"
+                  v-model="omesValue"
                   placeholder="商务状态"
-                  @change="businesChange"
+                  @change="omesChange"
                   style="width:100%"
                 >
                   <el-option
-                    v-for="item in business"
+                    v-for="item in omess"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -165,7 +171,7 @@
               <div class="search_right">
                 <el-select
                   v-model="workshopValue"
-                  placeholder="商务状态"
+                  placeholder="车间状态"
                   @change="workshopChange"
                   style="width:100%"
                 >
@@ -200,7 +206,8 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/dpng.png" alt="logo" />
+                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -209,11 +216,16 @@
                   </div>
                   <div class="right_box">
                     <div class="child_right">
-                      <van-tag type="success">备用状态</van-tag>
+                      <van-tag
+                        :type="item.business_status | omesstatus"
+                        :color="item.business_status == 1 ? '#FFCC33':'' "
+                      >{{item.business_status | omesName}}</van-tag>
                     </div>
                     <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                      <van-tag v-else type="success">整装待发</van-tag>
+                      <van-tag
+                        :type="item.status | setchestatus"
+                        :color="item.status == 0 ? '#FFCC33':'' "
+                      >{{item.status | setcheName}}</van-tag>
                     </div>
                   </div>
                 </div>
@@ -233,13 +245,13 @@
             <div class="search_box">
               <div class="search_left">
                 <el-select
-                  v-model="businessValue"
+                  v-model="omesValue"
                   placeholder="商务状态"
-                  @change="businesChange"
+                  @change="omesChange"
                   style="width:100%"
                 >
                   <el-option
-                    v-for="item in business"
+                    v-for="item in omess"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -249,7 +261,7 @@
               <div class="search_right">
                 <el-select
                   v-model="workshopValue"
-                  placeholder="商务状态"
+                  placeholder="车间状态"
                   @change="workshopChange"
                   style="width:100%"
                 >
@@ -284,7 +296,8 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <img src="@/assets/image/dpng.png" alt="logo" />
+                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
                       <span>{{item.product_model}}</span>
@@ -293,11 +306,16 @@
                   </div>
                   <div class="right_box">
                     <div class="child_right">
-                      <van-tag type="success">备用状态</van-tag>
+                      <van-tag
+                        :type="item.business_status | omesstatus"
+                        :color="item.business_status == 1 ? '#FFCC33':'' "
+                      >{{item.business_status | omesName}}</van-tag>
                     </div>
                     <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                      <van-tag v-else type="success">整装待发</van-tag>
+                      <van-tag
+                        :type="item.status | setchestatus"
+                        :color="item.status == 0 ? '#FFCC33':'' "
+                      >{{item.status | setcheName}}</van-tag>
                     </div>
                   </div>
                 </div>
@@ -311,18 +329,24 @@
 </template>
     
 <script>
-import { getlargeAcreenOrderProduct, changeProductStatus } from '@/network/home'
+import {
+  getlargeAcreenOrderProduct,
+  changeProductStatus,
+  getLargeAcreenOrderProduct
+} from '@/network/home'
 
 export default {
   data() {
     return {
       active: 0,
-      deactivated: 0,
       currentRate: 0,
       allpage: 1,
       Opage: 1,
       Tpage: 1,
       Spage: 1,
+      order_type: 'contract',
+      business_status: 0,
+      che_status: 0,
       ProductList: [],
       ProductLists: [],
       ProductListss: [],
@@ -335,16 +359,31 @@ export default {
       businessValue: '',
       business: [
         {
-          value: '1',
+          value: '0',
           label: '洽谈'
         },
         {
-          value: '2',
+          value: '1',
           label: '生产'
         },
         {
-          value: '3',
+          value: '2',
           label: '发货'
+        },
+        {
+          value: '3',
+          label: '无状态'
+        }
+      ],
+      omesValue: '',
+      omess: [
+        {
+          value: '0',
+          label: '满足'
+        },
+        {
+          value: '1',
+          label: '不满足'
         }
       ],
       workshopValue: '',
@@ -354,7 +393,7 @@ export default {
           label: '整装待发'
         },
         {
-          value: '2',
+          value: '0',
           label: '正在生产'
         }
       ]
@@ -416,7 +455,6 @@ export default {
   },
   deactivated() {
     /*
-      this.deactivated = 0
       this.allpage = 1
       this.Opage = 1
       this.Tpage = 1
@@ -459,6 +497,18 @@ export default {
       set(newValue) {
         console.log(newValue)
       }
+    },
+    getLargeAcreenNEWData() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        order_type: this.order_type,
+        business_status: this.business_status,
+        che_status: this.che_status,
+        distributor_id: null,
+        _: new Date().getTime()
+      }
     }
     // firstName: {
     //   get: function() {
@@ -490,6 +540,56 @@ export default {
     },
     setSurplusNumber(value) {
       return '待产数量:' + value + '件'
+    },
+    setchestatus(value) {
+      if (value == 0) {
+        return 'warning'
+      } else {
+        return 'success'
+      }
+    },
+    setcheName(value) {
+      if (value == 0) {
+        return '正在生产'
+      } else {
+        return '整装待发'
+      }
+    },
+    setbusinessstatus(value) {
+      if (value == 0) {
+        return 'danger'
+      } else if (value == 1) {
+        return 'warning'
+      } else if (value == 2) {
+        return 'success'
+      } else if (value == 3) {
+        return 'primary'
+      }
+    },
+    setbusinessName(value) {
+      if (value == 0) {
+        return '洽\xa0\xa0\xa0\xa0\xa0\xa0谈'
+      } else if (value == 1) {
+        return '生\xa0\xa0\xa0\xa0\xa0\xa0产'
+      } else if (value == 2) {
+        return '发\xa0\xa0\xa0\xa0\xa0\xa0货'
+      } else if (value == 3) {
+        return '无\xa0状\xa0态\xa0'
+      }
+    },
+    omesstatus(value) {
+      if (value == 0) {
+        return 'success'
+      } else {
+        return 'primary'
+      }
+    },
+    omesName(value) {
+      if (value == 0) {
+        return '满足条件'
+      } else {
+        return '不\xa0满\xa0足\xa0'
+      }
     }
   },
   updated() {
@@ -504,23 +604,55 @@ export default {
     //   this.lastNames = '张'
     // },
     businesChange(value) {
-      console.log(`businesChange ${value}`)
+      this.business_status = value
+      this.getLargeAcreenNEW()
+    },
+    omesChange(value) {
+      this.business_status = value
+      this.getLargeAcreenNEW()
     },
     workshopChange(value) {
-      console.log(`workshopChange ${value}`)
+      this.che_status = value
+      this.getLargeAcreenNEW()
+    },
+    async getLargeAcreenNEW() {
+      const { data } = await getLargeAcreenOrderProduct(
+        this.getLargeAcreenNEWData
+      )
+      console.log('getLargeAcreenOrderProduct', data.unfinishedOrderProductList)
+      //清除 列表  加入数据
+      if (this.active == 0) {
+        this.ProductList = []
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductList.push(item)
+        })
+      } else if (this.active == 1) {
+        this.ProductLists = []
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductLists.push(item)
+        })
+      } else if (this.active == 2) {
+        this.ProductListss = []
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductListss.push(item)
+        })
+      }
     },
     clickscroll() {
+      this.businessValue = ''
+      this.workshopValue = ''
+      this.omesValue = ''
       this.allpage = 1
       this.Opage = 1
       this.Tpage = 1
       this.Spage = 1
-      if (this.deactivated == 0) {
+      if (this.active == 0) {
         this.ProductList = []
         this.getlargeAcreen()
-      } else if (this.deactivated == 1) {
+      } else if (this.active == 1) {
         this.ProductLists = []
         this.getlargeAcreens()
-      } else if (this.deactivated == 2) {
+      } else if (this.active == 2) {
         this.ProductListss = []
         this.getlargeAcreenss()
       }
@@ -533,13 +665,13 @@ export default {
         })
         .then(async () => {
           let order_type
-          if (this.deactivated == 0) {
+          if (this.active == 0) {
             order_type = 'contract'
           }
-          if (this.deactivated == 1) {
+          if (this.active == 1) {
             order_type = 'flow'
           }
-          if (this.deactivated == 2) {
+          if (this.active == 2) {
             order_type = 'oem'
           }
           const { code } = await changeProductStatus({
@@ -549,14 +681,14 @@ export default {
             _: new Date().getTime()
           })
           if (code == 200) {
-            console.log(this.deactivated)
-            if (this.deactivated == 0) {
+            console.log(this.active)
+            if (this.active == 0) {
               this.getlargeAcreen()
             }
-            if (this.deactivated == 1) {
+            if (this.active == 1) {
               this.getlargeAcreens()
             }
-            if (this.deactivated == 2) {
+            if (this.active == 2) {
               this.getlargeAcreenss()
             }
           }
@@ -566,7 +698,7 @@ export default {
         })
     },
     loadMoress() {
-      if (this.IsTpagess) {
+      if (this.IsTpIsTpagessages) {
         this.Spage += 1
         this.allpage = this.Spage
         this.getlargeAcreenss()
@@ -609,7 +741,6 @@ export default {
     },
     blacknext() {
       this.$router.replace('/home')
-      this.deactivated = 0
       this.active = 0
       this.allpage = 1
       this.Opage = 1
@@ -620,7 +751,16 @@ export default {
       this.IsTpagess = true
     },
     tabsClick(name) {
-      this.deactivated = name
+      this.businessValue = ''
+      this.workshopValue = ''
+      this.omesValue = ''
+      if (name == 0) {
+        this.order_type = 'contract'
+      } else if (name == 1) {
+        this.order_type = 'flow'
+      } else if (name == 2) {
+        this.order_type = 'oem'
+      }
     },
     async getlargeAcreen() {
       const { data } = await getlargeAcreenOrderProduct(
@@ -633,12 +773,15 @@ export default {
       if (this.Opage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpages = false
-          this.$toast('没有更多数据了')
         } else {
-          this.ProductList.push(data.unfinishedOrderProductList)
+          data.unfinishedOrderProductList.forEach(item => {
+            this.ProductList.push(item)
+          })
         }
       } else {
-        this.ProductList = data.unfinishedOrderProductList
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductList.push(item)
+        })
       }
     },
     async getlargeAcreens() {
@@ -649,12 +792,15 @@ export default {
       if (this.Tpage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpage = false
-          this.$toast('没有更多数据了')
         } else {
-          this.ProductLists.push(data.unfinishedOrderProductList)
+          data.unfinishedOrderProductList.forEach(item => {
+            this.ProductLists.push(item)
+          })
         }
       } else {
-        this.ProductLists = data.unfinishedOrderProductList
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductLists.push(item)
+        })
       }
     },
     async getlargeAcreenss() {
@@ -666,12 +812,15 @@ export default {
       if (this.Spage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpIsTpagessages = false
-          this.$toast('没有更多数据了')
         } else {
-          this.ProductListss.push(data.unfinishedOrderProductList)
+          data.unfinishedOrderProductList.forEach(item => {
+            this.ProductListss.push(item)
+          })
         }
       } else {
-        this.ProductListss = data.unfinishedOrderProductList
+        data.unfinishedOrderProductList.forEach(item => {
+          this.ProductListss.push(item)
+        })
       }
     }
   }
@@ -712,6 +861,9 @@ export default {
         align-items: center;
         background-color: #fff;
         padding: 0.357143rem 0.714286rem;
+        border-top: 1px solid #dfdfdf;
+        border-bottom: 1px solid #dfdfdf;
+        margin-bottom: 0.357143rem;
         .search_left,
         .search_right {
           flex: 1;
@@ -751,11 +903,12 @@ export default {
 
             .left_box {
               display: flex;
-              img {
+              .img {
                 width: 4.214286rem;
                 height: 4.214286rem;
                 border: 0.214286rem solid #cacc61;
                 margin-right: 1.071429rem;
+                background-color: #ccc;
               }
               .left_box_content {
                 display: flex;
@@ -776,6 +929,10 @@ export default {
             .right_box {
               display: flex;
               flex-direction: column;
+              justify-content: center;
+              align-items: stretch;
+              overflow: hidden;
+              width: 4.142857rem;
               .child_right {
                 margin-bottom: 0.714286rem;
                 &:last-child {

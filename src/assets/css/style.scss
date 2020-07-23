@@ -80,12 +80,33 @@ i {
     height: 5rem !important;
   }
 
-  .van-tab__text {
-    width: 100%;
-    text-align: center;
-
+  .van-tab {
     &:first-child {
-      border-right: 1px solid #e8e8e8;
+      .van-tab__text {
+        width: 100%;
+        text-align: center;
+        border-right: 1px solid #e8e8e8;
+      }
+    }
+  }
+
+
+}
+
+
+
+#LargeScreen {
+  .search_box {
+    .el-input--small .el-input__inner {
+      background-color: #fff;
+    }
+
+    .el-input__inner {
+      border: none;
+    }
+
+    .search_left {
+      border-right: 1px solid #dfdfdf;
     }
   }
 }

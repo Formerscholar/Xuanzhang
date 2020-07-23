@@ -78,7 +78,6 @@ export default {
       width: 100%;
       background-color: #f2f2f2;
       border-bottom: 1px solid #e8e8e8;
-      margin-bottom: 0.714286rem;
     }
   }
 }

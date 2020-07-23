@@ -8,8 +8,9 @@
   </div>
 </template>
 
-<script>
+<script >
 import { getlogin, getIndex } from '@/network/login.js'
+
 export default {
   data() {
     return {
@@ -17,6 +18,12 @@ export default {
     }
   },
   created() {
+    this.getlogin()
+    setInterval(() => {
+      this.getlogin()
+    }, 1200000)
+  },
+  activated() {
     this.getlogin()
     setInterval(() => {
       this.getlogin()

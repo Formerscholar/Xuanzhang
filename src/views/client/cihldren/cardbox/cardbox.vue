@@ -124,10 +124,8 @@ export default {
     
 <style scoped lang="scss">
 #cardbox {
-  padding: 0.714286rem 1.142857rem;
+  padding: 0 1.571429rem;
   .box-card {
-    margin-bottom: 0.714286rem;
-
     border-bottom: 1px solid #f2f2f2;
     .content {
       display: flex;
@@ -140,16 +138,15 @@ export default {
         flex-direction: column;
         overflow: hidden;
         .kh_name {
-          font-size: 1.357143rem;
+          font-size: 1.142857rem;
+          margin-top: 0.428571rem;
           font-weight: 700;
           color: #020202;
           font-family: 'SimHei';
-          margin-bottom: 0.071429rem;
         }
         .kh_address {
           font-size: 1rem;
           color: #727272;
-          margin-bottom: 0.357143rem;
         }
         .kh_phone {
           display: flex;
@@ -168,9 +165,9 @@ export default {
         flex-direction: column;
         align-items: flex-end;
         .kh_moneny {
-          margin-bottom: 2.142857rem;
+          margin-bottom: 1.285714rem;
           color: #d6503e;
-          font-size: 1.142857rem;
+          font-size: 1.428571rem;
         }
         .kh_created {
           font-size: 1rem;
