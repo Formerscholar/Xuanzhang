@@ -76,29 +76,29 @@ export default {
       puzzleImgList: [
         require('../../assets/image/thumbnail-img01.jpg'),
         require('../../assets/image/thumbnail-img02.jpg'),
-        require('../../assets/image/thumbnail-img03.jpg')
+        require('../../assets/image/thumbnail-img03.jpg'),
       ],
       text: '',
       ruleForm: {
         // name: '',
-        // pass: ''
+        // pass: '',
         // name: '18752715203',
         // pass: '123456'
         // name: '18012333330',
         // pass: '123456'
         name: '18083795906',
-        pass: '123456'
+        pass: '123456',
       },
       rules: {
         name: [
           { required: true, message: '请输入你的手机号', trigger: 'blur' },
-          { min: 11, max: 11, message: '长度在 11 个字符', trigger: 'blur' }
+          { min: 11, max: 11, message: '长度在 11 个字符', trigger: 'blur' },
         ],
         pass: [
           { required: true, message: '请输入你的密码', trigger: 'blur' },
-          { min: 6, max: 21, message: '长度在 6-21 个字符', trigger: 'blur' }
-        ]
-      }
+          { min: 6, max: 21, message: '长度在 6-21 个字符', trigger: 'blur' },
+        ],
+      },
     }
   },
   methods: {
@@ -112,11 +112,11 @@ export default {
       this.MaskShow = true
     },
     gologin() {
-      this.$refs['ruleForm'].validate(async valid => {
+      this.$refs['ruleForm'].validate(async (valid) => {
         if (valid) {
           const res = await getlogin({
             username: this.ruleForm.name,
-            password: this.ruleForm.pass
+            password: this.ruleForm.pass,
           })
           if (res.code == 200) {
             this.$store.commit(
@@ -167,25 +167,25 @@ export default {
     },
     allfocusblbock() {
       document.querySelector('#Login .tips').style.display = 'block'
-    }
+    },
   },
   activated() {
     const h = document.body.scrollHeight
-    window.onresize = function() {
+    window.onresize = function () {
       if (document.body.scrollHeight < h) {
         document.body.style.height = h
       }
     }
     document
       .querySelectorAll('.el-form-item .userInput input')
-      .forEach(item => {
+      .forEach((item) => {
         item.style.border = 'none'
         item.style.height = '3rem'
         item.style.borderRadius = '0px'
         item.style.borderBottom = '1px solid #f3f3f3'
         item.style.fontSize = '1.285714rem '
       })
-  }
+  },
 }
 </script>
 

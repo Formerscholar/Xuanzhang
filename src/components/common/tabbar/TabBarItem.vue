@@ -18,13 +18,8 @@ export default {
     path: String,
     activeColor: {
       type: String,
-      default: '#e93b3d'
-    }
-  },
-  data() {
-    return {
-      // isActive: false
-    }
+      default: '#e93b3d',
+    },
   },
   computed: {
     isActive() {
@@ -33,16 +28,16 @@ export default {
     activeStyle() {
       return this.isActive
         ? {
-            color: this.activeColor
+            color: this.activeColor,
           }
         : {}
-    }
+    },
   },
   methods: {
     itemClick() {
       this.$router.replace(this.path)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

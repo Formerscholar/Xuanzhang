@@ -130,7 +130,8 @@ const LargeScreen = () =>
 
 const ScreenItem = () =>
   import('../views/home/children/LargeScreen/children/ScreenItem.vue')
-
+const editMaterialItem = () =>
+  import('@/views/materials/children/editMaterialItem')
 Vue.use(VueRouter)
 
 const routes = [
@@ -447,7 +448,7 @@ const routes = [
     component: addMaterial,
   },
   {
-    path: '/editMaterial/:id/:type',
+    path: '/editMaterial/:id',
     component: editMaterial,
   },
   {
@@ -466,6 +467,11 @@ const routes = [
   {
     path: '/homeManu',
     component: homeManu,
+  },
+  {
+    path: '/editMaterialItem',
+    name: 'data',
+    component: editMaterialItem,
   },
 ]
 

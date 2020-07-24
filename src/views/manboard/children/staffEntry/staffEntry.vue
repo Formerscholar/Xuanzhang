@@ -13,7 +13,7 @@
         <div class="van-cell van-field">
           <span class="van-cell__title van-field__label">头像</span>
           <div class="van-cell__value van-field__value">
-            <Avatar @ObtainUrl="ObtainUrls" />
+            <Avatars @ObtainUrl="ObtainUrls" />
           </div>
         </div>
         <van-field v-model="name" label="姓名" />
@@ -33,6 +33,19 @@
             <el-select v-model="ContractValue" placeholder="请选择" class="van-field__body">
               <el-option
                 v-for="item in ContractOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="van-cell van-field">
+          <span class="van-cell__title van-field__label">主管</span>
+          <div class="van-cell__value van-field__value">
+            <el-select v-model="ContractValuse" placeholder="请选择" class="van-field__body">
+              <el-option
+                v-for="item in ContractOptisons"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -81,7 +94,7 @@
 </template>
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
+import Avatars from '@/components/content/Avatars/Avatars'
 
 import { getDepartments, getRoles, addUser } from '@/network/login'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -97,23 +110,33 @@ export default {
       radio: '1',
       Contractnum: '',
       ContractValue: '',
+      ContractValuse: '',
       ContractOptions: [],
+      ContractOptisons: [
+        {
+          value: 1,
+          label: '是',
+        },
+        {
+          value: 0,
+          label: '否',
+        },
+      ],
       jobValue: '',
       jobOptions: [],
-      dataImgUrl: ''
+      dataImgUrl: '',
     }
   },
-  components: { Avatar },
+  components: { Avatars },
   activated() {
     this.getDepartment()
     this.getRolesList()
   },
-  deactivated() {},
   computed: {
     getDepartmentData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addUserData() {
@@ -125,10 +148,11 @@ export default {
       form.append('department_id', this.ContractValue)
       form.append('remark', this.orther)
       form.append('role_id', this.jobValue)
+      form.append('department_head', this.ContractValuse)
       form.append('token', this.$store.state.token)
       form.append('logo_url', this.dataImgUrl)
       return form
-    }
+    },
   },
   methods: {
     touchStart() {
@@ -136,15 +160,35 @@ export default {
       this.isShow = true
     },
     async addUserNow() {
-      const { code } = await addUser(this.addUserData)
+      const { code, msg } = await addUser(this.addUserData)
       if (code == 200) {
-        this.$router.go(-1)
+        this.$message({
+          message: msg,
+          type: 'success',
+        })
+        this.callBack()
+      } else {
+        this.$message.error(msg)
       }
     },
     ObtainUrls(ImgUrl) {
       this.dataImgUrl = ImgUrl
     },
     callBack() {
+      this.isShow = false
+      this.value = ''
+      this.name = ''
+      this.digit = ''
+      this.tel = ''
+      this.orther = ''
+      this.radio = '1'
+      this.Contractnum = ''
+      this.ContractValue = ''
+      this.ContractValuse = ''
+      this.ContractOptions = []
+      this.jobValue = ''
+      this.jobOptions = []
+      this.dataImgUrl = ''
       this.$router.go(-1)
     },
     async getDepartment() {
@@ -153,7 +197,7 @@ export default {
       data.getDepartments.map((item, index) => {
         let obj = {
           value: item.id,
-          label: item.name
+          label: item.name,
         }
         this.ContractOptions.push(obj)
       })
@@ -164,12 +208,12 @@ export default {
       data.roles.map((item, index) => {
         let obj = {
           value: item.id,
-          label: item.display_name
+          label: item.display_name,
         }
         this.jobOptions.push(obj)
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss">
@@ -187,7 +231,7 @@ export default {
 </style>
 <style scoped lang="scss">
 #staffEntry {
-  padding-top: 1rem;
+  padding-top: 5.428571rem;
   .Controlled_root {
     font-size: 1.285714rem;
     background-color: #fff;

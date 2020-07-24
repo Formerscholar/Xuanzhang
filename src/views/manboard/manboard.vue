@@ -34,7 +34,13 @@
           </template>
           <div class="bg"></div>
           <div class="box-card" v-for="(item,index) in userLists" :key="index">
-            <img v-if="item.img_url" class="img" :src="item.img_url.substr(1)" alt="logo" />
+            <img
+              v-if="item.img_url"
+              class="img"
+              :src=" item.img_url.substr(0,1) == '#' ?  item.img_url.substr(1) : item.img_url"
+              alt="logo"
+            />
+
             <div v-else class="imgs"></div>
             <div class="text">
               <div class="title">
@@ -99,7 +105,7 @@ export default {
       TPage: 1,
       OllPage: 1,
       isONetwork: true,
-      isTNetwork: true
+      isTNetwork: true,
     }
   },
 
@@ -110,7 +116,7 @@ export default {
         page: this.OllPage,
         offset: 20,
         status: 'active',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getResignationData() {
@@ -119,7 +125,7 @@ export default {
         page: this.OllPage,
         offset: 20,
         status: 'prohibit',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     selectData() {
@@ -129,9 +135,9 @@ export default {
         offset: 20,
         status: 'active',
         name: this.inputID,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     loadAll() {
@@ -203,11 +209,11 @@ export default {
       const { data } = await getUserList(this.getUserListData)
       console.log('getUserList', data)
       if (data.userLists.length) {
-        data.userLists.forEach(item => {
+        data.userLists.forEach((item) => {
           this.userLists.push(item)
           this.useroption.push({
             address: item.id,
-            value: item.name
+            value: item.name,
           })
         })
       } else {
@@ -223,11 +229,11 @@ export default {
       const { data } = await getUserList(this.getResignationData)
       console.log('getUserList', data)
       if (data.userLists.length) {
-        data.userLists.forEach(item => {
+        data.userLists.forEach((item) => {
           this.Resignation.push(item)
           this.Resigoption.push({
             address: item.id,
-            value: item.name
+            value: item.name,
           })
         })
       } else {
@@ -249,16 +255,16 @@ export default {
     async handleChange(value) {
       const { data } = await getUserList(this.selectData)
       this.userLists = []
-      data.userLists.forEach(item => {
+      data.userLists.forEach((item) => {
         this.userLists.push(item)
       })
-    }
+    },
   },
   activated() {
     this.getUserLists()
     this.getResignation()
     this.restaurants = this.loadAll()
-  }
+  },
 }
 </script>
 

@@ -14,14 +14,11 @@ import { getlogin, getIndex } from '@/network/login.js'
 export default {
   data() {
     return {
-      transitionName: ''
+      transitionName: '',
     }
   },
   created() {
     this.getlogin()
-    setInterval(() => {
-      this.getlogin()
-    }, 1200000)
   },
   activated() {
     this.getlogin()
@@ -66,7 +63,7 @@ export default {
         console.log('其他情况')
         this.transitionName = 'slide'
       }
-    }
+    },
   },
   methods: {
     async gettime() {
@@ -93,7 +90,7 @@ export default {
       var storage = window.localStorage
       const res = await getlogin({
         username: storage.getItem('username'),
-        password: storage.getItem('password')
+        password: storage.getItem('password'),
       })
       if (res.code == 200) {
         this.$store.commit('setLoginDate', JSON.parse(JSON.stringify(res.data)))
@@ -121,8 +118,8 @@ export default {
       } else {
         return
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

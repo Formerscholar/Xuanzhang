@@ -128,7 +128,7 @@ export default {
       onePage: 1,
       twoPage: 1,
       isOne: true,
-      isTwo: true
+      isTwo: true,
     }
   },
 
@@ -154,7 +154,7 @@ export default {
         materiel_name: null,
         specification: null,
         materiel_status: 'normal',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getTemporaryData() {
@@ -165,9 +165,9 @@ export default {
         materiel_name: null,
         specification: null,
         materiel_status: 'wait_check',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     clickscroll() {
@@ -219,7 +219,7 @@ export default {
         materiel_name: value,
         specification: null,
         materiel_status: datamateriel_status,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       })
       if (code == 200) {
         if (!this.active) {
@@ -231,13 +231,13 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -253,7 +253,7 @@ export default {
         specification: data.specification,
         attribute: data.attribute,
         materiel_category_id: 8,
-        unit_id: 9
+        unit_id: 9,
       })
       if (code == 200) {
         this.getMaterie()
@@ -261,13 +261,13 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -280,7 +280,7 @@ export default {
         specification: data.specification,
         attribute: data.attribute,
         materiel_category_id: data.materiel_category_id,
-        unit_id: data.unit_id
+        unit_id: data.unit_id,
       })
       if (code == 200) {
         this.getMaterie()
@@ -288,13 +288,13 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -307,7 +307,7 @@ export default {
         specification: null,
         attribute: 'product',
         materiel_category_id: null,
-        unit_id: null
+        unit_id: null,
       })
       if (code == 200) {
         this.getMaterie()
@@ -315,18 +315,18 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
     editClick(id) {
-      this.$router.push(`/editMaterial/${id}/1`)
+      this.$router.push(`/editMaterial/${id}`)
     },
     addMaterial() {
       this.$router.push('/addMaterial')
@@ -335,7 +335,7 @@ export default {
       const { data } = await getMaterielList(this.getMaterielData)
       console.log('getMaterielList', data)
       if (data.materielList.length) {
-        data.materielList.map(item => {
+        data.materielList.map((item) => {
           this.materielList.push(item)
         })
       } else {
@@ -346,7 +346,7 @@ export default {
       const { data } = await getMaterielList(this.getTemporaryData)
       console.log('Temporary', data)
       if (data.materielList.length) {
-        data.materielList.map(item => {
+        data.materielList.map((item) => {
           this.Temporary.push(item)
         })
       } else {
@@ -358,8 +358,8 @@ export default {
     },
     onClickRight() {
       console.log('搜索')
-    }
-  }
+    },
+  },
 }
 </script>
 

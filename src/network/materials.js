@@ -88,3 +88,18 @@ export function uploadImg(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function uploadImg4(data) {
+  return request({
+    url: '/materiel/uploadImage4',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function uploadImgsss(data) {
+  return request({
+    url: '/materiel/uploadImage3',
+    method: 'POST',
+    data,
+  })
+}

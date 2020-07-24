@@ -17,7 +17,7 @@
 <script>
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.min.css'
-import { uploadImage } from '@/network/home'
+import { uploadImgsss } from '@/network/materials'
 export default {
   name: 'v-simple-cropper',
   props: {
@@ -75,7 +75,7 @@ export default {
       let formData = new FormData()
       formData.append('token', this.$store.state.token)
       formData.append('user_image', imgData)
-      const res = await uploadImage(formData)
+      const res = await uploadImgsss(formData)
       this.successCallback(res.data.url)
       this.cancelHandle()
     },

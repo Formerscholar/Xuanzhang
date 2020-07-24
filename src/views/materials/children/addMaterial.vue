@@ -71,11 +71,10 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <!-- <span class="Propertiestext">新增仓库</span> -->
         </el-row>
         <van-field v-model="LocationNum" type="digit" label="库位号" />
       </el-card>
-      <el-card class="box-card">
+      <!-- <el-card class="box-card">
         <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item title="库存预警" name="1">
             <van-field v-model="MaximumInventory" type="digit" label="最大库存" />
@@ -123,7 +122,7 @@
             <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
           </el-collapse-item>
         </el-collapse>
-      </el-card>
+      </el-card>-->
     </scroll>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
   </div>
@@ -148,12 +147,12 @@ export default {
       options: [
         {
           value: '1',
-          label: '产品'
+          label: '产品',
         },
         {
           value: '2',
-          label: '零件'
-        }
+          label: '零件',
+        },
       ],
       value: '1',
       optionss: [],
@@ -178,13 +177,13 @@ export default {
       DetailsPiecePrice: '',
       DetailsproductMaterial: '',
       DetailsMoldCode: '',
-      uploadParam: 4
+      uploadParam: 4,
     }
   },
   components: { SimpleCropper },
   activated() {
     this.getAddMater()
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
@@ -197,7 +196,7 @@ export default {
     getAddMaterielData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addMaterielData() {
@@ -216,9 +215,9 @@ export default {
         remark: this.Remarks,
         piecework_price: this.DetailsPiecePrice,
         img_url: this.PropsImg,
-        stock: this.BasicInventory
+        stock: this.BasicInventory,
       }
-    }
+    },
   },
   methods: {
     uploadHandle(data) {
@@ -233,7 +232,7 @@ export default {
       console.log(file)
       const { data } = await uploadImg({
         user_image: file.content,
-        token: this.$store.state.token
+        token: this.$store.state.token,
       })
       this.PropsImg = data.url
     },
@@ -243,14 +242,14 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
         this.$router.replace('/materialpage')
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -260,21 +259,21 @@ export default {
       data.materielCategory.forEach((item, index) => {
         let obj = {
           value: item.id,
-          label: item.category_name
+          label: item.category_name,
         }
         this.optionss.push(obj)
       })
-      data.materielUnit.forEach(item => {
+      data.materielUnit.forEach((item) => {
         let obj = {
           value: item.id,
-          label: item.unit_name
+          label: item.unit_name,
         }
         this.optionsss.push(obj)
       })
-      data.materielWarehouse.forEach(item => {
+      data.materielWarehouse.forEach((item) => {
         let obj = {
           value: item.id,
-          label: item.warehouse_name
+          label: item.warehouse_name,
         }
         this.optionssss.push(obj)
       })
@@ -284,8 +283,8 @@ export default {
     },
     onClickLeft() {
       this.$router.replace('/materialpage')
-    }
-  }
+    },
+  },
 }
 </script>
     
