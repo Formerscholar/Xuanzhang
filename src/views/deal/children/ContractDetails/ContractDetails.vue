@@ -92,7 +92,6 @@
     
 <script>
 import { getEditContractOrder } from '@/network/deal'
-import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   data() {

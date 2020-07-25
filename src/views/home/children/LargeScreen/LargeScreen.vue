@@ -11,7 +11,7 @@
     </navbar>
     <div class="content">
       <van-tabs v-model="active" @click="tabsClick">
-        <van-tab title="合同订单" v-if="isOShow">
+        <van-tab :title="titleArr[0]" v-if="titleArr[0] != undefined">
           <scroll
             class="scroll_wrapper"
             ref="scrolls"
@@ -20,19 +20,13 @@
             @pullingUp="loadMores"
             @scroll="clickscroll"
           >
-            <!-- <div class="hello">
-              <div id="example">
-                <p>firstName值: {{firstName}}</p>
-                <p>lastName值: {{lastName}}</p>
-              </div>
-              <button @click="ClickCeshi">点击改变Name的值</button>
-            </div>-->
             <div class="search_box">
               <div class="search_left">
                 <el-select
                   v-model="businessValue"
                   placeholder="商务状态"
                   @change="businesChange"
+                  @focus="focushandle(0)"
                   style="width:100%"
                 >
                   <el-option
@@ -48,6 +42,7 @@
                   v-model="workshopValue"
                   placeholder="车间状态"
                   @change="workshopChange"
+                  @focus="focushandle(0)"
                   style="width:100%"
                 >
                   <el-option
@@ -107,43 +102,10 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="content_box">
-                <div class="title_box">
-                  <span>{{item.order_number}}</span>
-                  <span>公司简称</span>
-                </div>
-                <div class="content_child">
-                  <div class="left_box">
-                    <span>{{item.product_name}}</span>
-                    <span>{{item.product_model}}</span>
-                    <span>交期:{{item.commitment_period}}</span>
-                  </div>
-                  <div class="right_box">
-                    <div class="child_right">
-                      <van-tag type="success">备用状态</van-tag>
-                    </div>
-                    <div @click="changeProduct(item.id)" class="child_right">
-                      <van-tag v-if="item.status == 0" type="warning" color="#FFCC33">正在生产</van-tag>
-                      <van-tag v-else type="success">整装待发</van-tag>
-                    </div>
-                  </div>
-                </div>
-                <van-progress
-                  :pivot-text="'发货' +  Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'"
-                  :percentage="Math.round(((item.number - item.surplus_number) / item.number)*100)"
-                  style=" margin: 0.714286rem 0; height: 1px;"
-                />
-                <div class="click_more" @click="pageHandleClick(item)">
-                  <span>
-                    查看具体生产要求
-                    <a-icon type="right-circle" />
-                  </span>
-                </div>
-              </div>-->
             </div>
           </scroll>
         </van-tab>
-        <van-tab title="流水订单" v-if="isTShow">
+        <van-tab :title="titleArr[1]" v-if="titleArr[1] != undefined">
           <scroll
             class="scroll_wrapper"
             ref="scroll"
@@ -158,6 +120,7 @@
                   v-model="omesValue"
                   placeholder="商务状态"
                   @change="omesChange"
+                  @focus="focushandle(1)"
                   style="width:100%"
                 >
                   <el-option
@@ -173,6 +136,7 @@
                   v-model="workshopValue"
                   placeholder="车间状态"
                   @change="workshopChange"
+                  @focus="focushandle(1)"
                   style="width:100%"
                 >
                   <el-option
@@ -233,7 +197,7 @@
             </div>
           </scroll>
         </van-tab>
-        <van-tab title="代工订单" v-if="isSShow">
+        <van-tab :title="titleArr[2]" v-if="titleArr[2] != undefined">
           <scroll
             class="scroll_wrapper"
             ref="scrollss"
@@ -248,6 +212,7 @@
                   v-model="omesValue"
                   placeholder="商务状态"
                   @change="omesChange"
+                  @focus="focushandle(2)"
                   style="width:100%"
                 >
                   <el-option
@@ -263,6 +228,7 @@
                   v-model="workshopValue"
                   placeholder="车间状态"
                   @change="workshopChange"
+                  @focus="focushandle(2)"
                   style="width:100%"
                 >
                   <el-option
@@ -329,11 +295,7 @@
 </template>
     
 <script>
-import {
-  getlargeAcreenOrderProduct,
-  changeProductStatus,
-  getLargeAcreenOrderProduct
-} from '@/network/home'
+import { getCompleteOrderProduct, changeProductStatus } from '@/network/home'
 
 export default {
   data() {
@@ -344,7 +306,8 @@ export default {
       Opage: 1,
       Tpage: 1,
       Spage: 1,
-      order_type: 'contract',
+      order_type: '',
+      order_typeArr: [],
       business_status: 0,
       che_status: 0,
       ProductList: [],
@@ -356,114 +319,62 @@ export default {
       isOShow: false,
       isTShow: false,
       isSShow: false,
+      tipe: 0,
       businessValue: '',
+      titleArr: ['', '', ''],
       business: [
         {
           value: '0',
-          label: '洽谈'
+          label: '洽谈',
         },
         {
           value: '1',
-          label: '生产'
+          label: '生产',
         },
         {
           value: '2',
-          label: '发货'
+          label: '发货',
         },
         {
           value: '3',
-          label: '无状态'
-        }
+          label: '无状态',
+        },
       ],
       omesValue: '',
       omess: [
         {
           value: '0',
-          label: '满足'
+          label: '满足',
         },
         {
           value: '1',
-          label: '不满足'
-        }
+          label: '不满足',
+        },
       ],
       workshopValue: '',
       workshop: [
         {
           value: '1',
-          label: '整装待发'
+          label: '整装待发',
         },
         {
           value: '0',
-          label: '正在生产'
-        }
-      ]
-      // firstNames: '张',
-      // lastNames: '三'
-      // oneObj: {
-      //   data: '001',
-      //   upOBJ: {
-      //     val: '456',
-      //     downOBJ: {
-      //       num: 1,
-      //       setter: 8
-      //     }
-      //   }
-      // },
-      // twoOBJ: {},
-      // twoOBJ: {
-      //   one: 'chad',
-      //   two: 'why',
-      //   three: 'mht'
-      // }
+          label: '正在生产',
+        },
+      ],
     }
   },
-
-  // filters: {
-  //   orderNum(value) {
-  //     return '合同号: ' + value
-  //   }
-  // },
   activated() {
-    // console.log('oneObj = ', this.oneObj)
-    // console.log('twoOBJ = ', this.twoOBJ)
-    // this.twoOBJ = { ...this.oneObj }
-    // console.log('oneObj = ', this.oneObj)
-    // console.log('twoOBJ = ', this.twoOBJ)
-
-    // console.log('属性名', Object.keys(this.twoOBJ))
-    // console.log('属性值', Object.values(this.twoOBJ))
-
-    // for (const key in this.twoOBJ) {
-    //   console.log('属性名' + key)
-    //   console.log('属性值' + this.twoOBJ[key])
-    // }
-
-    // Object.keys(this.twoOBJ).forEach(key => {
-    //   console.log(key, this.twoOBJ[key])
-    // })
-
+    this.ProductList = []
+    this.getlargeAcreen()
+    this.ProductLists = []
+    this.getlargeAcreens()
+    this.ProductListss = []
+    this.getlargeAcreenss()
     this.allpage = 1
-    if (this.Opage == 1) {
-      this.getlargeAcreen()
-    }
-    if (this.Tpage == 1) {
-      this.getlargeAcreens()
-    }
-    if (this.Spage == 1) {
-      this.getlargeAcreenss()
-    }
-  },
-  deactivated() {
-    /*
-      this.allpage = 1
-      this.Opage = 1
-      this.Tpage = 1
-      this.Spage = 1
-      this.IsTpage = true
-      this.ProductList = []
-      this.ProductLists = []
-      this.ProductListss = []
-    */
+    this.Opage = 1
+    this.Tpage = 1
+    this.Spage = 1
   },
   computed: {
     getlargeAcreenOrderData() {
@@ -472,7 +383,7 @@ export default {
         page: this.allpage,
         offset: 20,
         order_type: '0',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getlargeAcreenOrderDatas() {
@@ -481,7 +392,7 @@ export default {
         page: this.allpage,
         offset: 20,
         order_type: 'flow',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getlargeAcreenOrderDatass: {
@@ -491,48 +402,13 @@ export default {
           page: this.allpage,
           offset: 20,
           order_type: 'oem',
-          _: new Date().getTime()
+          _: new Date().getTime(),
         }
       },
       set(newValue) {
         console.log(newValue)
-      }
+      },
     },
-    getLargeAcreenNEWData() {
-      return {
-        token: this.$store.state.token,
-        page: 1,
-        offset: 20,
-        order_type: this.order_type,
-        business_status: this.business_status,
-        che_status: this.che_status,
-        distributor_id: null,
-        _: new Date().getTime()
-      }
-    }
-    // firstName: {
-    //   get: function() {
-    //     return this.firstNames
-    //   },
-    //   set: function(newValue) {
-    //     this.firstNames = newValue
-    //     return newValue
-    //   }
-    // },
-    // lastName: {
-    //   get: function() {
-    //     return this.lastNames
-    //   },
-    //   set: function(newValue) {
-    //     this.lastNames = newValue
-    //     return newValue
-    //   }
-    // }
-  },
-  watch: {
-    // allpage(olddata, newdata) {
-    //   console.log(olddata, newdata)
-    // }
   },
   filters: {
     setCommitmentPeriod(value) {
@@ -590,50 +466,53 @@ export default {
       } else {
         return '不\xa0满\xa0足\xa0'
       }
-    }
-  },
-  updated() {
-    // console.log('firstName = ' + this.firstName)
-    // console.log('lastName = ' + this.lastName)
-    // console.log('firstNames = ' + this.firstNames)
-    // console.log('lastNames = ' + this.lastNames)
+    },
   },
   methods: {
-    // ClickCeshi() {
-    //   this.firstNames = '三'
-    //   this.lastNames = '张'
-    // },
     businesChange(value) {
       this.business_status = value
-      this.getLargeAcreenNEW()
+      this.getLargeAcreenNEW(this.tipe)
+      console.log(value)
     },
     omesChange(value) {
       this.business_status = value
-      this.getLargeAcreenNEW()
+      this.getLargeAcreenNEW(this.tipe)
+      console.log(value)
     },
     workshopChange(value) {
       this.che_status = value
-      this.getLargeAcreenNEW()
+      this.getLargeAcreenNEW(this.tipe)
+      console.log(value)
     },
-    async getLargeAcreenNEW() {
-      const { data } = await getLargeAcreenOrderProduct(
-        this.getLargeAcreenNEWData
-      )
-      console.log('getLargeAcreenOrderProduct', data.unfinishedOrderProductList)
-      //清除 列表  加入数据
-      if (this.active == 0) {
+    focushandle(i) {
+      this.tipe = i
+      console.log(i)
+    },
+    async getLargeAcreenNEW(i) {
+      const { data } = await getCompleteOrderProduct({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        order_type: this.order_typeArr[i],
+        business_status: this.business_status,
+        che_status: this.che_status,
+        distributor_id: null,
+        _: new Date().getTime(),
+      })
+      console.log('getCompleteOrderProduct', data)
+      if (i == 0) {
         this.ProductList = []
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductList.push(item)
         })
-      } else if (this.active == 1) {
+      } else if (i == 1) {
         this.ProductLists = []
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductLists.push(item)
         })
-      } else if (this.active == 2) {
+      } else if (i == 2) {
         this.ProductListss = []
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductListss.push(item)
         })
       }
@@ -661,34 +540,61 @@ export default {
       this.$dialog
         .confirm({
           title: '提示',
-          message: '是否更改状态?'
+          message: '是否更改状态?',
         })
         .then(async () => {
-          let order_type
-          if (this.active == 0) {
-            order_type = 'contract'
-          }
-          if (this.active == 1) {
-            order_type = 'flow'
-          }
-          if (this.active == 2) {
-            order_type = 'oem'
-          }
+          // let order_type
+          // if (this.isOShow && this.isTShow && this.isSShow) {
+          //   if (this.active == 0) {
+          //     order_type = 'contract'
+          //   }
+          //   if (this.active == 1) {
+          //     order_type = 'flow'
+          //   }
+          //   if (this.active == 2) {
+          //     order_type = 'oem'
+          //   }
+          // } else if (!this.isOShow && this.isTShow && this.isSShow) {
+          //   if (this.active == 0) {
+          //     order_type = 'flow'
+          //   }
+          //   if (this.active == 1) {
+          //     order_type = 'oem'
+          //   }
+          // } else if (this.isOShow && !this.isTShow && this.isSShow) {
+          //   if (this.active == 0) {
+          //     order_type = 'contract'
+          //   }
+          //   if (this.active == 1) {
+          //     order_type = 'oem'
+          //   }
+          // } else if (this.isOShow && this.isTShow && !this.isSShow) {
+          //   if (this.active == 0) {
+          //     order_type = 'contract'
+          //   }
+          //   if (this.active == 1) {
+          //     order_type = 'flow'
+          //   }
+          // }
+
           const { code } = await changeProductStatus({
             token: this.$store.state.token,
-            order_type,
+            order_type: this.order_type,
             id,
-            _: new Date().getTime()
+            _: new Date().getTime(),
           })
           if (code == 200) {
             console.log(this.active)
             if (this.active == 0) {
+              this.ProductList = []
               this.getlargeAcreen()
             }
             if (this.active == 1) {
+              this.ProductLists = []
               this.getlargeAcreens()
             }
             if (this.active == 2) {
+              this.ProductListss = []
               this.getlargeAcreenss()
             }
           }
@@ -735,8 +641,8 @@ export default {
         path: '/ScreenItem',
         query: {
           active: this.active,
-          data: JSON.parse(JSON.stringify(data))
-        }
+          data: JSON.parse(JSON.stringify(data)),
+        },
       })
     },
     blacknext() {
@@ -750,42 +656,47 @@ export default {
       this.IsTpages = true
       this.IsTpagess = true
     },
-    tabsClick(name) {
+    tabsClick(name, title) {
       this.businessValue = ''
       this.workshopValue = ''
       this.omesValue = ''
-      if (name == 0) {
+      if (title == '合同订单') {
         this.order_type = 'contract'
-      } else if (name == 1) {
+      } else if (title == '流水订单') {
         this.order_type = 'flow'
-      } else if (name == 2) {
+      } else if (title == '代工订单') {
         this.order_type = 'oem'
       }
+      console.log(name, title)
     },
     async getlargeAcreen() {
-      const { data } = await getlargeAcreenOrderProduct(
+      const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderData
       )
-      this.isOShow = data.companyOrderType.contract ? true : false
-      this.isTShow = data.companyOrderType.flow ? true : false
-      this.isSShow = data.companyOrderType.oem ? true : false
-      console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
+      console.log('getlargeAcreenOrderProduct', data)
+      this.titleArr[0] = data.companyOrderType.contract
+      this.titleArr[1] = data.companyOrderType.flow
+      this.titleArr[2] = data.companyOrderType.oem
+      this.order_typeArr[0] = 'contract'
+      this.order_typeArr[1] = 'flow'
+      this.order_typeArr[2] = 'oem'
+      console.log(this.titleArr)
       if (this.Opage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpages = false
         } else {
-          data.unfinishedOrderProductList.forEach(item => {
+          data.unfinishedOrderProductList.forEach((item) => {
             this.ProductList.push(item)
           })
         }
       } else {
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductList.push(item)
         })
       }
     },
     async getlargeAcreens() {
-      const { data } = await getlargeAcreenOrderProduct(
+      const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderDatas
       )
       console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
@@ -793,18 +704,18 @@ export default {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpage = false
         } else {
-          data.unfinishedOrderProductList.forEach(item => {
+          data.unfinishedOrderProductList.forEach((item) => {
             this.ProductLists.push(item)
           })
         }
       } else {
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductLists.push(item)
         })
       }
     },
     async getlargeAcreenss() {
-      const { data } = await getlargeAcreenOrderProduct(
+      const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderDatass
       )
       console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
@@ -813,17 +724,17 @@ export default {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpIsTpagessages = false
         } else {
-          data.unfinishedOrderProductList.forEach(item => {
+          data.unfinishedOrderProductList.forEach((item) => {
             this.ProductListss.push(item)
           })
         }
       } else {
-        data.unfinishedOrderProductList.forEach(item => {
+        data.unfinishedOrderProductList.forEach((item) => {
           this.ProductListss.push(item)
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

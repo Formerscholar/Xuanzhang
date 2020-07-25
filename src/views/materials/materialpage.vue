@@ -38,7 +38,13 @@
             <div @click="editClick(item.id)">
               <el-card class="box-card">
                 <div class="content_box_card">
-                  <div class="left_card"></div>
+                  <img
+                    class="left_card"
+                    v-if="item.img_url"
+                    :src="bestURL + item.img_url"
+                    alt="logo"
+                  />
+                  <div v-else class="left_card"></div>
                   <div class="right_card">
                     <span>{{item.name}}</span>
                     <span>{{item.specification}}</span>
@@ -115,6 +121,7 @@
     
 <script>
 import { getMaterielList, editMaterielStatus } from '@/network/materials'
+import { bestURL } from '@/network/baseURL'
 
 export default {
   name: 'materialpage',
@@ -127,12 +134,14 @@ export default {
       allPage: 1,
       onePage: 1,
       twoPage: 1,
+      bestURL: '',
       isOne: true,
       isTwo: true,
     }
   },
 
   activated() {
+    this.bestURL = bestURL
     this.getMaterie()
     this.getTemporary()
   },

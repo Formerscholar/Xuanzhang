@@ -43,6 +43,7 @@ export function request(config) {
   instance.interceptors.response.use(
     (res) => {
       endLoading()
+      console.log(res.data.code)
       return res.data
     },
     (err) => {

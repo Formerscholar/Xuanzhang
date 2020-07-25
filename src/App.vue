@@ -15,16 +15,14 @@ export default {
   data() {
     return {
       transitionName: '',
+      timerOUT: null,
     }
   },
-  created() {
-    this.getlogin()
-  },
   activated() {
-    this.getlogin()
-    setInterval(() => {
-      this.getlogin()
-    }, 1200000)
+    this.gettime()
+  },
+  beforeDestroy() {
+    clearInterval(this.timerOUT)
   },
   watch: {
     $route(to, from) {
@@ -84,39 +82,17 @@ export default {
         } else {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         }
-      }
-    },
-    async getlogin() {
-      var storage = window.localStorage
-      const res = await getlogin({
-        username: storage.getItem('username'),
-        password: storage.getItem('password'),
-      })
-      if (res.code == 200) {
-        this.$store.commit('setLoginDate', JSON.parse(JSON.stringify(res.data)))
-        if (res.data.customers.length > 1) {
-          this.gettime()
-        } else {
-          var form = new FormData()
-          form.append('username', storage.getItem('username'))
-          form.append('password', storage.getItem('password'))
-          form.append('company_id', storage.getItem('ChooseCompany'))
-          const res1 = await getIndex(form)
-          if (res1.code == 200) {
-            this.$store.commit(
-              'setUserInfo',
-              JSON.parse(JSON.stringify(res1.data.userInfo))
-            )
-            this.$store.commit('setToken', res1.data.token)
-            if (!window.localStorage) {
-              storage.setItem('token', JSON.stringify(this.$store.state.token))
-            } else {
-              storage.setItem('token', JSON.stringify(this.$store.state.token))
-            }
-          }
-        }
+        this.timerOUT = setInterval(this.gettime(), 1500000)
+        console.log(this.timerOUT)
       } else {
-        return
+        window.localStorage.removeItem('token')
+        this.$store.commit('setBankCardSinfo', {})
+        this.$store.commit('setLoginDate', {})
+        this.$store.commit('setUserInfo', [])
+        this.$store.commit('setDetailsData', {})
+        this.$store.commit('setToken', '')
+        this.isShow = true
+        this.$router.replace('/')
       }
     },
   },

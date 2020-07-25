@@ -133,6 +133,7 @@ const ScreenItem = () =>
 const editMaterialItem = () =>
   import('@/views/materials/children/editMaterialItem')
 Vue.use(VueRouter)
+const outSearch = () => import('@/views/deal/children/outSearch/outSearch')
 
 const routes = [
   {
@@ -472,6 +473,10 @@ const routes = [
     path: '/editMaterialItem',
     name: 'data',
     component: editMaterialItem,
+  },
+  {
+    path: '/outSearch',
+    component: outSearch,
   },
 ]
 

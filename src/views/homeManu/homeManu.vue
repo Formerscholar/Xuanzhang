@@ -29,107 +29,110 @@ export default {
     return {
       abilityList: [
         {
-          icon_Url: 'icon-zhaogongshichang',
-          title: '计件考核',
-          color: '#ff7f12'
-        },
-        {
-          icon_Url: 'icon-tuikuanshouhou',
-          title: '提现操作'
-        },
-        {
-          icon_Url: 'icon-ziyuan142',
-          title: '检验考核',
-          color: '#ff5b2b'
-        },
-        {
-          icon_Url: 'icon-daifahuo',
-          title: '收货质检'
-        },
-        {
-          icon_Url: 'icon-lvyoumenpiao',
-          title: '开据发票',
-          color: '#ff7f12'
-        },
-        {
           icon_Url: 'icon-wochuangjiande1',
           title: '客户管理',
           color: '#038900',
-          path: '/client'
+          path: '/client',
         },
         {
           icon_Url: 'icon-ziyuan174',
           title: '委外入库',
           color: '#038900',
-          path: '/deal/outsourcing'
+          path: '/deal/outsourcing',
         },
         {
           icon_Url: 'icon-daishouhuo',
           title: '代工发货',
-          path: '/oem'
+          path: '/oem',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '流水发货',
-          path: '/Ship'
+          path: '/Ship',
         },
-        {
-          icon_Url: 'icon-zonghebaobiao-01',
-          title: '流水计划'
-        },
+
         {
           icon_Url: 'icon-ziyuan138',
           title: '新增流水',
-          path: '/addbill'
+          path: '/addbill',
         },
-        {
-          icon_Url: 'icon-shujuxiazai-01',
-          title: '合同收货'
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '任务管理',
-          color: '#ff7f12'
-        },
-        {
-          icon_Url: 'icon-ziyuan146',
-          title: '统计报表'
-        },
-        {
-          icon_Url: 'icon-kefu',
-          title: '售后'
-        },
+
         {
           icon_Url: 'icon-ziyuan138',
           title: '新建合同',
-          path: '/create-contract'
+          path: '/create-contract',
         },
         {
           icon_Url: 'icon-ziyuan138',
           title: '发起委外',
-          path: '/outsource'
+          path: '/outsource',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '合同发货',
-          path: '/ContractDelivery'
+          path: '/ContractDelivery',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '来料发货',
-          path: '/IncomingDelivery'
+          path: '/IncomingDelivery',
         },
         {
           icon_Url: 'icon-shujuxiazai-01',
           title: '委外收货',
-          path: '/Outsourc/outsourcing'
+          path: '/Outsourc/outsourcing',
         },
         {
           icon_Url: 'icon-ziyuan138',
           title: '生产任务',
-          path: '/LargeScreen'
-        }
-      ]
+          path: '/LargeScreen',
+        },
+
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '任务管理',
+          color: '#ff7f12',
+        },
+        {
+          icon_Url: 'icon-shujuxiazai-01',
+          title: '合同收货',
+        },
+        {
+          icon_Url: 'icon-zonghebaobiao-01',
+          title: '流水计划',
+        },
+        {
+          icon_Url: 'icon-ziyuan146',
+          title: '统计报表',
+        },
+        {
+          icon_Url: 'icon-kefu',
+          title: '售后',
+        },
+        {
+          icon_Url: 'icon-zhaogongshichang',
+          title: '计件考核',
+          color: '#ff7f12',
+        },
+        {
+          icon_Url: 'icon-tuikuanshouhou',
+          title: '提现操作',
+        },
+        {
+          icon_Url: 'icon-ziyuan142',
+          title: '检验考核',
+          color: '#ff5b2b',
+        },
+        {
+          icon_Url: 'icon-daifahuo',
+          title: '收货质检',
+        },
+        {
+          icon_Url: 'icon-lvyoumenpiao',
+          title: '开据发票',
+          color: '#ff7f12',
+        },
+      ],
     }
   },
   methods: {
@@ -138,8 +141,8 @@ export default {
     },
     jumpPage(path) {
       this.$router.replace(path)
-    }
-  }
+    },
+  },
 }
 </script>
     

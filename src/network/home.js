@@ -57,9 +57,9 @@ export function editUser(data) {
     data,
   })
 }
-export function getlargeAcreenOrderProduct(params) {
+export function getCompleteOrderProduct(params) {
   return request({
-    url: '/DeliverGoods/getlargeAcreenOrderProduct',
+    url: '/DeliverGoods/getCompleteOrderProduct',
     method: 'GET',
     params,
   })
@@ -67,13 +67,6 @@ export function getlargeAcreenOrderProduct(params) {
 export function changeProductStatus(params) {
   return request({
     url: '/DeliverGoods/changeProductStatus',
-    method: 'GET',
-    params,
-  })
-}
-export function getLargeAcreenOrderProduct(params) {
-  return request({
-    url: '/DeliverGoods/getLargeAcreenOrderProduct',
     method: 'GET',
     params,
   })

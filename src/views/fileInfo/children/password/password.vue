@@ -32,12 +32,13 @@
     
 <script>
 import { editUser } from '@/network/home'
+import { logout } from '@/network/login'
 
 export default {
   data() {
     return {
       userInfo: {},
-      email: ''
+      email: '',
     }
   },
 
@@ -49,12 +50,22 @@ export default {
       console.log(this.email)
       const { code } = await editUser(this.editUserData)
       if (code == 200) {
-        this.$router.go(-1)
+        const { code } = await logout()
+        if (code == 200) {
+          window.localStorage.removeItem('token')
+          this.$store.commit('setBankCardSinfo', {})
+          this.$store.commit('setLoginDate', {})
+          this.$store.commit('setUserInfo', [])
+          this.$store.commit('setDetailsData', {})
+          this.$store.commit('setToken', '')
+          this.isShow = true
+          this.$router.replace('/login')
+        }
       }
     },
     activeInfo() {
       this.userInfo = this.$store.state.userInfo[0]
-    }
+    },
   },
   activated() {
     this.activeInfo()
@@ -78,8 +89,8 @@ export default {
       from.append('logo_url', '')
       from.append('department_head', 0)
       return from
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -12,17 +12,7 @@
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="customerName line">
-            <em>供应商名称</em>
-            <div>
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </div>
-          </el-row>
+          <van-field v-model="state" label="供应商" @focus="focusClick" />
           <timers
             class="SigningDate line"
             type="SigningDate"
@@ -101,6 +91,7 @@
         </el-card>-->
       </div>
     </scroll>
+
     <div class="footer">
       <el-button type="primary" @click="quoteclick" plain>提交</el-button>
       <el-button type="primary" @click="quxiaoClick" plain>取消</el-button>
@@ -110,11 +101,11 @@
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
-
+import { setTimerType } from '@/common/filter'
 import {
   getAddOutsourcingOrder,
   getReceivingInformationList,
-  addOutsourcingOrder
+  addOutsourcingOrder,
 } from '@/network/deal'
 export default {
   name: 'OEM',
@@ -123,7 +114,7 @@ export default {
       state: '',
       timersList: {
         SigningDate: new Date().getTime(),
-        ContractField: new Date().getTime()
+        ContractField: new Date().getTime(),
       },
       tableData: [],
       isShowed: false,
@@ -144,7 +135,7 @@ export default {
         id: '0',
         name: '',
         tel: '',
-        address: ''
+        address: '',
       },
       restaurants: [],
       restaurant: [],
@@ -169,7 +160,7 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       states: '',
       radio: '0',
@@ -187,7 +178,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -197,21 +188,22 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       options: regionData,
       address: [],
-      number: 0
+      number: 0,
     }
   },
 
   activated() {
     this.getAddOemOrders()
+
     if (this.$store.state.timers.SigningDate != '') {
       this.timersList.SigningDate = this.$store.state.timers.SigningDate
     }
@@ -225,7 +217,7 @@ export default {
       this.addressData.id = this.$store.state.Address.id
       this.$store.commit('setAddress', {})
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     document.querySelector('textarea').style.border = 'none'
@@ -236,6 +228,7 @@ export default {
   },
   computed: {
     addContractOrderData() {
+      let timer = setTimerType(new Date(this.timersList.SigningDate))
       return {
         supplier_id: this.selectedID,
         contract_amount: this.contractAmount,
@@ -246,13 +239,13 @@ export default {
         template_set: null,
         acceptance_criteria: null,
         transport_undertaking: null,
-        commitment_period: this.timersList.SigningDate
+        commitment_period: timer,
       }
     },
     getAddOemOrderData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getReceiveDate() {
@@ -260,11 +253,20 @@ export default {
         token: this.$store.state.token,
         id: this.selectedID,
         type: 'distributor',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
+    focusClick() {
+      console.log('跳转新页面')
+      this.$router.push('/outSearch')
+      this.$bus.$on('outSupplier', (item) => {
+        console.log(item)
+        this.state = item.name
+        this.selectedID = item.id
+      })
+    },
     async quoteclick() {
       const { code } = await addOutsourcingOrder(this.addContractOrderData)
       if (code == 200) {
@@ -309,7 +311,7 @@ export default {
       this.distributors.forEach((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurants.push(obj)
       })
@@ -323,7 +325,7 @@ export default {
       this.usersList.forEach((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurant.push(obj)
       })
@@ -348,7 +350,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.contractAmount += adderssnum
       this.DiscountedAmount += adderssnum
@@ -405,13 +407,10 @@ export default {
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
         : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
+      cb(results)
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -432,7 +431,7 @@ export default {
       if (this.form.companyName != '' && this.form.DetailedAddress != '') {
         this.restaurants.push({
           value: this.form.companyName,
-          address: this.form.DetailedAddress
+          address: this.form.DetailedAddress,
         })
       }
       if (this.Address.DetailedAddress != '') {
@@ -452,7 +451,7 @@ export default {
           model: this.product.specifications,
           nums: this.product.number,
           price: this.product.price,
-          totalPrice: this.product.price * this.product.number
+          totalPrice: this.product.price * this.product.number,
         }
         this.tableData.push(addproductdata)
       }
@@ -460,12 +459,7 @@ export default {
       this.loading = true
       this.Addresslog = false
       this.productlog = false
-      this.timer = setTimeout(() => {
-        done()
-        setTimeout(() => {
-          this.loading = false
-        }, 400)
-      }, 2000)
+      this.loading = false
       document.querySelector('#createContract .nav-bar').style.display = 'flex'
     },
     cancelForm() {
@@ -481,8 +475,8 @@ export default {
       this.$router.push({
         name: 'addressList',
         params: {
-          data: this.listData
-        }
+          data: this.listData,
+        },
       })
     },
     querySearchAsyncs(queryString, cb) {
@@ -490,12 +484,9 @@ export default {
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
         : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
-    }
-  }
+      cb(results)
+    },
+  },
 }
 </script>
     
@@ -658,6 +649,13 @@ export default {
         }
       }
     }
+  }
+  .picker {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    bottom: 0;
   }
   .footer {
     height: 2.785714rem;

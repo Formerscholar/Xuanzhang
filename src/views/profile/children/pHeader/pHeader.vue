@@ -4,7 +4,6 @@
       <div class="logo d-flex">
         <img v-if="imgUrl" :src="imgUrl" alt="logo" />
         <img src="../../../../assets/image/dpng.png" v-else alt="logo" />
-
         <div class="info">
           <div class="name">
             {{name || '姓名'}}
