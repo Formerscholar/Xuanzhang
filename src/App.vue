@@ -15,14 +15,10 @@ export default {
   data() {
     return {
       transitionName: '',
-      timerOUT: null,
     }
   },
-  activated() {
+  created() {
     this.gettime()
-  },
-  beforeDestroy() {
-    clearInterval(this.timerOUT)
   },
   watch: {
     $route(to, from) {
@@ -72,6 +68,7 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
+        console.log('登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
@@ -82,8 +79,6 @@ export default {
         } else {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         }
-        this.timerOUT = setInterval(this.gettime(), 1500000)
-        console.log(this.timerOUT)
       } else {
         window.localStorage.removeItem('token')
         this.$store.commit('setBankCardSinfo', {})

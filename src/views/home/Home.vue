@@ -40,6 +40,7 @@ import myEcharts from '@/views/home/children/myEcharts/myEcharts'
 import reminder from '@/views/home/children/reminder/reminder'
 
 import { getUserDesignatedTasks } from '@/network/home'
+import { getlogin, getIndex } from '@/network/login'
 
 export default {
   name: 'Home',
@@ -50,12 +51,12 @@ export default {
     myEcharts,
 
     reminder,
-    MainTabBar
+    MainTabBar,
   },
   data() {
     return {
       isShow: 0,
-      overlayshow: false
+      overlayshow: false,
     }
   },
   activated() {
@@ -70,11 +71,41 @@ export default {
         token: this.$store.state.token,
         page: 1,
         offset: 20,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
+    async gettime() {
+      var storage = window.localStorage
+      var form = new FormData()
+      form.append('username', storage.getItem('username'))
+      form.append('password', storage.getItem('password'))
+      form.append('company_id', storage.getItem('ChooseCompany'))
+      const res = await getIndex(form)
+      if (res.code == 200) {
+        console.log('home定时登录次数+1')
+        this.$store.commit(
+          'setUserInfo',
+          JSON.parse(JSON.stringify(res.data.userInfo))
+        )
+        this.$store.commit('setToken', res.data.token)
+        if (!window.localStorage) {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        } else {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        }
+      } else {
+        window.localStorage.removeItem('token')
+        this.$store.commit('setBankCardSinfo', {})
+        this.$store.commit('setLoginDate', {})
+        this.$store.commit('setUserInfo', [])
+        this.$store.commit('setDetailsData', {})
+        this.$store.commit('setToken', '')
+        this.isShow = true
+        this.$router.replace('/')
+      }
+    },
     materialClick() {
       this.$router.push('/materialpage')
     },
@@ -99,11 +130,13 @@ export default {
     },
     ReimbursementClick() {
       this.$router.push('/reimbursement')
-    }
+    },
   },
   created() {
+    setInterval(this.gettime, 1500000)
+    console.log('开启定时器 时间 10s')
     console.log(this.$store.state.userInfo)
-  }
+  },
 }
 </script>
 
