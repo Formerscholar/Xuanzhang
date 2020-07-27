@@ -11,7 +11,7 @@
               <span>{{jobName || '职位'}}</span>
             </div>
           </div>
-          <div class="phone">{{phone|| '180****8888'}}</div>
+          <div class="phone">{{phone}}</div>
         </div>
       </div>
       <div class="icon" @click="toProfileInfo">
@@ -22,7 +22,7 @@
 </template>
     
 <script>
-import { getUserDesignatedTasks } from '@/network/home'
+import { getIndex } from '@/network/login.js'
 
 export default {
   name: 'pHeader',
@@ -33,40 +33,55 @@ export default {
       phone: '',
       jobName: '',
       imgUrl: '',
-      bestURL: ''
+      bestURL: '',
     }
   },
   activated() {
-    this.getUserDesignat()
-  },
-  computed: {
-    getUserDesignatedTasksData() {
-      return {
-        token: this.$store.state.token,
-        page: 1,
-        offset: 20,
-        _: new Date().getTime()
-      }
-    }
+    this.gettime()
   },
   methods: {
-    async getUserDesignat() {
-      const { data } = await getUserDesignatedTasks(
-        this.getUserDesignatedTasksData
-      )
-      this.dataInfo = data.userInfo[0]
-      this.imgUrl = this.dataInfo.img_url.substr(1)
-      this.jobName = this.dataInfo.role.display_name
-      this.phone = this.formatPhone(this.dataInfo.username)
-      this.name = this.dataInfo.name
+    async gettime() {
+      var storage = window.localStorage
+      var form = new FormData()
+      form.append('username', storage.getItem('username'))
+      form.append('password', storage.getItem('password'))
+      form.append('company_id', storage.getItem('ChooseCompany'))
+      const res = await getIndex(form)
+      if (res.code == 200) {
+        console.log('登录次数+1')
+        this.$store.commit(
+          'setUserInfo',
+          JSON.parse(JSON.stringify(res.data.userInfo))
+        )
+        this.$store.commit('setToken', res.data.token)
+        if (!window.localStorage) {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        } else {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        }
+        this.dataInfo = res.data.userInfo[0]
+        this.imgUrl = this.dataInfo.img_url.substr(1)
+        this.jobName = this.dataInfo.role.display_name
+        this.phone = this.formatPhone(this.dataInfo.username)
+        this.name = this.dataInfo.name
+      } else {
+        window.localStorage.removeItem('token')
+        this.$store.commit('setBankCardSinfo', {})
+        this.$store.commit('setLoginDate', {})
+        this.$store.commit('setUserInfo', [])
+        this.$store.commit('setDetailsData', {})
+        this.$store.commit('setToken', '')
+        this.isShow = true
+        this.$router.replace('/')
+      }
     },
     toProfileInfo() {
       this.$emit('toProfileInfo')
     },
     formatPhone(phone) {
       return phone.substr(0, 3) + '****' + phone.substr(7, 11)
-    }
-  }
+    },
+  },
 }
 </script>
     

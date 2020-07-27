@@ -39,12 +39,21 @@
       <div class="btns">
         <van-button type="warning" @click="deleteDeliver">作废</van-button>
         <van-button type="info" @click="editShip">编辑</van-button>
+        <van-button type="primary" @click="printShip">打印</van-button>
       </div>
     </scroll>
+
+    <van-overlay :show="isShow" @click="isShow = false">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
 <script>
+import myVqr from '@/components/common/my_vqr/myVqr'
+
 import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
 export default {
   name: 'ShipmentItem',
@@ -52,10 +61,21 @@ export default {
     return {
       deliveryRecordItem: {},
       iid: 0,
-      deliverGoodsDetail: []
+      isShow: false,
+      textContent: '',
+      deliverGoodsDetail: [],
     }
   },
-
+  components: {
+    myVqr,
+  },
+  deactivated() {
+    this.deliveryRecordItem = {}
+    this.iid = 0
+    this.isShow = false
+    this.textContent = ''
+    this.deliverGoodsDetail = []
+  },
   activated() {
     this.deliveryRecordItem = this.$route.query.data
     this.iid = this.deliveryRecordItem.id
@@ -74,7 +94,7 @@ export default {
     },
     setRecordItemCreated(value) {
       return '发货时间:' + value
-    }
+    },
   },
   computed: {
     deleteDeliverData() {
@@ -88,12 +108,16 @@ export default {
       return {
         id: this.iid,
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
 
   methods: {
+    printShip() {
+      this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${this.deliveryRecordItem.id}&orderType=flow`
+      this.isShow = true
+    },
     async getFlowDeliverD() {
       const { data } = await getFlowDeliverDetail(this.getFlowDeliverData)
       console.log('getFlowDeliverDetail', data)
@@ -107,8 +131,8 @@ export default {
       this.$router.push({
         path: '/editShipItem',
         query: {
-          data: this.deliveryRecordItem
-        }
+          data: this.deliveryRecordItem,
+        },
       })
     },
     blacknext() {
@@ -119,8 +143,8 @@ export default {
       if (code == 200) {
         this.blacknext()
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

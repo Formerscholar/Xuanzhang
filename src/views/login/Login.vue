@@ -80,16 +80,12 @@ export default {
       ],
       text: '',
       ruleForm: {
-        // name: '',
-        // pass: '',
-        // name: '18752715203',
-        // pass: '123456'
+        name: '',
+        pass: '',
         // name: '18012333330',
-        // pass: '123456'
-        // name: '13338149978',
         // pass: '123456',
-        name: '18083795906',
-        pass: '123456',
+        // name: '18083795906',
+        // pass: '123456',
       },
       rules: {
         name: [
@@ -129,7 +125,7 @@ export default {
             storage.setItem('username', this.ruleForm.name)
             storage.setItem('password', this.ruleForm.pass)
             if (res.data.customers.length > 1) {
-              this.$router.push('/businessLogin')
+              this.$router.replace('/businessLogin')
             } else {
               var form = new FormData()
               form.append('username', res.data.requestData.username)

@@ -444,13 +444,13 @@ export default {
     },
     setbusinessName(value) {
       if (value == 0) {
-        return '洽\xa0\xa0\xa0\xa0\xa0\xa0谈'
+        return '洽谈'
       } else if (value == 1) {
-        return '生\xa0\xa0\xa0\xa0\xa0\xa0产'
+        return '生产'
       } else if (value == 2) {
-        return '发\xa0\xa0\xa0\xa0\xa0\xa0货'
+        return '发0货'
       } else if (value == 3) {
-        return '无\xa0状\xa0态\xa0'
+        return '无状态'
       }
     },
     omesstatus(value) {
@@ -464,7 +464,7 @@ export default {
       if (value == 0) {
         return '满足条件'
       } else {
-        return '不\xa0满\xa0足\xa0'
+        return '不满足'
       }
     },
   },
@@ -845,7 +845,14 @@ export default {
               overflow: hidden;
               width: 4.142857rem;
               .child_right {
+                width: 100%;
                 margin-bottom: 0.714286rem;
+                .van-tag {
+                  width: 100%;
+                  display: inline-block;
+                  text-align: justify;
+                  text-align-last: justify;
+                }
                 &:last-child {
                   margin-bottom: 0;
                 }

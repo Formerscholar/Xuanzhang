@@ -70,7 +70,10 @@ export default {
   activated() {
     this.activeInfo()
   },
-  deactivated() {},
+  deactivated() {
+    this.userInfo = {}
+    this.email = ''
+  },
   computed: {
     editUserData() {
       let from = new FormData()

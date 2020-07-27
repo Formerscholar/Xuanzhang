@@ -5,24 +5,14 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>发货</span>
+        <span>流水发货</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="customerName line">
-            <em>客户名称</em>
-            <div>
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="inputchanges"
-              ></el-autocomplete>
-            </div>
-          </el-row>
+          <van-field v-model="state" label="客户名称" @focus="focusClick" />
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
@@ -41,38 +31,6 @@
               <em>添加产品</em>
             </div>
           </el-row>
-        </el-card>
-
-        <el-card class="box-card item1" v-show="isShowed">
-          <el-row class="SigningDate line">
-            <em>选择产品</em>
-            <div>
-              <el-autocomplete
-                v-model="states"
-                :fetch-suggestions="querySearchAsyncs"
-                placeholder="请输入内容"
-                @select="handleSelect"
-                @change="handchange"
-              ></el-autocomplete>
-            </div>
-          </el-row>
-          <van-field v-model="Products" label="产品型号" />
-          <van-field v-model="productPrice" type="number" label="产品价格" />
-          <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
-          <van-field
-            v-model="FlowingProducts[index+1]"
-            v-for="(item,index) in isFlowingShow"
-            :key="index"
-            :data-id="index+1"
-            label="流水产品"
-          />
-          <van-field v-model="quantity" type="number" label="产品数量" />
-          <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
-          <van-field v-model="ProductNotes" label="产品备注" />
-          <div class="btns">
-            <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-            <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-          </div>
         </el-card>
 
         <el-card class="box-card item1">
@@ -104,24 +62,19 @@ import { Dialog } from 'vant'
 import {
   getAddDeliverGoodsDistributors,
   addAutonomousDeliverRecord,
-  getMateriel
+  getMateriel,
 } from '@/network/deal'
+
+import { setTimerType } from '@/common/filter'
 
 export default {
   data() {
     return {
-      Products: '',
-      productPrice: '',
-      productWeight: '',
-      FlowingProducts: ['0'],
-      quantity: '',
-      ProductSubtotal: '',
-      ProductNotes: '',
       Shipment: 0,
       Amounts: 0,
       number: '',
       timersList: {
-        DeliveryDate: new Date().getTime()
+        DeliveryDate: new Date().getTime(),
       },
       distributors: [],
       materiel: [],
@@ -146,7 +99,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -156,12 +109,12 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       options: regionData,
       address: [],
@@ -173,18 +126,15 @@ export default {
       DeliveryNotes: '',
       isFlowingShow: 0,
       isWeightShow: false,
-      isTemporary: '0'
+      isTemporary: '0',
     }
   },
-
-  created() {
-    this.getAddDeliverGood()
-  },
   activated() {
+    this.getAddDeliverGood()
     if (this.$store.state.timers.DeliveryDate != '') {
       this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     document.querySelector('textarea').style.border = 'none'
@@ -194,35 +144,37 @@ export default {
     getAddDeliverData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addAutonomousData() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
+      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time: this.timersList.DeliveryDate,
+        apply_time,
         type: 0,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     addAutonomousDatas() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
+      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time: this.timersList.DeliveryDate,
+        apply_time,
         type: 1,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     getMaterieldata() {
@@ -230,16 +182,22 @@ export default {
         token: this.$store.state.token,
         product_name: this.shippingValue,
         product_model: this.Products,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
-    inputchanges(value) {
-      this.distributors.map((item, index) => {
-        if (index == value.address * 1) {
-          this.distributor_id = item.id
-        }
+    focusClick() {
+      this.$router.push({
+        path: '/nameSearch',
+        query: {
+          data: { ...this.distributors },
+        },
+      })
+      this.$bus.$on('nameSupplier', (item) => {
+        console.log(item)
+        this.state = item.name
+        this.distributor_id = item.id
       })
     },
     async getAddDeliverGood() {
@@ -254,53 +212,78 @@ export default {
         this.isWeightShow = true
       }
       this.distributors = data.distributors
-      this.distributors.map((item, index) => {
-        let obj = {
-          value: item.name,
-          address: index.toString()
-        }
-        this.restaurants.push(obj)
-      })
+      // this.distributors.map((item, index) => {
+      //   let obj = {
+      //     value: item.name,
+      //     address: index.toString(),
+      //   }
+      //   this.restaurants.push(obj)
+      // })
       this.materiel = data.materiel
-      this.materiel.map((item, index) => {
-        let obj = {
-          value: item.name,
-          address: index.toString()
-        }
-        this.restaurant.push(obj)
-      })
+      // this.materiel.map((item, index) => {
+      //   let obj = {
+      //     value: item.name,
+      //     address: index.toString(),
+      //   }
+      //   this.restaurant.push(obj)
+      // })
     },
     blacknext() {
+      this.Shipment = 0
+      this.Amounts = 0
+      this.number = ''
+      this.distributors = []
+      this.materiel = []
+      this.restaurants = []
+      this.restaurant = []
+      this.state = ''
+      this.states = ''
+      this.timeout = null
+      this.fileList = []
+      this.table = false
+      this.form = {}
+      this.Address = {}
+      this.product = {}
+      this.options = regionData
+      this.address = []
+      this.tableData = []
+      this.isShowed = false
+      this.distributor_id = 0
+      this.shippingValue = ''
+      this.shippingData = []
+      this.DeliveryNotes = ''
+      this.isFlowingShow = 0
+      this.isWeightShow = false
+      this.isTemporary = '0'
       this.loading = false
       this.dialog = false
       this.Addresslog = false
       this.productlog = false
       this.radio = '0'
-      clearTimeout(this.timer)
       this.$router.replace('/deal/contract')
     },
-    querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
-    },
-    querySearchAsyncs(queryString, cb) {
-      var restaurants = this.restaurant
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
-    },
+    // querySearchAsync(queryString, cb) {
+    //   var restaurants = this.restaurants
+    //   var results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 3000 * Math.random())
+    // },
+    // querySearchAsyncs(queryString, cb) {
+    //   var restaurants = this.restaurant
+    //   var results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 3000 * Math.random())
+    // },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -311,39 +294,37 @@ export default {
       this.shippingValue = item.value
       let nums = parseInt(item.address)
       console.log(nums)
-      // 循环产品数组取出对应数据
-      this.materiel.map((item, index) => {
-        if (index == nums) {
-          // 型号 specification
-          this.Products = item.specification
-          // 价格 out_price
-          this.productPrice = item.out_price
-        }
-      })
     },
     handchange(value) {
       this.shippingValue = value
     },
     addNewProduct() {
-      this.isShowed = true
+      this.$router.push({
+        path: '/SelectProducts',
+        query: {
+          data: { ...this.materiel },
+        },
+      })
+      this.$bus.$on('SelectProducts', (item) => {
+        console.log(item)
+        this.shippingValue = item.selectData.productName
+        this.Products = item.selectData.productModel
+        this.productPrice = item.selectData.productPrice
+        this.quantity = item.selectData.quantity
+        this.states = item.selectData.productName
+        this.ProductNotes = item.selectData.ProductNotes
+        this.productWeight = item.selectData.productWeight
+        this.FlowingProducts = item.selectData.FlowingProducts
+        this.AddClick()
+      })
     },
-    cancelClick() {
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = []
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
-    },
+
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
       if (data.isExistence == 0) {
         Dialog.confirm({
           title: '提示',
-          message: '是否加入临时物料库？'
+          message: '是否加入临时物料库？',
         })
           .then(() => {
             this.isTemporary = '1'
@@ -360,7 +341,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.tableData.push(addproductdata)
 
@@ -387,20 +368,46 @@ export default {
       this.isShowed = false
     },
     async SubmitNow() {
-      const res = await addAutonomousDeliverRecord(this.addAutonomousData)
-      console.log('addAutonomousDeliverRecord', res)
-      if (res.code == 200) {
+      const { code, msg, data } = await addAutonomousDeliverRecord(
+        this.addAutonomousData
+      )
+      console.log('addAutonomousDeliverRecord', data)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     async PendingNow() {
-      const res = await addAutonomousDeliverRecord(this.addAutonomousDatas)
-      console.log('addAutonomousDeliverRecord', res)
-      if (res.code == 200) {
+      const { code, msg, data } = await addAutonomousDeliverRecord(
+        this.addAutonomousDatas
+      )
+      console.log('addAutonomousDeliverRecord', data)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

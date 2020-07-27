@@ -35,8 +35,8 @@ export default {
   name: 'MainTabBar',
   components: {
     TabBar,
-    TabBarItem
-  }
+    TabBarItem,
+  },
 }
 </script>
 <style scoped lang="scss">

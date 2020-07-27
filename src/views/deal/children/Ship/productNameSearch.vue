@@ -32,6 +32,7 @@ export default {
   },
   activated() {
     this.listItem = { ...this.$route.query.data }
+    console.log(this.listItem)
     filterList(
       document.getElementById('form'),
       document.getElementById('demo-list')
@@ -50,10 +51,13 @@ export default {
       this.itemData = { ...item }
       this.value = item.name
       console.log(item)
-      this.$bus.$emit('outSupplier', item)
+      this.$bus.$emit('productNameSearch', item)
       this.blacknext()
     },
     blacknext() {
+      this.listItem = []
+      this.value = ''
+      this.itemData = {}
       this.$router.go(-1)
     },
   },

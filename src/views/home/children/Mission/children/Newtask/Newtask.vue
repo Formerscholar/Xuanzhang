@@ -48,7 +48,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="抄送" class="ccpepol" :label-width="formLabelWidth">
-            <el-select v-model="Ccpeople" placeholder="请选择">
+            <el-select v-model="Ccpeople" multiple placeholder="请选择">
               <el-option
                 v-for="item in AssignArr"
                 :key="item.value"
@@ -58,19 +58,9 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="图片上传" class="details" :label-width="formLabelWidth">
-            <el-upload
-              action
-              list-type="picture-card"
-              multiple
-              ref="upload"
-              :http-request="httpRequest"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt />
-            </el-dialog>
+          <el-form-item label="图片上传" class="img_upload" :label-width="formLabelWidth">
+            <img class="img_box" v-if="userImg" :src="userImg" @click="httpRequest" />
+            <div v-else class="img_box" @click="httpRequest"></div>
           </el-form-item>
 
           <el-form-item label="任务详情" class="details" :label-width="formLabelWidth"></el-form-item>
@@ -85,26 +75,29 @@
       <el-button @click="cancelForm">返 回</el-button>
       <el-button type="primary" @click="addDesignatedTask">确 定</el-button>
     </div>
+
+    <SimpleCroppes :initParam="uploadParam" :successCallback="uploadHandle" ref="croppers" />
   </div>
 </template>
     
 <script>
-import {
-  addDesignatedTasks,
-  getAddDesignatedTasks,
-  uploadImage
-} from '@/network/home'
+import { addDesignatedTasks, getAddDesignatedTasks } from '@/network/home'
+import { setTimerType } from '@/common/filter'
+import SimpleCroppes from '@/components/common/SimpleCroppes/SimpleCroppes'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   name: 'Newtask',
   data() {
     return {
       timersList: {
-        end_time: new Date().getTime()
+        end_time: new Date().getTime(),
       },
       dialogImageUrl: '',
       dialogVisible: false,
+      uploadParam: 4,
       timer: null,
+      userImg: '',
       dialog: false,
       loading: false,
       formLabelWidth: '5rem',
@@ -113,93 +106,107 @@ export default {
         styleValue: [
           {
             value: 1,
-            label: '一般'
+            label: '一般',
           },
           {
             value: 2,
-            label: '紧急'
-          }
+            label: '紧急',
+          },
         ],
         Assign: this.AssignArr,
-        title: ''
+        title: '',
       },
       value: '',
       styleValue: '',
       Assign: '',
-      Ccpeople: '',
+      Ccpeople: [],
       textarea: '',
       imgUrlAdd: '',
       selectionArr: [],
-      AssignArr: []
+      AssignArr: [],
     }
   },
-
+  components: {
+    SimpleCroppes,
+  },
   async activated() {
     if (this.$store.state.timers.end_time != '') {
       this.timersList.end_time = this.$store.state.timers.end_time
     }
     const { data } = await getAddDesignatedTasks({
       token: this.$store.state.token,
-      _: new Date().getTime()
+      _: new Date().getTime(),
     })
     console.log('UserDesignatedTasksData', data)
-    data.designatedTasksType.map(item => {
+    data.designatedTasksType.map((item) => {
       this.selectionArr.push({
         value: item.id,
-        label: item.name
+        label: item.name,
       })
     })
-    data.users.map(item => {
+    data.users.map((item) => {
       this.AssignArr.push({
         value: item.id,
-        label: item.name
+        label: item.name,
       })
     })
   },
   deactivated() {
     this.$refs.upload.clearFiles()
+    this.userImg = ''
   },
   computed: {
     getAddDesignatedTasksData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     mydata() {
       return {
-        token: this.$store.state.token
+        token: this.$store.state.token,
       }
     },
     addDesignatedTasksData() {
+      let end_time = setTimerType(this.timersList.end_time)
       return {
         token: this.$store.state.token,
         type: this.value,
         attribute: this.styleValue,
-        end_time: this.timersList.end_time,
+        end_time,
         title: this.form.title,
         user_id: this.Assign,
-        details: this.textarea + this.imgUrlAdd
-      }
-    }
-  },
-  methods: {
-    async httpRequest(options) {
-      console.log(options)
-      this.loading = true
-      let content = options.file
-      if (content) {
-        let form = new FormData()
-        form.append('token', this.$store.state.token)
-        form.append('user_image', content)
-        const { data } = await uploadImage(form)
-        this.imgUrlAdd = `<img src="${data.url}" />`
+        details: this.imgUrlAdd + this.textarea,
+        users_cc: [...this.Ccpeople],
       }
     },
+  },
+  methods: {
+    // 上传头像成功回调
+    uploadHandle(data) {
+      this.userImg = data
+      this.imgUrlAdd = `<img src="${data.split(bestURL)[1]}" />`
+    },
+    httpRequest() {
+      this.$refs['croppers'].upload()
+    },
     async addDesignatedTask() {
-      const { code } = await addDesignatedTasks(this.addDesignatedTasksData)
+      const { code, msg } = await addDesignatedTasks(
+        this.addDesignatedTasksData
+      )
       if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     blacknext() {
@@ -209,15 +216,15 @@ export default {
       this.form.title = ''
       this.AssignArr = []
       this.Assign = ''
-      this.Ccpeople = ''
+      this.Ccpeople = []
       this.dialogImageUrl = ''
       this.textarea = ''
       this.$router.go(-1)
     },
     cancelForm() {
       this.blacknext()
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -294,6 +301,14 @@ export default {
         .details {
           border: none;
           margin-bottom: 0;
+        }
+        .img_upload {
+          .img_box {
+            display: inline-block;
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: #ccc;
+          }
         }
       }
     }

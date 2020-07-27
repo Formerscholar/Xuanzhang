@@ -17,7 +17,7 @@
 <script>
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.min.css'
-import { uploadImgsss } from '@/network/materials'
+import { uploadImg } from '@/network/materials'
 export default {
   name: 'v-simple-cropper',
   props: {
@@ -72,10 +72,10 @@ export default {
         height: cropBox.height * scale,
       })
       let imgData = cropCanvas.toDataURL('image/jpeg')
-      let formData = new FormData()
-      formData.append('token', this.$store.state.token)
-      formData.append('user_image', imgData)
-      const res = await uploadImgsss(formData)
+      const res = await uploadImg({
+        user_image: imgData,
+        token: this.$store.state.token,
+      })
       this.successCallback(res.data.url)
       this.cancelHandle()
     },

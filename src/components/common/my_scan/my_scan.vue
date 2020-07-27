@@ -16,14 +16,14 @@
   </div>
 </template>
 
-<script type='text/ecmascript-6'>
-let scan = null
-let styles = { frameColor: '#2a88ff', scanbarColor: '#2a88ff' }
-let filter
+<script >
 export default {
   data() {
     return {
-      codeUrl: ''
+      codeUrl: '',
+      scan: null,
+      filter: null,
+      styles: { frameColor: '#2a88ff', scanbarColor: '#2a88ff' },
     }
   },
   activated() {
@@ -35,35 +35,33 @@ export default {
   },
   methods: {
     startRecognize() {
-      let that = this
       if (!window.plus) return
-      scan = new plus.barcode.Barcode('bcid', filter, styles)
-      scan.onmarked = onmarked
-      function onmarked(type, result, file) {
+      this.scan = plus.barcode.create('bcid', this.filter, this.styles)
+      this.scan.onmarked = (type, result, file) => {
         result = result.replace(/\n/g, '')
-        that.codeUrl = result
-        alert(result)
-        that.closeScan()
-        that.$router.go(-1)
+        this.codeUrl = result
+        alert(this.codeUrl)
+        this.closeScan()
+        this.$router.go(-1)
       }
     },
     startScan() {
       if (!window.plus) return
-      scan.start()
+      this.scan.start()
     },
     cancelScan() {
       if (!window.plus) return
-      scan.cancel()
+      this.scan.cancel()
     },
     closeScan() {
       if (!window.plus) return
-      scan.close()
+      this.scan.close()
     },
     blackhome() {
       this.closeScan()
       this.$router.go(-1)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -86,7 +84,7 @@ export default {
   #bcid {
     width: 100%;
     position: absolute;
-    top: 4.428571rem;
+    top: 5.428571rem;
     left: 0;
     right: 0;
     bottom: 0;

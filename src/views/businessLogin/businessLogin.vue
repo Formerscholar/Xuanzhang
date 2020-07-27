@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       companyList: [],
-      getIndexData: {}
+      getIndexData: {},
     }
   },
   methods: {
@@ -46,12 +46,12 @@ export default {
         }
       }
       this.$router.replace('/')
-    }
+    },
   },
   activated() {
     this.companyList = this.$store.state.loginDate.customers
   },
-  deactivated() {}
+  deactivated() {},
 }
 </script>
     

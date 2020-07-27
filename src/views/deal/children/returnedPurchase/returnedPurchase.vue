@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>退货</span>
+        <span>流水退货</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -98,7 +98,7 @@ import { regionData, CodeToText } from 'element-china-area-data'
 import {
   getAddDeliverGoodsDistributors,
   addAutonomousReturnRecord,
-  getMateriel
+  getMateriel,
 } from '@/network/deal'
 
 export default {
@@ -115,7 +115,7 @@ export default {
       Amounts: 0,
       number: '',
       timersList: {
-        DeliveryDate: new Date().getTime()
+        DeliveryDate: new Date().getTime(),
       },
       distributors: [],
       materiel: [],
@@ -140,7 +140,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -150,12 +150,12 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       options: regionData,
       address: [],
@@ -167,7 +167,7 @@ export default {
       DeliveryNotes: '',
       isFlowingShow: 0,
       isWeightShow: false,
-      isTemporary: '0'
+      isTemporary: '0',
     }
   },
 
@@ -178,7 +178,7 @@ export default {
     if (this.$store.state.timers.DeliveryDate != '') {
       this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     document.querySelector('textarea').style.border = 'none'
@@ -188,7 +188,7 @@ export default {
     getAddDeliverData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addAutonomousData() {
@@ -202,7 +202,7 @@ export default {
         total_money: this.Shipment,
         apply_time: this.timersList.DeliveryDate,
         type: 0,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     addAutonomousDatas() {
@@ -216,7 +216,7 @@ export default {
         total_money: this.Shipment,
         apply_time: this.timersList.DeliveryDate,
         type: 1,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     getMaterieldata() {
@@ -224,9 +224,9 @@ export default {
         token: this.$store.state.token,
         product_name: this.shippingValue,
         product_model: this.Products,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     inputchanges(value) {
@@ -251,7 +251,7 @@ export default {
       this.distributors.map((item, index) => {
         let obj = {
           value: item.name,
-          address: index.toString()
+          address: index.toString(),
         }
         this.restaurants.push(obj)
       })
@@ -259,7 +259,7 @@ export default {
       this.materiel.map((item, index) => {
         let obj = {
           value: item.name,
-          address: index.toString()
+          address: index.toString(),
         }
         this.restaurant.push(obj)
       })
@@ -304,7 +304,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -335,7 +335,7 @@ export default {
       if (this.form.companyName != '' && this.form.DetailedAddress != '') {
         this.restaurants.push({
           value: this.form.companyName,
-          address: this.form.DetailedAddress
+          address: this.form.DetailedAddress,
         })
       }
       if (this.Address.DetailedAddress != '') {
@@ -355,7 +355,7 @@ export default {
           model: this.product.specifications,
           nums: this.product.number,
           price: this.product.price,
-          totalPrice: this.product.price * this.product.number
+          totalPrice: this.product.price * this.product.number,
         }
 
         this.tableData.push(addproductdata)
@@ -411,7 +411,7 @@ export default {
         this.$dialog
           .confirm({
             title: '提示',
-            message: '是否加入临时物料库？'
+            message: '是否加入临时物料库？',
           })
           .then(() => {
             this.isTemporary = '1'
@@ -428,7 +428,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.tableData.push(addproductdata)
 
@@ -467,8 +467,8 @@ export default {
       if (res.code == 200) {
         this.blacknext()
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -96,10 +96,3 @@ export function uploadImg4(data) {
     data: Qs.stringify(data),
   })
 }
-export function uploadImgsss(data) {
-  return request({
-    url: '/materiel/uploadImage3',
-    method: 'POST',
-    data,
-  })
-}

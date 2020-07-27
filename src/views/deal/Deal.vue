@@ -1,7 +1,7 @@
 <template>
   <div id="deal">
     <!-- selection -->
-    <selection :selectionList="selectionList" @selectionClick="selectionClick" />
+    <selection v-if="isShow" :selectionList="selectionList" @selectionClick="selectionClick" />
     <!-- goods -->
     <keep-alive>
       <router-view></router-view>
@@ -21,15 +21,38 @@ export default {
   data() {
     return {
       selectionList: [],
-      seletIndex: 0
+      seletIndex: 0,
+      isRelocation: false,
+      isShow: true,
     }
   },
   components: {
     selection,
-    MainTabBar
+    MainTabBar,
   },
   activated() {
     this.getleftlist()
+  },
+  watch: {
+    $route(to, from) {
+      const fromDepths = from.path
+      const toDepths = to.path
+      console.log(toDepths, fromDepths)
+      if (fromDepths == '/deal' || toDepths == '/deal') {
+        this.isRelocation = true
+        this.isShow = false
+      }
+    },
+  },
+  updated() {
+    if (this.isRelocation) {
+      this.selectionClick({
+        i: this.selectionList[0].id,
+        index: 0,
+      })
+      this.isShow = true
+      this.isRelocation = false
+    }
   },
   deactivated() {
     this.selectionList = []
@@ -38,9 +61,9 @@ export default {
     getleftData() {
       return {
         token: this.$store.state.token,
-        left: 14
+        left: 14,
       }
-    }
+    },
   },
   methods: {
     async getleftlist() {
@@ -49,13 +72,13 @@ export default {
       data.map((item, index) => {
         let obj = {
           id: item.id,
-          title: item.title
+          title: item.title,
         }
         this.selectionList.push(obj)
       })
       this.selectionClick({
         i: this.selectionList[this.seletIndex].id,
-        index: this.seletIndex
+        index: this.seletIndex,
       })
     },
     selectionClick(data) {
@@ -85,8 +108,8 @@ export default {
         default:
           break
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -259,8 +259,12 @@ export default {
   },
   methods: {
     focusClick() {
-      console.log('跳转新页面')
-      this.$router.push('/outSearch')
+      this.$router.push({
+        path: '/outSearch',
+        query: {
+          data: { ...this.distributors },
+        },
+      })
       this.$bus.$on('outSupplier', (item) => {
         console.log(item)
         this.state = item.name
@@ -308,13 +312,13 @@ export default {
       const { data } = await getAddOutsourcingOrder(this.getAddOemOrderData)
       console.log('getAddOutsourcingOrder', data)
       this.distributors = data.suppliers
-      this.distributors.forEach((item, index) => {
-        let obj = {
-          value: item.name,
-          address: item.id,
-        }
-        this.restaurants.push(obj)
-      })
+      // this.distributors.forEach((item, index) => {
+      //   let obj = {
+      //     value: item.name,
+      //     address: item.id,
+      //   }
+      //   this.restaurants.push(obj)
+      // })
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -460,7 +464,7 @@ export default {
       this.Addresslog = false
       this.productlog = false
       this.loading = false
-      document.querySelector('#createContract .nav-bar').style.display = 'flex'
+      // document.querySelector('#createContract .nav-bar').style.display = 'flex'
     },
     cancelForm() {
       this.loading = false
@@ -469,7 +473,7 @@ export default {
       this.productlog = false
       this.radio = '0'
       clearTimeout(this.timer)
-      document.querySelector('#createContract .nav-bar').style.display = 'flex'
+      // document.querySelector('#createContract .nav-bar').style.display = 'flex'
     },
     addressClick() {
       this.$router.push({

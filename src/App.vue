@@ -9,7 +9,7 @@
 </template>
 
 <script >
-import { getlogin, getIndex } from '@/network/login.js'
+import { getIndex } from '@/network/login.js'
 
 export default {
   data() {
@@ -24,7 +24,7 @@ export default {
     $route(to, from) {
       const fromDepths = from.path
       const toDepths = to.path
-      console.log(fromDepths, toDepths)
+      console.log(toDepths, fromDepths)
       if (
         (fromDepths === '/home' ||
           fromDepths === '/deal/sales' ||

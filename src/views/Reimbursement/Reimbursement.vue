@@ -195,7 +195,7 @@ export default {
       reimbursementList: [],
       titleName: {},
       img_url: '',
-      StateList: []
+      StateList: [],
     }
   },
   created() {},
@@ -204,9 +204,9 @@ export default {
       return {
         token: this.$store.state.token,
         page: 1,
-        offset: 20
+        offset: 20,
       }
-    }
+    },
   },
   activated() {
     this.getReimburse()
@@ -232,14 +232,14 @@ export default {
       this.reimbursementList = data.reimbursementList
       this.titleName = {
         name: data.userInfo[0].name || '姓名',
-        compserName: data.userInfo[0].user_compser_name || '公司全称'
+        compserName: data.userInfo[0].user_compser_name || '公司全称',
       }
     },
     reimburClick(id) {
       console.log('-----ReimburDetails--------')
       this.$router.push(`/reimburDetails/${id}`)
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -276,9 +276,8 @@ export default {
       align-items: center;
       padding: 0 1.071429rem 0.357143rem 1.071429rem;
       .leftbox {
-        width: 5.642857rem;
+        width: 4.642857rem;
         height: 4.642857rem;
-        margin-right: 1.071429rem;
         img {
           width: 100%;
           height: 100%;
@@ -290,6 +289,8 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        flex: 1;
+        margin-left: 0.714286rem;
         width: 100%;
         padding: 0 0.357143rem;
       }

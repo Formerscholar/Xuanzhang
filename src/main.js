@@ -52,7 +52,8 @@ Object.keys(filter).forEach((item) => {
   Vue.filter(item, filter[item])
 })
 
-
+import _ from 'lodash'
+Vue.prototype._ = _
 
 new Vue({
   router,

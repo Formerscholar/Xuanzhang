@@ -134,6 +134,10 @@ const editMaterialItem = () =>
   import('@/views/materials/children/editMaterialItem')
 Vue.use(VueRouter)
 const outSearch = () => import('@/views/deal/children/outSearch/outSearch')
+const nameSearch = () => import('@/views/deal/children/Ship/nameSearch')
+const SelectProducts = () => import('@/views/deal/children/Ship/SelectProducts')
+const productNameSearch = () =>
+  import('@/views/deal/children/Ship/productNameSearch')
 
 const routes = [
   {
@@ -158,13 +162,6 @@ const routes = [
     path: '/deal',
     component: Deal,
     children: [
-      {
-        path: '',
-        meta: {
-          requireAuth: true,
-        },
-        redirect: 'sales',
-      },
       {
         path: 'sales',
         meta: {
@@ -476,7 +473,23 @@ const routes = [
   },
   {
     path: '/outSearch',
+    name: 'data',
     component: outSearch,
+  },
+  {
+    path: '/nameSearch',
+    name: 'data',
+    component: nameSearch,
+  },
+  {
+    path: '/SelectProducts',
+    name: 'data',
+    component: SelectProducts,
+  },
+  {
+    path: '/productNameSearch',
+    name: 'data',
+    component: productNameSearch,
   },
 ]
 

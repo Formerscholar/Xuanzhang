@@ -21,13 +21,13 @@ export default {
   props: {
     selectionList: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   components: {},
   data() {
     return {
-      currentIndex: 0
+      currentIndex: 0,
     }
   },
   mounted() {
@@ -40,7 +40,7 @@ export default {
       this.currentIndex = index
       this.$emit('selectionClick', {
         i,
-        index
+        index,
       })
     },
     _initPics() {
@@ -53,14 +53,14 @@ export default {
         if (!this.picScroll) {
           this.picScroll = new BScroll(this.$refs.wrapper, {
             scrollX: true,
-            eventPassthrough: 'vertical'
+            eventPassthrough: 'vertical',
           })
         } else {
           this.picScroll.refresh()
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
     

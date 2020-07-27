@@ -4,9 +4,7 @@
       <div class="left" slot="left" @click="goBack">
         <i class="el-icon-arrow-left"></i>
       </div>
-      <div class="center" slot="center">
-        <span>个人主页</span>
-      </div>
+      <div class="center" slot="center"></div>
       <div slot="right"></div>
     </navbar>
     <div class="content">
@@ -34,13 +32,16 @@ export default {
   data() {
     return {
       userInfo: {},
-      PropsImg: ''
+      PropsImg: '',
     }
   },
   activated() {
     this.activeInfo()
   },
-  deactivated() {},
+  deactivated() {
+    this.userInfo = {}
+    this.PropsImg = ''
+  },
   computed: {
     name() {
       return this.userInfo.name
@@ -53,7 +54,7 @@ export default {
     },
     getdisplayName() {
       return this.userInfo.role.display_name
-    }
+    },
   },
   methods: {
     ObtainUrl(data) {
@@ -77,8 +78,8 @@ export default {
       this.PropsImg = this.userInfo.img_url
         ? this.userInfo.img_url.substr(1)
         : ''
-    }
-  }
+    },
+  },
 }
 </script>
     
