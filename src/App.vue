@@ -9,7 +9,7 @@
 </template>
 
 <script >
-import { getIndex } from '@/network/login.js'
+import { getlogin, getIndex } from '@/network/login'
 
 export default {
   data() {
@@ -18,7 +18,7 @@ export default {
     }
   },
   created() {
-    this.gettime()
+    this.getlogin()
   },
   watch: {
     $route(to, from) {
@@ -60,6 +60,37 @@ export default {
     },
   },
   methods: {
+    async getlogin() {
+      var storage = window.localStorage
+      const res = await getlogin({
+        username: storage.getItem('username'),
+        password: storage.getItem('password'),
+      })
+      if (res.code == 200) {
+        this.$store.commit('setLoginDate', JSON.parse(JSON.stringify(res.data)))
+        if (res.data.customers.length > 1) {
+          this.gettime()
+        } else {
+          var form = new FormData()
+          form.append('username', storage.getItem('username'))
+          form.append('password', storage.getItem('password'))
+          form.append('company_id', storage.getItem('ChooseCompany'))
+          const res1 = await getIndex(form)
+          if (res1.code == 200) {
+            this.$store.commit(
+              'setUserInfo',
+              JSON.parse(JSON.stringify(res1.data.userInfo))
+            )
+            this.$store.commit('setToken', res1.data.token)
+            if (!window.localStorage) {
+              storage.setItem('token', JSON.stringify(this.$store.state.token))
+            } else {
+              storage.setItem('token', JSON.stringify(this.$store.state.token))
+            }
+          }
+        }
+      }
+    },
     async gettime() {
       var storage = window.localStorage
       var form = new FormData()

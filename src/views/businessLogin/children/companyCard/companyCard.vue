@@ -18,14 +18,14 @@ export default {
   props: {
     cardList: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   methods: {
     btnclick(id) {
       this.$emit('btnclick', id)
-    }
-  }
+    },
+  },
 }
 </script>
     

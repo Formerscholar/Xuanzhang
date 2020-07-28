@@ -18,12 +18,6 @@ export default {
     return {
       abilityList: [
         {
-          icon_Url: 'icon-wochuangjiande1',
-          title: '客户管理',
-          color: '#038900',
-          path: '/client',
-        },
-        {
           icon_Url: 'icon-ziyuan174',
           title: '委外入库',
           color: '#038900',
@@ -89,10 +83,10 @@ export default {
           icon_Url: 'icon-zonghebaobiao-01',
           title: '流水计划',
         },
-        // {
-        //   icon_Url: 'icon-ziyuan146',
-        //   title: '统计报表',
-        // },
+        {
+          icon_Url: 'icon-ziyuan146',
+          title: '统计报表',
+        },
         // {
         //   icon_Url: 'icon-kefu',
         //   title: '售后',

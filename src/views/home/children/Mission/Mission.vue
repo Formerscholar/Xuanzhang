@@ -20,13 +20,13 @@ import cardbtns from '@/views/home/children/Mission/children/cardbtns/cardbtns'
 import {
   getUserDesignatedTasks,
   getDesignatedTasks,
-  getCompleteDesignatedTasks
+  getCompleteDesignatedTasks,
 } from '@/network/home'
 export default {
   name: 'Mission',
   components: {
     mHeader,
-    cardbtns
+    cardbtns,
   },
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
       itempages: 1,
       succpages: 1,
       partici: 1,
-      allpage: 1
+      allpage: 1,
     }
   },
   created() {},
@@ -46,9 +46,9 @@ export default {
         token: this.$store.state.token,
         page: this.allpage,
         offset: 20,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   activated() {
     this.succpages = 1
@@ -93,7 +93,7 @@ export default {
       const { data } = await getUserDesignatedTasks(
         this.getUserDesignatedTasksData
       )
-      data.designatedTasksList.map(item => {
+      data.designatedTasksList.map((item) => {
         this.designatedTasksList.push(item)
       })
       console.log('designatedTasksList', this.designatedTasksList)
@@ -102,22 +102,22 @@ export default {
       const { data } = await getCompleteDesignatedTasks(
         this.getUserDesignatedTasksData
       )
-      data.designatedTasksList.map(item => {
+      data.designatedTasksList.map((item) => {
         this.UserDesignatedTasksData.push(item)
       })
       console.log('UserDesignatedTasks', this.UserDesignatedTasksData)
     },
     async getDesignated() {
       const { data } = await getDesignatedTasks(this.getUserDesignatedTasksData)
-      data.designatedTasksList.map(item => {
+      data.designatedTasksList.map((item) => {
         this.Designated.push(item)
       })
       console.log('Designated', this.Designated)
     },
     async tike() {
       this.$router.push('/newtask')
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -106,6 +106,37 @@ export default {
         this.$router.replace('/')
       }
     },
+    async getlogin() {
+      var storage = window.localStorage
+      const res = await getlogin({
+        username: storage.getItem('username'),
+        password: storage.getItem('password'),
+      })
+      if (res.code == 200) {
+        this.$store.commit('setLoginDate', JSON.parse(JSON.stringify(res.data)))
+        if (res.data.customers.length > 1) {
+          this.gettime()
+        } else {
+          var form = new FormData()
+          form.append('username', storage.getItem('username'))
+          form.append('password', storage.getItem('password'))
+          form.append('company_id', storage.getItem('ChooseCompany'))
+          const res1 = await getIndex(form)
+          if (res1.code == 200) {
+            this.$store.commit(
+              'setUserInfo',
+              JSON.parse(JSON.stringify(res1.data.userInfo))
+            )
+            this.$store.commit('setToken', res1.data.token)
+            if (!window.localStorage) {
+              storage.setItem('token', JSON.stringify(this.$store.state.token))
+            } else {
+              storage.setItem('token', JSON.stringify(this.$store.state.token))
+            }
+          }
+        }
+      }
+    },
     materialClick() {
       this.$router.push('/materialpage')
     },
@@ -133,7 +164,7 @@ export default {
     },
   },
   created() {
-    setInterval(this.gettime, 1500000)
+    setInterval(this.getlogin, 1500000)
     console.log('开启定时器 时间 10s')
     console.log(this.$store.state.userInfo)
   },

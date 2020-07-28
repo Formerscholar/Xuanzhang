@@ -12,6 +12,12 @@
           <div class="cardList" v-for="(item,index) in designatedTasksList" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
+                <div class="botbox">
+                  <span>
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
                 <div class="topbox">
                   <div class="leftbox">
                     <div class="left_id">
@@ -34,12 +40,6 @@
                   <div class="rightbox">
                     <el-tag type="danger">{{item.end_time}}</el-tag>
                   </div>
-                </div>
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
                 </div>
               </el-card>
             </div>
@@ -57,6 +57,12 @@
           <div class="cardList" v-for="(item,index) in UserDesignatedTasksData" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
+                <div class="botbox">
+                  <span>
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
                 <div class="topbox">
                   <div class="leftbox">
                     <div class="left_id">
@@ -79,12 +85,6 @@
                   <div class="rightbox">
                     <el-tag type="danger">{{item.end_time}}</el-tag>
                   </div>
-                </div>
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
                 </div>
               </el-card>
             </div>
@@ -102,6 +102,12 @@
           <div class="cardList" v-for="(item,index) in Designated" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
+                <div class="botbox">
+                  <span>
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
                 <div class="topbox">
                   <div class="leftbox">
                     <div class="left_id">
@@ -125,12 +131,6 @@
                     <el-tag type="danger">{{item.end_time}}</el-tag>
                   </div>
                 </div>
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
               </el-card>
             </div>
           </div>
@@ -144,23 +144,23 @@
 export default {
   data() {
     return {
-      activeName: 'first'
+      activeName: 'first',
     }
   },
 
   props: {
     designatedTasksList: {
       type: Array,
-      default: []
+      default: [],
     },
     UserDesignatedTasksData: {
       type: Array,
-      default: []
+      default: [],
     },
     Designated: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   methods: {
     loadMore(str) {
@@ -221,8 +221,8 @@ export default {
           return '紧急'
         }
       }
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -284,7 +284,7 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.428571rem;
+
             font-size: 0.857143rem;
             .leftbox {
               display: flex;
@@ -334,6 +334,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            margin-bottom: 0.428571rem;
             span {
             }
           }

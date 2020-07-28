@@ -223,8 +223,53 @@ export default {
     document.querySelector('textarea').style.border = 'none'
   },
   deactivated() {
-    this.restaurant = []
+    this.state = ''
+    this.timersList = {}
+    this.tableData = []
+    this.isShowed = false
+    this.Products = ''
+    this.productName = ''
+    this.FlowingProducts = [null]
+    this.isFlowingShow = []
+    this.productNum = ''
+    this.productSubtotal = ''
+    this.productPrice = ''
+    this.CustomerContact = ''
+    this.quantity = ''
+    this.ProductNotes = ''
+    this.contractAmount = 0
+    this.CompanyNumber = ''
+    this.DiscountedAmount = 0
+    this.addressData = {}
     this.restaurants = []
+    this.restaurant = []
+    this.selectedID = ''
+    this.shippingData = []
+    this.PartyContract = ''
+    this.userId = ''
+    this.distributors = []
+    this.CustomerNumber = ''
+    this.TermsPaymentInput = ''
+    this.TransportationAssume = ''
+    this.WarrantyTime = ''
+    this.fileList = []
+    this.OtherInstructions = ''
+    this.isWeightShow = false
+    this.timeout = null
+    this.Address = {}
+    this.states = ''
+    this.radio = '0'
+    this.table = false
+    this.dialog = false
+    this.Addresslog = false
+    this.productlog = false
+    this.loading = false
+    this.form = {}
+    this.Address = {}
+    this.product = {}
+    this.options = regionData
+    this.address = []
+    this.number = 0
   },
   computed: {
     addContractOrderData() {
@@ -265,6 +310,7 @@ export default {
           data: { ...this.distributors },
         },
       })
+      this.$bus.$off('outSupplier')
       this.$bus.$on('outSupplier', (item) => {
         console.log(item)
         this.state = item.name

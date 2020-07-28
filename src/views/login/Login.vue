@@ -80,12 +80,12 @@ export default {
       ],
       text: '',
       ruleForm: {
-        name: '',
-        pass: '',
+        // name: '',
+        // pass: '',
         // name: '18012333330',
         // pass: '123456',
-        // name: '18083795906',
-        // pass: '123456',
+        name: '18083795906',
+        pass: '123456',
       },
       rules: {
         name: [
@@ -117,10 +117,7 @@ export default {
             password: this.ruleForm.pass,
           })
           if (res.code == 200) {
-            this.$store.commit(
-              'setLoginDate',
-              JSON.parse(JSON.stringify(res.data))
-            )
+            this.$store.commit('setLoginDate', { ...res.data })
             var storage = window.localStorage
             storage.setItem('username', this.ruleForm.name)
             storage.setItem('password', this.ruleForm.pass)

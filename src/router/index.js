@@ -139,6 +139,7 @@ const SelectProducts = () => import('@/views/deal/children/Ship/SelectProducts')
 const productNameSearch = () =>
   import('@/views/deal/children/Ship/productNameSearch')
 
+const cardsearch = () => import('@/views/client/cihldren/cardsearch/cardsearch')
 const routes = [
   {
     path: '/',
@@ -490,6 +491,11 @@ const routes = [
     path: '/productNameSearch',
     name: 'data',
     component: productNameSearch,
+  },
+  {
+    path: '/cardsearch',
+    name: 'data',
+    component: cardsearch,
   },
 ]
 

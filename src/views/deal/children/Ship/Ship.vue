@@ -56,9 +56,6 @@
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
-import Qs from 'qs'
-import { Dialog } from 'vant'
-
 import {
   getAddDeliverGoodsDistributors,
   addAutonomousDeliverRecord,
@@ -124,7 +121,7 @@ export default {
       shippingValue: '',
       shippingData: [],
       DeliveryNotes: '',
-      isFlowingShow: 0,
+      isFlowingShow: [],
       isWeightShow: false,
       isTemporary: '0',
     }
@@ -139,7 +136,6 @@ export default {
     })
     document.querySelector('textarea').style.border = 'none'
   },
-  deactivated() {},
   computed: {
     getAddDeliverData() {
       return {
@@ -194,6 +190,7 @@ export default {
           data: { ...this.distributors },
         },
       })
+      this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
         console.log(item)
         this.state = item.name
@@ -206,27 +203,13 @@ export default {
       )
       console.log('getAddDeliverGoodsDistributors', data)
       if (data.customerProductExtraField.length > 0) {
-        this.isFlowingShow = data.customerProductExtraField.length
+        this.isFlowingShow = data.customerProductExtraField
       }
       if (data.customerProductField.weight == 1) {
         this.isWeightShow = true
       }
       this.distributors = data.distributors
-      // this.distributors.map((item, index) => {
-      //   let obj = {
-      //     value: item.name,
-      //     address: index.toString(),
-      //   }
-      //   this.restaurants.push(obj)
-      // })
       this.materiel = data.materiel
-      // this.materiel.map((item, index) => {
-      //   let obj = {
-      //     value: item.name,
-      //     address: index.toString(),
-      //   }
-      //   this.restaurant.push(obj)
-      // })
     },
     blacknext() {
       this.Shipment = 0
@@ -252,7 +235,7 @@ export default {
       this.shippingValue = ''
       this.shippingData = []
       this.DeliveryNotes = ''
-      this.isFlowingShow = 0
+      this.isFlowingShow = []
       this.isWeightShow = false
       this.isTemporary = '0'
       this.loading = false
@@ -302,9 +285,13 @@ export default {
       this.$router.push({
         path: '/SelectProducts',
         query: {
-          data: { ...this.materiel },
+          data: {
+            materiel: { ...this.materiel },
+            isFlowingShow: this.isFlowingShow,
+          },
         },
       })
+      this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
         console.log(item)
         this.shippingValue = item.selectData.productName
@@ -322,10 +309,11 @@ export default {
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
       if (data.isExistence == 0) {
-        Dialog.confirm({
-          title: '提示',
-          message: '是否加入临时物料库？',
-        })
+        this.$dialog
+          .confirm({
+            title: '提示',
+            message: '是否加入临时物料库？',
+          })
           .then(() => {
             this.isTemporary = '1'
           })
@@ -355,8 +343,14 @@ export default {
       newArr.push(this.FlowingProducts)
       newArr.push(this.isTemporary)
       this.shippingData.push(newArr)
-      this.Shipment += adderssnum
-      this.Amounts += adderssnum
+
+      let allmonpement = 0
+      this.tableData.forEach((item) => {
+        allmonpement += item.totalPrice
+      })
+      this.Shipment = allmonpement
+      this.Amounts = allmonpement
+
       this.states = ''
       this.Products = ''
       this.productPrice = ''

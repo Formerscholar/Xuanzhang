@@ -14,6 +14,7 @@
       <ul id="demo-list">
         <li v-for="item in listItem" :key="item.id" @click="handleClick(item)">
           <span>{{item.name}}</span>
+          <span>{{item.specification}}</span>
         </li>
       </ul>
     </div>
@@ -112,14 +113,17 @@ export default {
       }
     }
     #demo-list li {
-      padding: 8px;
+      padding: 0.571429rem;
       list-style: none;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       span {
         color: #000;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 11px;
+        font-size: 0.785714rem;
         text-decoration: none;
       }
     }

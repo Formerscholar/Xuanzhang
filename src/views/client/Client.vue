@@ -7,8 +7,7 @@
       </div>
       <i slot="right" class="el-icon-circle-plus-outline" @click="btnsclickadd"></i>
     </navbar>
-    <cardsearch v-if="!searchID" :options="options" slot="search" @Rendering="Rendering" />
-    <cardsearchs v-else :optionss="optionss" slot="Supplisearch" @Rendering="Renderings" />
+    <van-search v-model="searchValue" show-action @focus="focusClick" @cancel="onCancel" />
     <scroll class="scroll-wrapper">
       <borderCard @tabListTach="tabListTach">
         <cardbox
@@ -44,13 +43,12 @@ import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
 
 import clientheader from '@/views/client/cihldren/clientheader/clientheader'
 import borderCard from '@/views/client/cihldren/borderCard/borderCard'
-import cardsearch from '@/views/client/cihldren/cardsearch/cardsearch'
-import cardsearchs from '@/views/client/cihldren/cardsearchs/cardsearchs'
+
 import cardbox from '@/views/client/cihldren/cardbox/cardbox'
 import {
   getDistributors,
   getSuppliers,
-  getAddContractOrder
+  getAddContractOrder,
 } from '@/network/client'
 import { getAddOutsourcingOrder } from '@/network/deal'
 
@@ -59,11 +57,8 @@ export default {
   components: {
     clientheader,
     borderCard,
-    cardsearch,
-    cardsearchs,
     cardbox,
-
-    MainTabBar
+    MainTabBar,
   },
   data() {
     return {
@@ -72,13 +67,65 @@ export default {
       supplier: [],
       options: [],
       searchValue: '',
+      isSearch: false,
       searchID: 0,
       optionss: [],
       show: false,
-      actions: [{ name: '个人客户' }, { name: '企业客户' }]
+      actions: [{ name: '个人客户' }, { name: '企业客户' }],
     }
   },
+  watch: {
+    $route(to, from) {
+      const toDepths = to.path
+      const fromDepths = from.path
+      if (fromDepths === '/client') {
+        if (
+          toDepths != '/cardsearch' &&
+          toDepths != '/clientedit/client/0' &&
+          toDepths != '/enterpriseedit/client/0' &&
+          toDepths != '/clientedit/supplier/0' &&
+          toDepths != '/enterpriseedit/supplier/0'
+        ) {
+          this.isSearch = false
+          this.searchValue = ''
+        }
+      }
+    },
+  },
   methods: {
+    onCancel() {
+      console.log('onCancel')
+      this.isSearch = false
+      this.searchValue = ''
+      if (!this.searchID) {
+        console.log('个人客户')
+
+        this.getDistri()
+      } else {
+        console.log('企业客户')
+
+        this.getSupplier()
+      }
+    },
+    focusClick() {
+      this.isSearch = true
+      this.$router.push({
+        path: '/cardsearch',
+        query: {
+          searchID: this.searchID,
+        },
+      })
+      this.$bus.$off('cardsearch')
+      this.$bus.$on('cardsearch', (item) => {
+        console.log(item)
+        this.searchValue = item[0].name
+        if (!this.searchID) {
+          this.distributor = item
+        } else {
+          this.supplier = item
+        }
+      })
+    },
     btnsclickadd() {
       this.$store.state.gokhlist = []
       this.show = true
@@ -89,44 +136,18 @@ export default {
     Renderings(data) {
       this.supplier = data
     },
-    async getAddOutsourcing() {
-      const { data } = await getAddOutsourcingOrder({
-        token: this.$store.state.token
-      })
-      data.suppliers.map(item => {
-        this.optionss.push({
-          address: item.id,
-          value: item.name
-        })
-      })
-    },
-    async getAddContract() {
-      const { data } = await getAddContractOrder({
-        token: this.$store.state.token
-      })
-      data.distributors.map(item => {
-        this.options.push({
-          address: item.id,
-          value: item.name
-        })
-      })
-    },
     refreshList() {
       this.getDistri()
     },
     refreshLists() {
       this.getSupplier()
     },
-    onCancel() {
-      this.show = false
-      console.log('cancel')
-    },
     gokhlist(item) {
       this.$router.push({
         path: '/clientdetails',
         query: {
-          data: item
-        }
+          data: item,
+        },
       })
     },
     tabListTach(e) {
@@ -169,7 +190,7 @@ export default {
       const { data } = await getSuppliers(this.getDistributorsData)
       this.supplier = data.supplier
       console.log('getSuppliers', this.supplier)
-    }
+    },
   },
   computed: {
     getDistributorsData() {
@@ -177,20 +198,20 @@ export default {
         token: this.$store.state.token,
         page: 1,
         offset: 20,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   activated() {
     this.show = false
-    this.getDistri()
-    this.getSupplier()
-    this.getAddContract()
-    this.getAddOutsourcing()
+    if (!this.isSearch) {
+      this.getDistri()
+      this.getSupplier()
+    }
   },
   deactivated() {
     this.options = []
-  }
+  },
 }
 </script>
     

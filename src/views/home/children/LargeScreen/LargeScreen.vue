@@ -70,7 +70,7 @@
                     <!-- <input type="text" > -->
                     <!-- <span>{{item.order_number | orderNum}}</span> -->
                     <span>{{item.order_number }}</span>
-                    <span>公司简称</span>
+                    <span>{{item.name_alias}}</span>
                   </div>
                   <div class="right_title">
                     <span>{{item.surplus_number | setSurplusNumber}}</span>
@@ -162,7 +162,7 @@
                 <div class="title_box">
                   <div class="left_title">
                     <span>{{item.order_number}}</span>
-                    <span>公司简称</span>
+                    <span>{{item.name_alias}}</span>
                   </div>
                   <div class="right_title">
                     <span>{{item.surplus_number | setSurplusNumber}}</span>
@@ -254,7 +254,7 @@
                 <div class="title_box">
                   <div class="left_title">
                     <span>{{item.order_number}}</span>
-                    <span>公司简称</span>
+                    <span>{{item.name_alias}}</span>
                   </div>
                   <div class="right_title">
                     <span>{{item.surplus_number | setSurplusNumber}}</span>

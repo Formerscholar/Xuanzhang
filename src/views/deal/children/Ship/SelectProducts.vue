@@ -11,15 +11,15 @@
     </navbar>
     <el-card class="box-card item1">
       <van-field v-model="state" label="产品名称" @focus="focusClick" />
-      <van-field v-model="Products" label="产品型号" />
+      <van-field v-model="Products" label="产品型号" @focus="focusClick" />
       <van-field v-model="productPrice" type="number" label="产品价格" />
       <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
       <van-field
-        v-model="FlowingProducts[index+1]"
         v-for="(item,index) in isFlowingShow"
-        :key="index"
-        :data-id="index+1"
-        label="流水产品"
+        v-model="FlowingProducts[index+1]"
+        :key="item.id"
+        :data-id="item.id"
+        :label="item.field_name"
       />
       <van-field v-model="quantity" type="number" label="产品数量" />
       <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
@@ -41,7 +41,7 @@ export default {
       productWeight: '',
       FlowingProducts: ['0'],
       isWeightShow: false,
-      isFlowingShow: 0,
+      isFlowingShow: [],
       quantity: '',
       ProductSubtotal: '',
       ProductNotes: '',
@@ -71,12 +71,13 @@ export default {
       this.productWeight = ''
       this.FlowingProducts = ['0']
       this.isWeightShow = false
-      this.isFlowingShow = 0
       this.quantity = ''
       this.ProductSubtotal = ''
       this.ProductNotes = ''
       this.listItem = {}
       this.listItems = []
+      this.isFlowingShow = []
+
       this.allData = {}
       this.$router.go(-1)
     },
@@ -87,12 +88,22 @@ export default {
           data: { ...this.listItems },
         },
       })
+      this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
         console.log(item)
+        this.isWeightShow = item.weight ? true : false
+        this.productWeight = item.weight
         this.allData = item
         this.state = item.name
         this.Products = item.specification
         this.productPrice = item.out_price
+
+        this.listItem = { ...this.$route.query.data.materiel }
+        this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
+        for (const key in this.listItem) {
+          this.listItems.push(this.listItem[key])
+        }
+        console.log(this.listItems)
         // this.distributor_id = item.id
       })
     },
@@ -101,14 +112,24 @@ export default {
     },
   },
   activated() {
-    this.listItem = { ...this.$route.query.data }
+    this.listItem = { ...this.$route.query.data.materiel }
+    this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
     for (const key in this.listItem) {
       this.listItems.push(this.listItem[key])
     }
     console.log(this.listItems)
   },
   deactivated() {
-    this.listItem = {}
+    this.state = ''
+    this.Products = ''
+    this.productPrice = ''
+    this.productWeight = ''
+    this.FlowingProducts = ['0']
+    this.isWeightShow = false
+    this.quantity = ''
+    this.ProductSubtotal = ''
+    this.ProductNotes = ''
+    this.allData = {}
   },
 }
 </script>

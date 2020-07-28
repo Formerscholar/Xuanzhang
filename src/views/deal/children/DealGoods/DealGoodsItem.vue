@@ -307,10 +307,5 @@ export default {
     }
   }
 }
-.wrapper-qrCode {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100% !important;
-}
+
 </style>

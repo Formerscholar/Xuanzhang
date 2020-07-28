@@ -29,12 +29,6 @@ export default {
     return {
       abilityList: [
         {
-          icon_Url: 'icon-wochuangjiande1',
-          title: '客户管理',
-          color: '#038900',
-          path: '/client',
-        },
-        {
           icon_Url: 'icon-ziyuan174',
           title: '委外入库',
           color: '#038900',
@@ -127,11 +121,11 @@ export default {
           icon_Url: 'icon-daifahuo',
           title: '收货质检',
         },
-        {
-          icon_Url: 'icon-lvyoumenpiao',
-          title: '开据发票',
-          color: '#ff7f12',
-        },
+        // {
+        //   icon_Url: 'icon-lvyoumenpiao',
+        //   title: '开据发票',
+        //   color: '#ff7f12',
+        // },
       ],
     }
   },

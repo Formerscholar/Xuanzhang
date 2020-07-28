@@ -48,17 +48,17 @@ export default {
   props: {
     titlename: {
       type: String,
-      default: '客户'
+      default: '客户',
     },
     distributor: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   filters: {
     getCreatedAt(value) {
       return value.split(' ')[0]
-    }
+    },
   },
   methods: {
     editClick(item) {
@@ -87,14 +87,14 @@ export default {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'success'
+            type: 'success',
           })
           this.$emit('refreshList')
         } else {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'error'
+            type: 'error',
           })
         }
       } else {
@@ -103,22 +103,22 @@ export default {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'success'
+            type: 'success',
           })
           this.$emit('refreshList')
         } else {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'error'
+            type: 'error',
           })
         }
       }
     },
     gokhlist(item) {
       this.$emit('gokhlist', item)
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -146,6 +146,7 @@ export default {
         }
         .kh_address {
           font-size: 1rem;
+          white-space: nowrap;
           color: #727272;
         }
         .kh_phone {
