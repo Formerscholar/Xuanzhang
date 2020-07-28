@@ -77,7 +77,6 @@ export default {
       this.listItem = {}
       this.listItems = []
       this.isFlowingShow = []
-
       this.allData = {}
       this.$router.go(-1)
     },
@@ -97,7 +96,6 @@ export default {
         this.state = item.name
         this.Products = item.specification
         this.productPrice = item.out_price
-
         this.listItem = { ...this.$route.query.data.materiel }
         this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
         for (const key in this.listItem) {
@@ -108,6 +106,7 @@ export default {
       })
     },
     blacknext() {
+      this.listItems = []
       this.$router.go(-1)
     },
   },
