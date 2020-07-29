@@ -234,7 +234,7 @@ export default {
       }
     },
     uploadHandle(data) {
-      this.img_URL = data.substr(1)
+      this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
       console.log(this.img_URL, this.PropsImg)
     },
