@@ -188,9 +188,39 @@ export default {
     })
   },
   deactivated() {
+    this.fileList = []
+    this.activeNames = []
+    this.PropsImg = ''
+    this.Propsfile = ''
+    this.Propsdesign = ''
+    this.PropsMould = ''
+    this.Remarks = ''
+    this.img_URL = ''
+    this.options = []
+    this.value = '1'
     this.optionss = []
+    this.values = ''
     this.optionsss = []
+    this.valuess = ''
     this.optionssss = []
+    this.valuesss = ''
+    this.MaterialName = ''
+    this.specification = ''
+    this.MaterialCode = '自动生成'
+    this.StoragePrices = '自动生成'
+    this.OutboundPrice = '自动生成'
+    this.bomPrice = '自动生成'
+    this.MaterialPrice = ''
+    this.LocationNum = ''
+    this.MaximumInventory = 0
+    this.SafetyStock = 0
+    this.MinimumInventory = 0
+    this.BasicInventory = 0
+    this.Detailsweight = ''
+    this.DetailsPiecePrice = ''
+    this.DetailsproductMaterial = ''
+    this.DetailsMoldCode = ''
+    this.uploadParam = 4
   },
   computed: {
     getAddMaterielData() {

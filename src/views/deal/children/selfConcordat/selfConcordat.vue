@@ -19,7 +19,7 @@
               <ul>
                 <li>
                   <span>总金额</span>
-                  <em>{{distributorNew.notInvoiceMoney}}</em>
+                  <em>{{distributorNew.orderMoney}}</em>
                 </li>
                 <li @click="goShipped">
                   <span>已发货</span>
@@ -117,7 +117,7 @@ export default {
     return {
       iid: 0,
       distributorNew: {},
-      orderList: []
+      orderList: [],
     }
   },
 
@@ -137,9 +137,9 @@ export default {
         order_number: null,
         start_time: null,
         end_time: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     formatOne(percentage) {
@@ -171,8 +171,8 @@ export default {
     },
     goInvoice() {
       this.$router.push(`/invoicelist/${this.iid}`)
-    }
-  }
+    },
+  },
 }
 </script>
     

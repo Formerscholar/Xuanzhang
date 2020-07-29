@@ -30,17 +30,18 @@ export default {
     Avatar,
     iDCard,
     phoneNum,
-    status
+    status,
   },
   data() {
     return {
       userInfo: {},
       passwordData: '',
-      ImageUrlData: ''
+      ImageUrlData: '',
     }
   },
   activated() {
-    this.activeInfo()
+    this.userInfo = this.$store.state.userInfo[0]
+    console.log(this.userInfo)
   },
   deactivated() {},
   computed: {
@@ -57,7 +58,7 @@ export default {
     },
     getstatus() {
       return this.userInfo.status
-    }
+    },
   },
   methods: {
     goPassword() {
@@ -73,11 +74,8 @@ export default {
     emailInfo(data) {
       console.log(data)
     },
-    activeInfo() {
-      this.userInfo = this.$store.state.userInfo[0]
-      console.log(this.userInfo)
-    }
-  }
+    activeInfo() {},
+  },
 }
 </script>
     

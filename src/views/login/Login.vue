@@ -19,6 +19,7 @@
             type="number"
             placeholder="请输入手机号"
             v-model="ruleForm.name"
+            clearable
             :trigger-on-focus="false"
             maxlength="11"
             minlength="11"
@@ -31,6 +32,7 @@
             @blur="allfocusblbock"
             :trigger-on-focus="false"
             class="userInput"
+            clearable
             type="password"
             placeholder="请输入密码"
             maxlength="21"
@@ -84,6 +86,8 @@ export default {
         // pass: '',
         // name: '18012333330',
         // pass: '123456',
+        // name: '18012148888',
+        // pass: '234567',
         name: '18083795906',
         pass: '123456',
       },

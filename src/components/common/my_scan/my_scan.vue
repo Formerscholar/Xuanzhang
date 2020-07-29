@@ -16,13 +16,12 @@
   </div>
 </template>
 
-<script type='text/ecmascript-6'>
-let scan = null
-
+<script>
 export default {
   data() {
     return {
       codeUrl: '',
+      styles: { frameColor: '#2a88ff', scanbarColor: '#2a88ff' },
       filter: [
         plus.barcode.QR,
         plus.barcode.AZTEC,
@@ -30,54 +29,41 @@ export default {
         plus.barcode.MAXICODE,
         plus.barcode.PDF417,
       ],
-      styles: { frameColor: '#2a88ff', scanbarColor: '#2a88ff' },
+      scan: null,
     }
   },
   activated() {
-    console.log('activated')
-    this.startRecognize()
-    this.startScan()
+    setTimeout(() => {
+      this.startRecognize()
+      this.startScan()
+    }, 500)
   },
   deactivated() {
-    console.log('deactivated')
     this.closeScan()
   },
-
   methods: {
+    startRecognize() {
+      this.scan = new plus.barcode.Barcode('bcid', this.filter, this.styles)
+      this.scan.onmarked = (type, result, file) => {
+        result = result.replace(/\n/g, '')
+        this.codeUrl = result
+        alert(result)
+        this.closeScan()
+        this.$router.go(-1)
+      }
+    },
+    startScan() {
+      this.scan.start()
+    },
+    cancelScan() {
+      this.scan.cancel()
+    },
+    closeScan() {
+      this.scan.close()
+    },
     blackhome() {
       this.closeScan()
       this.$router.go(-1)
-    },
-    //创建扫描控件
-    startRecognize() {
-      let that = this
-      if (!window.plus) return
-      scan = new plus.barcode.Barcode('bcid', this.filter, this.styles)
-      scan.onmarked = onmarked
-
-      function onmarked(type, result, file) {
-        result = result.replace(/\n/g, '')
-        that.codeUrl = result
-        alert(result)
-        that.closeScan()
-        that.$router.go(-1)
-      }
-      console.log('startRecognize')
-    },
-    //开始扫描
-    startScan() {
-      if (!window.plus) return
-      scan.start()
-    },
-    //关闭扫描
-    cancelScan() {
-      if (!window.plus) return
-      scan.cancel()
-    },
-    //关闭条码识别控件
-    closeScan() {
-      if (!window.plus) return
-      scan.close()
     },
   },
 }

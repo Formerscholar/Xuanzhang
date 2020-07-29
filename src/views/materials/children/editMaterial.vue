@@ -1,25 +1,25 @@
 <template>
   <div id="addMaterial">
-    <navbar class="p_root_box bg-primary">
-      <div class="left" slot="left" @click="onClickLeft">
+    <navbar class="p_root_box">
+      <div class="left" slot="left" @click="clearData">
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>查看物料</span>
+        <!-- <span>查看物料</span> -->
       </div>
-      <div slot="right" class="right">
-        <span>二维码</span>
+      <div slot="right" class="right" @click="submitClick">
+        <van-icon name="success" />
       </div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="swiper">
-        <img :src="img_URL" alt="logo" />
+        <img :src="img_URL" alt="logo" @click="imgClick" />
       </div>
       <div class="compitem">
         <div class="content_nums">
           <div class="left">
             <span class="stock">库存</span>
-            <span class="stocknums">2911件</span>
+            <span class="stocknums">{{stock}}件</span>
           </div>
           <div class="right">
             <span>
@@ -39,26 +39,22 @@
         </div>
       </div>
       <div class="listItems">
-        <Lists name="入库价格" :data="StoragePrices" :item="itemData" />
-        <Lists name="物料属性" :item="itemData" :data="value" />
-        <Lists name="物料分类" :item="itemData" :data="values" />
-        <Lists name="基本单位" :data="valuess" :item="itemData" />
-        <Lists name="物料价格" :data="MaterialPrice" :item="itemData" />
-        <Lists name="入库价格" :item="itemData" :data="StoragePrices" />
-        <Lists name="出库价格" :data="OutboundPrice" :item="itemData" />
-        <Lists name="bom价格" :item="itemData" :data="bomPrice" />
-        <Lists name="默认仓库" :data="valuesss" :item="itemData" />
-        <Lists name="库位号" :item="itemData" :data="LocationNum" />
-        <!-- <Lists name="最大库存" :item="itemData" :data="MaximumInventory" />
-        <Lists :item="itemData" name="安全库存" :data="SafetyStock" />
-        <Lists name="最小库存" :item="itemData" :data="MinimumInventory" />
-        <Lists name="基本库存" :item="itemData" :data="BasicInventory" />
-        <Lists name="重量" :data="Detailsweight" :item="itemData" />
-        <Lists name="计件价格" :item="itemData" :data="DetailsPiecePrice" />
-        <Lists name="产品材质" :item="itemData" :data="DetailsproductMaterial" />
-        <Lists name="模具编码" :data="DetailsMoldCode" :item="itemData" />
-        <Lists name="备注" :item="itemData" :data="Remarks" />
-        <Lists name="文件" :data="fileListsss" :item="itemData" />-->
+        <Lists name="物料属性" route="Mproperties" :data="value" @listhandleClick="listhandleClick" />
+        <Lists
+          name="物料分类"
+          route="Mclassification"
+          :data="values"
+          @listhandleClick="listhandleClick"
+        />
+        <Lists name="基本单位" route="BasicUnit" :data="valuess" @listhandleClick="listhandleClick" />
+        <Lists name="物料价格" route="MPrice" :data="MaterialPrice" @listhandleClick="listhandleClick" />
+
+        <Lists name="入库价格" route="WPrice" :data="StoragePrices" @listhandleClick="listhandleClick" />
+        <Lists name="出库价格" route="DPrice" :data="OutboundPrice" @listhandleClick="listhandleClick" />
+        <Lists name="bom价格" route="BOMPrice" :data="bomPrice" @listhandleClick="listhandleClick" />
+
+        <Lists name="默认仓库" route="DWarehouse" :data="valuesss" @listhandleClick="listhandleClick" />
+        <Lists name="库位号" route="WLNumber" :data="LocationNum" @listhandleClick="listhandleClick" />
       </div>
     </scroll>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
@@ -69,7 +65,7 @@
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 import Lists from './lists'
 import { bestURL, crosURl } from '@/network/baseURL'
-import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
+import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
 export default {
   name: 'addMaterial',
   data() {
@@ -84,22 +80,13 @@ export default {
       activeNames: [],
       PropsImg: '',
       Propsfile: '',
+      stock: 0,
       Propsdesign: '',
       PropsMould: '',
       img_URL: '',
       Remarks: '',
-      options: [
-        {
-          value: '1',
-          label: '产品',
-        },
-        {
-          value: '2',
-          label: '零件',
-        },
-      ],
-      value: '1',
       optionss: [],
+      value: '',
       values: '',
       optionsss: [],
       valuess: '',
@@ -126,33 +113,22 @@ export default {
       category_id: 0,
       unit_id: '',
       isWrite: false,
+      attributes: 0,
     }
   },
   components: { SimpleCropper, Lists },
   activated() {
-    this.iid = this.$route.params.id
-    this.type = this.$route.params.type == '1' ? true : false
-    this.getEditMater()
+    console.log('activated')
+    if (!this.isWrite) {
+      this.iid = this.$route.params.id
+      this.type = this.$route.params.type == '1' ? true : false
+      this.getEditMater()
+    }
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
-  deactivated() {
-    // if (this.isWrite) {
-    //   this.$dialog
-    //     .confirm({
-    //       title: '提示',
-    //       message: '确认是否修改内容?',
-    //     })
-    //     .then(() => {
-    //       this.onsubmit()
-    //     })
-    //     .catch(() => {
-    //       this.clearData()
-    //     })
-    // }
-    // this.isWrite = false
-  },
+  deactivated() {},
   computed: {
     addMaterielData() {
       return {
@@ -183,9 +159,79 @@ export default {
     },
   },
   methods: {
-    clickISWrite() {
-      this.isWrite = !this.isWrite
-      console.log(this.isWrite)
+    submitClick() {
+      if (this.isWrite) {
+        this.isWrite = false
+        this.$dialog
+          .confirm({
+            title: '提示',
+            message: '确认是否修改内容?',
+          })
+          .then(() => {
+            this.onsubmit()
+          })
+          .catch(() => {
+            this.isWrite = true
+          })
+      } else {
+        this.isWrite = false
+        this.$dialog({ message: '请修改后保存,否则请退出!' })
+      }
+    },
+    listhandleClick(data) {
+      console.log('跳转数据处理页面 $bus返回处理后数据', data.route)
+      this.$router.push({
+        path: '/' + data.route,
+        query: {
+          data,
+          optionss: this.optionss,
+          optionsss: this.optionsss,
+          optionssss: this.optionssss,
+        },
+      })
+      this.$bus.$off('listbusData')
+      this.$bus.$on('listbusData', (item) => {
+        console.log('$bus.$on(listbusData,')
+        if (!this.isWrite) {
+          this.isWrite = item.state
+          console.log(this.isWrite)
+        }
+        console.log(item)
+        if (item.route == 'Mproperties') {
+          this.value = item.data
+          this.attribute = item.value
+        } else if (item.route == 'Mclassification') {
+          this.values = item.data
+          this.category_id = item.value
+        } else if (item.route == 'BasicUnit') {
+          this.valuess = item.data
+          this.unit_id = item.value
+        } else if (item.route == 'MPrice') {
+          this.MaterialPrice = item.data
+        } else if (item.route == 'DWarehouse') {
+          this.valuesss = item.data
+          this.warehouse_id = item.value
+        } else if (item.route == 'WLNumber') {
+          this.LocationNum = item.data
+        }
+      })
+    },
+    async onsubmit() {
+      const { code, msg } = await editMateriel(this.addMaterielData)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.clearData()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
     },
     uploadHandle(data) {
       this.img_URL = data.substr(1)
@@ -193,6 +239,7 @@ export default {
       console.log(this.img_URL, this.PropsImg)
     },
     imgClick() {
+      this.isWrite = true
       this.$refs['cropper'].upload()
     },
     async afterReads(file) {
@@ -257,13 +304,14 @@ export default {
         this.value = item.attribute == 'product' ? '产品' : '零件'
         this.MaterialName = item.name
         this.specification = item.specification
+        this.category_id = item.materiel_category_id
         data.materielCategory.forEach((item1) => {
-          if (item1.id == item.unit_id) {
+          if (item1.id == item.materiel_category_id) {
             this.values = item1.category_name
-            this.category_id = item1.id
           }
         })
         this.MaterialCode = item.scope_of_business
+        this.stock = item.stock
         this.valuess = item.unit_name
         this.MaterialPrice = item.unit_price
         this.StoragePrices = item.piecework_price
@@ -319,22 +367,51 @@ export default {
     handleChange(val) {
       console.log(val)
     },
-    onClickLeft() {
-      this.$router.replace('/materialpage')
-    },
     clearData() {
-      this.iid = 0
-      this.valuesss = ''
-      this.warehouse_id = 0
-      this.type = false
-      this.img_URL = ''
-      this.PropsImg = ''
+      this.itemData = {}
       this.fileLists = []
       this.fileListss = []
       this.fileListsss = []
+      this.iid = 0
+      this.type = false
+      this.activeNames = []
+      this.PropsImg = ''
+      this.Propsfile = ''
+      this.stock = 0
+      this.Propsdesign = ''
+      this.PropsMould = ''
+      this.img_URL = ''
+      this.Remarks = ''
       this.optionss = []
+      this.value = ''
+      this.values = ''
       this.optionsss = []
+      this.valuess = ''
       this.optionssss = []
+      this.valuesss = ''
+      this.MaterialName = ''
+      this.specification = ''
+      this.MaterialCode = '自动生成'
+      this.StoragePrices = '自动生成'
+      this.OutboundPrice = '自动生成'
+      this.bomPrice = '自动生成'
+      this.MaterialPrice = ''
+      this.LocationNum = ''
+      this.MaximumInventory = 0
+      this.SafetyStock = 0
+      this.MinimumInventory = 0
+      this.BasicInventory = 0
+      this.Detailsweight = ''
+      this.DetailsPiecePrice = ''
+      this.DetailsproductMaterial = ''
+      this.DetailsMoldCode = ''
+      this.attribute = 1
+      this.uploadParam = 4
+      this.category_id = 0
+      this.unit_id = ''
+      this.isWrite = false
+      this.attributes = 0
+      this.$router.replace('/materialpage')
     },
   },
 }
@@ -344,8 +421,16 @@ export default {
 #addMaterial {
   padding-top: 5.428571rem;
   .p_root_box {
+    color: white;
+    background: none;
+    box-shadow: none;
+    border: none;
     .left {
       margin-left: 1.071429rem;
+      border-radius: 50%;
+      width: 2.857143rem;
+      height: 2.857143rem;
+      background-color: rgba(45, 52, 54, 0.4);
       i {
         font-size: 1.571429rem;
       }
@@ -357,7 +442,11 @@ export default {
       }
     }
     .right {
-      font-size: 1.142857rem;
+      border-radius: 50%;
+      width: 2.857143rem;
+      height: 2.857143rem;
+      background-color: rgba(45, 52, 54, 0.4);
+      font-size: 1.428571rem;
       margin-right: 1.071429rem;
     }
   }
@@ -365,7 +454,8 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    top: 5.142857rem;
+    top: 0;
+    // top: 5.142857rem;
     bottom: 0;
     overflow: hidden;
     .box-card {
@@ -375,13 +465,15 @@ export default {
 
   .swiper {
     width: 100%;
-    height: 16.214286rem;
+    // height: 16.214286rem;
+    height: 29.571429rem;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f5f5f5;
     img {
       height: 100%;
+      width: 100%;
     }
   }
   .compitem {

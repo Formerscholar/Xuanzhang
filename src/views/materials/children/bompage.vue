@@ -39,7 +39,7 @@ import {
   getAddSpareParts,
   getMaterielBoom,
   addSpareParts,
-  synchronizationBoom
+  synchronizationBoom,
 } from '@/network/materials'
 
 export default {
@@ -52,35 +52,38 @@ export default {
       restaurants: [],
       inputID: '',
       timeout: null,
-      tableData: []
+      tableData: [],
     }
   },
-
   activated() {
     this.getAddSpare()
     this.iid = this.$route.params.id
     this.getMaterielbom()
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
   deactivated() {
     this.iid = 0
+    this.digitnum = 0
+    this.inputvalue = ''
     this.restaurants = []
+    this.inputID = ''
+    this.timeout = null
     this.tableData = []
   },
   computed: {
     getAddSpareData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getMaterielBoomData() {
       return {
         token: this.$store.state.token,
         materiel_id: this.iid,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addSparePartsData() {
@@ -88,15 +91,15 @@ export default {
         token: this.$store.state.token,
         materiel_id: this.iid,
         spare_parts_id: this.inputID,
-        count: this.digitnum
+        count: this.digitnum,
       }
     },
     synchronizationData() {
       return {
         token: this.$store.state.token,
-        materiel_id: this.iid
+        materiel_id: this.iid,
       }
-    }
+    },
   },
   methods: {
     async bomparallel() {
@@ -105,14 +108,14 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
         this.blacknext()
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -122,26 +125,26 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
         this.getMaterielbom()
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
     async getMaterielbom() {
       const { data } = await getMaterielBoom(this.getMaterielBoomData)
       console.log('getMaterielBoom', data)
-      data.getMaterielBoom.forEach(item => {
+      data.getMaterielBoom.forEach((item) => {
         let obj = {
           date: item.id,
           name: item.name,
           address: item.specification,
-          nums: item.count
+          nums: item.count,
         }
         this.tableData.push(obj)
       })
@@ -149,10 +152,10 @@ export default {
     async getAddSpare() {
       const { data } = await getAddSpareParts(this.getAddSpareData)
       console.log('getAddSpareParts', data)
-      data.materielSpareParts.forEach(item => {
+      data.materielSpareParts.forEach((item) => {
         let obj = {
           address: item.id,
-          value: item.name
+          value: item.name,
         }
         this.restaurants.push(obj)
       })
@@ -172,7 +175,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -182,8 +185,8 @@ export default {
       console.log(item)
       this.inputID = item.address
       console.log(this.inputID)
-    }
-  }
+    },
+  },
 }
 </script>
     

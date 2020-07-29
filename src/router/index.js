@@ -130,8 +130,7 @@ const LargeScreen = () =>
 
 const ScreenItem = () =>
   import('../views/home/children/LargeScreen/children/ScreenItem.vue')
-const editMaterialItem = () =>
-  import('@/views/materials/children/editMaterialItem')
+
 Vue.use(VueRouter)
 const outSearch = () => import('@/views/deal/children/outSearch/outSearch')
 const nameSearch = () => import('@/views/deal/children/Ship/nameSearch')
@@ -140,6 +139,14 @@ const productNameSearch = () =>
   import('@/views/deal/children/Ship/productNameSearch')
 
 const cardsearch = () => import('@/views/client/cihldren/cardsearch/cardsearch')
+const Mproperties = () => import('@/views/materials/children/Mproperties')
+const Mclassification = () =>
+  import('@/views/materials/children/Mclassification')
+const BasicUnit = () => import('@/views/materials/children/BasicUnit')
+const MPrice = () => import('@/views/materials/children/MPrice')
+const DWarehouse = () => import('@/views/materials/children/DWarehouse')
+const WLNumber = () => import('@/views/materials/children/WLNumber')
+
 const routes = [
   {
     path: '/',
@@ -468,11 +475,6 @@ const routes = [
     component: homeManu,
   },
   {
-    path: '/editMaterialItem',
-    name: 'data',
-    component: editMaterialItem,
-  },
-  {
     path: '/outSearch',
     name: 'data',
     component: outSearch,
@@ -496,6 +498,36 @@ const routes = [
     path: '/cardsearch',
     name: 'data',
     component: cardsearch,
+  },
+  {
+    path: '/Mproperties',
+    name: 'data',
+    component: Mproperties,
+  },
+  {
+    path: '/Mclassification',
+    name: 'data',
+    component: Mclassification,
+  },
+  {
+    path: '/BasicUnit',
+    name: 'data',
+    component: BasicUnit,
+  },
+  {
+    path: '/MPrice',
+    name: 'data',
+    component: MPrice,
+  },
+  {
+    path: '/DWarehouse',
+    name: 'data',
+    component: DWarehouse,
+  },
+  {
+    path: '/WLNumber',
+    name: 'data',
+    component: WLNumber,
   },
 ]
 
