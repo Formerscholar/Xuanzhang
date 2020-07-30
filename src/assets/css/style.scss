@@ -77,10 +77,19 @@ i {
   }
 
   .van-tabs--line .van-tabs__wrap {
-    height: 5rem !important;
+    height: 3.571429rem !important;
+  }
+
+
+  .van-tab--active {
+    color: #323233 !important;
   }
 
   .van-tab {
+    color: #d6d7d6;
+
+
+
     &:first-child {
       .van-tab__text {
         width: 100%;
@@ -144,6 +153,14 @@ i {
   height: 100% !important;
 }
 
+#because {
+  input {
+    border: none;
+    background-color: #fff;
+  }
+}
+
+
 #createContract,
 #addressEdit,
 #Ship,
@@ -183,6 +200,29 @@ i {
   }
 }
 
+.cardbtns {
+  .el-tabs__nav-scroll {
+    display: flex;
+    justify-content: center;
+  }
+
+  .el-card__body {
+    padding: .571429rem 1.428571rem;
+    padding-bottom: 0.357143rem;
+  }
+
+  .el-tag--small {
+    height: 1.142857rem;
+    padding: 0 .571429rem;
+    line-height: .857143rem;
+  }
+
+  .el-tag--warning {
+    color: #F0AD4E !important;
+  }
+}
+
+
 #addressEdit {
   .van-button--round {
     color: #fff;
@@ -200,6 +240,13 @@ i {
   .el-card__body {
     padding: 0.571429rem 1rem;
     height: 5.642857rem;
+  }
+}
+
+#contract {
+  .van-swipe-cell__right {
+    display: flex;
+    flex-direction: column;
   }
 }
 

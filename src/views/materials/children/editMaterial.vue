@@ -419,7 +419,6 @@ export default {
     
 <style scoped lang="scss">
 #addMaterial {
-  padding-top: 5.428571rem;
   .p_root_box {
     color: white;
     background: none;
@@ -465,12 +464,11 @@ export default {
 
   .swiper {
     width: 100%;
-    // height: 16.214286rem;
-    height: 29.571429rem;
+    height: 25.714286rem;
+    background-color: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
     img {
       height: 100%;
       width: 100%;

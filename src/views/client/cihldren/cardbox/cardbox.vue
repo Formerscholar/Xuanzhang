@@ -145,7 +145,7 @@ export default {
           font-family: 'SimHei';
         }
         .kh_address {
-          font-size: 1rem;
+          font-size: 0.857143rem;
           white-space: nowrap;
           color: #727272;
         }
@@ -153,7 +153,7 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          font-size: 1rem;
+          font-size: 0.857143rem;
           color: #89c2ec;
           i {
             margin-right: 0.714286rem;
@@ -161,17 +161,17 @@ export default {
         }
       }
       .right_box {
-        width: 5.714286rem;
+        max-width: 8.714286rem;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         .kh_moneny {
-          margin-bottom: 1.285714rem;
+          margin-bottom: 1.142857rem;
           color: #d6503e;
-          font-size: 1.428571rem;
+          font-size: 1rem;
         }
         .kh_created {
-          font-size: 1rem;
+          font-size: 0.857143rem;
           color: #a5a5a5;
         }
       }

@@ -146,6 +146,7 @@ const BasicUnit = () => import('@/views/materials/children/BasicUnit')
 const MPrice = () => import('@/views/materials/children/MPrice')
 const DWarehouse = () => import('@/views/materials/children/DWarehouse')
 const WLNumber = () => import('@/views/materials/children/WLNumber')
+const because = () => import('@/views/materials/children/because')
 
 const routes = [
   {
@@ -528,6 +529,10 @@ const routes = [
     path: '/WLNumber',
     name: 'data',
     component: WLNumber,
+  },
+  {
+    path: '/because/:iid',
+    component: because,
   },
 ]
 

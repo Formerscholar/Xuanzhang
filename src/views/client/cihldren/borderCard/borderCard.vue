@@ -5,7 +5,7 @@
         <template #title>
           <div class="icon_wrap">
             <p class="tab_icon tabs_icon"></p>
-            <span>客户列表</span>
+            <span>客户</span>
           </div>
         </template>
         <div class="bg"></div>
@@ -15,7 +15,7 @@
         <template #title>
           <div class="icon_wrap">
             <p class="tab_icon tabs_icons"></p>
-            <span>供应商列表</span>
+            <span>供应商</span>
           </div>
         </template>
         <div class="bg"></div>
@@ -31,14 +31,14 @@ export default {
   components: {},
   data() {
     return {
-      active: 0
+      active: 0,
     }
   },
   methods: {
     handleClick(title) {
       this.$emit('tabListTach', title)
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -54,7 +54,7 @@ export default {
 
       span {
         font-size: 1rem;
-        padding-bottom: 0.357143rem;
+        padding-bottom: 0.857143rem;
         font-weight: 700;
       }
       .tab_icon {

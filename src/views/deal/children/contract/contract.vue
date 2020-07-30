@@ -11,6 +11,56 @@
         <van-tab title="发货清单" class="Delivery">
           <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
             <div @click="gocontractList(deliveryRecordList[index])">
+              <div class="title">
+                <div class="img_box">
+                  <img src="@/assets/image/flow_left.png" />
+                </div>
+                <div class="title_text">
+                  <span class="name" @click.stop="gotodetails(item.distributor_id)">{{item.name}}</span>
+                  <span class="model">{{ item.order_number }}</span>
+                </div>
+              </div>
+              <div class="itemlist">
+                <div class="items">
+                  <div class="item">
+                    <div class="img">
+                      <img src="@/assets/image/flow_left.png" />
+                    </div>
+                    <div class="text">items</div>
+                  </div>
+                  <div class="item">
+                    <div class="img">
+                      <img src="@/assets/image/flow_left.png" />
+                    </div>
+                    <div class="text">items</div>
+                  </div>
+                  <div class="item">
+                    <div class="img">
+                      <img src="@/assets/image/flow_left.png" />
+                    </div>
+                    <div class="text">items</div>
+                  </div>
+                </div>
+                <div class="right_box">
+                  <em>共</em>
+                  <em>3</em>
+                  <em>件</em>
+                </div>
+              </div>
+              <div class="time_box">
+                <span class="timer_text">下单时间:{{item.created_at}}</span>
+                <span class="time_pircle">
+                  合计
+                  <em
+                    :class="item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
+                  >￥{{item.total_funds}}</em>
+                </span>
+              </div>
+            </div>
+          </el-card>
+
+          <!-- <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
+            <div @click="gocontractList(deliveryRecordList[index])">
               <div class="topbox">
                 <span>
                   {{ item.order_number }}
@@ -25,7 +75,7 @@
                 <em>{{ item.created_at |setCreated}}</em>
               </div>
             </div>
-          </el-card>
+          </el-card>-->
         </van-tab>
         <van-tab title="订单列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
@@ -96,7 +146,7 @@
 import {
   getDeliverGoodsList,
   getFlowOrderList,
-  deleteFlowOrderProduct
+  deleteFlowOrderProduct,
 } from '@/network/deal'
 
 import { throttle } from '@/common/utils.ts'
@@ -115,7 +165,7 @@ export default {
       actions: [{ name: '发货' }, { name: '退货' }],
       DeliverList: 1,
       FlowOrderList: 1,
-      distributor_id: null
+      distributor_id: null,
     }
   },
   computed: {
@@ -126,7 +176,7 @@ export default {
         offset: 20,
         order_type: 'flow',
         distributor_id: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getFlowOrderListData() {
@@ -136,9 +186,9 @@ export default {
         offset: 20,
         distributor_id: this.distributor_id,
         order_number: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   filters: {
     setOperatorName(value) {
@@ -155,7 +205,7 @@ export default {
     },
     setNumber(value) {
       return '数量:' + value
-    }
+    },
   },
   activated() {
     this.getDeliverLists()
@@ -189,8 +239,8 @@ export default {
       this.$router.push({
         path: '/Receivable',
         query: {
-          data: item
-        }
+          data: item,
+        },
       })
     },
     async goDetailItem(id) {
@@ -211,8 +261,8 @@ export default {
       this.$router.push({
         path: '/ShipmentItem',
         query: {
-          data: deliveryRecordList
-        }
+          data: deliveryRecordList,
+        },
       })
     },
     onSelect(item) {
@@ -232,7 +282,7 @@ export default {
     async getDeliverLists() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
       console.log('getDeliverGoodsList', data)
-      data.deliveryRecordList.map(item => {
+      data.deliveryRecordList.map((item) => {
         this.deliveryRecordList.push(item)
       })
     },
@@ -242,7 +292,7 @@ export default {
     async getFlowOrderLists() {
       const { data } = await getFlowOrderList(this.getFlowOrderListData)
       console.log('getFlowOrderList', data)
-      data.flowOrderList.map(item => {
+      data.flowOrderList.map((item) => {
         this.flowOrderList.push(item)
       })
     },
@@ -255,17 +305,11 @@ export default {
       }
     },
     openClick() {},
-    closedClick() {}
-  }
+    closedClick() {},
+  },
 }
 </script>
 
-<style lang="scss">
-.van-swipe-cell__right {
-  display: flex;
-  flex-direction: column;
-}
-</style>
 
 <style scoped lang="scss">
 #contract {
@@ -280,48 +324,129 @@ export default {
   .van-tabs {
     .Delivery {
       padding: 0.571429rem 1rem;
+
       .box-card {
         margin-bottom: 0.571429rem;
-        .topbox {
+        .title {
           display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          span {
-            font-size: 0.857143rem;
-            color: #ff9d17;
-            font-weight: 700;
-            em {
-              color: #acacac;
-              padding-left: 0.571429rem;
-              font-weight: normal;
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 0.357143rem;
+          .img_box {
+            width: 1.857143rem;
+            height: 1.857143rem;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1.142857rem;
+            img {
+              width: 100%;
+              height: 100%;
             }
           }
-          i {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #000;
+          .title_text {
+            display: flex;
+            flex-direction: column;
+            font-size: 1.142857rem;
+            .name {
+              font-weight: 700;
+            }
+            .model {
+              color: #f9a624;
+            }
           }
         }
-        .botbox {
+        .itemlist {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
-          font-size: 0.857143rem;
-          margin-top: 0.714286rem;
-          span {
-            font-weight: 700;
+          align-items: center;
+          margin-bottom: 0.357143rem;
+          .items {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .item {
+              flex: 1;
+              .img {
+                width: 6.071429rem;
+                height: 4.642857rem;
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+              .text {
+                text-align: center;
+              }
+            }
           }
-          .black {
-            color: #000000;
+          .right_box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
           }
-          .red {
-            color: red;
-          }
-          em {
-            color: #acacac;
+        }
+        .time_box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 1rem;
+          .time_pircle {
+            .black {
+              color: #000000;
+            }
+            .red {
+              color: red;
+            }
+            em {
+              color: #acacac;
+            }
           }
         }
       }
+
+      // .box-card {
+      //   margin-bottom: 0.571429rem;
+      //   .topbox {
+      //     display: flex;
+      //     justify-content: space-between;
+      //     align-items: flex-end;
+      //     span {
+      //       font-size: 0.857143rem;
+      //       color: #ff9d17;
+      //       font-weight: 700;
+      //       em {
+      //         color: #acacac;
+      //         padding-left: 0.571429rem;
+      //         font-weight: normal;
+      //       }
+      //     }
+      //     i {
+      //       font-size: 1rem;
+      //       font-weight: 700;
+      //       color: #000;
+      //     }
+      //   }
+      //   .botbox {
+      //     display: flex;
+      //     justify-content: space-between;
+      //     align-items: flex-end;
+      //     font-size: 0.857143rem;
+      //     margin-top: 0.714286rem;
+      //     span {
+      //       font-weight: 700;
+      //     }
+      //     .black {
+      //       color: #000000;
+      //     }
+      //     .red {
+      //       color: red;
+      //     }
+      //     em {
+      //       color: #acacac;
+      //     }
+      //   }
+      // }
     }
 
     .Detailed {

@@ -26,15 +26,6 @@
           @scroll="clickscroll"
         >
           <van-swipe-cell v-for="(item,index) in materielList" :key="index">
-            <template #left>
-              <van-button
-                square
-                text="bom"
-                type="primary"
-                style="height: 5.857143rem;width: 4.571429rem;"
-                @click="tobomPage(item.id)"
-              />
-            </template>
             <div @click="editClick(item.id)">
               <el-card class="box-card">
                 <div class="content_box_card">
@@ -59,6 +50,13 @@
             <template #right>
               <van-button
                 square
+                text="bom"
+                type="primary"
+                style="height: 5.857143rem;width: 4.571429rem;"
+                @click="tobomPage(item.id)"
+              />
+              <van-button
+                square
                 text="废弃"
                 type="danger"
                 style="height: 5.857143rem;width: 4.571429rem;"
@@ -78,15 +76,6 @@
           @scroll="clickscroll"
         >
           <van-swipe-cell v-for="(item,index) in Temporary" :key="index">
-            <template #left>
-              <van-button
-                square
-                text="废弃"
-                type="danger"
-                style="height: 5.857143rem;width: 4.571429rem;"
-                @click="Abandonedss(item)"
-              />
-            </template>
             <div>
               <el-card class="box-card">
                 <div class="content_box_card">
@@ -106,9 +95,16 @@
               <van-button
                 square
                 text="使用"
-                type="info"
+                type="primary"
                 style="height: 5.857143rem;width: 4.571429rem;"
-                @click="uses(item)"
+                @click="uses(item.id)"
+              />
+              <van-button
+                square
+                text="废弃"
+                type="danger"
+                style="height: 5.857143rem;width: 4.571429rem;"
+                @click="Abandonedss(item)"
               />
             </template>
           </van-swipe-cell>
@@ -120,7 +116,7 @@
 </template>
     
 <script>
-import { getMaterielList, editMaterielStatus } from '@/network/materials'
+import { getMaterielList } from '@/network/materials'
 import { bestURL } from '@/network/baseURL'
 
 export default {
@@ -139,7 +135,6 @@ export default {
       isTwo: true,
     }
   },
-
   activated() {
     this.bestURL = bestURL
     this.getMaterie()
@@ -253,32 +248,34 @@ export default {
     tobomPage(id) {
       this.$router.push(`/bompage/${id}`)
     },
-    async uses(data) {
-      const { code, msg } = await editMaterielStatus({
-        token: this.$store.state.token,
-        id: data.id,
-        materiel_status: 'normal',
-        name: data.name,
-        specification: data.specification,
-        attribute: data.attribute,
-        materiel_category_id: 8,
-        unit_id: 9,
-      })
-      if (code == 200) {
-        this.getMaterie()
-        this.getTemporary()
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
-      } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
-      }
+    uses(iid) {
+      console.log(iid)
+      this.$router.push(`/because/${iid}`)
+      // const { code, msg } = await editMaterielStatus({
+      //   token: this.$store.state.token,
+      //   id: data.id,
+      //   materiel_status: 'normal',
+      //   name: data.name,
+      //   specification: data.specification,
+      //   attribute: data.attribute,
+      //   materiel_category_id: 8,
+      //   unit_id: 9,
+      // })
+      // if (code == 200) {
+      //   this.getMaterie()
+      //   this.getTemporary()
+      //   this.$message({
+      //     showClose: true,
+      //     message: msg,
+      //     type: 'success',
+      //   })
+      // } else {
+      //   this.$message({
+      //     showClose: true,
+      //     message: msg,
+      //     type: 'error',
+      //   })
+      // }
     },
     async Abandonedss(data) {
       const { code, msg } = await editMaterielStatus({

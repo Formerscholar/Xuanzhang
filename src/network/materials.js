@@ -96,3 +96,10 @@ export function uploadImg4(data) {
     data: Qs.stringify(data),
   })
 }
+export function getEditMaterielStatus(data) {
+  return request({
+    url: '/materiel/getEditMaterielStatus',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

@@ -12,6 +12,46 @@
           <div class="cardList" v-for="(item,index) in designatedTasksList" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
+                <div class="top_box">
+                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
+                  <span>
+                    ID:
+                    <em>{{item.task_id}}</em>
+                  </span>
+                  <span class="title">
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
+                <div class="bot_box">
+                  <div class="left_box">
+                    <span class="name">{{item.operator_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
+                  </div>
+                  <div class="certent_box">
+                    <div class="status_box">
+                      <el-tag
+                        style="margin-right:.428571rem;"
+                        effect="plain"
+                        :type="setTextStatus('type',item.status,item.user_status)"
+                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                      <el-tag
+                        style="margin-left:.428571rem;"
+                        effect="plain"
+                        :type="setTypes('type',item.attribute)"
+                      >{{setTypes('text',item.attribute)}}</el-tag>
+                    </div>
+                    <div class="timers_box">{{item.end_time}}</div>
+                  </div>
+                  <div class="right_box">
+                    <span class="name">{{item.user_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
+                  </div>
+                </div>
+              </el-card>
+            </div>
+            <!-- <div class="listcontent" @click="goDetails(item.id)">
+              <el-card class="box-card">
                 <div class="botbox">
                   <span>
                     【{{item.name}}】
@@ -42,7 +82,7 @@
                   </div>
                 </div>
               </el-card>
-            </div>
+            </div>-->
           </div>
         </scroll>
       </el-tab-pane>
@@ -57,50 +97,45 @@
           <div class="cardList" v-for="(item,index) in UserDesignatedTasksData" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
-                <div class="botbox">
+                <div class="top_box">
+                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
+                  <span>
+                    ID:
+                    <em>{{item.task_id}}</em>
+                  </span>
                   <span>
                     【{{item.name}}】
                     {{item.title}}
                   </span>
                 </div>
-                <div class="topbox">
-                  <div class="leftbox">
-                    <div class="left_id">
+                <div class="bot_box">
+                  <div class="left_box">
+                    <span class="name">{{item.operator_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
+                  </div>
+                  <div class="certent_box">
+                    <div class="status_box">
                       <el-tag
+                        style="margin-right:.428571rem;"
+                        effect="plain"
                         :type="setTextStatus('type',item.status,item.user_status)"
                       >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                    </div>
-                    <div class="left_xj">
-                      <span>
-                        ID:
-                        <em>{{item.id}}</em>
-                      </span>
-                    </div>
-                    <div class="left_jj">
                       <el-tag
+                        style="margin-left:.428571rem;"
+                        effect="plain"
                         :type="setTypes('type',item.attribute)"
                       >{{setTypes('text',item.attribute)}}</el-tag>
                     </div>
+                    <div class="timers_box">{{item.end_time}}</div>
                   </div>
-                  <div class="rightbox">
-                    <el-tag type="danger">{{item.end_time}}</el-tag>
+                  <div class="right_box">
+                    <span class="name">{{item.user_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
                   </div>
                 </div>
               </el-card>
             </div>
-          </div>
-        </scroll>
-      </el-tab-pane>
-      <el-tab-pane class="third" label="任务列表" name="fourth">
-        <scroll
-          class="scroll-wrapper"
-          ref="scroll"
-          :probe-type="3"
-          :pull-up-load="true"
-          @pullingUp="loadMore('list')"
-        >
-          <div class="cardList" v-for="(item,index) in Designated" :key="index">
-            <div class="listcontent" @click="goDetails(item.id)">
+            <!-- <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
                 <div class="botbox">
                   <span>
@@ -132,7 +167,92 @@
                   </div>
                 </div>
               </el-card>
+            </div>-->
+          </div>
+        </scroll>
+      </el-tab-pane>
+      <el-tab-pane class="third" label="任务列表" name="fourth">
+        <scroll
+          class="scroll-wrapper"
+          ref="scroll"
+          :probe-type="3"
+          :pull-up-load="true"
+          @pullingUp="loadMore('list')"
+        >
+          <div class="cardList" v-for="(item,index) in Designated" :key="index">
+            <div class="listcontent" @click="goDetails(item.id)">
+              <el-card class="box-card">
+                <div class="top_box">
+                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
+                  <span>
+                    ID:
+                    <em>{{item.task_id}}</em>
+                  </span>
+                  <span>
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
+                <div class="bot_box">
+                  <div class="left_box">
+                    <span class="name">{{item.operator_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
+                  </div>
+                  <div class="certent_box">
+                    <div class="status_box">
+                      <el-tag
+                        style="margin-right:.428571rem;"
+                        effect="plain"
+                        :type="setTextStatus('type',item.status,item.user_status)"
+                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                      <el-tag
+                        style="margin-left:.428571rem;"
+                        effect="plain"
+                        :type="setTypes('type',item.attribute)"
+                      >{{setTypes('text',item.attribute)}}</el-tag>
+                    </div>
+                    <div class="timers_box">{{item.end_time}}</div>
+                  </div>
+                  <div class="right_box">
+                    <span class="name">{{item.user_name}}</span>
+                    <!-- <span class="jobName">董事长</span> -->
+                  </div>
+                </div>
+              </el-card>
             </div>
+            <!-- <div class="listcontent" @click="goDetails(item.id)">
+              <el-card class="box-card">
+                <div class="botbox">
+                  <span>
+                    【{{item.name}}】
+                    {{item.title}}
+                  </span>
+                </div>
+                <div class="topbox">
+                  <div class="leftbox">
+                    <div class="left_id">
+                      <el-tag
+                        :type="setTextStatus('type',item.status,item.user_status)"
+                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                    </div>
+                    <div class="left_xj">
+                      <span>
+                        ID:
+                        <em>{{item.id}}</em>
+                      </span>
+                    </div>
+                    <div class="left_jj">
+                      <el-tag
+                        :type="setTypes('type',item.attribute)"
+                      >{{setTypes('text',item.attribute)}}</el-tag>
+                    </div>
+                  </div>
+                  <div class="rightbox">
+                    <el-tag type="danger">{{item.end_time}}</el-tag>
+                  </div>
+                </div>
+              </el-card>
+            </div>-->
           </div>
         </scroll>
       </el-tab-pane>
@@ -191,7 +311,7 @@ export default {
         } else if (status == 1) {
           return 'success'
         } else if (user_status == 1) {
-          return 'info'
+          return 'warning'
         } else {
           return ''
         }
@@ -226,7 +346,7 @@ export default {
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .cardbtns {
   .scroll-wrapper {
     position: absolute;
@@ -236,120 +356,105 @@ export default {
     width: 100%;
     overflow: hidden;
   }
-  .el-tabs {
-    padding-top: 2.857143rem;
-    .el-tabs__header {
-      position: fixed;
-      top: 5.428571rem;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      background-color: #fff;
-      padding: 0 !important;
-    }
-    .el-tabs__nav-scroll {
-      display: flex;
-      justify-content: center;
-    }
-    .el-tab-pane {
-      .cardList {
-        .listcontent {
-          margin-bottom: 0.714286rem;
-        }
-        .el-tab-pane {
-          padding: 0.357143rem 0.714286rem;
-        }
-        .text {
-          font-size: 1rem;
-        }
-
-        .item {
-          margin-bottom: 1.285714rem;
-        }
-
-        .clearfix:before,
-        .clearfix:after {
-          display: table;
-          content: '';
-        }
-        .clearfix:after {
-          clear: both;
-        }
-
-        .box-card {
-          .el-card__body {
-            padding: 1.171429rem;
+  .cardList {
+    .listcontent {
+      margin-bottom: 0.357143rem;
+      .box-card {
+        .top_box {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 0.357143rem;
+          font-size: 1.142857rem;
+          overflow: hidden;
+          white-space: nowrap;
+          img {
+            width: 2rem;
+            height: 2rem;
           }
-          .topbox {
+        }
+        .bot_box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 1.428571rem;
+          .left_box {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-
-            font-size: 0.857143rem;
-            .leftbox {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              .left_id {
-                .el-tag {
-                  border: none;
-                  background-color: #fff;
-                  font-size: 0.857143rem;
-                }
-                span {
-                  em {
-                    color: #8c8c8c;
-                  }
-                }
-              }
-              .left_xj {
-                //  67  53
-                margin: 0 1.857143rem;
-                .el-tag {
-                  padding: 0;
-                  border: none;
-                  background-color: #fff;
-                  font-size: 0.857143rem;
-                }
-              }
-              .left_jj {
-                .el-tag {
-                  border: none;
-                  background-color: #fff;
-                  font-size: 0.857143rem;
-                }
-              }
+            .name {
+              font-size: 1.285714rem;
+              font-weight: 700;
+              color: black;
+              width: 4.214286rem;
+              text-align: center;
             }
-            .rightbox {
-              .el-tag {
-                font-size: 0.857143rem;
-                border: none;
-                background-color: #fff;
-                color: #000;
-              }
+            .jobName {
+              font-size: 0.857143rem;
+              color: #999999;
             }
           }
-          .botbox {
-            font-size: 1rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin-bottom: 0.428571rem;
-            span {
+          .certent_box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('../../../../../../assets/image/rw_bg.png')
+              no-repeat;
+            background-position: 2.142857rem 1.071429rem;
+            .timers_box {
+              margin-top: 0.714286rem;
+              font-size: 0.857143rem;
+            }
+          }
+          .right_box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .name {
+              color: black;
+              font-size: 1.285714rem;
+              font-weight: 700;
+              width: 4.214286rem;
+              text-align: center;
+            }
+            .jobName {
+              font-size: 0.857143rem;
+              color: #999999;
             }
           }
         }
       }
     }
-    .first {
-      min-height: calc(100vh - 8.285714rem);
+
+    .text {
+      font-size: 1rem;
     }
-    .second {
-      min-height: calc(100vh - 8.285714rem);
+
+    .item {
+      margin-bottom: 1.285714rem;
     }
-    .third {
-      min-height: calc(100vh - 8.285714rem);
+
+    .clearfix:before,
+    .clearfix:after {
+      display: table;
+      content: '';
     }
+    .clearfix:after {
+      clear: both;
+    }
+  }
+  .first {
+    min-height: calc(100vh - 8.285714rem);
+  }
+  .second {
+    min-height: calc(100vh - 8.285714rem);
+  }
+  .third {
+    min-height: calc(100vh - 8.285714rem);
   }
 }
 </style>
