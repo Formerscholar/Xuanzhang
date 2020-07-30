@@ -403,7 +403,8 @@ export default {
             align-items: center;
             background: url('../../../../../../assets/image/rw_bg.png')
               no-repeat;
-            background-position: 2.142857rem 1.071429rem;
+            background-position: 50% 45%;
+            background-size: auto;
             .timers_box {
               margin-top: 0.714286rem;
               font-size: 0.857143rem;
