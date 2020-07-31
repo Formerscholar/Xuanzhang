@@ -140,7 +140,6 @@ export default {
         .kh_name {
           font-size: 1.142857rem;
           margin-top: 0.428571rem;
-          font-weight: 700;
           color: #020202;
           font-family: 'SimHei';
         }

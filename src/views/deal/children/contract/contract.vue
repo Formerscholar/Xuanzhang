@@ -12,43 +12,26 @@
           <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
             <div @click="gocontractList(deliveryRecordList[index])">
               <div class="title">
-                <div class="img_box">
+                <!-- <div class="img_box">
                   <img src="@/assets/image/flow_left.png" />
-                </div>
+                </div>-->
                 <div class="title_text">
-                  <span class="name" @click.stop="gotodetails(item.distributor_id)">{{item.name}}</span>
                   <span class="model">{{ item.order_number }}</span>
+                  <span class="name" @click.stop="gotodetails(item.distributor_id)">{{item.name}}</span>
                 </div>
               </div>
-              <div class="itemlist">
+              <div class="itemlist" v-if="item.detail.length">
                 <div class="items">
-                  <div class="item">
-                    <div class="img">
-                      <img src="@/assets/image/flow_left.png" />
-                    </div>
-                    <div class="text">items</div>
-                  </div>
-                  <div class="item">
-                    <div class="img">
-                      <img src="@/assets/image/flow_left.png" />
-                    </div>
-                    <div class="text">items</div>
-                  </div>
-                  <div class="item">
-                    <div class="img">
-                      <img src="@/assets/image/flow_left.png" />
-                    </div>
-                    <div class="text">items</div>
-                  </div>
+                  <selection :selectionList="item.detail" />
                 </div>
                 <div class="right_box">
                   <em>共</em>
-                  <em>3</em>
-                  <em>件</em>
+                  <em>{{item.detail.length}}</em>
+                  <em>种</em>
                 </div>
               </div>
               <div class="time_box">
-                <span class="timer_text">下单时间:{{item.created_at}}</span>
+                <span class="timer_text">创建时间:{{item.created_at}}</span>
                 <span class="time_pircle">
                   合计
                   <em
@@ -150,10 +133,9 @@ import {
 } from '@/network/deal'
 
 import { throttle } from '@/common/utils.ts'
+import selection from '@/views/deal/children/selection_cont/selection_cont'
 
 export default {
-  name: 'contract',
-
   data() {
     return {
       active: 0,
@@ -166,7 +148,11 @@ export default {
       DeliverList: 1,
       FlowOrderList: 1,
       distributor_id: null,
+      selectionList: [{ id: 0 }],
     }
+  },
+  components: {
+    selection,
   },
   computed: {
     getDeliverGoodsListData() {
@@ -345,13 +331,12 @@ export default {
           }
           .title_text {
             display: flex;
-            flex-direction: column;
-            font-size: 1.142857rem;
-            .name {
-              font-weight: 700;
-            }
+            font-size: 1rem;
             .model {
               color: #f9a624;
+              margin-right: 0.714286rem;
+            }
+            .name {
             }
           }
         }
@@ -360,37 +345,28 @@ export default {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 0.357143rem;
+          white-space: nowrap;
           .items {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            .item {
-              flex: 1;
-              .img {
-                width: 6.071429rem;
-                height: 4.642857rem;
-                img {
-                  width: 100%;
-                  height: 100%;
-                }
-              }
-              .text {
-                text-align: center;
-              }
-            }
+            flex: 1;
+            overflow: hidden;
           }
           .right_box {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            color: #818181;
           }
         }
         .time_box {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 1rem;
+          font-size: 0.857143rem;
+          color: #818181;
           .time_pircle {
             .black {
               color: #000000;

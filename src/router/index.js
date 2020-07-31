@@ -395,8 +395,7 @@ const routes = [
     component: ShipmentItem,
   },
   {
-    path: '/editShipItem',
-    name: 'data',
+    path: '/editShipItem/:id',
     component: editShipItem,
   },
   {

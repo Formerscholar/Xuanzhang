@@ -50,6 +50,11 @@
       <el-button type="primary" plain @click="SubmitNow">立即提交</el-button>
       <el-button type="primary" plain @click="PendingNow">提交待核</el-button>
     </div>
+    <van-overlay :show="isShow" @click="closeOverlay">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
@@ -63,6 +68,7 @@ import {
 } from '@/network/deal'
 
 import { setTimerType } from '@/common/filter'
+import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
   data() {
@@ -75,6 +81,9 @@ export default {
       },
       distributors: [],
       materiel: [],
+      isShow: false,
+      textContent: '',
+
       restaurants: [],
       restaurant: [],
       state: '',
@@ -124,7 +133,12 @@ export default {
       isFlowingShow: [],
       isWeightShow: false,
       isTemporary: '0',
+      processCost: '',
+      product_img: '',
     }
+  },
+  components: {
+    myVqr,
   },
   activated() {
     this.getAddDeliverGood()
@@ -272,15 +286,6 @@ export default {
         )
       }
     },
-    handleSelect(item) {
-      // 转数字类型
-      this.shippingValue = item.value
-      let nums = parseInt(item.address)
-      console.log(nums)
-    },
-    handchange(value) {
-      this.shippingValue = value
-    },
     addNewProduct() {
       this.$router.push({
         path: '/SelectProducts',
@@ -302,6 +307,8 @@ export default {
         this.ProductNotes = item.selectData.ProductNotes
         this.productWeight = item.selectData.productWeight
         this.FlowingProducts = item.selectData.FlowingProducts
+        this.product_img = item.selectData.img_url
+        this.processCost = item.selectData.processCost
         this.AddClick()
       })
     },
@@ -323,7 +330,20 @@ export default {
           })
       }
 
-      let adderssnum = this.productPrice * this.quantity
+      this.productPrice = parseFloat(this.productPrice)
+      this.productWeight = parseFloat(this.productWeight)
+      this.processCost = parseFloat(this.processCost)
+      this.quantity = parseFloat(this.quantity)
+      let adderssnum = this.productPrice
+      if (this.productWeight != '') {
+        adderssnum *= this.productWeight
+      }
+      if (this.processCost != '') {
+        adderssnum += this.processCost
+      }
+      adderssnum *= this.quantity
+      adderssnum = adderssnum.toFixed(2)
+
       let addproductdata = {
         goods: this.states,
         model: this.Products,
@@ -340,13 +360,15 @@ export default {
       newArr.push(this.productPrice)
       newArr.push(this.ProductNotes)
       newArr.push(this.productWeight)
+      newArr.push(this.isTemporary) // 零时库
+      newArr.push(this.processCost) //加工费
+      newArr.push(this.product_img) // 一张图片URL
       newArr.push(this.FlowingProducts)
-      newArr.push(this.isTemporary)
       this.shippingData.push(newArr)
-
+      console.log(this.shippingData)
       let allmonpement = 0
       this.tableData.forEach((item) => {
-        allmonpement += item.totalPrice
+        allmonpement += parseFloat(item.totalPrice)
       })
       this.Shipment = allmonpement
       this.Amounts = allmonpement
@@ -361,18 +383,25 @@ export default {
       this.ProductNotes = ''
       this.isShowed = false
     },
+    closeOverlay() {
+      this.isShow = false
+      this.blacknext()
+    },
     async SubmitNow() {
       const { code, msg, data } = await addAutonomousDeliverRecord(
         this.addAutonomousData
       )
       console.log('addAutonomousDeliverRecord', data)
+      console.log(data.flowId)
+
       if (code == 200) {
         this.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -386,13 +415,16 @@ export default {
         this.addAutonomousDatas
       )
       console.log('addAutonomousDeliverRecord', data)
+      console.log(data.flowId)
+
       if (code == 200) {
         this.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,

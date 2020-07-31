@@ -23,12 +23,14 @@
       <el-card class="product_box">
         <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
           <div class="wrap_left">
-            <div class="img"></div>
+            <img v-if="item.img_url" class="img" :src="item.img_url" />
+            <div class="img" v-else></div>
+
             <div class="text">
               <p>{{item.product_name}}</p>
               <p>{{item.product_model}}</p>
               <div class="wrap_right">
-                <span>{{item.unit_price}}×{{item.weight}}×{{item.number}}=￥{{item.total_funds}}</span>
+                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}=￥{{item.total_funds}}</span>
               </div>
             </div>
           </div>
@@ -128,12 +130,7 @@ export default {
       })
     },
     editShip() {
-      this.$router.push({
-        path: '/editShipItem',
-        query: {
-          data: this.deliveryRecordItem,
-        },
-      })
+      this.$router.push(`/editShipItem/${this.deliveryRecordItem.id}`)
     },
     blacknext() {
       this.$router.go(-1)

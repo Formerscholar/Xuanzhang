@@ -61,6 +61,7 @@ export default {
   deactivated() {
     this.designatedTasksList = []
     this.UserDesignatedTasksData = []
+    this.Designated = []
   },
   destroyed() {
     this.getUserDesignatedTasksData = {}

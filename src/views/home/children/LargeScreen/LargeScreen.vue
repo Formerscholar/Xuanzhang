@@ -325,15 +325,15 @@ export default {
       business: [
         {
           value: '0',
-          label: '洽谈',
+          label: '洽谈中',
         },
         {
           value: '1',
-          label: '生产',
+          label: '启动生产',
         },
         {
           value: '2',
-          label: '发货',
+          label: '准许发货',
         },
         {
           value: '3',
@@ -344,11 +344,11 @@ export default {
       omess: [
         {
           value: '0',
-          label: '满足',
+          label: '准许发货',
         },
         {
           value: '1',
-          label: '不满足',
+          label: '不予生产',
         },
       ],
       workshopValue: '',
@@ -359,7 +359,7 @@ export default {
         },
         {
           value: '0',
-          label: '正在生产',
+          label: '生产中',
         },
       ],
     }
@@ -426,7 +426,7 @@ export default {
     },
     setcheName(value) {
       if (value == 0) {
-        return '正在生产'
+        return '生产中'
       } else {
         return '整装待发'
       }
@@ -444,11 +444,11 @@ export default {
     },
     setbusinessName(value) {
       if (value == 0) {
-        return '洽谈'
+        return '洽谈中'
       } else if (value == 1) {
-        return '生产'
+        return '启动生产'
       } else if (value == 2) {
-        return '发0货'
+        return '准许发货'
       } else if (value == 3) {
         return '无状态'
       }
@@ -462,9 +462,9 @@ export default {
     },
     omesName(value) {
       if (value == 0) {
-        return '满足条件'
+        return '准许发货'
       } else {
-        return '不满足'
+        return '不予生产'
       }
     },
   },

@@ -1,84 +1,86 @@
 <template>
   <div class="content">
-    <el-card class="box-card">
-      <div class="topbox">
-        <div class="name">
-          <div class="left">
-            <img class="title_logo" :src="imgSrc" />
-          </div>
-          <div class="right">
-            <div class="title">
-              <span>
-                {{designatedTasks.operator_name}}
-                <em>【{{jobTitle}}】</em>
-              </span>
+    <scroll class="scroll-wrapper">
+      <el-card class="box-card">
+        <div class="topbox">
+          <div class="name">
+            <div class="left">
+              <img class="title_logo" :src="imgSrc" />
             </div>
-            <div class="end_timer">
-              <span>{{designatedTasks.created_at}}</span>
-              <span>
-                状态 -
-                <em>
-                  <el-tag
-                    :type="setTextStatus('type',designatedTasks.status,designatedTasks.user_status)"
-                  >{{setTextStatus('text',designatedTasks.status,designatedTasks.user_status)}}</el-tag>
-                </em>
-              </span>
+            <div class="right">
+              <div class="title">
+                <span>
+                  {{designatedTasks.operator_name}}
+                  <em>【{{jobTitle}}】</em>
+                </span>
+              </div>
+              <div class="end_timer">
+                <span>{{designatedTasks.created_at}}</span>
+                <span>
+                  状态 -
+                  <em>
+                    <el-tag
+                      :type="setTextStatus('type',designatedTasks.status,designatedTasks.user_status)"
+                    >{{setTextStatus('text',designatedTasks.status,designatedTasks.user_status)}}</el-tag>
+                  </em>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="cc">
-          <span>
-            <img class="bgt" src="@/assets/image/smol_picter.fw.png" alt="logo" /> 抄送范围:
-            <em>{{designatedTasks.users_ccs}}</em>
-          </span>
-        </div>
-        <div class="timer">
-          <div class="left">
+          <div class="cc">
             <span>
-              任务截至日期:
-              <em>{{designatedTasks.end_time}}</em>
+              <img class="bgt" src="@/assets/image/smol_picter.fw.png" alt="logo" /> 抄送范围:
+              <em>{{designatedTasks.users_ccs}}</em>
             </span>
           </div>
-          <div class="right">
-            <span>
-              <el-tag
-                :type="setAttr('type',designatedTasks.attribute)"
-              >{{setAttr('text',designatedTasks.attribute)}}</el-tag>
-            </span>
+          <div class="timer">
+            <div class="left">
+              <span>
+                任务截至日期:
+                <em>{{designatedTasks.end_time}}</em>
+              </span>
+            </div>
+            <div class="right">
+              <span>
+                <el-tag
+                  :type="setAttr('type',designatedTasks.attribute)"
+                >{{setAttr('text',designatedTasks.attribute)}}</el-tag>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="botbox">
-        <div class="title">
-          <span>{{designatedTasks.title}}</span>
+        <div class="botbox">
+          <div class="title">
+            <span>{{designatedTasks.title}}</span>
+          </div>
+          <div id="content"></div>
         </div>
-        <div id="content"></div>
+      </el-card>
+      <div class="Process">
+        办理流程：
+        <el-timeline>
+          <el-timeline-item
+            :timestamp="item.updated_at"
+            placement="top"
+            v-for="(item,index) in designatedTasksDetail"
+            :key="index"
+          >
+            <el-card body-style="padding:.714286rem;">
+              <p
+                style="margin:0; margin-bottom: .357143rem;"
+              >{{item.operator_name}} 提交于 {{item.created_at}}</p>
+              <h4 style="margin:0;">
+                <el-tag
+                  style=" border: none; background-color: #fff; font-size: 1rem; padding: 0;"
+                  :type="setTextStatus('type',item.status,item.user_status)"
+                >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                {{item.remark}}
+              </h4>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
       </div>
-    </el-card>
-    <div class="Process">
-      办理流程：
-      <el-timeline>
-        <el-timeline-item
-          :timestamp="item.updated_at"
-          placement="top"
-          v-for="(item,index) in designatedTasksDetail"
-          :key="index"
-        >
-          <el-card body-style="padding:.714286rem;">
-            <p
-              style="margin:0; margin-bottom: .357143rem;"
-            >{{item.operator_name}} 提交于 {{item.created_at}}</p>
-            <h4 style="margin:0;">
-              <el-tag
-                style=" border: none; background-color: #fff; font-size: 1rem; padding: 0;"
-                :type="setTextStatus('type',item.status,item.user_status)"
-              >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-              {{item.remark}}
-            </h4>
-          </el-card>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
+    </scroll>
   </div>
 </template>
     
@@ -93,26 +95,26 @@ export default {
       designatedTasksType: {},
       jobTitle: '',
       designatedTasksDetail: [],
-      imgSrc: ''
+      imgSrc: '',
     }
   },
   props: {
     iid: {
       type: String,
-      default: '0'
-    }
+      default: '0',
+    },
   },
   mounted() {
     this.$preview.on('imageLoadComplete', (e, item) => {
       let preview = this.$preview.self
       let lookUrl = window.location.href + '&look'
       window.history.pushState(null, null, lookUrl)
-      preview.listen('close', function() {
+      preview.listen('close', function () {
         if (window.location.href.indexOf('&look') !== -1) {
           window.history.back()
         }
       })
-      window.onhashchange = function() {
+      window.onhashchange = function () {
         if (preview !== null && preview !== undefined) {
           preview.close()
           preview = null
@@ -123,7 +125,7 @@ export default {
   activated() {
     document
       .querySelectorAll('.content .Process .el-timeline-item__timestamp')
-      .forEach(item => {
+      .forEach((item) => {
         item.style.fontSize = ' 1.142857rem !important'
       })
     this.getdealitem()
@@ -136,9 +138,9 @@ export default {
       return {
         token: this.$store.state.token,
         id: this.iid * 1,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     async getdealitem() {
@@ -201,8 +203,8 @@ export default {
           return '新建'
         }
       }
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -210,6 +212,14 @@ export default {
 .content {
   padding: 0.357143rem 0.714286rem;
   padding-bottom: 2.857143rem;
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    top: 5.428571rem;
+    bottom: 3.714286rem;
+    width: 100%;
+    overflow: hidden;
+  }
   .el-card__body {
     padding: 0.571429rem !important;
   }

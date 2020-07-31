@@ -9,29 +9,38 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <el-card class="box-card item1">
-      <van-field v-model="state" label="产品名称" @focus="focusClick" />
-      <van-field v-model="Products" label="产品型号" @focus="focusClick" />
-      <van-field v-model="productPrice" type="number" label="产品价格" />
-      <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
-      <van-field
-        v-for="(item,index) in isFlowingShow"
-        v-model="FlowingProducts[index+1]"
-        :key="item.id"
-        :data-id="item.id"
-        :label="item.field_name"
-      />
-      <van-field v-model="quantity" type="number" label="产品数量" />
-      <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
-      <van-field v-model="ProductNotes" label="产品备注" />
-      <div class="btns">
-        <van-button @click="commite" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-      </div>
-    </el-card>
+    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
+      <el-card class="box-card item1">
+        <img class="swiper_img" v-if="img_URL" :src="img_URL" alt="logo" @click="imgClick" />
+        <div class="swiper_img" v-else @click="imgClick"></div>
+        <van-field v-model="state" label="产品名称" @focus="focusClick" />
+        <van-field v-model="Products" label="产品型号" @focus="focusClick" />
+        <van-field v-model="productPrice" type="number" label="产品价格" />
+        <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
+        <van-field
+          v-for="(item,index) in isFlowingShow"
+          v-model="FlowingProducts[index+1]"
+          :key="item.id"
+          :data-id="item.id"
+          :label="item.field_name"
+        />
+        <van-field v-model="quantity" type="number" label="产品数量" />
+        <van-field v-model="processCost" type="number" label="加工费" />
+        <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
+        <van-field v-model="ProductNotes" label="产品备注" />
+        <div class="btns">
+          <van-button @click="commite" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
+        </div>
+      </el-card>
+    </scroll>
+    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
   </div>
 </template>
     
 <script>
+import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
+import { bestURL, crosURl } from '@/network/baseURL'
+
 export default {
   data() {
     return {
@@ -43,14 +52,27 @@ export default {
       isWeightShow: false,
       isFlowingShow: [],
       quantity: '',
+      uploadParam: 4,
       ProductSubtotal: '',
+      processCost: '',
       ProductNotes: '',
+      img_URL: '',
       listItem: {},
       listItems: [],
       allData: {},
     }
   },
+  components: {
+    SimpleCropper,
+  },
   methods: {
+    imgClick() {
+      this.$refs['cropper'].upload()
+    },
+    uploadHandle(data) {
+      this.img_URL = data
+      console.log(this.img_URL, this.PropsImg)
+    },
     commite() {
       let selectData = {
         productName: this.state,
@@ -60,6 +82,8 @@ export default {
         FlowingProducts: this.FlowingProducts,
         quantity: this.quantity,
         ProductNotes: this.ProductNotes,
+        processCost: this.processCost,
+        img_url: this.img_URL,
       }
       this.$bus.$emit('SelectProducts', {
         allData: this.allData,
@@ -76,6 +100,7 @@ export default {
       this.ProductNotes = ''
       this.listItem = {}
       this.listItems = []
+      this.img_URL = ''
       this.isFlowingShow = []
       this.allData = {}
       this.$router.go(-1)
@@ -89,6 +114,7 @@ export default {
       })
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
+        this.$refs.scroll.finishPullUp()
         console.log(item)
         this.isWeightShow = item.weight ? true : false
         this.productWeight = item.weight
@@ -121,6 +147,8 @@ export default {
   deactivated() {
     this.state = ''
     this.Products = ''
+    this.img_URL = ''
+    this.PropsImg = ''
     this.productPrice = ''
     this.productWeight = ''
     this.FlowingProducts = ['0']
@@ -152,8 +180,29 @@ export default {
       color: #030303;
     }
   }
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    // top: 0;
+    top: 5.142857rem;
+    bottom: 0;
+    overflow: hidden;
+  }
   .item1 {
     margin-bottom: 0.714286rem;
+    .swiper_img {
+      width: 100%;
+      height: 25.714286rem;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
     .btns {
       display: flex;
       justify-content: flex-end;

@@ -5,37 +5,45 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>编辑</span>
+        <span>发货编辑</span>
       </div>
-      <div class="right" slot="right">
-        <span></span>
-      </div>
+      <div slot="right"></div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="customerName line">
-            <em>客户名称</em>
-            <div>
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="inputchanges"
-              ></el-autocomplete>
-            </div>
-          </el-row>
+          <van-field v-model="state" label="客户名称" @focus="focusClick" />
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <el-table :data="tableData" style="width: 100%; font-size: .714286rem;">
+            <div class="table">
+              <div class="title">
+                <span>品名</span>
+                <span>型号</span>
+                <span>数量</span>
+                <span>单价</span>
+                <span>总价</span>
+                <span>操作</span>
+              </div>
+              <div class="bodys" v-for="(item,index) in tableData" :key="index">
+                <span>{{item.goods}}</span>
+                <span>{{item.model}}</span>
+                <span>{{item.nums}}</span>
+                <span>{{item.price}}</span>
+                <span>{{item.totalPrice}}</span>
+                <el-tag type="danger" effect="plain" @click="tableClick(index)">删除</el-tag>
+              </div>
+            </div>
+
+            <!-- <el-table :data="tableData" style="width: 29.428571rem; font-size: .714286rem;">
               <el-table-column prop="goods" label="品名"></el-table-column>
               <el-table-column prop="model" label="型号"></el-table-column>
               <el-table-column prop="nums" label="数量"></el-table-column>
               <el-table-column prop="price" label="单价"></el-table-column>
               <el-table-column prop="totalPrice" label="总价"></el-table-column>
-            </el-table>
+            </el-table>-->
           </el-row>
+
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
               <i class="el-icon-box"></i>
@@ -43,37 +51,7 @@
             </div>
           </el-row>
         </el-card>
-        <el-card class="box-card item1" v-show="isShowed">
-          <el-row class="SigningDate line">
-            <em>选择产品</em>
-            <div>
-              <el-autocomplete
-                v-model="states"
-                :fetch-suggestions="querySearchAsyncs"
-                placeholder="请输入内容"
-                @select="handleSelect"
-                @change="handchange"
-              ></el-autocomplete>
-            </div>
-          </el-row>
-          <van-field v-model="Products" label="产品型号" />
-          <van-field v-model="productPrice" type="number" label="产品价格" />
-          <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
-          <van-field
-            v-model="FlowingProducts[index+1]"
-            v-for="(item,index) in isFlowingShow"
-            :key="index"
-            :data-id="index+1"
-            label="流水产品"
-          />
-          <van-field v-model="quantity" type="number" label="产品数量" />
-          <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
-          <van-field v-model="ProductNotes" label="产品备注" />
-          <div class="btns">
-            <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-            <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-          </div>
-        </el-card>
+
         <el-card class="box-card item1">
           <van-field v-model="Shipment" type="number" label="发货金额" />
           <van-field v-model="Amounts" type="number" label="折后金额" />
@@ -95,31 +73,26 @@
 </template>
     
 <script>
+import { regionData, CodeToText } from 'element-china-area-data'
+
 import {
   getAddDeliverGoodsDistributors,
-  editAutonomousReturnRecord,
+  addAutonomousDeliverRecord,
   getMateriel,
-  getEditDeliverRecord
+  getEditDeliverRecord,
+  editAutonomousDeliverRecord,
 } from '@/network/deal'
 
+import { setTimerType } from '@/common/filter'
+
 export default {
-  name: 'editShipItem',
   data() {
     return {
-      flowDelivery: {},
-      deliveryRecordItem: {},
-      Products: '',
-      productPrice: '',
-      productWeight: '',
-      FlowingProducts: ['0'],
-      quantity: '',
-      ProductSubtotal: '',
-      ProductNotes: '',
       Shipment: 0,
       Amounts: 0,
       number: '',
       timersList: {
-        DeliveryDate: new Date().getTime()
+        DeliveryDate: new Date().getTime(),
       },
       distributors: [],
       materiel: [],
@@ -144,7 +117,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -154,13 +127,14 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
+      options: regionData,
       address: [],
       tableData: [],
       isShowed: false,
@@ -168,53 +142,66 @@ export default {
       shippingValue: '',
       shippingData: [],
       DeliveryNotes: '',
-      isFlowingShow: 0,
+      isFlowingShow: [],
       isWeightShow: false,
       isTemporary: '0',
-      iid: ''
+      processCost: '',
+      product_img: '',
+      iid: '',
+      isEdit: true,
     }
   },
-  components: { timers },
-  created() {
-    this.getAddDeliverGood()
+  watch: {
+    $route(to, from) {
+      const toDepths = to.path
+      const fromDepths = from.path
+      if (
+        fromDepths == '/SelectProducts' ||
+        fromDepths == '/nameSearch' ||
+        fromDepths == '/productNameSearch' ||
+        fromDepths == '/selectTime/DeliveryDate'
+      ) {
+        this.isEdit = false
+      }
+    },
   },
   activated() {
-    this.deliveryRecordItem = this.$route.query.data
-    console.log(this.deliveryRecordItem)
-    const { id, distributor_id } = this.deliveryRecordItem
-    this.iid = id
-    this.distributor_id = distributor_id
-    this.getEditDelive()
-    if (this.$store.state.timers.DeliveryDate != '') {
-      this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
+    // 进入只执行一次
+    if (this.isEdit) {
+      this.getAddDeliverGood()
+      this.iid = this.$route.params.id
+      this.getEditDelive()
     }
 
-    document.querySelectorAll('input').forEach(item => {
+    // this.getAddDeliverGood()
+    // this.deliveryRecordItem = this.$route.query.data
+    // console.log(this.deliveryRecordItem)
+    // const { id, distributor_id } = this.deliveryRecordItem
+    // this.distributor_id = distributor_id
+    // this.iid = id
+    // this.getEditDelive()
+
+    //
+    if (this.$store.state.timers.DeliveryDate != '') {
+      console.log(this.$store.state.timers.DeliveryDate)
+      this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
+    }
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
-  },
-  deactivated() {
-    this.deliveryRecordItem = {}
-    this.state = ''
-    this.shippingData = []
-    this.Shipment = 0
-    this.Amounts = 0
-    this.timersList.DeliveryDate = ''
-    this.tableData = []
-    this.DeliveryNotes = ''
-    this.iid = ''
-    this.distributor_id = ''
+    document.querySelector('textarea').style.border = 'none'
   },
   computed: {
     getAddDeliverData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addAutonomousData() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
+      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         id: this.iid,
         distributor_id: this.distributor_id,
@@ -222,14 +209,15 @@ export default {
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time: this.timersList.DeliveryDate,
+        apply_time,
         type: 0,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     addAutonomousDatas() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
+      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         id: this.iid,
         distributor_id: this.distributor_id,
@@ -237,9 +225,9 @@ export default {
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time: this.timersList.DeliveryDate,
+        apply_time,
         type: 1,
-        remark: this.DeliveryNotes
+        remark: this.DeliveryNotes,
       }
     },
     getMaterieldata() {
@@ -247,28 +235,29 @@ export default {
         token: this.$store.state.token,
         product_name: this.shippingValue,
         product_model: this.Products,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getEditDeliveData() {
       return {
         token: this.$store.state.token,
         id: this.iid,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
+    tableClick(index) {
+      this.tableData = this.tableData.slice(index, 1)
+      this.shippingData = this.shippingData.slice(index, 1)
+    },
     async getEditDelive() {
       const { data, code, msg } = await getEditDeliverRecord(
         this.getEditDeliveData
       )
       if (code !== 200) {
         this.$message.error(msg)
-        let time = setTimeout(() => {
-          this.$router.replace('/deal/contract')
-          time.clear()
-        }, 1888)
+        this.$router.replace('/deal/contract')
       } else {
         console.log('getEditDeliverRecord', data)
         this.flowDelivery = data.flowDelivery
@@ -278,16 +267,30 @@ export default {
           total_funds,
           total_money,
           apply_time,
-          remark
+          distributor_id,
+          remark,
         } = this.flowDelivery
+        this.distributor_id = distributor_id
         this.state = name
         deliverGoodsDetail.forEach((item, index) => {
+          let unit_price = parseFloat(item.unit_price)
+          let weight = parseFloat(item.weight)
+          let process_cost = parseFloat(item.process_cost)
+          let number = parseFloat(item.number)
+          if (item.weight != '') {
+            unit_price *= weight
+          }
+          if (process_cost != '') {
+            unit_price += process_cost
+          }
+          unit_price *= number
+          unit_price = unit_price.toFixed(2)
           this.tableData.push({
             goods: item.product_name,
             model: item.product_model,
             nums: item.number,
             price: item.unit_price,
-            totalPrice: item.number * item.unit_price
+            totalPrice: unit_price,
           })
           let newArr = []
           newArr.push(item.product_name)
@@ -296,6 +299,9 @@ export default {
           newArr.push(item.unit_price)
           newArr.push(item.remark)
           newArr.push(item.weight)
+          newArr.push(0) // 零时库
+          newArr.push(item.process_cost) //加工费
+          newArr.push(item.img_url) // 一张图片URL
           newArr.push(item.extra)
           this.shippingData.push(newArr)
         })
@@ -303,13 +309,25 @@ export default {
         this.Amounts = total_money
         this.timersList.DeliveryDate = apply_time
         this.DeliveryNotes = remark
+        this.distributors = data.distributors
+        this.materiel = data.materiel
+        if (data.customerProductExtraField.length > 0) {
+          this.isFlowingShow = data.customerProductExtraField
+        }
       }
     },
-    inputchanges(value) {
-      this.distributors.map((item, index) => {
-        if (index == value.address * 1) {
-          this.distributor_id = item.id
-        }
+    focusClick() {
+      this.$router.push({
+        path: '/nameSearch',
+        query: {
+          data: { ...this.distributors },
+        },
+      })
+      this.$bus.$off('nameSupplier')
+      this.$bus.$on('nameSupplier', (item) => {
+        console.log(item)
+        this.state = item.name
+        this.distributor_id = item.id
       })
     },
     async getAddDeliverGood() {
@@ -318,69 +336,71 @@ export default {
       )
       console.log('getAddDeliverGoodsDistributors', data)
       if (data.customerProductExtraField.length > 0) {
-        this.isFlowingShow = data.customerProductExtraField.length
+        this.isFlowingShow = data.customerProductExtraField
       }
       if (data.customerProductField.weight == 1) {
         this.isWeightShow = true
       }
       this.distributors = data.distributors
-      this.distributors.map((item, index) => {
-        let obj = {
-          value: item.name,
-          address: index.toString()
-        }
-        this.restaurants.push(obj)
-      })
       this.materiel = data.materiel
-      this.materiel.map((item, index) => {
-        let obj = {
-          value: item.name,
-          address: index.toString()
-        }
-        this.restaurant.push(obj)
-      })
-    },
-    handleChange() {
-      var loc = ''
-      for (let i = 0; i < this.form.selectedOptions.length; i++) {
-        loc += CodeToText[this.form.selectedOptions[i]]
-      }
-      console.log(loc)
-    },
-    handleChange(file, fileList) {
-      this.fileList = fileList.slice(-3)
     },
     blacknext() {
+      this.isEdit = true
+      this.Shipment = 0
+      this.Amounts = 0
+      this.number = ''
+      this.distributors = []
+      this.materiel = []
+      this.restaurants = []
+      this.restaurant = []
+      this.state = ''
+      this.states = ''
+      this.timeout = null
+      this.fileList = []
+      this.table = false
+      this.form = {}
+      this.Address = {}
+      this.product = {}
+      this.options = regionData
+      this.address = []
+      this.tableData = []
+      this.isShowed = false
+      this.distributor_id = 0
+      this.shippingValue = ''
+      this.shippingData = []
+      this.DeliveryNotes = ''
+      this.isFlowingShow = []
+      this.isWeightShow = false
+      this.isTemporary = '0'
       this.loading = false
       this.dialog = false
       this.Addresslog = false
       this.productlog = false
       this.radio = '0'
-      clearTimeout(this.timer)
       this.$router.replace('/deal/contract')
     },
-    querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
-    },
-    querySearchAsyncs(queryString, cb) {
-      var restaurants = this.restaurant
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 3000 * Math.random())
-    },
+    // querySearchAsync(queryString, cb) {
+    //   var restaurants = this.restaurants
+    //   var results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 3000 * Math.random())
+    // },
+    // querySearchAsyncs(queryString, cb) {
+    //   var restaurants = this.restaurant
+    //   var results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 3000 * Math.random())
+    // },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -391,103 +411,44 @@ export default {
       this.shippingValue = item.value
       let nums = parseInt(item.address)
       console.log(nums)
-      // 循环产品数组取出对应数据
-      this.materiel.map((item, index) => {
-        if (index == nums) {
-          // 型号 specification
-          this.Products = item.specification
-          // 价格 out_price
-          this.productPrice = item.out_price
-        }
-      })
     },
     handchange(value) {
       this.shippingValue = value
     },
-    handleClose(done) {
-      if (this.loading) {
-        return
-      }
-      if (this.form.companyName != '' && this.form.DetailedAddress != '') {
-        this.restaurants.push({
-          value: this.form.companyName,
-          address: this.form.DetailedAddress
-        })
-      }
-      if (this.Address.DetailedAddress != '') {
-        let addinfo = `${this.Address.contact} ${this.Address.phone}`
-        this.address.push(addinfo)
-        this.radio = this.address.length - 1
-      }
-
-      if (
-        this.product.name != '' &&
-        this.product.specifications != '' &&
-        this.product.number != '' &&
-        this.product.price != ''
-      ) {
-        let addproductdata = {
-          goods: this.product.name,
-          model: this.product.specifications,
-          nums: this.product.number,
-          price: this.product.price,
-          totalPrice: this.product.price * this.product.number
-        }
-
-        this.tableData.push(addproductdata)
-      }
-
-      this.loading = true
-      this.Addresslog = false
-      this.productlog = false
-      this.timer = setTimeout(() => {
-        done()
-        setTimeout(() => {
-          this.loading = false
-        }, 400)
-      }, 2000)
-      document.querySelector('#createContract .nav-bar').style.display = 'flex'
-    },
-    cancelForm() {
-      this.loading = false
-      this.dialog = false
-      this.Addresslog = false
-      this.productlog = false
-      this.radio = '0'
-      clearTimeout(this.timer)
-      document.querySelector('#createContract .nav-bar').style.display = 'flex'
-    },
-    addNewCustomers() {
-      document.querySelector('#createContract .nav-bar').style.display = 'none'
-      this.dialog = true
-      this.form = {}
-    },
-    addNewAddress() {
-      document.querySelector('#createContract .nav-bar').style.display = 'none'
-      this.Addresslog = true
-      this.Address = {}
-    },
     addNewProduct() {
-      this.isShowed = true
+      this.$router.push({
+        path: '/SelectProducts',
+        query: {
+          data: {
+            materiel: { ...this.materiel },
+            isFlowingShow: this.isFlowingShow,
+          },
+        },
+      })
+      this.$bus.$off('SelectProducts')
+      this.$bus.$on('SelectProducts', (item) => {
+        console.log(item)
+        this.shippingValue = item.selectData.productName
+        this.Products = item.selectData.productModel
+        this.productPrice = item.selectData.productPrice
+        this.quantity = item.selectData.quantity
+        this.states = item.selectData.productName
+        this.ProductNotes = item.selectData.ProductNotes
+        this.productWeight = item.selectData.productWeight
+        this.FlowingProducts = item.selectData.FlowingProducts
+        this.product_img = item.selectData.img_url
+        this.processCost = item.selectData.processCost
+        this.AddClick()
+      })
     },
-    cancelClick() {
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = []
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
-    },
+
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
       if (data.isExistence == 0) {
         this.$dialog
           .confirm({
             title: '提示',
-            message: '是否加入临时物料库？'
+            message: '是否加入临时物料库？',
           })
           .then(() => {
             this.isTemporary = '1'
@@ -497,14 +458,44 @@ export default {
             this.tableData.pop()
           })
       }
+      this.productPrice = parseFloat(this.productPrice)
+      this.productWeight = parseFloat(this.productWeight)
+      this.processCost = parseFloat(this.processCost)
+      this.quantity = parseFloat(this.quantity)
+      let adderssnum = this.productPrice
+      if (this.productWeight != '') {
+        adderssnum *= this.productWeight
+        console.log('productWeight的类型是' + typeof this.productWeight)
+        console.log(
+          '单价*重量的结果是' + adderssnum + '类型是' + typeof adderssnum
+        )
+      }
+      if (this.processCost != '') {
+        adderssnum += this.processCost
+        console.log('processCost的类型是' + typeof this.processCost)
+        console.log(
+          '单价*重量的结果 再加上 加费 的结果是' +
+            adderssnum +
+            '类型是' +
+            typeof adderssnum
+        )
+      }
 
-      let adderssnum = this.productPrice * this.quantity
+      adderssnum *= this.quantity
+
+      adderssnum = adderssnum.toFixed(2)
+      console.log(
+        '单价*重量的结果 再加上 加费 的结果 再 * 数量是' +
+          adderssnum +
+          '类型是' +
+          typeof adderssnum
+      )
       let addproductdata = {
         goods: this.states,
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.tableData.push(addproductdata)
 
@@ -515,11 +506,19 @@ export default {
       newArr.push(this.productPrice)
       newArr.push(this.ProductNotes)
       newArr.push(this.productWeight)
+      newArr.push(this.isTemporary) // 零时库
+      newArr.push(this.processCost) //加工费
+      newArr.push(this.product_img) // 一张图片URL
       newArr.push(this.FlowingProducts)
-      newArr.push(this.isTemporary)
       this.shippingData.push(newArr)
-      this.Shipment += adderssnum
-      this.Amounts += adderssnum
+      console.log(this.shippingData)
+      let allmonpement = 0
+      this.tableData.forEach((item) => {
+        allmonpement += parseFloat(item.totalPrice)
+      })
+      this.Shipment = allmonpement
+      this.Amounts = allmonpement
+
       this.states = ''
       this.Products = ''
       this.productPrice = ''
@@ -531,27 +530,53 @@ export default {
       this.isShowed = false
     },
     async SubmitNow() {
-      const res = await editAutonomousReturnRecord(this.addAutonomousData)
-      console.log('addAutonomousDeliverRecord', res)
-      if (res.code == 200) {
+      const { code, msg, data } = await editAutonomousDeliverRecord(
+        this.addAutonomousData
+      )
+      console.log('editAutonomousDeliverRecord', data)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     async PendingNow() {
-      const res = await editAutonomousReturnRecord(this.addAutonomousDatas)
-      console.log('addAutonomousDeliverRecord', res)
-      if (res.code == 200) {
+      const { code, msg, data } = await editAutonomousDeliverRecord(
+        this.addAutonomousDatas
+      )
+      console.log('editAutonomousDeliverRecord', data)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
-    }
-  }
+    },
+  },
 }
 </script>
     
-<style scoped lang="scss">
+<style lang="scss" scoped>
 #editShipItem {
   padding-top: 5.428571rem;
-  padding-bottom: 2.785714rem;
+  padding-bottom: 3.785714rem;
   min-height: 100vh;
   .scroll-wrapper {
     position: absolute;
@@ -611,7 +636,7 @@ export default {
         justify-content: flex-end;
         align-items: flex-end;
         .van-button {
-          margin-right: 10px;
+          margin-right: 0.714286rem;
         }
       }
       .line {
@@ -620,7 +645,6 @@ export default {
         align-items: center;
         border-bottom: 1px solid #f8f7f5;
         padding: 0.714286rem 1.142857rem;
-
         em {
           display: block;
           font-size: 1.142857rem;
@@ -635,6 +659,22 @@ export default {
           font-weight: 700;
           text-align: left;
           flex: 1;
+        }
+        .table {
+          .title,
+          .bodys {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.357143rem;
+            span {
+              flex: 1;
+              text-align: center;
+            }
+          }
+          .bodys {
+            font-weight: normal;
+          }
         }
       }
       .AddProduct {

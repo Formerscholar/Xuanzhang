@@ -400,7 +400,7 @@ export default {
     },
     async SubmitNow() {
       const res = await editWarehouseOut(this.addAutonomousData)
-      console.log('addAutonomousDeliverRecord', res)
+      console.log('editWarehouseOut', res)
       if (res.code == 200) {
         this.blacknext()
       }

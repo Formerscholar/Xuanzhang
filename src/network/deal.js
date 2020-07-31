@@ -430,3 +430,11 @@ export function getFlowDeliverDetail(params) {
     params,
   })
 }
+
+export function editAutonomousDeliverRecord(data) {
+  return request({
+    url: '/DeliverGoods/editAutonomousDeliverRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

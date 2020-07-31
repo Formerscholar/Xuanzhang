@@ -61,7 +61,7 @@
             plain
             v-if="item.isIndex"
             :type="item.che_status  ? 'success' : 'warning'"
-          >{{item.che_status ? '整装待发' : '启动生产'}}</van-tag>
+          >{{item.che_status ? '整装待发' : '生产中'}}</van-tag>
         </div>
         <div class="topLeft layout">
           <div class="Amount">
@@ -92,14 +92,14 @@ export default {
       actions: [{ name: '编辑' }, { name: '作废' }, { name: '打印' }],
       editData: {},
       contractOrder: {},
-      listIsShow: false
+      listIsShow: false,
     }
   },
   props: {
     goodsLists: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   components: {},
   activated() {
@@ -111,9 +111,9 @@ export default {
       return {
         id: this.iid,
         token: this.$store.state.tonken,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   filters: {
     SetName(value) {
@@ -127,11 +127,11 @@ export default {
     },
     setbusiness_status(value) {
       if (value == 0) {
-        return '洽谈'
+        return '洽谈中'
       } else if (value == 1) {
-        return '生产'
+        return '启动生产'
       } else if (value == 2) {
-        return '发货'
+        return '准许发货'
       } else if (value == 3) {
         return '无状态'
       }
@@ -146,7 +146,7 @@ export default {
       } else if (value == 3) {
         return 'primary'
       }
-    }
+    },
   },
   methods: {
     async getEditContractOrders() {
@@ -165,7 +165,7 @@ export default {
         this.show = true
         this.$emit('isMaskShow', {
           showed: this.show,
-          data: item
+          data: item,
         })
       }
     },
@@ -189,8 +189,8 @@ export default {
     },
     formatThree(percentage) {
       return `开票 ${percentage}%`
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -307,5 +307,4 @@ export default {
     }
   }
 }
-
 </style>

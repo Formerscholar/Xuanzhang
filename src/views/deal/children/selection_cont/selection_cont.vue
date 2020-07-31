@@ -1,14 +1,12 @@
 <template>
-  <div class="selection wrapper bg-primary my_header" ref="wrapper">
+  <div class="selection wrapper" ref="wrapper">
     <ul class="list text-white" ref="list">
       <!-- mui-control-item mui-active -->
-      <li
-        v-for="(item,index) in selectionList"
-        class="mui-control-item"
-        :class="{mui_active:index == currentIndex}"
-        :key="item.id"
-        @click="selectionClick(item.id,index)"
-      >{{item.title}}</li>
+      <li v-for="(item) in selectionList" class="mui-control-item" :key="item.id">
+        <img v-if="item.img_url" class="img" :src="item.img_url" />
+        <div v-else class="img"></div>
+        <div class="text">{{item.product_name}}</div>
+      </li>
     </ul>
   </div>
 </template>
@@ -25,29 +23,16 @@ export default {
     },
   },
   components: { BScroll },
-  data() {
-    return {
-      currentIndex: 0,
-    }
-  },
   mounted() {
     this.$nextTick(() => {
       this._initPics()
     })
   },
   methods: {
-    selectionClick(i, index) {
-      this.currentIndex = index
-      this.$emit('selectionClick', {
-        i,
-        index,
-      })
-    },
     _initPics() {
-      let itemWidth = 90
-      let margin = 6
-      let width = (itemWidth + margin) * 6 - margin
-      console.log(width)
+      let itemWidth = 85
+      let margin = 5
+      let width = (itemWidth + margin) * this.selectionList.length - margin
       this.$refs.list.style.width = width + 'px'
       this.$nextTick(() => {
         if (!this.picScroll) {
@@ -69,19 +54,27 @@ export default {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  position: fixed;
-  top: 0;
+
   .list {
     display: flex;
-    justify-content: flex-start;
-    padding: 0 1.285714rem;
     .mui-control-item {
-      margin-right: 1.285714rem;
-      line-height: 2.857143rem;
-      font-size: 1rem;
-    }
-    .mui_active {
-      border-bottom: 2px solid #fff;
+      margin-right: 0.357143rem;
+      .img {
+        width: 4.642857rem;
+        height: 4.642857rem;
+        background-color: #ccc;
+        border-radius: 0.357143rem;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .text {
+        text-align: center;
+        color: #818181;
+        font-size: 0.857143rem;
+      }
     }
   }
 }
