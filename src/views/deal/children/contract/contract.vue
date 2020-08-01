@@ -10,14 +10,19 @@
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="发货清单" class="Delivery">
           <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
-            <div @click="gocontractList(deliveryRecordList[index])">
+            <div
+              @click="gocontractList(deliveryRecordList[index])"
+              :class="item.deleted_at && 'color_break ' "
+            >
               <div class="title">
-                <!-- <div class="img_box">
-                  <img src="@/assets/image/flow_left.png" />
-                </div>-->
                 <div class="title_text">
-                  <span class="model">{{ item.order_number }}</span>
-                  <span class="name" @click.stop="gotodetails(item.distributor_id)">{{item.name}}</span>
+                  <span
+                    :class="item.deleted_at ? 'color_break model' :' model'"
+                  >{{ item.order_number }}</span>
+                  <span
+                    :class="item.deleted_at ? 'color_break name' :' name'"
+                    @click.stop="gotodetails(item.distributor_id)"
+                  >{{item.name}}</span>
                 </div>
               </div>
               <div class="itemlist" v-if="item.detail.length">
@@ -25,47 +30,35 @@
                   <selection :selectionList="item.detail" />
                 </div>
                 <div class="right_box">
-                  <em>共</em>
-                  <em>{{item.detail.length}}</em>
-                  <em>种</em>
+                  <em :class="item.deleted_at && 'color_break ' ">共</em>
+                  <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                  <em :class="item.deleted_at && 'color_break ' ">种</em>
                 </div>
               </div>
               <div class="time_box">
-                <span class="timer_text">创建时间:{{item.created_at}}</span>
-                <span class="time_pircle">
-                  合计
+                <span
+                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                >创建时间:{{item.created_at}}</span>
+                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                  <el-tag
+                    :class="item.deleted_at ? 'color_break ' :' '"
+                    :type="item.type == 0 ? '' : 'danger'"
+                    effect="plain"
+                  >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
                   <em
-                    :class="item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
+                    :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
                   >￥{{item.total_funds}}</em>
                 </span>
               </div>
             </div>
           </el-card>
-
-          <!-- <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
-            <div @click="gocontractList(deliveryRecordList[index])">
-              <div class="topbox">
-                <span>
-                  {{ item.order_number }}
-                  <em>{{ item.operator_name |setOperatorName }}</em>
-                </span>
-                <i @click.stop="gotodetails(item.distributor_id)">{{ item.name_alias }}</i>
-              </div>
-              <div class="botbox">
-                <span
-                  :class="item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                >{{ item.total_funds |setTotalFundse }}</span>
-                <em>{{ item.created_at |setCreated}}</em>
-              </div>
-            </div>
-          </el-card>-->
         </van-tab>
         <van-tab title="订单列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
             <van-swipe-cell>
               <div class="coutent">
                 <div class="leftbox">
-                  <img src="@/assets/image/logo.png" />
+                  <img src="@/assets/image/Default.png" />
                 </div>
                 <div class="rightbox">
                   <div class="timer">
@@ -80,10 +73,10 @@
                   </div>
                   <div class="article">
                     <div class="leftitem">{{item.product_name}}</div>
-                    <div class="rightitem">{{item.number | setNumber}}</div>
                   </div>
                   <div class="literature">
                     <div class="leftitem">{{item.product_model}}</div>
+                    <div class="rightitem">{{item.number | setNumber}}</div>
                   </div>
                 </div>
               </div>
@@ -190,7 +183,7 @@ export default {
       return '交期:' + value
     },
     setNumber(value) {
-      return '数量:' + value
+      return '×' + value
     },
   },
   activated() {
@@ -313,6 +306,11 @@ export default {
 
       .box-card {
         margin-bottom: 0.571429rem;
+        .color_break {
+          color: #ccc !important;
+          border-color: #ccc !important;
+          filter: grayscale(100%);
+        }
         .title {
           display: flex;
           justify-content: flex-start;
@@ -333,7 +331,7 @@ export default {
             display: flex;
             font-size: 1rem;
             .model {
-              color: #f9a624;
+              color: #2a88ff;
               margin-right: 0.714286rem;
             }
             .name {
@@ -343,9 +341,10 @@ export default {
         .itemlist {
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: flex-start;
           margin-bottom: 0.357143rem;
           white-space: nowrap;
+          position: relative;
           .items {
             display: flex;
             justify-content: flex-start;
@@ -354,11 +353,15 @@ export default {
             overflow: hidden;
           }
           .right_box {
+            position: absolute;
+            right: 0;
+            top: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: #818181;
+            background-color: rgba(255, 255, 255, 0.6);
           }
         }
         .time_box {
@@ -482,16 +485,14 @@ export default {
           margin-left: 1rem;
           font-size: 1rem;
           .timers {
-            margin-bottom: 5px;
           }
           .timer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 5px;
 
             .leftitem {
-              color: #fd9500;
+              color: #2a88ff;
               font-weight: 700;
             }
             .rightitem {
@@ -501,7 +502,6 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 5px;
 
             .leftitem {
               color: #9a9a9a;
@@ -521,7 +521,6 @@ export default {
               color: #aeaeae;
             }
             .rightitem {
-              font-weight: 700;
             }
           }
         }

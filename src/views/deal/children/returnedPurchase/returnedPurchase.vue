@@ -16,13 +16,32 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <el-table :data="tableData" style="width: 100%; font-size: .714286rem;">
-              <el-table-column prop="goods" label="品名"></el-table-column>
-              <el-table-column prop="model" label="型号"></el-table-column>
-              <el-table-column prop="nums" label="数量"></el-table-column>
-              <el-table-column prop="price" label="单价"></el-table-column>
-              <el-table-column prop="totalPrice" label="总价"></el-table-column>
-            </el-table>
+            <van-swipe-cell>
+              <div class="product_box">
+                <div class="wrap_item" v-for="(item,index) in tableData" :key="index">
+                  <div class="wrap_left">
+                    <img v-if="item.product_img" class="img" :src="item.product_img | getUrl" />
+                    <img src="@/assets/image/Default.png" class="img" v-else />
+                    <div class="text">
+                      <div class="title">
+                        <p>{{item.goods}}</p>
+                        <div class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </div>
+                      </div>
+                      <p class="model">{{item.model}}</p>
+                      <div class="wrap_right">
+                        <span>({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <template #right>
+                <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+              </template>
+            </van-swipe-cell>
           </el-row>
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
@@ -33,7 +52,7 @@
         </el-card>
 
         <el-card class="box-card item1">
-          <van-field v-model="Shipment" type="number" label="发货金额" />
+          <van-field v-model="Shipment" type="number" label="退货金额" />
           <van-field v-model="Amounts" type="number" label="折后金额" />
           <timers
             class="DeliveryDate"
@@ -41,14 +60,22 @@
             title="日期"
             :valueData="timersList.DeliveryDate"
           />
-          <van-field v-model="DeliveryNotes" type="text" label="发货备注" />
+          <van-field v-model="DeliveryNotes" type="text" label="退货备注" />
         </el-card>
       </div>
     </scroll>
     <div class="footer">
-      <el-button type="primary" plain @click="SubmitNow">立即提交</el-button>
-      <el-button type="primary" plain @click="PendingNow">提交待核</el-button>
+      <div class="left_btn" @click="PendingNow">提交待核</div>
+      <div class="right_btn" @click="SubmitNow">
+        ￥-{{Amounts}}
+        <span>立即提交</span>
+      </div>
     </div>
+    <van-overlay :show="isShow" @click="closeOverlay">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
@@ -61,6 +88,9 @@ import {
   getMateriel,
 } from '@/network/deal'
 import { setTimerType } from '@/common/filter'
+import myVqr from '@/components/common/my_vqr/myVqr'
+import { TotalPriceCalc } from '@/common/utils'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   data() {
@@ -73,6 +103,8 @@ export default {
       },
       distributors: [],
       materiel: [],
+      isShow: false,
+      textContent: '',
       restaurants: [],
       restaurant: [],
       state: '',
@@ -124,6 +156,9 @@ export default {
       isTemporary: '0',
     }
   },
+  components: {
+    myVqr,
+  },
   activated() {
     this.getAddDeliverGood()
     if (this.$store.state.timers.DeliveryDate != '') {
@@ -133,6 +168,11 @@ export default {
       item.style.border = 'none'
     })
     document.querySelector('textarea').style.border = 'none'
+  },
+  filters: {
+    getUrl(value) {
+      return bestURL + value
+    },
   },
   computed: {
     getAddDeliverData() {
@@ -181,6 +221,30 @@ export default {
     },
   },
   methods: {
+    tableClick(index) {
+      console.log(index)
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否删除产品?',
+        })
+        .then(() => {
+          if (this.tableData.length == 1) {
+            this.tableData = []
+            this.shippingData = []
+          } else {
+            this.tableData = this.tableData.splice(index - 1, 1)
+            this.shippingData = this.shippingData.splice(index - 1, 1)
+          }
+          let allmonpement = 0
+          this.tableData.forEach((item) => {
+            allmonpement += parseFloat(item.totalPrice)
+          })
+          this.Shipment = allmonpement
+          this.Amounts = allmonpement
+          console.log(index, this.tableData, this.shippingData)
+        })
+    },
     focusClick() {
       this.$router.push({
         path: '/nameSearch',
@@ -252,15 +316,7 @@ export default {
         )
       }
     },
-    handleSelect(item) {
-      // 转数字类型
-      this.shippingValue = item.value
-      let nums = parseInt(item.address)
-      console.log(nums)
-    },
-    handchange(value) {
-      this.shippingValue = value
-    },
+
     addNewProduct() {
       this.$router.push({
         path: '/SelectProducts',
@@ -282,6 +338,8 @@ export default {
         this.ProductNotes = item.selectData.ProductNotes
         this.productWeight = item.selectData.productWeight
         this.FlowingProducts = item.selectData.FlowingProducts
+        this.product_img = item.selectData.img_url
+        this.processCost = item.selectData.processCost
         this.AddClick()
       })
     },
@@ -302,13 +360,21 @@ export default {
           })
       }
 
-      let adderssnum = this.productPrice * this.quantity
+      let totalPrice = TotalPriceCalc(
+        this.productPrice,
+        this.productWeight,
+        this.processCost,
+        this.quantity
+      )
       let addproductdata = {
         goods: this.states,
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum,
+        totalPrice,
+        weight: this.productWeight,
+        process_cost: this.processCost,
+        product_img: this.product_img,
       }
       this.tableData.push(addproductdata)
 
@@ -319,13 +385,15 @@ export default {
       newArr.push(this.productPrice)
       newArr.push(this.ProductNotes)
       newArr.push(this.productWeight)
+      // newArr.push(this.isTemporary) // 零时库
+      newArr.push(this.processCost) //加工费
+      // newArr.push(this.product_img) // 一张图片URL
       newArr.push(this.FlowingProducts)
-      newArr.push(this.isTemporary)
       this.shippingData.push(newArr)
 
       let allmonpement = 0
       this.tableData.forEach((item) => {
-        allmonpement += item.totalPrice
+        allmonpement += parseFloat(item.totalPrice)
       })
       this.Shipment = allmonpement
       this.Amounts = allmonpement
@@ -340,6 +408,10 @@ export default {
       this.ProductNotes = ''
       this.isShowed = false
     },
+    closeOverlay() {
+      this.isShow = false
+      this.blacknext()
+    },
     async SubmitNow() {
       const { code, msg, data } = await addAutonomousReturnRecord(
         this.addAutonomousData
@@ -351,7 +423,8 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -371,7 +444,8 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -456,7 +530,67 @@ export default {
         align-items: center;
         border-bottom: 1px solid #f8f7f5;
         padding: 0.714286rem 1.142857rem;
+        .delect {
+          height: 100%;
+          line-height: 6.571429rem;
+        }
+        .product_box {
+          .wrap_item {
+            padding: 0.357143rem;
+            border-bottom: 1px solid #f2f2f2;
 
+            .wrap_left {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .img {
+                width: 5.928571rem;
+                height: 5.928571rem;
+                background-color: #655d55;
+                border-radius: 0.357143rem;
+                margin-right: 0.714286rem;
+              }
+              .text {
+                flex: 1;
+                font-size: 1rem;
+                color: #000;
+                overflow: hidden;
+                .title {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-size: 1rem;
+                  .funds_box {
+                    flex: 0;
+                  }
+                }
+                .model {
+                  color: #ccc;
+                }
+                p {
+                  margin-bottom: 0.357143rem;
+                }
+                .wrap_right {
+                  width: 100%;
+                  display: flex;
+                  justify-content: flex-start;
+                  color: #ccc;
+                  span {
+                    font-size: 0.857143rem;
+                  }
+                }
+              }
+            }
+          }
+          .wrap_money {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 0.357143rem;
+            font-size: 1.142857rem;
+            color: #848484;
+          }
+        }
         em {
           display: block;
           font-size: 1.142857rem;
@@ -481,6 +615,9 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          .icon-copy {
+            font-size: 1.428571rem;
+          }
           em {
             text-align: center;
           }
@@ -489,15 +626,39 @@ export default {
     }
   }
   .footer {
-    height: 2.785714rem;
-    display: flex;
-    justify-content: flex-end;
-    position: fixed;
-    bottom: 0;
+    height: 3.5rem;
     width: 100%;
+    padding: 0.357143rem 2.142857rem;
+    position: fixed;
+    bottom: 1.428571rem;
     left: 0;
     right: 0;
-    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    border-radius: 0.357143rem;
+    .left_btn {
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+      color: #fff;
+      background: url('../../../../assets/image/left_btns.jpg') no-repeat;
+      background-size: 100% 100%;
+      background-position: 0 0;
+      flex: 3;
+      margin-right: 0.428571rem;
+      text-align: center;
+    }
+    .right_btn {
+      flex: 7;
+      text-align: center;
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+      color: #fff;
+      background: url('../../../../assets/image/right_btns.jpg') no-repeat;
+      background-size: 100% 100%;
+      background-position: 0 0;
+    }
   }
 }
 </style>

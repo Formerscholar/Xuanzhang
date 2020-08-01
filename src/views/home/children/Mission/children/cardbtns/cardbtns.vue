@@ -9,6 +9,9 @@
           :pull-up-load="true"
           @pullingUp="loadMore('participate')"
         >
+
+  
+
           <div class="cardList" v-for="(item,index) in designatedTasksList" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">

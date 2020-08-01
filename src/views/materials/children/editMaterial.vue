@@ -4,16 +4,15 @@
       <div class="left" slot="left" @click="clearData">
         <i class="el-icon-arrow-left"></i>
       </div>
-      <div class="center" slot="center">
-        <!-- <span>查看物料</span> -->
-      </div>
+      <div class="center" slot="center"></div>
       <div slot="right" class="right" @click="submitClick">
         <van-icon name="success" />
       </div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="swiper">
-        <img :src="img_URL" alt="logo" @click="imgClick" />
+        <img :src="img_URL" alt="logo" />
+        <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
       </div>
       <div class="compitem">
         <div class="content_nums">
@@ -233,10 +232,12 @@ export default {
         })
       }
     },
-    uploadHandle(data) {
+    async uploadHandle(data) {
       this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
       console.log(this.img_URL, this.PropsImg)
+      const res = await editMateriel(this.addMaterielData)
+      console.log(res)
     },
     imgClick() {
       this.isWrite = true
@@ -469,6 +470,20 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    .img_btn {
+      position: absolute;
+      bottom: 1.071429rem;
+      right: 1.071429rem;
+      color: #fff;
+      text-align: center;
+      border-radius: 50%;
+      width: 2.857143rem;
+      height: 2.857143rem;
+      line-height: 2.857143rem;
+      background-color: rgba(45, 52, 54, 0.4);
+      font-size: 1.428571rem;
+    }
     img {
       height: 100%;
       width: 100%;

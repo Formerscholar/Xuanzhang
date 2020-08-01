@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>详情</span>
+        <span>{{deliveryRecordItem.order_number | setOrderNumber }}</span>
       </div>
       <div class="right" slot="right">
         <span></span>
@@ -13,8 +13,14 @@
     </navbar>
     <scroll class="scroll-wrapper">
       <el-card class="content_wrap">
-        <div class="Company">{{deliveryRecordItem.name }}</div>
-        <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div>
+        <div class="Company">
+          <span>{{deliveryRecordItem.name }}</span>
+          <span>
+            <em>￥</em>
+            {{deliveryRecordItem.total_money }}
+          </span>
+        </div>
+        <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
         <div class="itembox">
           <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
           <span>{{deliveryRecordItem.operator_name |setOperatorName }}</span>
@@ -23,28 +29,34 @@
       <el-card class="product_box">
         <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
           <div class="wrap_left">
-            <img v-if="item.img_url" class="img" :src="item.img_url" />
-            <div class="img" v-else></div>
-
+            <img v-if="item.img_url" class="img" :src="item.img_url  | getUrl" />
+            <!-- <div class="img" v-else></div> -->
+            <img src="@/assets/image/Default.png" class="img" v-else />
             <div class="text">
-              <p>{{item.product_name}}</p>
-              <p>{{item.product_model}}</p>
+              <div class="title">
+                <p>{{item.product_name}}</p>
+                <div>
+                  <span>￥</span>
+                  <span class="funds">{{item.total_funds}}</span>
+                </div>
+              </div>
+              <p class="model">{{item.product_model}}</p>
               <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}=￥{{item.total_funds}}</span>
+                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="wrap_money">{{deliveryRecordItem.total_money | setRecordItemTotalMoney }}</div>
       </el-card>
-      <div class="btns">
-        <van-button type="warning" @click="deleteDeliver">作废</van-button>
-        <van-button type="info" @click="editShip">编辑</van-button>
-        <van-button type="primary" @click="printShip">打印</van-button>
-      </div>
     </scroll>
-
+    <div class="btns">
+      <div class="deleteDeliver" @click="deleteDeliver"></div>
+      <div class="deleteDelivers" @click="deleteDeliver">作废</div>
+      <div class="printShip" @click="printShip">打印</div>
+      <div class="editShips" @click="editShip">编辑</div>
+      <div class="editShip" @click="editShip"></div>
+      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+    </div>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
         <myVqr :Content="textContent"></myVqr>
@@ -55,6 +67,7 @@
     
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
 export default {
@@ -86,16 +99,19 @@ export default {
   },
   filters: {
     setOrderNumber(value) {
-      return '发货单号:' + value
+      return '单号:' + value
     },
     setOperatorName(value) {
-      return '操作人:' + value
+      return '制单:' + value
     },
     setRecordItemTotalMoney(value) {
-      return '总金额:￥' + value
+      return '￥' + value
     },
     setRecordItemCreated(value) {
-      return '发货时间:' + value
+      return '创建:' + value
+    },
+    getUrl(value) {
+      return bestURL + value
     },
   },
   computed: {
@@ -173,25 +189,28 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden;
-    padding: 0.714286rem;
+    padding: 1.428571rem 0.714286rem;
     .content_wrap {
       padding: 0.714286rem 1.071429rem;
+      margin-top: 0.357143rem;
       margin-bottom: 0.357143rem;
       .Company {
         margin-bottom: 0.714286rem;
-        font-size: 1rem;
-        font-weight: 700;
-        color: #726860;
+        font-size: 1.142857rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        em {
+          font-size: 0.714286rem;
+        }
       }
       .Numbers {
         margin-bottom: 0.357143rem;
         font-size: 0.857143rem;
-        font-weight: 700;
         color: #5b534d;
       }
       .itembox {
         font-size: 0.857143rem;
-        font-weight: 700;
         color: #5b534d;
         display: flex;
         justify-content: space-between;
@@ -213,22 +232,37 @@ export default {
             width: 5.928571rem;
             height: 5.928571rem;
             background-color: #655d55;
+            border-radius: 0.357143rem;
             margin-right: 0.714286rem;
           }
           .text {
             flex: 1;
-            font-size: 1.285714rem;
-            color: #675f57;
+            font-size: 1rem;
+            color: #000;
+            overflow: hidden;
+            .title {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 1rem;
+
+              .funds {
+                font-size: 1rem;
+              }
+            }
+            .model {
+              color: #ccc;
+            }
             p {
               margin-bottom: 0.357143rem;
             }
             .wrap_right {
               width: 100%;
               display: flex;
-              justify-content: flex-end;
+              justify-content: flex-start;
+              color: #ccc;
               span {
-                font-size: 1.142857rem;
-                color: #786e65;
+                font-size: 0.857143rem;
               }
             }
           }
@@ -242,6 +276,73 @@ export default {
         font-size: 1.142857rem;
         color: #848484;
       }
+    }
+  }
+  .btns {
+    height: 3.5rem;
+    width: 100%;
+    padding: 0.357143rem 2.142857rem;
+    position: fixed;
+    bottom: 1.428571rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip,
+    .editShips,
+    .editShip {
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+    }
+
+    .deleteDeliver,
+    .editShip {
+      width: 2.785714rem;
+      border-radius: 50%;
+    }
+
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip {
+      background-color: #000;
+    }
+    .deleteDelivers,
+    .printShip {
+      color: #fff;
+    }
+    .deleteDelivers {
+      text-align: left;
+      margin-left: -1.428571rem;
+      flex: 3;
+      font-size: 1rem;
+    }
+    .printShip {
+      flex: 14;
+      margin-left: 0.428571rem;
+      text-align: right;
+      padding-right: 3.214286rem;
+    }
+    .editShips {
+      flex: 3;
+      text-align: right;
+      margin-right: -1.428571rem;
+      z-index: 2;
+      background-color: #f2c659;
+      color: #000;
+      font-size: 1rem;
+    }
+    .editShip {
+      background-color: #f2c659;
+    }
+    .Print {
+      width: 6.428571rem;
+      height: 6.428571rem;
+      position: fixed;
+      bottom: 0.714286rem;
+      left: 30%;
     }
   }
 }

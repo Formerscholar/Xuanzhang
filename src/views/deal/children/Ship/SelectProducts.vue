@@ -11,8 +11,12 @@
     </navbar>
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
       <el-card class="box-card item1">
-        <img class="swiper_img" v-if="img_URL" :src="img_URL" alt="logo" @click="imgClick" />
-        <div class="swiper_img" v-else @click="imgClick"></div>
+        <div class="swiper_img">
+          <img v-if="img_URL" :src="img_URL | getUrl" alt="logo" />
+          <img src="@/assets/image/Default.png" v-else />
+          <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
+        </div>
+
         <van-field v-model="state" label="产品名称" @focus="focusClick" />
         <van-field v-model="Products" label="产品型号" @focus="focusClick" />
         <van-field v-model="productPrice" type="number" label="产品价格" />
@@ -57,6 +61,7 @@ export default {
       processCost: '',
       ProductNotes: '',
       img_URL: '',
+      PropsImg: '',
       listItem: {},
       listItems: [],
       allData: {},
@@ -65,12 +70,18 @@ export default {
   components: {
     SimpleCropper,
   },
+  filters: {
+    getUrl(value) {
+      return bestURL + value
+    },
+  },
   methods: {
     imgClick() {
       this.$refs['cropper'].upload()
     },
     uploadHandle(data) {
       this.img_URL = data
+      this.PropsImg = this.img_URL.split(bestURL)[1]
       console.log(this.img_URL, this.PropsImg)
     },
     commite() {
@@ -83,7 +94,7 @@ export default {
         quantity: this.quantity,
         ProductNotes: this.ProductNotes,
         processCost: this.processCost,
-        img_url: this.img_URL,
+        img_url: this.PropsImg,
       }
       this.$bus.$emit('SelectProducts', {
         allData: this.allData,
@@ -122,6 +133,8 @@ export default {
         this.state = item.name
         this.Products = item.specification
         this.productPrice = item.out_price
+        this.img_URL = item.img_url
+        this.PropsImg = item.img_url
         this.listItem = { ...this.$route.query.data.materiel }
         this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
         for (const key in this.listItem) {
@@ -198,6 +211,21 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+
+      .img_btn {
+        position: absolute;
+        bottom: 1.071429rem;
+        right: 1.071429rem;
+        color: #fff;
+        text-align: center;
+        border-radius: 50%;
+        width: 2.857143rem;
+        height: 2.857143rem;
+        line-height: 2.857143rem;
+        background-color: rgba(45, 52, 54, 0.4);
+        font-size: 1.428571rem;
+      }
       img {
         height: 100%;
         width: 100%;

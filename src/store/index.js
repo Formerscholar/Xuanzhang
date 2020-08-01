@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import mutations from './mutations.js'
 import actions from './actions'
 import modules from './modules'
+import getters from './getters'
 
 Vue.use(Vuex)
 
@@ -46,6 +47,7 @@ const state = {
 
 export default new Vuex.Store({
   state,
+  getters,
   mutations,
   actions,
   modules,

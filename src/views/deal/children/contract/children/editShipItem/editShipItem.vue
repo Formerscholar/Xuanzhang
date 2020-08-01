@@ -16,37 +16,37 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <div class="table">
-              <div class="title">
-                <span>品名</span>
-                <span>型号</span>
-                <span>数量</span>
-                <span>单价</span>
-                <span>总价</span>
-                <span>操作</span>
+            <van-swipe-cell>
+              <div class="product_box">
+                <div class="wrap_item" v-for="(item,index) in tableData" :key="index">
+                  <div class="wrap_left">
+                    <img v-if="item.product_img" class="img" :src="item.product_img | getUrl" />
+                    <img src="@/assets/image/Default.png" class="img" v-else />
+                    <div class="text">
+                      <div class="title">
+                        <p>{{item.goods}}</p>
+                        <div class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </div>
+                      </div>
+                      <p class="model">{{item.model}}</p>
+                      <div class="wrap_right">
+                        <span>({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="bodys" v-for="(item,index) in tableData" :key="index">
-                <span>{{item.goods}}</span>
-                <span>{{item.model}}</span>
-                <span>{{item.nums}}</span>
-                <span>{{item.price}}</span>
-                <span>{{item.totalPrice}}</span>
-                <el-tag type="danger" effect="plain" @click="tableClick(index)">删除</el-tag>
-              </div>
-            </div>
-
-            <!-- <el-table :data="tableData" style="width: 29.428571rem; font-size: .714286rem;">
-              <el-table-column prop="goods" label="品名"></el-table-column>
-              <el-table-column prop="model" label="型号"></el-table-column>
-              <el-table-column prop="nums" label="数量"></el-table-column>
-              <el-table-column prop="price" label="单价"></el-table-column>
-              <el-table-column prop="totalPrice" label="总价"></el-table-column>
-            </el-table>-->
+              <template #right>
+                <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+              </template>
+            </van-swipe-cell>
           </el-row>
 
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
-              <i class="el-icon-box"></i>
+              <i class="iconfont icon-copy"></i>
               <em>添加产品</em>
             </div>
           </el-row>
@@ -66,8 +66,11 @@
       </div>
     </scroll>
     <div class="footer">
-      <el-button type="primary" plain @click="SubmitNow">立即提交</el-button>
-      <el-button type="primary" plain @click="PendingNow">提交待核</el-button>
+      <div class="left_btn" @click="PendingNow">提交待核</div>
+      <div class="right_btn" @click="SubmitNow">
+        ￥{{Amounts}}
+        <span>立即提交</span>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +87,8 @@ import {
 } from '@/network/deal'
 
 import { setTimerType } from '@/common/filter'
+import { TotalPriceCalc } from '@/common/utils'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   data() {
@@ -163,6 +168,11 @@ export default {
       ) {
         this.isEdit = false
       }
+    },
+  },
+  filters: {
+    getUrl(value) {
+      return bestURL + value
     },
   },
   activated() {
@@ -248,8 +258,28 @@ export default {
   },
   methods: {
     tableClick(index) {
-      this.tableData = this.tableData.slice(index, 1)
-      this.shippingData = this.shippingData.slice(index, 1)
+      console.log(index)
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否删除产品?',
+        })
+        .then(() => {
+          if (this.tableData.length == 1) {
+            this.tableData = []
+            this.shippingData = []
+          } else {
+            this.tableData = this.tableData.splice(index - 1, 1)
+            this.shippingData = this.shippingData.splice(index - 1, 1)
+          }
+          let allmonpement = 0
+          this.tableData.forEach((item) => {
+            allmonpement += parseFloat(item.totalPrice)
+          })
+          this.Shipment = allmonpement
+          this.Amounts = allmonpement
+          console.log(index, this.tableData, this.shippingData)
+        })
     },
     async getEditDelive() {
       const { data, code, msg } = await getEditDeliverRecord(
@@ -291,6 +321,9 @@ export default {
             nums: item.number,
             price: item.unit_price,
             totalPrice: unit_price,
+            weight: item.weight,
+            process_cost: item.process_cost,
+            product_img: item.img_url,
           })
           let newArr = []
           newArr.push(item.product_name)
@@ -458,44 +491,23 @@ export default {
             this.tableData.pop()
           })
       }
-      this.productPrice = parseFloat(this.productPrice)
-      this.productWeight = parseFloat(this.productWeight)
-      this.processCost = parseFloat(this.processCost)
-      this.quantity = parseFloat(this.quantity)
-      let adderssnum = this.productPrice
-      if (this.productWeight != '') {
-        adderssnum *= this.productWeight
-        console.log('productWeight的类型是' + typeof this.productWeight)
-        console.log(
-          '单价*重量的结果是' + adderssnum + '类型是' + typeof adderssnum
-        )
-      }
-      if (this.processCost != '') {
-        adderssnum += this.processCost
-        console.log('processCost的类型是' + typeof this.processCost)
-        console.log(
-          '单价*重量的结果 再加上 加费 的结果是' +
-            adderssnum +
-            '类型是' +
-            typeof adderssnum
-        )
-      }
 
-      adderssnum *= this.quantity
-
-      adderssnum = adderssnum.toFixed(2)
-      console.log(
-        '单价*重量的结果 再加上 加费 的结果 再 * 数量是' +
-          adderssnum +
-          '类型是' +
-          typeof adderssnum
+      let totalPrice = TotalPriceCalc(
+        this.productPrice,
+        this.productWeight,
+        this.processCost,
+        this.quantity
       )
+
       let addproductdata = {
         goods: this.states,
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum,
+        totalPrice,
+        weight: this.productWeight,
+        process_cost: this.processCost,
+        product_img: this.product_img,
       }
       this.tableData.push(addproductdata)
 
@@ -645,6 +657,67 @@ export default {
         align-items: center;
         border-bottom: 1px solid #f8f7f5;
         padding: 0.714286rem 1.142857rem;
+        .delect {
+          height: 100%;
+          line-height: 6.571429rem;
+        }
+        .product_box {
+          .wrap_item {
+            padding: 0.357143rem;
+            border-bottom: 1px solid #f2f2f2;
+
+            .wrap_left {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .img {
+                width: 5.928571rem;
+                height: 5.928571rem;
+                background-color: #655d55;
+                border-radius: 0.357143rem;
+                margin-right: 0.714286rem;
+              }
+              .text {
+                flex: 1;
+                font-size: 1rem;
+                color: #000;
+                overflow: hidden;
+                .title {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-size: 1rem;
+                  .funds_box {
+                    flex: 0;
+                  }
+                }
+                .model {
+                  color: #ccc;
+                }
+                p {
+                  margin-bottom: 0.357143rem;
+                }
+                .wrap_right {
+                  width: 100%;
+                  display: flex;
+                  justify-content: flex-start;
+                  color: #ccc;
+                  span {
+                    font-size: 0.857143rem;
+                  }
+                }
+              }
+            }
+          }
+          .wrap_money {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 0.357143rem;
+            font-size: 1.142857rem;
+            color: #848484;
+          }
+        }
         em {
           display: block;
           font-size: 1.142857rem;
@@ -685,6 +758,9 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          .icon-copy {
+            font-size: 1.428571rem;
+          }
           em {
             text-align: center;
           }
@@ -693,15 +769,39 @@ export default {
     }
   }
   .footer {
-    height: 2.785714rem;
-    display: flex;
-    justify-content: flex-end;
-    position: fixed;
-    bottom: 0;
+    height: 3.5rem;
     width: 100%;
+    padding: 0.357143rem 2.142857rem;
+    position: fixed;
+    bottom: 1.428571rem;
     left: 0;
     right: 0;
-    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    border-radius: 0.357143rem;
+    .left_btn {
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+      color: #fff;
+      background: url('../../../../../../assets/image/left_btns.jpg') no-repeat;
+      background-size: 100% 100%;
+      background-position: 0 0;
+      flex: 3;
+      margin-right: 0.428571rem;
+      text-align: center;
+    }
+    .right_btn {
+      flex: 7;
+      text-align: center;
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+      color: #fff;
+      background: url('../../../../../../assets/image/right_btns.jpg') no-repeat;
+      background-size: 100% 100%;
+      background-position: 0 0;
+    }
   }
 }
 </style>

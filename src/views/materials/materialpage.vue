@@ -225,24 +225,10 @@ export default {
         materiel_status: datamateriel_status,
         _: new Date().getTime(),
       })
-      if (code == 200) {
-        if (!this.active) {
-          this.materielList = data.materielList
-        } else {
-          this.Temporary = data.materielList
-        }
-
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
+      if (!this.active) {
+        this.materielList = data.materielList
       } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
+        this.Temporary = data.materielList
       }
     },
     tobomPage(id) {

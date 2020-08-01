@@ -7,7 +7,7 @@
     </transition>
   </div>
 </template>
-mission
+
 <script >
 import { getlogin, getIndex } from '@/network/login'
 

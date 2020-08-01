@@ -1,10 +1,10 @@
 <template>
   <div class="selection wrapper" ref="wrapper">
     <ul class="list text-white" ref="list">
-      <!-- mui-control-item mui-active -->
       <li v-for="(item) in selectionList" class="mui-control-item" :key="item.id">
-        <img v-if="item.img_url" class="img" :src="item.img_url" />
-        <div v-else class="img"></div>
+        <img v-if="item.img_url" class="img" :src="item.img_url | getUrl" />
+        <img src="@/assets/image/Default.png" class="img" v-else />
+        <!-- <div v-else class="img"></div> -->
         <div class="text">{{item.product_name}}</div>
       </li>
     </ul>
@@ -13,6 +13,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
   name: 'selection',
@@ -27,6 +28,11 @@ export default {
     this.$nextTick(() => {
       this._initPics()
     })
+  },
+  filters: {
+    getUrl(value) {
+      return bestURL + value
+    },
   },
   methods: {
     _initPics() {
@@ -59,8 +65,10 @@ export default {
     display: flex;
     .mui-control-item {
       margin-right: 0.357143rem;
+      width: 4.642857rem;
+      overflow: hidden;
       .img {
-        width: 4.642857rem;
+        width: 100%;
         height: 4.642857rem;
         background-color: #ccc;
         border-radius: 0.357143rem;
@@ -72,7 +80,7 @@ export default {
       }
       .text {
         text-align: center;
-        color: #818181;
+        color: #ccc;
         font-size: 0.857143rem;
       }
     }

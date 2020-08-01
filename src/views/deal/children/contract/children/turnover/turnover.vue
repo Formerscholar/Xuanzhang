@@ -38,7 +38,7 @@
         <el-card class="box-card items" v-for="(item,index) in orderList" :key="index">
           <div class="coutent">
             <div class="leftbox">
-              <img src="@/assets/image/logo.png" />
+              <img src="@/assets/image/Default.png" />
             </div>
             <div class="rightbox">
               <div class="timer">
@@ -74,7 +74,7 @@ export default {
       active: 0,
       iid: 0,
       distributorNew: {},
-      orderList: []
+      orderList: [],
     }
   },
 
@@ -93,9 +93,9 @@ export default {
         order_number: null,
         start_time: null,
         end_time: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     blackhome() {
@@ -109,8 +109,8 @@ export default {
       console.log('getDistributor', data)
       this.distributorNew = data.distributorNew
       this.orderList = data.orderList
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -199,7 +199,7 @@ export default {
           align-items: flex-end;
           font-size: 1rem;
           .leftitem {
-            color: #fd9500;
+            color: #2a88ff;
             font-weight: 700;
           }
           .rightitem {
