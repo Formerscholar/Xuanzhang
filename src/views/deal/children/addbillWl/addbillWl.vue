@@ -63,7 +63,7 @@ import {
   getAddFlowOrder,
   getMaterielList,
   addWarehouseOrder,
-  getAddWarehouseEnter
+  getAddWarehouseEnter,
 } from '@/network/deal'
 export default {
   name: 'addbill',
@@ -74,7 +74,7 @@ export default {
       isShowed: false,
       tableData: [],
       timersList: {
-        delivery: new Date().getTime()
+        delivery: new Date().getTime(),
       },
       restaurants: [],
       state: '',
@@ -82,7 +82,7 @@ export default {
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       address: [],
       restaurant: [],
@@ -94,16 +94,16 @@ export default {
       ProductNotes: '',
       distributors: [],
       distributor_id: 0,
-      shippingData: []
+      shippingData: [],
     }
   },
   activated() {
     this.getAddFlow()
     this.getMateriel()
-    if (this.$store.state.timers.delivery != '') {
-      this.timersList.delivery = this.$store.state.timers.delivery
+    if (this.$store.state.timers.timers.delivery != '') {
+      this.timersList.delivery = this.$store.state.timers.timers.delivery
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
@@ -112,13 +112,13 @@ export default {
     getAddFlowOrderData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getMaterielListData() {
       return {
         company_id: 1,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addFlowOrderData() {
@@ -127,9 +127,9 @@ export default {
         commitment_period: this.timersList.delivery,
         remark: this.other,
         warehouse_order_product: this.shippingData,
-        token: this.$store.state.token
+        token: this.$store.state.token,
       }
-    }
+    },
   },
   methods: {
     norepickClick() {
@@ -149,7 +149,7 @@ export default {
       this.distributors.map((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurants.push(obj)
       })
@@ -161,7 +161,7 @@ export default {
       this.materiel.map((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurant.push(obj)
       })
@@ -170,7 +170,7 @@ export default {
       let addproductdata = {
         goods: this.states,
         model: this.Products,
-        nums: this.quantity
+        nums: this.quantity,
       }
       this.tableData.push(addproductdata)
       let newArr = []
@@ -196,7 +196,7 @@ export default {
       this.distributor_id = value.address
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -222,7 +222,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -239,8 +239,8 @@ export default {
           this.Products = item.specification
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
     

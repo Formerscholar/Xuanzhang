@@ -152,9 +152,20 @@ export default {
       this.$router.go(-1)
     },
     async deleteDeliver() {
-      const { code } = await deleteDeliverRecord(this.deleteDeliverData)
+      const { code, msg } = await deleteDeliverRecord(this.deleteDeliverData)
       if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
         this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
   },
@@ -321,7 +332,7 @@ export default {
     }
     .printShip {
       flex: 14;
-      margin-left: 0.428571rem;
+      margin-left: 0.214286rem;
       text-align: right;
       padding-right: 3.214286rem;
     }

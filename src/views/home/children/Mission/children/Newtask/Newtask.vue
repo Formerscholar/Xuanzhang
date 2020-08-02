@@ -130,8 +130,8 @@ export default {
     SimpleCroppes,
   },
   async activated() {
-    if (this.$store.state.timers.end_time != '') {
-      this.timersList.end_time = this.$store.state.timers.end_time
+    if (this.$store.state.timers.timers.end_time != '') {
+      this.timersList.end_time = this.$store.state.timers.timers.end_time
     }
     const { data } = await getAddDesignatedTasks({
       token: this.$store.state.token,

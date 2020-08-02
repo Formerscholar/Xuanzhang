@@ -29,11 +29,10 @@ export default {
       type: '',
       minDate: new Date(2020, 0, 1),
       maxDate: new Date(2025, 10, 1),
-      currentDate: new Date()
+      currentDate: new Date(),
     }
   },
-  components: {
-  },
+  components: {},
   activated() {
     this.type = this.$route.params.type
     console.log(this.type)
@@ -46,14 +45,14 @@ export default {
     confirmClick(value) {
       this.$store.commit('setNewTimers', {
         type: this.type,
-        timers: value
+        timers: value,
       })
       this.blacknext()
     },
     cancelClick() {
       this.blacknext()
-    }
-  }
+    },
+  },
 }
 </script>
     

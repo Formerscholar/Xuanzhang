@@ -114,7 +114,7 @@ import { regionData, CodeToText } from 'element-china-area-data'
 import {
   getAddOemOrder,
   getReceivingInformationList,
-  addOemOrder
+  addOemOrder,
 } from '@/network/deal'
 export default {
   name: 'OEM',
@@ -123,7 +123,7 @@ export default {
       state: '',
       timersList: {
         SigningDate: new Date().getTime(),
-        ContractField: new Date().getTime()
+        ContractField: new Date().getTime(),
       },
       tableData: [],
       isShowed: false,
@@ -144,7 +144,7 @@ export default {
         id: '0',
         name: '',
         tel: '',
-        address: ''
+        address: '',
       },
       restaurants: [],
       restaurant: [],
@@ -169,7 +169,7 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       states: '',
       radio: '0',
@@ -187,7 +187,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -197,26 +197,26 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       options: regionData,
       address: [],
-      number: 0
+      number: 0,
     }
   },
 
   activated() {
     this.getAddOemOrders()
-    if (this.$store.state.timers.SigningDate != '') {
-      this.timersList.SigningDate = this.$store.state.timers.SigningDate
+    if (this.$store.state.timers.timers.SigningDate != '') {
+      this.timersList.SigningDate = this.$store.state.timers.timers.SigningDate
     }
-    if (this.$store.state.timers.ContractField != '') {
-      this.timersList.ContractField = this.$store.state.timers.ContractField
+    if (this.$store.state.timers.timers.ContractField != '') {
+      this.timersList.ContractField = this.$store.state.timers.timers.ContractField
     }
     if (this.$store.state.Address.id != undefined) {
       this.addressData.name = this.$store.state.Address.name
@@ -225,7 +225,7 @@ export default {
       this.addressData.id = this.$store.state.Address.id
       this.$store.commit('setAddress', {})
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     document.querySelector('textarea').style.border = 'none'
@@ -248,13 +248,13 @@ export default {
         transport_undertaking: null,
         commitment_period: this.timersList.SigningDate,
         remark: null,
-        receiving_id: this.addressData.id
+        receiving_id: this.addressData.id,
       }
     },
     getAddOemOrderData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getReceiveDate() {
@@ -262,9 +262,9 @@ export default {
         token: this.$store.state.token,
         id: this.selectedID,
         type: 'distributor',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     async quoteclick() {
@@ -311,7 +311,7 @@ export default {
       this.distributors.forEach((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurants.push(obj)
       })
@@ -325,7 +325,7 @@ export default {
       this.usersList.forEach((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurant.push(obj)
       })
@@ -350,7 +350,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.contractAmount += adderssnum
       this.DiscountedAmount += adderssnum
@@ -413,7 +413,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -434,7 +434,7 @@ export default {
       if (this.form.companyName != '' && this.form.DetailedAddress != '') {
         this.restaurants.push({
           value: this.form.companyName,
-          address: this.form.DetailedAddress
+          address: this.form.DetailedAddress,
         })
       }
       if (this.Address.DetailedAddress != '') {
@@ -454,7 +454,7 @@ export default {
           model: this.product.specifications,
           nums: this.product.number,
           price: this.product.price,
-          totalPrice: this.product.price * this.product.number
+          totalPrice: this.product.price * this.product.number,
         }
         this.tableData.push(addproductdata)
       }
@@ -483,8 +483,8 @@ export default {
       this.$router.push({
         name: 'addressList',
         params: {
-          data: this.listData
-        }
+          data: this.listData,
+        },
       })
     },
     querySearchAsyncs(queryString, cb) {
@@ -496,8 +496,8 @@ export default {
       this.timeout = setTimeout(() => {
         cb(results)
       }, 3000 * Math.random())
-    }
-  }
+    },
+  },
 }
 </script>
     

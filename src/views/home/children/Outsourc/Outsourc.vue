@@ -90,14 +90,14 @@ import {
   addDeliverRecord,
   addStorageRecord,
   getAddStorageRecordSuppliers,
-  getAddStorageRecordProduct
+  getAddStorageRecordProduct,
 } from '@/network/deal'
 
 export default {
   data() {
     return {
       timersList: {
-        Shipdata: new Date().getTime()
+        Shipdata: new Date().getTime(),
       },
       restaurants: [],
       Contractoptions: [],
@@ -112,19 +112,19 @@ export default {
       distributor: 0,
       digit: 0,
       pageType: '',
-      itemList: {}
+      itemList: {},
     }
   },
   components: {
-    timers
+    timers,
   },
   computed: {
     getAddDeliverGoodData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     async primaryClick() {
@@ -138,20 +138,20 @@ export default {
         apply_time: this.timersList.Shipdata,
         shipping_details: Arr,
         order_id: this.orderProducts[0].outsourcing_order_id,
-        total_funds: this.Shipmentprice
+        total_funds: this.Shipmentprice,
       })
       if (code == 200) {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
         this.$router.replace('/deal/outsourcing')
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -178,17 +178,17 @@ export default {
         supplier_id: this.distributor,
         order_type: this.pageType,
         order_id: value,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       })
       console.log('getAddStorageRecordProduct', data)
       this.tableData = []
       this.orderProducts = data.orderProducts
-      data.orderProducts.map(item => {
+      data.orderProducts.map((item) => {
         this.tableData.push({
           name: item.product_name,
           specification: item.product_model,
           weight: item.weight,
-          price: item.unit_price
+          price: item.unit_price,
         })
       })
     },
@@ -197,10 +197,10 @@ export default {
         this.getAddDeliverGoodData
       )
       console.log('getAddStorageRecordSuppliers', data)
-      data.suppliers.map(item => {
+      data.suppliers.map((item) => {
         this.restaurants.push({
           address: item.id,
-          value: item.name
+          value: item.name,
         })
       })
     },
@@ -220,7 +220,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -232,20 +232,20 @@ export default {
         token: this.$store.state.token,
         distributor_id: item.address * 1,
         order_type: this.pageType,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       })
       console.log('getAddDeliverGoods', data)
-      data.orderList.map(item => {
+      data.orderList.map((item) => {
         this.Contractoptions.push({
           value: item.id,
-          label: item.order_number
+          label: item.order_number,
         })
       })
-    }
+    },
   },
   activated() {
-    if (this.$store.state.timers.Shipdata != '') {
-      this.timersList.Shipdata = this.$store.state.timers.Shipdata
+    if (this.$store.state.timers.timers.Shipdata != '') {
+      this.timersList.Shipdata = this.$store.state.timers.timers.Shipdata
     }
     this.getAddDeliverGood()
     this.pageType = this.$route.params.type
@@ -259,7 +259,7 @@ export default {
       this.ContractChange(this.itemList.id)
     }
 
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
@@ -269,7 +269,7 @@ export default {
     this.Contractoptions = []
     this.tableData = []
     this.itemList = {}
-  }
+  },
 }
 </script>
 <style lang="scss">

@@ -86,7 +86,7 @@
 <script>
 import {
   getAddDeliverGoodsDistributors,
-  addDeliverRecord
+  addDeliverRecord,
 } from '@/network/deal'
 
 export default {
@@ -97,7 +97,7 @@ export default {
       states: '',
       contractAmount: 0,
       timersList: {
-        ShipTimes: new Date().getTime()
+        ShipTimes: new Date().getTime(),
       },
       OtherInstructions: '',
       PartyContract: '',
@@ -110,16 +110,16 @@ export default {
       clickPrice: 0,
       tableType: true,
       order_id: '',
-      distributor_id: ''
+      distributor_id: '',
     }
   },
   components: { timers },
   activated() {
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
-    if (this.$store.state.timers.ShipTimes != '') {
-      this.timersList.ShipTimes = this.$store.state.timers.ShipTimes
+    if (this.$store.state.timers.timers.ShipTimes != '') {
+      this.timersList.ShipTimes = this.$store.state.timers.timers.ShipTimes
     }
     this.paramsData = this.$route.query.data
     console.log('this.paramsData', this.paramsData)
@@ -134,7 +134,7 @@ export default {
         model: item.product_model,
         nums: item.number,
         addNums: item.surplus_number,
-        price: item.unit_price
+        price: item.unit_price,
       })
     })
     this.getAddDeliverGoodsDistributor()
@@ -153,7 +153,7 @@ export default {
     getAddDeliverGoodsDistributorData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addDeliverRecordData() {
@@ -172,9 +172,9 @@ export default {
         token: this.$store.state.token,
         order_type: this.selectedID,
         order_id: this.order_id,
-        total_funds: this.contractAmount
+        total_funds: this.contractAmount,
       }
-    }
+    },
   },
   methods: {
     async submitArray() {
@@ -204,13 +204,13 @@ export default {
       data.distributors.map((item, index) => {
         this.restaurants.push({
           value: item.name,
-          address: item.id
+          address: item.id,
         })
       })
       for (const key in data.companyOrderType) {
         this.restaurant.push({
           value: data.companyOrderType[key],
-          address: key
+          address: key,
         })
       }
       this.selectedID = data.customerProductExtraField[0].product_type
@@ -223,7 +223,7 @@ export default {
       this.selectedID = val.address
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -248,8 +248,8 @@ export default {
       this.timeout = setTimeout(() => {
         cb(results)
       }, 3000 * Math.random())
-    }
-  }
+    },
+  },
 }
 </script>
     

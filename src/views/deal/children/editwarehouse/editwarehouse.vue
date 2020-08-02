@@ -97,7 +97,7 @@ import {
   addWarehouseEnter,
   getMateriel,
   getEditWarehouseEnter,
-  editWarehouseOut
+  editWarehouseOut,
 } from '@/network/deal'
 
 export default {
@@ -115,7 +115,7 @@ export default {
       Amounts: 0,
       number: '',
       timersList: {
-        DeliveryDate: new Date().getTime()
+        DeliveryDate: new Date().getTime(),
       },
       distributors: [],
       materiel: [],
@@ -139,12 +139,12 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       address: [],
       tableData: [],
@@ -157,7 +157,7 @@ export default {
       isWeightShow: false,
       isTemporary: '0',
       iid: 0,
-      supplier_id: 0
+      supplier_id: 0,
     }
   },
 
@@ -167,10 +167,10 @@ export default {
     this.getEditWarehouse()
     this.getAddDeliverGood()
     this.getMaterielLists()
-    if (this.$store.state.timers.DeliveryDate != '') {
-      this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
+    if (this.$store.state.timers.timers.DeliveryDate != '') {
+      this.timersList.DeliveryDate = this.$store.state.timers.timers.DeliveryDate
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
@@ -186,7 +186,7 @@ export default {
     getAddDeliverData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addAutonomousData() {
@@ -195,7 +195,7 @@ export default {
         supplier_id: this.supplier_id,
         detailed: this.DeliveryNotes,
         materiel_warehouse_enter_data: this.shippingData,
-        token: this.$store.state.token
+        token: this.$store.state.token,
       }
     },
 
@@ -204,22 +204,22 @@ export default {
         token: this.$store.state.token,
         product_name: this.states,
         product_model: this.Products,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getMaterielListData() {
       return {
         company_id: 1,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getEditWarehousData() {
       return {
         token: this.$store.state.token,
         id: this.iid,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     async getEditWarehouse() {
@@ -228,13 +228,13 @@ export default {
       this.state = data.warehouseAccess.name
       this.DeliveryNotes = data.warehouseAccess.remark
       this.supplier_id = data.warehouseAccess.supplier_id
-      data.warehouseAccess.warehouseAccessDetail.map(item => {
+      data.warehouseAccess.warehouseAccessDetail.map((item) => {
         let obj = {
           goods: item.materiel_name,
           model: item.materiel_model,
           nums: item.number,
           price: item.unit_price,
-          totalPrice: item.total_price
+          totalPrice: item.total_price,
         }
         this.tableData.push(obj)
         let arr = [
@@ -245,7 +245,7 @@ export default {
           item.unit_price,
           item.remark,
           item.weight,
-          item.extra
+          item.extra,
         ]
         this.shippingData.push(arr)
       })
@@ -256,7 +256,7 @@ export default {
       this.materiel.map((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurant.push(obj)
       })
@@ -277,7 +277,7 @@ export default {
       this.distributors.map((item, index) => {
         let obj = {
           value: item.name,
-          address: item.id
+          address: item.id,
         }
         this.restaurants.push(obj)
       })
@@ -312,7 +312,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -356,7 +356,7 @@ export default {
       if (data.isExistence == 0) {
         Dialog.confirm({
           title: '提示',
-          message: '是否加入临时物料库？'
+          message: '是否加入临时物料库？',
         })
           .then(() => {
             this.isTemporary = '1'
@@ -372,7 +372,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.tableData.push(addproductdata)
       let newArr = []
@@ -404,8 +404,8 @@ export default {
       if (res.code == 200) {
         this.blacknext()
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -16,9 +16,9 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <van-swipe-cell>
-              <div class="product_box">
-                <div class="wrap_item" v-for="(item,index) in tableData" :key="index">
+            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+              <van-swipe-cell>
+                <div class="wrap_item">
                   <div class="wrap_left">
                     <img v-if="item.product_img" class="img" :src="item.product_img | getUrl" />
                     <img src="@/assets/image/Default.png" class="img" v-else />
@@ -37,11 +37,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <template #right>
-                <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
-              </template>
-            </van-swipe-cell>
+                <template #right>
+                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                </template>
+              </van-swipe-cell>
+            </div>
           </el-row>
 
           <el-row class="AddProduct line">
@@ -192,9 +192,9 @@ export default {
     // this.getEditDelive()
 
     //
-    if (this.$store.state.timers.DeliveryDate != '') {
-      console.log(this.$store.state.timers.DeliveryDate)
-      this.timersList.DeliveryDate = this.$store.state.timers.DeliveryDate
+    if (this.$store.state.timers.timers.DeliveryDate != '') {
+      console.log(this.$store.state.timers.timers.DeliveryDate)
+      this.timersList.DeliveryDate = this.$store.state.timers.timers.DeliveryDate
     }
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
@@ -653,8 +653,7 @@ export default {
       }
       .line {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
         border-bottom: 1px solid #f8f7f5;
         padding: 0.714286rem 1.142857rem;
         .delect {

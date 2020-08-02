@@ -204,11 +204,11 @@ export default {
   activated() {
     this.getAddOemOrders()
 
-    if (this.$store.state.timers.SigningDate != '') {
-      this.timersList.SigningDate = this.$store.state.timers.SigningDate
+    if (this.$store.state.timers.timers.SigningDate != '') {
+      this.timersList.SigningDate = this.$store.state.timers.timers.SigningDate
     }
-    if (this.$store.state.timers.ContractField != '') {
-      this.timersList.ContractField = this.$store.state.timers.ContractField
+    if (this.$store.state.timers.timers.ContractField != '') {
+      this.timersList.ContractField = this.$store.state.timers.timers.ContractField
     }
     if (this.$store.state.Address.id != undefined) {
       this.addressData.name = this.$store.state.Address.name

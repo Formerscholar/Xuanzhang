@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import mutations from './mutations.js'
+import mutations from './mutations'
 import actions from './actions'
-import modules from './modules'
+import modules from './modules/index'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -22,22 +22,6 @@ const state = {
   // detailsdata
   detailsdata: {},
   AddDetailsData: {},
-  timersType: '',
-  // 全局时间集合
-  timers: {
-    Sign: '',
-    ShipTimes: '',
-    committed: '',
-    DeliveryDate: '',
-    SigningDate: '',
-    ContractField: '',
-    outSigningDate: '',
-    outContractField: '',
-    delivery: '',
-    end_time: '',
-    CreditDate: '',
-    Shipdata: '',
-  },
   // 地址新增/修改
   AddressID: 0,
   Address: {},

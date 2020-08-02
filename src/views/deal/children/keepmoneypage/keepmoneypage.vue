@@ -83,16 +83,16 @@ export default {
       restaurant: [],
       CreditAmount: 0,
       timersList: {
-        CreditDate: new Date().getTime()
-      }
+        CreditDate: new Date().getTime(),
+      },
     }
   },
   components: { timers },
   activated() {
-    if (this.$store.state.timers.CreditDate != '') {
-      this.timersList.CreditDate = this.$store.state.timers.CreditDate
+    if (this.$store.state.timers.timers.CreditDate != '') {
+      this.timersList.CreditDate = this.$store.state.timers.timers.CreditDate
     }
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     this.paramsData = this.$route.query.data
@@ -116,7 +116,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -125,8 +125,8 @@ export default {
     handleSelects(val) {
       console.log(val)
       this.selectedID = val.address
-    }
-  }
+    },
+  },
 }
 </script>
 
