@@ -69,7 +69,7 @@
                     >{{item.distributor_name}}</div>
                   </div>
                   <div class="timers">
-                    <div class="rightitem">{{item.commitment_period | setCommitmentPeriod}}</div>
+                    <div class="rightitem">{{item.created_at |setCommitmentPeriod}}</div>
                   </div>
                   <div class="article">
                     <div class="leftitem">{{item.product_name}}</div>
@@ -180,7 +180,7 @@ export default {
       return '发货时间:' + value
     },
     setCommitmentPeriod(value) {
-      return '交期:' + value
+      return '创建:' + value
     },
     setNumber(value) {
       return '×' + value
@@ -484,8 +484,7 @@ export default {
           flex: 1;
           margin-left: 1rem;
           font-size: 1rem;
-          .timers {
-          }
+
           .timer {
             display: flex;
             justify-content: space-between;
@@ -498,13 +497,24 @@ export default {
             .rightitem {
             }
           }
+          .timers {
+            color: #9a9a9a;
+            .leftitem {
+            }
+            .rightitem {
+              margin-right: 2rem;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+          }
           .article {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-
+            margin-right: 2rem;
             .leftitem {
-              color: #9a9a9a;
+              white-space: nowrap;
+              overflow: hidden;
             }
             .rightitem {
               em {
@@ -517,8 +527,11 @@ export default {
             justify-content: space-between;
             align-items: flex-end;
             font-size: 0.857143rem;
+
             .leftitem {
               color: #aeaeae;
+              white-space: nowrap;
+              overflow: hidden;
             }
             .rightitem {
             }

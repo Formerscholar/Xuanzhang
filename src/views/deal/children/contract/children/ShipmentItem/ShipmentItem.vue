@@ -29,9 +29,14 @@
       <el-card class="product_box">
         <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
           <div class="wrap_left">
-            <img v-if="item.img_url" class="img" :src="item.img_url  | getUrl" />
-            <!-- <div class="img" v-else></div> -->
-            <img src="@/assets/image/Default.png" class="img" v-else />
+            <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
+              <img
+                v-if="item.img_url && item.img_url != 0 "
+                class="img"
+                :src="item.img_url  | getUrl"
+              />
+              <img src="@/assets/image/Default.png" class="img" v-else />
+            </div>
             <div class="text">
               <div class="title">
                 <p>{{item.product_name}}</p>
@@ -77,7 +82,9 @@ export default {
       deliveryRecordItem: {},
       iid: 0,
       isShow: false,
+      touch: false,
       textContent: '',
+      Loop: null,
       deliverGoodsDetail: [],
     }
   },
@@ -88,6 +95,8 @@ export default {
     this.deliveryRecordItem = {}
     this.iid = 0
     this.isShow = false
+    this.touch = false
+    this.Loop = null
     this.textContent = ''
     this.deliverGoodsDetail = []
   },
@@ -132,6 +141,19 @@ export default {
   },
 
   methods: {
+    touchin() {
+      clearInterval(this.Loop)
+      this.Loop = setTimeout(() => {
+        this.touch = true
+      }, 800)
+    },
+    cleartime(materiel_id) {
+      clearInterval(this.Loop)
+      if (this.touch) {
+        this.touch = false
+        this.$router.push(`/editMaterial/${materiel_id}`)
+      }
+    },
     printShip() {
       this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${this.deliveryRecordItem.id}&orderType=flow`
       this.isShow = true

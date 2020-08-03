@@ -1,6 +1,5 @@
 <template>
   <div id="ReimburDetails">
-    <!-- header -->
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blacknext">
         <i class="el-icon-arrow-left"></i>
@@ -10,67 +9,59 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <!-- body -->
     <div class="body">
-      <!-- 头像logo -->
       <div class="logo">
         <div class="leftbox">
           <div class="picter">
-            <img src="@/assets/image/logo.png" />
+            <img v-if="userInfo[0].img_url" :src="userInfo[0].img_url.substr(1)" alt="logo" />
+            <img v-else src="@/assets/image/dpng.png" />
           </div>
           <div class="text">
             <em>{{userInfo[0].name}}</em>
-            <p>{{userInfo[0].role.display_name}}</p>
+            <p>{{userInfo[0].department.name}}-{{userInfo[0].role.display_name}}</p>
           </div>
         </div>
-        <div class="rightbox">
-          <img src="@/assets/image/siletP.png" />
-        </div>
       </div>
-      <!-- 报销事由 -->
       <el-card class="box-card Cause">
         <div class="title">
           <span>报销事由</span>
-          <em>备注</em>
         </div>
         <div class="content">
           <div class="item">
             <span>{{reimbursement.reason}}</span>
-            <em>{{reimbursement.operator_remark}}</em>
-          </div>
-          <div class="item">
-            <span>{{reimbursement.created_at}}</span>
-            <em></em>
           </div>
         </div>
+        <div class="title">
+          <em>创建日期</em>
+          <em style="text-align: right;">{{reimbursement.created_at}}</em>
+        </div>
       </el-card>
-      <!-- 报销明细 -->
       <div class="Details">
         <div class="title">报销明细</div>
         <el-card class="box-card detail" v-for="(item,index) in reimbursementDetail" :key="index">
-          <div class="item rent">
-            <span>{{item.category_name}}</span>
-            <em>CNY</em>
-          </div>
-          <div class="item timer">
-            <span>{{item.reason_time}}</span>
-            <em>
-              <i>{{item.money.split('.')[0]}}</i>
-              .{{item.money.split('.')[1]}}
-            </em>
-          </div>
-          <div class="item date">
-            <span>{{item.reason}}</span>
+          <div class="newDail">
+            <div class="left_box">
+              <div>{{item.category_name}}</div>
+              <div>{{item.reason_time}}</div>
+              <div>{{item.reason}}</div>
+            </div>
+            <div class="right_box">
+              <div class="CNY">CNY</div>
+              <div class="money">
+                <i>{{item.money.split('.')[0]}}</i>
+                .{{item.money.split('.')[1]}}
+              </div>
+            </div>
           </div>
         </el-card>
 
         <el-card class="box-card detail">
           <div class="item rent">
-            <span class="moneny">累计报销金额</span>
+            <span></span>
             <em>CNY</em>
           </div>
           <div class="item timer">
-            <div></div>
+            <span class="moneny">累计报销金额</span>
             <em>
               <i>{{reimbursement.money.split('.')[0]}}</i>
               .{{reimbursement.money.split('.')[1]}}
@@ -81,28 +72,46 @@
             <em>{{reimbursement.operator_name}}</em>
           </div>
         </el-card>
-        <el-card class="box-card detail">
-          <span class="state">状态: 待审核</span>
-        </el-card>
       </div>
     </div>
+    <div class="btns">
+      <div class="deleteDeliver" @click="deleteDeliver"></div>
+      <div class="deleteDelivers" @click="deleteDeliver">删除</div>
+      <div class="printShip" @click="printShip">打印</div>
+      <div class="editShips" @click="editShip">编辑</div>
+      <div class="editShip" @click="editShip"></div>
+      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+    </div>
+    <van-overlay :show="isShow" @click="isShow = false">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
 <script>
-import { reimbursementDetail } from '@/network/Reimbursement.js'
+import {
+  reimbursementDetail,
+  deleteReimbursement,
+} from '@/network/Reimbursement.js'
+import myVqr from '@/components/common/my_vqr/myVqr'
+
 export default {
   name: 'ReimburDetails',
-
   data() {
     return {
       iid: 0,
       reimbursement: {},
       reimbursementDetail: [],
-      userInfo: []
+      userInfo: [],
+      textContent: '',
+      isShow: false,
     }
   },
-
+  components: {
+    myVqr,
+  },
   activated() {
     this.iid = this.$route.params.id
     this.getreimbursementDetail()
@@ -113,11 +122,39 @@ export default {
       return {
         token: this.$store.state.token,
         id: this.iid,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
+    async deleteDeliver() {
+      const { code, msg } = await deleteReimbursement({
+        token: this.$store.state.token,
+        id: this.reimbursement.id,
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.$router.replace('/reimbursement')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
+    printShip() {
+      console.log('打印')
+      this.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${this.reimbursement.id}`
+      this.isShow = true
+    },
+    editShip() {
+      console.log('编辑')
+    },
     blacknext() {
       this.$router.go(-1)
     },
@@ -127,8 +164,8 @@ export default {
       this.reimbursementDetail = data.reimbursementDetail
       this.userInfo = data.userInfo
       console.log('reimbursementDetail', data)
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -157,7 +194,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       padding: 1.428571rem 2.428571rem 0 1.214286rem;
-      margin-bottom: 1.428571rem;
+      margin-bottom: 0.571429rem;
       .leftbox {
         display: flex;
         justify-content: space-between;
@@ -178,7 +215,6 @@ export default {
           margin-left: 1rem;
           em {
             font-size: 1.128571rem;
-            font-weight: 700;
           }
           p {
             font-size: 0.771429rem;
@@ -210,15 +246,14 @@ export default {
         }
       }
       .content {
-        margin-top: 0.857143rem;
+        margin-top: 0.357143rem;
 
         .item {
           display: flex;
           justify-content: space-between;
           align-items: center;
           color: #2d2d2d;
-          font-weight: 700;
-          font-size: 0.714286rem;
+          font-size: 1rem;
           margin-bottom: 1.428571rem;
           &:last-child {
             margin: 0;
@@ -239,19 +274,40 @@ export default {
         margin-bottom: 0.614286rem;
         padding-left: 0.857143rem;
       }
+
       .detail {
         margin-bottom: 0.428571rem;
+        .newDail {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .left_box {
+          }
+          .right_box {
+            .CNY {
+              font-size: 1rem;
+              color: #00cccc;
+              text-align: right;
+              margin-bottom: 0.571429rem;
+            }
+            .money {
+              font-size: 1.142857rem;
+              i {
+                font-size: 1.714286rem;
+              }
+            }
+          }
+        }
         .item {
           display: flex;
           justify-content: space-between;
         }
 
         .rent {
-          align-items: flex-start;
-          .moneny {
-            position: relative;
-            top: 0.857143rem;
-          }
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+
           span {
             font-size: 1rem;
           }
@@ -261,8 +317,11 @@ export default {
           }
         }
         .timer {
+          display: flex;
+          justify-content: space-between;
           align-items: flex-end;
           margin-bottom: 0.314286rem;
+
           span {
             font-size: 0.857143rem;
             color: #767676;
@@ -274,12 +333,15 @@ export default {
               font-size: 1.714286rem;
             }
           }
+          .moneny {
+            font-size: 1rem;
+            color: #1f1f1f;
+          }
         }
         .date {
           align-items: flex-end;
           span {
             font-size: 0.857143rem;
-            color: #888888;
           }
         }
         .Reimburser {
@@ -298,6 +360,73 @@ export default {
           font-weight: 700;
         }
       }
+    }
+  }
+  .btns {
+    height: 3.5rem;
+    width: 100%;
+    padding: 0.357143rem 2.142857rem;
+    position: fixed;
+    bottom: 1.428571rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip,
+    .editShips,
+    .editShip {
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+    }
+
+    .deleteDeliver,
+    .editShip {
+      width: 2.785714rem;
+      border-radius: 50%;
+    }
+
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip {
+      background-color: #000;
+    }
+    .deleteDelivers,
+    .printShip {
+      color: #fff;
+    }
+    .deleteDelivers {
+      text-align: left;
+      margin-left: -1.428571rem;
+      flex: 3;
+      font-size: 1rem;
+    }
+    .printShip {
+      flex: 14;
+      margin-left: 0.214286rem;
+      text-align: right;
+      padding-right: 3.214286rem;
+    }
+    .editShips {
+      flex: 3;
+      text-align: right;
+      margin-right: -1.428571rem;
+      z-index: 2;
+      background-color: #f2c659;
+      color: #000;
+      font-size: 1rem;
+    }
+    .editShip {
+      background-color: #f2c659;
+    }
+    .Print {
+      width: 6.428571rem;
+      height: 6.428571rem;
+      position: fixed;
+      bottom: 0.714286rem;
+      left: 30%;
     }
   }
 }

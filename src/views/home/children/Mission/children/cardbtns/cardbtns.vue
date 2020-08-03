@@ -1,7 +1,12 @@
 <template>
   <div class="cardbtns">
+    <van-search v-model="searchValue" shape="round" background="#fff" placeholder="搜索/查单">
+      <template #right-icon>
+        <van-icon name="scan" />
+      </template>
+    </van-search>
     <el-tabs v-model="activeName">
-      <el-tab-pane class="first" label="参与任务" name="first">
+      <el-tab-pane class="first" :label="'参与'+ designatedTasksList.length" name="first">
         <scroll
           class="scroll-wrapper"
           ref="scrollss"
@@ -9,11 +14,48 @@
           :pull-up-load="true"
           @pullingUp="loadMore('participate')"
         >
-
-  
-
           <div class="cardList" v-for="(item,index) in designatedTasksList" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
+              <el-card class="box-card">
+                <div class="numstag">
+                  <div class="num">
+                    <span class="title">任务编号:</span>
+                    <span class="content">{{item.task_id}}</span>
+                  </div>
+                  <div class="tags">
+                    <el-tag
+                      style="margin-right:.428571rem;"
+                      effect="plain"
+                      :type="setTextStatus('type',item.status,item.user_status)"
+                    >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                    <el-tag
+                      style="margin-left:.428571rem;"
+                      effect="plain"
+                      :type="setTypes('type',item.attribute)"
+                    >{{setTypes('text',item.attribute)}}</el-tag>
+                  </div>
+                </div>
+                <div class="charactimer">
+                  <div class="left_box">
+                    <div class="name">{{item.operator_name}}</div>
+                    <div class="timers">{{item.created_at | setTimerType}}</div>
+                  </div>
+                  <div class="center_box">
+                    <img src="@/assets/image/rw_bg.png" />
+                  </div>
+                  <div class="right_box">
+                    <div class="name">{{item.user_name}}</div>
+                    <div class="timers">{{item.end_time}}</div>
+                  </div>
+                </div>
+                <div class="MissionDetails">
+                  <span>【{{item.name}}】</span>
+                  {{item.title}}
+                </div>
+              </el-card>
+            </div>
+
+            <!-- <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
                 <div class="top_box">
                   <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
@@ -29,7 +71,7 @@
                 <div class="bot_box">
                   <div class="left_box">
                     <span class="name">{{item.operator_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                    <span class="jobName">董事长</span>
                   </div>
                   <div class="certent_box">
                     <div class="status_box">
@@ -48,11 +90,12 @@
                   </div>
                   <div class="right_box">
                     <span class="name">{{item.user_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                    <span class="jobName">董事长</span>
                   </div>
                 </div>
               </el-card>
-            </div>
+            </div>-->
+
             <!-- <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
                 <div class="botbox">
@@ -89,7 +132,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="second" label="已经完成" name="second">
+      <el-tab-pane class="second" :label="'已完成' +UserDesignatedTasksData.length" name="second">
         <scroll
           class="scroll-wrapper"
           ref="scrolls"
@@ -100,81 +143,47 @@
           <div class="cardList" v-for="(item,index) in UserDesignatedTasksData" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
-                <div class="top_box">
-                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
-                  <span>
-                    ID:
-                    <em>{{item.task_id}}</em>
-                  </span>
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
-                <div class="bot_box">
-                  <div class="left_box">
-                    <span class="name">{{item.operator_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                <div class="numstag">
+                  <div class="num">
+                    <span class="title">任务编号:</span>
+                    <span class="content">{{item.task_id}}</span>
                   </div>
-                  <div class="certent_box">
-                    <div class="status_box">
-                      <el-tag
-                        style="margin-right:.428571rem;"
-                        effect="plain"
-                        :type="setTextStatus('type',item.status,item.user_status)"
-                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                      <el-tag
-                        style="margin-left:.428571rem;"
-                        effect="plain"
-                        :type="setTypes('type',item.attribute)"
-                      >{{setTypes('text',item.attribute)}}</el-tag>
-                    </div>
-                    <div class="timers_box">{{item.end_time}}</div>
+                  <div class="tags">
+                    <el-tag
+                      style="margin-right:.428571rem;"
+                      effect="plain"
+                      :type="setTextStatus('type',item.status,item.user_status)"
+                    >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                    <el-tag
+                      style="margin-left:.428571rem;"
+                      effect="plain"
+                      :type="setTypes('type',item.attribute)"
+                    >{{setTypes('text',item.attribute)}}</el-tag>
+                  </div>
+                </div>
+                <div class="charactimer">
+                  <div class="left_box">
+                    <div class="name">{{item.operator_name}}</div>
+                    <div class="timers">{{item.created_at | setTimerType}}</div>
+                  </div>
+                  <div class="center_box">
+                    <img src="@/assets/image/rw_bg.png" />
                   </div>
                   <div class="right_box">
-                    <span class="name">{{item.user_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                    <div class="name">{{item.user_name}}</div>
+                    <div class="timers">{{item.end_time}}</div>
                   </div>
+                </div>
+                <div class="MissionDetails">
+                  <span>【{{item.name}}】</span>
+                  {{item.title}}
                 </div>
               </el-card>
             </div>
-            <!-- <div class="listcontent" @click="goDetails(item.id)">
-              <el-card class="box-card">
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
-                <div class="topbox">
-                  <div class="leftbox">
-                    <div class="left_id">
-                      <el-tag
-                        :type="setTextStatus('type',item.status,item.user_status)"
-                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                    </div>
-                    <div class="left_xj">
-                      <span>
-                        ID:
-                        <em>{{item.id}}</em>
-                      </span>
-                    </div>
-                    <div class="left_jj">
-                      <el-tag
-                        :type="setTypes('type',item.attribute)"
-                      >{{setTypes('text',item.attribute)}}</el-tag>
-                    </div>
-                  </div>
-                  <div class="rightbox">
-                    <el-tag type="danger">{{item.end_time}}</el-tag>
-                  </div>
-                </div>
-              </el-card>
-            </div>-->
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="third" label="任务列表" name="fourth">
+      <el-tab-pane class="third" :label="'所有' + Designated.length" name="fourth">
         <scroll
           class="scroll-wrapper"
           ref="scroll"
@@ -185,77 +194,43 @@
           <div class="cardList" v-for="(item,index) in Designated" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
               <el-card class="box-card">
-                <div class="top_box">
-                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
-                  <span>
-                    ID:
-                    <em>{{item.task_id}}</em>
-                  </span>
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
-                <div class="bot_box">
-                  <div class="left_box">
-                    <span class="name">{{item.operator_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                <div class="numstag">
+                  <div class="num">
+                    <span class="title">任务编号:</span>
+                    <span class="content">{{item.task_id}}</span>
                   </div>
-                  <div class="certent_box">
-                    <div class="status_box">
-                      <el-tag
-                        style="margin-right:.428571rem;"
-                        effect="plain"
-                        :type="setTextStatus('type',item.status,item.user_status)"
-                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                      <el-tag
-                        style="margin-left:.428571rem;"
-                        effect="plain"
-                        :type="setTypes('type',item.attribute)"
-                      >{{setTypes('text',item.attribute)}}</el-tag>
-                    </div>
-                    <div class="timers_box">{{item.end_time}}</div>
+                  <div class="tags">
+                    <el-tag
+                      style="margin-right:.428571rem;"
+                      effect="plain"
+                      :type="setTextStatus('type',item.status,item.user_status)"
+                    >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                    <el-tag
+                      style="margin-left:.428571rem;"
+                      effect="plain"
+                      :type="setTypes('type',item.attribute)"
+                    >{{setTypes('text',item.attribute)}}</el-tag>
+                  </div>
+                </div>
+                <div class="charactimer">
+                  <div class="left_box">
+                    <div class="name">{{item.operator_name}}</div>
+                    <div class="timers">{{item.created_at | setTimerType}}</div>
+                  </div>
+                  <div class="center_box">
+                    <img src="@/assets/image/rw_bg.png" />
                   </div>
                   <div class="right_box">
-                    <span class="name">{{item.user_name}}</span>
-                    <!-- <span class="jobName">董事长</span> -->
+                    <div class="name">{{item.user_name}}</div>
+                    <div class="timers">{{item.end_time}}</div>
                   </div>
+                </div>
+                <div class="MissionDetails">
+                  <span>【{{item.name}}】</span>
+                  {{item.title}}
                 </div>
               </el-card>
             </div>
-            <!-- <div class="listcontent" @click="goDetails(item.id)">
-              <el-card class="box-card">
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
-                <div class="topbox">
-                  <div class="leftbox">
-                    <div class="left_id">
-                      <el-tag
-                        :type="setTextStatus('type',item.status,item.user_status)"
-                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                    </div>
-                    <div class="left_xj">
-                      <span>
-                        ID:
-                        <em>{{item.id}}</em>
-                      </span>
-                    </div>
-                    <div class="left_jj">
-                      <el-tag
-                        :type="setTypes('type',item.attribute)"
-                      >{{setTypes('text',item.attribute)}}</el-tag>
-                    </div>
-                  </div>
-                  <div class="rightbox">
-                    <el-tag type="danger">{{item.end_time}}</el-tag>
-                  </div>
-                </div>
-              </el-card>
-            </div>-->
           </div>
         </scroll>
       </el-tab-pane>
@@ -268,6 +243,7 @@ export default {
   data() {
     return {
       activeName: 'first',
+      searchValue: '',
     }
   },
 
@@ -362,73 +338,78 @@ export default {
   .cardList {
     .listcontent {
       margin-bottom: 0.357143rem;
+      padding: 0.357143rem 0.857143rem;
       .box-card {
-        .top_box {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin-bottom: 0.357143rem;
-          font-size: 1.142857rem;
-          overflow: hidden;
-          white-space: nowrap;
-          img {
-            width: 2rem;
-            height: 2rem;
-          }
-        }
-        .bot_box {
+        font-family: 'SimHei';
+        .numstag {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 0 1.428571rem;
-          .left_box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            .name {
-              font-size: 1.285714rem;
-              font-weight: 700;
-              color: black;
-              width: 4.214286rem;
-              text-align: center;
+          font-size: 0.857143rem;
+          margin-bottom: 0.571429rem;
+
+          .num {
+            color: #ababab;
+            .title {
             }
-            .jobName {
-              font-size: 0.857143rem;
-              color: #999999;
+            .content {
+              color: black;
             }
           }
-          .certent_box {
+          .tags {
+            .status {
+              border: 1px solid #2889fe;
+              color: #2889fe;
+              padding: 0 0.714286rem;
+              text-align: center;
+              border-radius: 0.357143rem;
+              margin-right: 0.357143rem;
+            }
+            .urgents {
+              border: 1px solid #ff0000;
+              color: #ff0000;
+              padding: 0 0.714286rem;
+              text-align: center;
+              border-radius: 0.357143rem;
+            }
+          }
+        }
+        .charactimer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 0.571429rem;
+          .left_box {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: url('../../../../../../assets/image/rw_bg.png')
-              no-repeat;
-            background-position: 50% 45%;
-            background-size: auto;
-            .timers_box {
-              margin-top: 0.714286rem;
+            .name {
+              font-size: 1.285714rem;
+            }
+            .timers {
               font-size: 0.857143rem;
             }
+          }
+          .center_box {
+            width: 5.214286rem;
+            overflow: hidden;
           }
           .right_box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            flex: 1;
             .name {
-              color: black;
               font-size: 1.285714rem;
-              font-weight: 700;
-              width: 4.214286rem;
-              text-align: center;
             }
-            .jobName {
+            .timers {
               font-size: 0.857143rem;
-              color: #999999;
             }
+          }
+        }
+        .MissionDetails {
+          font-size: 1.071429rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          span {
+            color: #666666;
           }
         }
       }

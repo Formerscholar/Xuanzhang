@@ -2,7 +2,7 @@
   <div class="selection wrapper" ref="wrapper">
     <ul class="list text-white" ref="list">
       <li v-for="(item) in selectionList" class="mui-control-item" :key="item.id">
-        <img v-if="item.img_url" class="img" :src="item.img_url | getUrl" />
+        <img v-if="item.img_url && item.img_url != 0 " class="img" :src="item.img_url | getUrl" />
         <img src="@/assets/image/Default.png" class="img" v-else />
         <!-- <div v-else class="img"></div> -->
         <div class="text">{{item.product_name}}</div>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     _initPics() {
-      let itemWidth = 85
+      let itemWidth = 65
       let margin = 5
       let width = (itemWidth + margin) * this.selectionList.length - margin
       this.$refs.list.style.width = width + 'px'

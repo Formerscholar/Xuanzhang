@@ -20,7 +20,11 @@
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
-                    <img v-if="item.product_img" class="img" :src="item.product_img | getUrl" />
+                    <img
+                      v-if="item.product_img && item.product_img != 0 "
+                      class="img"
+                      :src="item.product_img | getUrl"
+                    />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">

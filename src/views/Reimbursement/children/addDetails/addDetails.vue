@@ -11,32 +11,14 @@
     </navbar>
     <div class="isolation"></div>
     <div class="body">
-      <el-row class="money">
-        <div class="left">
-          <i class="el-icon-star-on" style="color:#b3492b;"></i>
-          <el-select v-model="value" clearable placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              ref="optionstype"
-            ></el-option>
-          </el-select>
+      <div class="money">
+        <div class="top">报销金额</div>
+        <div class="bto">
+          <el-input v-model="apply" type="number" placeholder="￥请输入内容"></el-input>
         </div>
-        <div class="right">
-          <span class="top">
-            <i class="el-icon-star-on" style="color:#b3492b;"></i>报销金额
-          </span>
-          <span class="bto">
-            ￥
-            <el-input v-model="apply" type="number" placeholder="请输入内容"></el-input>
-          </span>
-        </div>
-      </el-row>
+      </div>
       <el-row class="timer">
         <div class="left">
-          <i class="el-icon-star-on" style="color:#b3492b;"></i>
           <span>发生时间</span>
         </div>
         <div class="right">
@@ -50,16 +32,15 @@
         </div>
       </el-row>
 
-      <el-row class="timer">
+      <div class="timer">
         <div class="left">
-          <i class="el-icon-star-on" style="color:#b3492b;"></i>
-          <span>费用说明</span>
+          <span>费用明细</span>
         </div>
         <div class="right">
           <el-input v-model="description" placeholder="请输入内容"></el-input>
         </div>
-      </el-row>
-      <el-row class="upload">
+      </div>
+      <!-- <div class="upload">
         <div class="left">
           <div class="upload">
             <el-upload
@@ -75,7 +56,7 @@
             </el-dialog>
           </div>
         </div>
-      </el-row>
+      </div>-->
 
       <el-row class="Feecollection">
         <div class="left">
@@ -94,8 +75,6 @@
 </template>
     
 <script>
- 
-
 import { getAddReimbursement } from '@/network/Reimbursement.js'
 
 export default {
@@ -115,7 +94,7 @@ export default {
             text: '今天',
             onClick(picker) {
               picker.$emit('pick', new Date())
-            }
+            },
           },
           {
             text: '昨天',
@@ -123,7 +102,7 @@ export default {
               const date = new Date()
               date.setTime(date.getTime() - 3600 * 1000 * 24)
               picker.$emit('pick', date)
-            }
+            },
           },
           {
             text: '一周前',
@@ -131,40 +110,31 @@ export default {
               const date = new Date()
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
               picker.$emit('pick', date)
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       timervalue: '',
       apply: '',
 
-      description: ''
+      description: '',
     }
   },
-  components: {
-  },
-  mounted() {
-    document.querySelector('.money .left input').style.border = 'none'
-    document.querySelector('.timer .right input').style.border = 'none'
-    document.querySelector('.money .left input').style.fontSize = '1.042857rem'
-    document.querySelector('.timer .right input').style.fontSize = '1.042857rem'
-  },
   activated() {
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
 
     this.getAddReimbursementData()
   },
-  deactivated() {
-  },
+  deactivated() {},
   methods: {
     btnClick() {
       this.$store.commit('setAddDetailsData', {
         optionstype: this.value,
         apply: this.apply * 1,
         timervalue: this.timervalue,
-        description: this.description
+        description: this.description,
       })
       this.$router.replace('/account')
       this.value = null
@@ -188,23 +158,23 @@ export default {
       )
       console.log('getAddReimbursementData', data)
       this.optionstype = data.type
-      data.type.forEach(item => {
+      data.type.forEach((item) => {
         let optionsObj = {
           value: item.id,
-          label: item.category_name
+          label: item.category_name,
         }
         this.options.push(optionsObj)
       })
-    }
+    },
   },
   computed: {
     getAddReimbursementparamsData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -236,35 +206,18 @@ export default {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #ececec;
-      .left {
-        width: 50%;
-        vertical-align: middle;
-        padding: 0.357143rem 0.714286rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-right: 1px solid #ececec;
-      }
-      .right {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: space-between;
-        padding: 0 0.714286rem;
-
-        .top {
-          color: #a0a0a0;
-          .el-icon-star-on {
-            margin-right: 0.357143rem;
-          }
+      padding: 0.714286rem;
+      .top {
+        color: #a0a0a0;
+        .el-icon-star-on {
+          margin-right: 0.357143rem;
         }
-        .bto {
-          font-size: 1.142857rem;
-          display: flex;
-          .el-input {
-            margin-top: -5px;
-          }
+      }
+      .bto {
+        font-size: 1.142857rem;
+        display: flex;
+        .el-input {
+          margin-top: -5px;
         }
       }
     }
@@ -274,6 +227,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #ececec;
+
       padding: 0.714286rem;
       .left {
         width: 50%;
@@ -310,6 +264,8 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 0.714286rem;
+
       border-bottom: 1px solid #ececec;
       padding: 0.714286rem 2.071429rem;
       .left {

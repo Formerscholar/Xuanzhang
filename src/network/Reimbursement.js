@@ -31,3 +31,11 @@ export function reimbursementDetail(params) {
     params,
   })
 }
+
+export function deleteReimbursement(data) {
+  return request({
+    url: '/Finance/deleteReimbursement',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

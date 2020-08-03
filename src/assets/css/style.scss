@@ -207,8 +207,7 @@ i {
   }
 
   .el-card__body {
-    padding: .571429rem 1.428571rem;
-    padding-bottom: 0.357143rem;
+    padding: .714286rem 1.428571rem;
   }
 
   .el-tag--small {
@@ -250,8 +249,9 @@ i {
   }
 
   .el-tag {
-    height: 1.285714rem;
-    line-height: 1rem;
+    height: 1.142857rem;
+    padding: 0 .571429rem;
+    line-height: .857143rem;
     font-size: 0.857143rem;
     margin-right: 0.214286rem;
   }
@@ -317,7 +317,16 @@ i {
 
 #ReimburDetails {
   .el-card__body {
-    padding: 1.428571rem !important;
+    padding: .357143rem .714286rem !important;
+  }
+
+
+}
+
+#newAccount,
+#addDetails {
+  input {
+    background-color: #fff;
   }
 }
 
@@ -338,6 +347,13 @@ i {
 #Reimbursement .topcard {
   .el-card__body {
     padding: 0px !important;
+  }
+}
+
+#Reimbursement {
+  .el-tabs__nav-scroll {
+    display: flex;
+    justify-content: center;
   }
 }
 

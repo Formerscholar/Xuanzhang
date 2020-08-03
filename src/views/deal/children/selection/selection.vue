@@ -1,7 +1,6 @@
 <template>
   <div class="selection wrapper bg-primary my_header" ref="wrapper">
     <ul class="list text-white" ref="list">
-      <!-- mui-control-item mui-active -->
       <li
         v-for="(item,index) in selectionList"
         class="mui-control-item"

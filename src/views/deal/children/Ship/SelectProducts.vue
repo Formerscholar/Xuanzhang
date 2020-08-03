@@ -12,7 +12,7 @@
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
       <el-card class="box-card item1">
         <div class="swiper_img">
-          <img v-if="img_URL" :src="img_URL | getUrl" alt="logo" />
+          <img v-if="img_URL && img_url != 0 " :src="img_URL | getUrl" alt="logo" />
           <img src="@/assets/image/Default.png" v-else />
           <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
         </div>

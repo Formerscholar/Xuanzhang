@@ -10,14 +10,23 @@
       <div slot="right"></div>
     </navbar>
     <div class="BasicInfo">
+      <div class="title">报销类别</div>
+      <div class="item1">
+        <span>选择类别</span>
+        <el-select v-model="value" clearable placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            ref="optionstype"
+          ></el-option>
+        </el-select>
+      </div>
       <div class="title">基本信息</div>
       <div class="item1">
         <span>报销事由</span>
         <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
-      </div>
-      <div class="item2">
-        <span>备注</span>
-        <el-input v-model="Remarks" placeholder="请输入内容"></el-input>
       </div>
     </div>
     <div class="ChargeDetails">
@@ -58,18 +67,16 @@
         <em>￥{{apply==undefined?'0':apply}}</em>
       </div>
       <div class="item4">
-        <el-button type="primary" plain class="writhe">存为草稿</el-button>
-        <el-button type="primary" class="blue" @click="goBtnClick">下一步</el-button>
+        <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
       </div>
     </div>
   </div>
 </template>
     
 <script>
- 
 import {
   getAddReimbursement,
-  addReimbursement
+  addReimbursement,
 } from '@/network/Reimbursement.js'
 export default {
   name: 'newAccount',
@@ -78,25 +85,25 @@ export default {
       NewCost: [],
       Reasons: '',
       Remarks: '',
+      options: [],
       apply: 0,
       applyName: '',
+      value: '',
       type: [],
       reimbursement_detail: [],
       user_id: 0,
-      token: ''
+      token: '',
     }
   },
-  components: {
-  },
+  components: {},
   activated() {
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     this.getAddReimbursementData()
     this.setNewCost()
   },
-  deactivated() {
-  },
+  deactivated() {},
   methods: {
     setNewCost() {
       let rootData = this.$store.state.AddDetailsData
@@ -108,7 +115,7 @@ export default {
         let iid = rootData.optionstype
         newArr[0] = iid
 
-        this.type.forEach(item => {
+        this.type.forEach((item) => {
           if (item.id == iid) {
             newObj.title = item.category_name
           }
@@ -153,12 +160,19 @@ export default {
       this.type = data.type
       this.token = data.token
       this.applyName = data.userInfo[0].name
+      data.type.forEach((item) => {
+        let optionsObj = {
+          value: item.id,
+          label: item.category_name,
+        }
+        this.options.push(optionsObj)
+      })
     },
     async goBtnClick() {
       const { data } = await addReimbursement(this.getReimbursementData)
       console.log(data)
       this.$router.replace('/reimbursement')
-    }
+    },
   },
   computed: {
     getReimbursementData() {
@@ -167,10 +181,10 @@ export default {
         operator_remark: this.Remarks,
         reimbursement_detail: this.reimbursement_detail,
         user_id: this.user_id,
-        reason: this.Reasons
+        reason: this.Reasons,
       }
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -9,7 +9,7 @@
         <span>报销</span>
       </div>
       <div class="right" slot="right">
-        <i class="el-icon-plus newbtn" @click="newAccount"></i>
+        <!-- <i class="el-icon-plus newbtn"></i> -->
       </div>
     </navbar>
     <!-- titlebox -->
@@ -23,14 +23,11 @@
           <div class="centerbox">
             <div class="namebox">
               <span>{{titleName.name}}</span>
-              <span class="bordertext">默认</span>
+              <span class="bordertext">{{titleName.roleName}}</span>
             </div>
             <div class="firm">
               <span>{{titleName.compserName}}</span>
             </div>
-          </div>
-          <div class="rightbox">
-            <i class="el-icon-discover"></i>
           </div>
         </div>
       </div>
@@ -46,19 +43,11 @@
               <el-card class="box-card topcard">
                 <ul>
                   <li>
-                    <span>审批中</span>
-                    <em>500.00</em>
-                  </li>
-                  <li>
-                    <span>待审票</span>
+                    <span>待审金额</span>
                     <em>0.00</em>
                   </li>
                   <li>
-                    <span>待付款</span>
-                    <em>0.00</em>
-                  </li>
-                  <li>
-                    <span>我的借款</span>
+                    <span>我的余额</span>
                     <em>0.00</em>
                   </li>
                 </ul>
@@ -97,7 +86,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="待审批" class="itembox" name="second">
+      <el-tab-pane label="我的通过" class="itembox" name="second">
         <scroll class="scroll-wrapper">
           <div class="body_box">
             <div class="boxbtn">
@@ -174,12 +163,13 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="应用中心" name="third">
+      <el-tab-pane label="全部" name="third">
         <scroll class="scroll-wrapper">角色管理</scroll>
       </el-tab-pane>
     </el-tabs>
 
     <!-- body -->
+    <i class="el-icon-plus" @click="newAccount"></i>
   </div>
 </template>
     
@@ -233,6 +223,7 @@ export default {
       this.titleName = {
         name: data.userInfo[0].name || '姓名',
         compserName: data.userInfo[0].user_compser_name || '公司全称',
+        roleName: data.userInfo[0].role.display_name,
       }
     },
     reimburClick(id) {
@@ -307,13 +298,12 @@ export default {
           .bordertext {
             position: relative;
             top: -0.142857rem;
-            font-size: 14px;
+            font-size: 0.857143rem;
             padding: 0 0.714286rem;
-            border: 1px solid #fff;
           }
         }
         .firm {
-          font-size: 14px;
+          font-size: 0.857143rem;
           span {
           }
         }
@@ -419,10 +409,9 @@ export default {
             background-color: #fff;
             color: #3372e9;
             border: none;
-            height: 46px;
+            height: 2.785714rem;
             width: 100%;
             border-radius: 0.357143rem;
-            font-weight: 700;
           }
         }
         .card {
@@ -586,6 +575,17 @@ export default {
         }
       }
     }
+  }
+  .el-icon-plus {
+    position: fixed;
+    bottom: 3.357143rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: #2a7bd0;
+    color: #fff;
+    border-radius: 50%;
   }
 }
 </style>
