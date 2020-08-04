@@ -3,6 +3,11 @@
     <ul class="list text-white" ref="list">
       <li v-for="(item) in selectionList" class="mui-control-item" :key="item.id">
         <img v-if="item.img_url && item.img_url != 0 " class="img" :src="item.img_url | getUrl" />
+        <img
+          v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+          class="img"
+          :src="item.img_url_lin  | getUrl"
+        />
         <img src="@/assets/image/Default.png" class="img" v-else />
         <!-- <div v-else class="img"></div> -->
         <div class="text">{{item.product_name}}</div>

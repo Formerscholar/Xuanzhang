@@ -9,46 +9,57 @@
     >
       <van-tabs v-model="active" @click="handleClick">
         <van-tab class="first" title="进行中">
-          <el-card class="box-card" v-for="(item,index) in outsourcingOrderList" :key="index">
-            <div
-              class="info"
-              @click.stop="listClick(item)"
-              @touchstart.prevent="touchin"
-              @touchend.prevent="cleartime"
-            >
-              <span>
-                {{item.order_number}}
-                <em>{{item.salesperson_name | setSalespersonName}}</em>
-              </span>
-              <i @click="Retrieve(item.supplier_id)">{{item.name}}</i>
-            </div>
-            <el-row class="schedule">
-              <div class="item">
-                <el-progress
-                  :format="formatTwo"
-                  :status="item.delivery_schedule<100?null:'warning'"
-                  :text-inside="true"
-                  :stroke-width="20"
-                  :show-text="item.delivery_schedule<30?false:true"
-                  :percentage="item.delivery_schedule * 1"
-                ></el-progress>
+          <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
+            <el-card class="box-card">
+              <div @click.stop="mkvongoing(item)">
+                <div class="info">
+                  <span>
+                    {{item.order_number}}
+                    <em>{{item.salesperson_name | setSalespersonName}}</em>
+                  </span>
+                  <i @click="Retrieve(item.supplier_id)">{{item.name}}</i>
+                </div>
+                <el-row class="schedule">
+                  <div class="item">
+                    <el-progress
+                      :format="formatTwo"
+                      :status="item.delivery_schedule<100?null:'warning'"
+                      :text-inside="true"
+                      :stroke-width="20"
+                      :show-text="item.delivery_schedule<30?false:true"
+                      :percentage="item.delivery_schedule * 1"
+                    ></el-progress>
+                  </div>
+                  <div class="item">
+                    <el-progress
+                      :format="formatOne"
+                      :status="item.warehousing_progress<100?null:'warning'"
+                      :text-inside="true"
+                      :stroke-width="20"
+                      :show-text="item.warehousing_progress<30?false:true"
+                      :percentage="item.warehousing_progress * 1"
+                    ></el-progress>
+                  </div>
+                </el-row>
+                <el-row class="timer">
+                  <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
+                  <div class="Settlement">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+                </el-row>
               </div>
-              <div class="item">
-                <el-progress
-                  :format="formatOne"
-                  :status="item.warehousing_progress<100?null:'warning'"
-                  :text-inside="true"
-                  :stroke-width="20"
-                  :show-text="item.warehousing_progress<30?false:true"
-                  :percentage="item.warehousing_progress * 1"
-                ></el-progress>
+            </el-card>
+            <template #right>
+              <div class="btns">
+                <van-button
+                  v-if="item.warehousing_progress == 100"
+                  @click="completions(item)"
+                  square
+                  type="primary"
+                  text="完工"
+                />
+                <van-button v-else @click="createGoods(item)" square type="danger" text="收货" />
               </div>
-            </el-row>
-            <el-row class="timer">
-              <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
-              <div class="Settlement">{{item.amount_of_discount | setAmountOfDiscount}}</div>
-            </el-row>
-          </el-card>
+            </template>
+          </van-swipe-cell>
         </van-tab>
         <van-tab class="second" title="已完工">
           <el-card class="box-card" v-for="(item,index) in outsourcingOrderListed" :key="index">
@@ -90,7 +101,7 @@
       </van-tabs>
     </scroll>
     <i class="el-icon-plus" @click="tooutsource"></i>
-    <van-overlay :show="show" @click="show = false" lock-scroll>
+    <!-- <van-overlay :show="show" @click="show = false" lock-scroll>
       <div id="wrapper-click">
         <div id="block">
           <div class="propDivItem" @click="toShipPages">收货</div>
@@ -102,14 +113,14 @@
       <div class="wrapper-qrCode">
         <myVqr :Content="textContent"></myVqr>
       </div>
-    </van-overlay>
+    </van-overlay>-->
   </div>
 </template>
     
 <script>
 import {
   getUndischargedOutsourcingOrderList,
-  getLiquidatedOutsourcingOrderList
+  getLiquidatedOutsourcingOrderList,
 } from '@/network/deal'
 
 import myVqr from '@/components/common/my_vqr/myVqr'
@@ -133,7 +144,7 @@ export default {
       listIsShow: false,
       show: false,
       item: {},
-      supplier_id: null
+      supplier_id: null,
     }
   },
   activated() {
@@ -158,9 +169,9 @@ export default {
         offset: 20,
         supplier_id: this.supplier_id,
         order_number: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   filters: {
     setSalespersonName(value) {
@@ -171,9 +182,23 @@ export default {
     },
     setAmountOfDiscount(value) {
       return '预设价格:' + value
-    }
+    },
   },
   methods: {
+    createGoods(item) {
+      this.$router.push({
+        path: '/createGoodpage',
+        query: {
+          data: item,
+        },
+      })
+    },
+    completions(item) {
+      console.log('完工', item)
+    },
+    mkvongoing(item) {
+      this.$router.push(`/engravDetail/${item.id}`)
+    },
     printClick() {
       this.show = false
       this.isShow = true
@@ -195,8 +220,8 @@ export default {
       this.$router.push({
         path: '/Outsourc/outsourcing',
         query: {
-          data: this.item
-        }
+          data: this.item,
+        },
       })
     },
     touchin() {
@@ -237,7 +262,7 @@ export default {
       const { data } = await getUndischargedOutsourcingOrderList(
         this.getOrderListData
       )
-      data.outsourcingOrderList.map(item => {
+      data.outsourcingOrderList.map((item) => {
         this.outsourcingOrderList.push(item)
       })
     },
@@ -245,14 +270,14 @@ export default {
       const { data } = await getLiquidatedOutsourcingOrderList(
         this.getOrderListData
       )
-      data.outsourcingOrderList.map(item => {
+      data.outsourcingOrderList.map((item) => {
         this.outsourcingOrderListed.push(item)
       })
     },
     tooutsource() {
       this.$router.push('/outsource')
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -350,6 +375,11 @@ export default {
       }
     }
     .first {
+      .btns {
+        .van-button {
+          height: 5.714286rem;
+        }
+      }
     }
     .second {
       .timer {

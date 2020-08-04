@@ -1,11 +1,11 @@
 <template>
-  <div id="ShipmentItem">
+  <div id="engravDetail">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blacknext">
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{deliveryRecordItem.order_number | setOrderNumber }}</span>
+        <span>{{metadata.order_number | setOrderNumber }}</span>
       </div>
       <div class="right" slot="right">
         <span></span>
@@ -14,16 +14,15 @@
     <scroll class="scroll-wrapper">
       <el-card class="content_wrap">
         <div class="Company">
-          <span>{{deliveryRecordItem.name }}</span>
+          <span>{{metadata.name }}</span>
           <span>
             <em>￥</em>
-            {{deliveryRecordItem.total_money }}
+            {{metadata.amount_of_discount }}
           </span>
         </div>
-        <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
         <div class="itembox">
-          <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
-          <span>{{deliveryRecordItem.operator_name |setOperatorName }}</span>
+          <span>{{metadata.created_at | setRecordItemCreated}}</span>
+          <span>{{metadata.operator_name |setOperatorName }}</span>
         </div>
       </el-card>
       <el-card class="product_box">
@@ -35,11 +34,6 @@
                 class="img"
                 :src="item.img_url  | getUrl"
               />
-              <img
-                v-else-if="item.img_url_lin && item.img_url_lin != 0 "
-                class="img"
-                :src="item.img_url_lin  | getUrl"
-              />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
@@ -47,7 +41,7 @@
                 <p>{{item.product_name}}</p>
                 <div>
                   <span>￥</span>
-                  <span class="funds">{{item.total_funds}}</span>
+                  <span class="funds">{{item.total_price}}</span>
                 </div>
               </div>
               <p class="model">{{item.product_model}}</p>
@@ -78,63 +72,48 @@
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL, crosURl } from '@/network/baseURL'
+import { getOutsourcingDetail, delOutsourcingOrder } from '@/network/deal'
 
-import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
 export default {
-  name: 'ShipmentItem',
   data() {
     return {
-      deliveryRecordItem: {},
-      iid: 0,
+      metadata: {},
       isShow: false,
-      touch: false,
       textContent: '',
-      Loop: null,
       deliverGoodsDetail: [],
+      iid: 0,
     }
   },
   components: {
     myVqr,
   },
-  deactivated() {
-    this.deliveryRecordItem = {}
-    this.iid = 0
-    this.isShow = false
-    this.touch = false
-    this.Loop = null
-    this.textContent = ''
-    this.deliverGoodsDetail = []
-  },
-  activated() {
-    this.iid = this.$route.params.id
-    this.getFlowDeliverD()
-  },
   filters: {
     setOrderNumber(value) {
       return '单号:' + value
     },
-    setOperatorName(value) {
-      return '制单:' + value
-    },
-    setRecordItemTotalMoney(value) {
-      return '￥' + value
-    },
     setRecordItemCreated(value) {
       return '创建:' + value
+    },
+    setOperatorName(value) {
+      return '制单:' + value
     },
     getUrl(value) {
       return bestURL + value
     },
   },
+  activated() {
+    this.iid = this.$route.params.id
+    this.getOutsourcingDetails()
+  },
+  deactivated() {
+    this.metadata = {}
+    this.isShow = false
+    this.textContent = ''
+    this.deliverGoodsDetail = []
+    this.iid = 0
+  },
   computed: {
-    deleteDeliverData() {
-      let from = new FormData()
-      from.append('token', this.$store.state.token)
-      from.append('id', this.deliveryRecordItem.id)
-      from.append('order_type', 'flow')
-      return from
-    },
-    getFlowDeliverData() {
+    getOutsourcingDetailData() {
       return {
         id: this.iid,
         token: this.$store.state.token,
@@ -142,7 +121,6 @@ export default {
       }
     },
   },
-
   methods: {
     touchin() {
       clearInterval(this.Loop)
@@ -157,52 +135,66 @@ export default {
         this.$router.push(`/editMaterial/${materiel_id}`)
       }
     },
-    printShip() {
-      this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${this.deliveryRecordItem.id}&orderType=flow`
-      this.isShow = true
-    },
-    async getFlowDeliverD() {
-      const { data } = await getFlowDeliverDetail(this.getFlowDeliverData)
-      console.log('getFlowDeliverDetail', data)
-      this.deliverGoodsDetail = data.deliverGoodsDetail
-      this.deliveryRecordItem = data.deliver
-      console.log(this.deliveryRecordItem)
-
-      // data.deliver
-      this.$once('hook:deactivated', () => {
-        this.iid = 0
-        this.deliverGoodsDetail = []
-      })
-    },
-    editShip() {
-      this.$router.push(`/editShipItem/${this.deliveryRecordItem.id}`)
-    },
-    blacknext() {
-      this.$router.go(-1)
-    },
-    async deleteDeliver() {
-      const { code, msg } = await deleteDeliverRecord(this.deleteDeliverData)
+    async getOutsourcingDetails() {
+      const { code, data, msg } = await getOutsourcingDetail(
+        this.getOutsourcingDetailData
+      )
+      console.log('getOutsourcingDetail', data)
       if (code == 200) {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
-        this.blacknext()
+        this.metadata = data.outsourcing
+        this.deliverGoodsDetail = data.outsourcingDetail
       } else {
         this.$message({
           showClose: true,
           message: msg,
           type: 'error',
         })
+        this.blacknext()
       }
+    },
+    editShip() {
+      this.$router.push(`/OutsourcingItem/${this.metadata.id}`)
+    },
+    printShip() {
+      this.textContent = `${bestURL}/Vt/view?id=${this.metadata.id}&order_type=outsourcing`
+      this.isShow = true
+    },
+    deleteDeliver() {
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '确认要作废吗？',
+        })
+        .then(async () => {
+          const { code, msg } = await delOutsourcingOrder({
+            token: this.$store.state.token,
+            id: this.metadata.id,
+          })
+          if (code == 200) {
+            this.$message({
+              showClose: true,
+              message: msg,
+              type: 'success',
+            })
+            this.blacknext()
+          } else {
+            this.$message({
+              showClose: true,
+              message: msg,
+              type: 'error',
+            })
+          }
+        })
+    },
+    blacknext() {
+      this.$router.replace('/deal/outsourcing')
     },
   },
 }
 </script>
     
 <style scoped lang="scss">
-#ShipmentItem {
+#engravDetail {
   padding-top: 5.428571rem;
   .p_root_box {
     color: #747474;

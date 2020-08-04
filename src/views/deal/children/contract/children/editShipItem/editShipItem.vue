@@ -25,6 +25,11 @@
                       class="img"
                       :src="item.product_img | getUrl"
                     />
+                    <img
+                      v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                      class="img"
+                      :src="item.img_url_lin  | getUrl"
+                    />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
@@ -69,13 +74,14 @@
         </el-card>
       </div>
     </scroll>
-    <div class="footer">
-      <div class="left_btn" @click="PendingNow">提交待核</div>
-      <div class="right_btn" @click="SubmitNow">
+
+    <myBtns :commitFun="SubmitNow" :cancelFun="PendingNow">
+      <span slot="cancel-btn">提交待核</span>
+      <span slot="commit-btn">
         ￥{{Amounts}}
         <span>立即提交</span>
-      </div>
-    </div>
+      </span>
+    </myBtns>
   </div>
 </template>
     
@@ -93,6 +99,7 @@ import {
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
 import { bestURL, crosURl } from '@/network/baseURL'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   data() {
@@ -159,6 +166,9 @@ export default {
       iid: '',
       isEdit: true,
     }
+  },
+  components: {
+    myBtns,
   },
   watch: {
     $route(to, from) {
@@ -328,6 +338,7 @@ export default {
             weight: item.weight,
             process_cost: item.process_cost,
             product_img: item.img_url,
+            img_url_lin: item.img_url_lin,
           })
           let newArr = []
           newArr.push(item.product_name)
@@ -457,7 +468,6 @@ export default {
         path: '/SelectProducts',
         query: {
           data: {
-            materiel: { ...this.materiel },
             isFlowingShow: this.isFlowingShow,
           },
         },
@@ -769,41 +779,6 @@ export default {
           }
         }
       }
-    }
-  }
-  .footer {
-    height: 3.5rem;
-    width: 100%;
-    padding: 0.357143rem 2.142857rem;
-    position: fixed;
-    bottom: 1.428571rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    border-radius: 0.357143rem;
-    .left_btn {
-      height: 2.785714rem;
-      line-height: 2.785714rem;
-      color: #fff;
-      background: url('../../../../../../assets/image/left_btns.jpg') no-repeat;
-      background-size: 100% 100%;
-      background-position: 0 0;
-      flex: 3;
-      margin-right: 0.428571rem;
-      text-align: center;
-    }
-    .right_btn {
-      flex: 7;
-      text-align: center;
-      height: 2.785714rem;
-      line-height: 2.785714rem;
-      color: #fff;
-      background: url('../../../../../../assets/image/right_btns.jpg') no-repeat;
-      background-size: 100% 100%;
-      background-position: 0 0;
     }
   }
 }

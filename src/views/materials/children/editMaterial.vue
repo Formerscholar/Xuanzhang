@@ -412,7 +412,7 @@ export default {
       this.unit_id = ''
       this.isWrite = false
       this.attributes = 0
-      this.$router.replace('/materialpage')
+      this.$router.go(-1)
     },
   },
 }

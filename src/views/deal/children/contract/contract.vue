@@ -237,12 +237,7 @@ export default {
     },
     gocontractList(deliveryRecordList) {
       console.log('--------gocontractList-------------', deliveryRecordList)
-      this.$router.push({
-        path: '/ShipmentItem',
-        query: {
-          data: deliveryRecordList,
-        },
-      })
+      this.$router.push(`/ShipmentItem/${deliveryRecordList.id}`)
     },
     onSelect(item) {
       this.show = false

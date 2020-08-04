@@ -68,13 +68,15 @@
         </el-card>
       </div>
     </scroll>
-    <div class="footer">
-      <div class="left_btn" @click="PendingNow">提交待核</div>
-      <div class="right_btn" @click="SubmitNow">
+
+    <myBtns :commitFun="SubmitNow" :cancelFun="PendingNow">
+      <span slot="cancel-btn">提交待核</span>
+      <span slot="commit-btn">
         ￥-{{Amounts}}
         <span>立即提交</span>
-      </div>
-    </div>
+      </span>
+    </myBtns>
+
     <van-overlay :show="isShow" @click="closeOverlay">
       <div class="wrapper-qrCode">
         <myVqr :Content="textContent"></myVqr>
@@ -85,6 +87,7 @@
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getAddDeliverGoodsDistributors,
@@ -162,6 +165,7 @@ export default {
   },
   components: {
     myVqr,
+    myBtns,
   },
   activated() {
     this.getAddDeliverGood()
@@ -326,7 +330,6 @@ export default {
         path: '/SelectProducts',
         query: {
           data: {
-            materiel: { ...this.materiel },
             isFlowingShow: this.isFlowingShow,
           },
         },
@@ -626,41 +629,6 @@ export default {
           }
         }
       }
-    }
-  }
-  .footer {
-    height: 3.5rem;
-    width: 100%;
-    padding: 0.357143rem 2.142857rem;
-    position: fixed;
-    bottom: 1.428571rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    border-radius: 0.357143rem;
-    .left_btn {
-      height: 2.785714rem;
-      line-height: 2.785714rem;
-      color: #fff;
-      background: url('../../../../assets/image/left_btns.jpg') no-repeat;
-      background-size: 100% 100%;
-      background-position: 0 0;
-      flex: 3;
-      margin-right: 0.428571rem;
-      text-align: center;
-    }
-    .right_btn {
-      flex: 7;
-      text-align: center;
-      height: 2.785714rem;
-      line-height: 2.785714rem;
-      color: #fff;
-      background: url('../../../../assets/image/right_btns.jpg') no-repeat;
-      background-size: 100% 100%;
-      background-position: 0 0;
     }
   }
 }

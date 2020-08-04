@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>发起委外</span>
+        <span>委外编辑</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -49,7 +49,12 @@
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index,item.id)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -121,12 +126,12 @@ import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
 import { bestURL, crosURl } from '@/network/baseURL'
 import myBtns from '@/components/common/my_btns/my_btns'
-
 import {
-  getAddOutsourcingOrder,
   getReceivingInformationList,
-  addOutsourcingOrder,
+  editOutsourcingOrder,
   getMateriel,
+  getEditOutsourcingOrder,
+  deleteOutsourcingOrderProduct,
 } from '@/network/deal'
 export default {
   name: 'OEM',
@@ -219,11 +224,32 @@ export default {
       options: regionData,
       address: [],
       number: 0,
+      iid: '',
+      isEdit: true,
     }
   },
-
+  components: {
+    myBtns,
+  },
+  watch: {
+    $route(to, from) {
+      const toDepths = to.path
+      const fromDepths = from.path
+      if (
+        fromDepths == '/SelectProducts' ||
+        fromDepths == '/nameSearch' ||
+        fromDepths == '/productNameSearch' ||
+        fromDepths == '/selectTime/DeliveryDate'
+      ) {
+        this.isEdit = false
+      }
+    },
+  },
   activated() {
-    this.getAddOemOrders()
+    if (this.isEdit) {
+      this.iid = this.$route.params.id
+      this.getEditOutsourcingOrders()
+    }
 
     if (this.$store.state.timers.timers.SigningDate != '') {
       this.timersList.SigningDate = this.$store.state.timers.timers.SigningDate
@@ -243,9 +269,6 @@ export default {
     })
     document.querySelector('textarea').style.border = 'none'
   },
-  components: {
-    myBtns,
-  },
   computed: {
     addContractOrderData() {
       let timer = setTimerType(new Date(this.timersList.SigningDate))
@@ -260,12 +283,7 @@ export default {
         acceptance_criteria: null,
         transport_undertaking: null,
         commitment_period: timer,
-      }
-    },
-    getAddOemOrderData() {
-      return {
-        token: this.$store.state.token,
-        _: new Date().getTime(),
+        id: this.iid,
       }
     },
     getReceiveDate() {
@@ -284,6 +302,13 @@ export default {
         _: new Date().getTime(),
       }
     },
+    getEditOutsourcingOrderData() {
+      return {
+        token: this.$store.state.token,
+        id: this.iid,
+        _: new Date().getTime(),
+      }
+    },
   },
   filters: {
     getUrl(value) {
@@ -291,6 +316,94 @@ export default {
     },
   },
   methods: {
+    tableClick(index, id) {
+      console.log(index, id)
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否删除产品?',
+        })
+        .then(async () => {
+          const { code, msg } = await deleteOutsourcingOrderProduct({
+            token: this.$store.state.token,
+            product_id: id,
+            id: this.iid,
+          })
+          if (code == 200) {
+            if (this.tableData.length == 1) {
+              this.tableData = []
+              this.shippingData = []
+            } else {
+              this.tableData = this.tableData.splice(index - 1, 1)
+              this.shippingData = this.shippingData.splice(index - 1, 1)
+            }
+            let allmonpement = 0
+            this.tableData.forEach((item) => {
+              allmonpement += parseFloat(item.totalPrice)
+            })
+            this.contractAmount = allmonpement
+            this.DiscountedAmount = allmonpement
+            console.log(index, this.tableData, this.shippingData)
+          } else {
+            this.$dialog.alert({
+              message: msg,
+            })
+          }
+        })
+    },
+    async getEditOutsourcingOrders() {
+      const { code, data, msg } = await getEditOutsourcingOrder(
+        this.getEditOutsourcingOrderData
+      )
+      if (code !== 200) {
+        this.$message.error(msg)
+        this.$router.replace('/deal/outsourcing')
+      } else {
+        console.log('getEditOutsourcingOrder', data)
+        this.userId = data.outsourcingOrder.salesperson
+        this.distributors = [...data.suppliers]
+        data.suppliers.forEach((item) => {
+          if (item.id == data.outsourcingOrder.supplier_id) {
+            this.state = item.name
+            this.selectedID = item.id
+          }
+        })
+        this.states = data.outsourcingOrder.salesperson_name
+        data.outsourcingOrder.outsourcingOrderProduct.forEach((item, index) => {
+          let totalPrice = TotalPriceCalc(
+            item.unit_price,
+            item.weight || '',
+            item.process_cost || '',
+            item.number
+          )
+          this.tableData.push({
+            goods: item.product_name,
+            model: item.product_model,
+            nums: item.number,
+            price: item.unit_price,
+            totalPrice,
+            weight: item.weight,
+            process_cost: item.process_cost,
+            product_img: item.img_url,
+            id: item.id,
+          })
+          let newArr = []
+          newArr.push(item.product_name)
+          newArr.push(item.product_model)
+          newArr.push(item.number)
+          newArr.push(item.unit_price)
+          newArr.push(item.remark)
+          newArr.push(item.weight)
+          newArr.push(0) // 零时库
+          newArr.push(item.process_cost) //加工费
+          newArr.push(item.img_url) // 一张图片URL
+          newArr.push(item.extra)
+          this.shippingData.push(newArr)
+        })
+        this.contractAmount = data.outsourcingOrder.amount_of_discount
+        this.DiscountedAmount = data.outsourcingOrder.amount_of_discount
+      }
+    },
     focusClicks() {
       this.$router.push({
         path: '/outSearch',
@@ -320,7 +433,7 @@ export default {
       })
     },
     async quoteclick() {
-      const { code } = await addOutsourcingOrder(this.addContractOrderData)
+      const { code } = await editOutsourcingOrder(this.addContractOrderData)
       if (code == 200) {
         this.state = ''
         this.PartyContract = ''
@@ -355,32 +468,6 @@ export default {
       this.fileList = []
       this.addressData = {}
       this.$router.replace('/deal/outsourcing')
-    },
-    async getAddOemOrders() {
-      const { data } = await getAddOutsourcingOrder(this.getAddOemOrderData)
-      console.log('getAddOutsourcingOrder', data)
-      this.distributors = data.suppliers
-      // this.distributors.forEach((item, index) => {
-      //   let obj = {
-      //     value: item.name,
-      //     address: item.id,
-      //   }
-      //   this.restaurants.push(obj)
-      // })
-      if (data.customerProductField.weight == '1') {
-        this.isWeightShow = true
-      } else {
-        this.isWeightShow = false
-      }
-      this.isFlowingShow = data.customerProductExtraField
-      this.usersList = data.users
-      this.usersList.forEach((item, index) => {
-        let obj = {
-          value: item.name,
-          address: item.id,
-        }
-        this.restaurant.push(obj)
-      })
     },
     handleChange() {
       var loc = ''
@@ -493,6 +580,7 @@ export default {
       this.isShowed = false
     },
     blacknext() {
+      this.isEdit = true
       this.state = ''
       this.timersList = {}
       this.tableData = []

@@ -25,10 +25,11 @@
       <el-card class="box-card Cause">
         <div class="title">
           <span>报销事由</span>
+          <em style="text-align: right; color:#000;">{{reimbursement.category_name}}</em>
         </div>
         <div class="content">
           <div class="item">
-            <span>{{reimbursement.reason}}</span>
+            <h4>{{reimbursement.reason}}</h4>
           </div>
         </div>
         <div class="title">
@@ -41,12 +42,11 @@
         <el-card class="box-card detail" v-for="(item,index) in reimbursementDetail" :key="index">
           <div class="newDail">
             <div class="left_box">
-              <div>{{item.category_name}}</div>
               <div>{{item.reason_time}}</div>
-              <div>{{item.reason}}</div>
+              <div class="CNY">CNY</div>
             </div>
             <div class="right_box">
-              <div class="CNY">CNY</div>
+              <div>{{item.reason}}</div>
               <div class="money">
                 <i>{{item.money.split('.')[0]}}</i>
                 .{{item.money.split('.')[1]}}
@@ -67,6 +67,9 @@
               .{{reimbursement.money.split('.')[1]}}
             </em>
           </div>
+        </el-card>
+
+        <el-card class="box-card detail">
           <div class="item date Reimburser">
             <span>报销人</span>
             <em>{{reimbursement.operator_name}}</em>
@@ -189,6 +192,7 @@ export default {
   .body {
     background-color: #f2f2f2;
     padding: 0 1.285714rem;
+    min-height: calc(100vh - 5.428571rem);
     .logo {
       display: flex;
       justify-content: space-between;
@@ -255,6 +259,7 @@ export default {
           color: #2d2d2d;
           font-size: 1rem;
           margin-bottom: 1.428571rem;
+          text-indent: 2rem;
           &:last-child {
             margin: 0;
           }
@@ -279,21 +284,30 @@ export default {
         margin-bottom: 0.428571rem;
         .newDail {
           display: flex;
+          flex-direction: column;
           justify-content: space-between;
           align-items: center;
           .left_box {
-          }
-          .right_box {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             .CNY {
               font-size: 1rem;
               color: #00cccc;
               text-align: right;
-              margin-bottom: 0.571429rem;
             }
+          }
+          .right_box {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
             .money {
               font-size: 1.142857rem;
               i {
-                font-size: 1.714286rem;
+                font-size: 1.428571rem;
               }
             }
           }
@@ -345,12 +359,13 @@ export default {
           }
         }
         .Reimburser {
-          background-color: #dddddd;
-          padding: 0.457143rem 1.571429rem;
-          border-radius: 5px;
           display: flex;
           justify-content: space-between;
           align-items: center;
+          span,
+          em {
+            font-size: 1rem;
+          }
           span {
             color: #0a0a0a;
           }

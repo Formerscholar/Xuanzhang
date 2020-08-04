@@ -147,7 +147,14 @@ const MPrice = () => import('@/views/materials/children/MPrice')
 const DWarehouse = () => import('@/views/materials/children/DWarehouse')
 const WLNumber = () => import('@/views/materials/children/WLNumber')
 const because = () => import('@/views/materials/children/because')
+const engravDetail = () =>
+  import('@/views/deal/children/Outsourcing/engravDetail')
 
+const OutsourcingItem = () =>
+  import('@/views/deal/children/Outsourcing/OutsourcingItem')
+
+const createGoodpage = () =>
+  import('@/views/deal/children/Outsourcing/createGoodpage')
 const routes = [
   {
     path: '/',
@@ -390,13 +397,16 @@ const routes = [
     component: staffEntry,
   },
   {
-    path: '/ShipmentItem',
-    name: 'data',
+    path: '/ShipmentItem/:id',
     component: ShipmentItem,
   },
   {
     path: '/editShipItem/:id',
     component: editShipItem,
+  },
+  {
+    path: '/OutsourcingItem/:id',
+    component: OutsourcingItem,
   },
   {
     path: '/Receivable',
@@ -532,6 +542,15 @@ const routes = [
   {
     path: '/because/:iid',
     component: because,
+  },
+  {
+    path: '/engravDetail/:id',
+    component: engravDetail,
+  },
+  {
+    path: '/createGoodpage',
+    name: 'data',
+    component: createGoodpage,
   },
 ]
 

@@ -17,7 +17,7 @@
       <div class="topbox">
         <div class="leftbox">
           <img v-if="img_url" :src="img_url" alt="logo" />
-          <img v-else src="@/assets/image/Transparent_logo.png" alt="logo" />
+          <img v-else src="@/assets/image/dpng.png" alt="logo" />
         </div>
         <div class="flex_box">
           <div class="centerbox">

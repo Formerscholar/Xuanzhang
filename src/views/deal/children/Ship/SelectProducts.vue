@@ -13,6 +13,11 @@
       <el-card class="box-card item1">
         <div class="swiper_img">
           <img v-if="img_URL && img_url != 0 " :src="img_URL | getUrl" alt="logo" />
+          <img
+            v-else-if="img_url_lin && img_url_lin != 0 "
+            class="img"
+            :src="img_url_lin  | getUrl"
+          />
           <img src="@/assets/image/Default.png" v-else />
           <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
         </div>
@@ -44,6 +49,7 @@
 <script>
 import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { bestURL, crosURl } from '@/network/baseURL'
+import { getMaterielList } from '@/network/deal'
 
 export default {
   data() {
@@ -56,6 +62,7 @@ export default {
       isWeightShow: false,
       isFlowingShow: [],
       quantity: '',
+      img_url_lin: '',
       uploadParam: 4,
       ProductSubtotal: '',
       processCost: '',
@@ -75,7 +82,24 @@ export default {
       return bestURL + value
     },
   },
+  computed: {
+    getMaterielListData() {
+      return {
+        company_id: 1,
+        _: new Date().getTime(),
+      }
+    },
+  },
   methods: {
+    async getMaterielLists() {
+      const { data } = await getMaterielList(this.getMaterielListData)
+      this.listItem = { ...data }
+      this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
+      for (const key in this.listItem) {
+        this.listItems.push(this.listItem[key])
+      }
+      console.log(this.listItems)
+    },
     imgClick() {
       this.$refs['cropper'].upload()
     },
@@ -107,6 +131,7 @@ export default {
       this.FlowingProducts = ['0']
       this.isWeightShow = false
       this.quantity = ''
+      this.img_url_lin = ''
       this.ProductSubtotal = ''
       this.ProductNotes = ''
       this.listItem = {}
@@ -135,6 +160,7 @@ export default {
         this.productPrice = item.out_price
         this.img_URL = item.img_url
         this.PropsImg = item.img_url
+        this.img_url_lin = item.img_url_lin
         this.listItem = { ...this.$route.query.data.materiel }
         this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
         for (const key in this.listItem) {
@@ -150,12 +176,9 @@ export default {
     },
   },
   activated() {
-    this.listItem = { ...this.$route.query.data.materiel }
-    this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
-    for (const key in this.listItem) {
-      this.listItems.push(this.listItem[key])
-    }
-    console.log(this.listItems)
+    this.getMaterielLists()
+
+    this.$refs.scroll.finishPullUp()
   },
   deactivated() {
     this.state = ''

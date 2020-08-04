@@ -160,6 +160,11 @@ i {
   }
 }
 
+#createGoodpage {
+  .el-card__body {
+    padding: .357143rem;
+  }
+}
 
 #createContract,
 #addressEdit,
@@ -251,7 +256,7 @@ i {
   .el-tag {
     height: 1.142857rem;
     padding: 0 .571429rem;
-    line-height: .857143rem;
+    line-height: .928571rem;
     font-size: 0.857143rem;
     margin-right: 0.214286rem;
   }
@@ -273,7 +278,8 @@ i {
 #LargeScreen,
 #ScreenItem,
 #ShipmentItem,
-#cardbox {
+#cardbox,
+#engravDetail {
   .el-card__body {
     padding: 0.571429rem;
   }

@@ -438,3 +438,39 @@ export function editAutonomousDeliverRecord(data) {
     data: Qs.stringify(data),
   })
 }
+export function delOutsourcingOrder(data) {
+  return request({
+    url: '/OutsourcingOrder/delOutsourcingOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function getOutsourcingDetail(params) {
+  return request({
+    url: '/OutsourcingOrder/getOutsourcingDetail',
+    method: 'GET',
+    params,
+  })
+}
+export function getEditOutsourcingOrder(params) {
+  return request({
+    url: '/OutsourcingOrder/getEditOutsourcingOrder',
+    method: 'GET',
+    params,
+  })
+}
+export function editOutsourcingOrder(data) {
+  return request({
+    url: '/OutsourcingOrder/editOutsourcingOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function deleteOutsourcingOrderProduct(data) {
+  return request({
+    url: '/OutsourcingOrder/deleteOutsourcingOrderProduct',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
