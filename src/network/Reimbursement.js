@@ -39,3 +39,12 @@ export function deleteReimbursement(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function toExamineReimbursement(data) {
+  return request({
+    url: '/Finance/toExamineReimbursement',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+// 

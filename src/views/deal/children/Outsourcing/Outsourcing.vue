@@ -194,7 +194,7 @@ export default {
       })
     },
     completions(item) {
-      console.log('完工', item)
+      this.$router.push(`/completions/${item.id}`)
     },
     mkvongoing(item) {
       this.$router.push(`/engravDetail/${item.id}`)

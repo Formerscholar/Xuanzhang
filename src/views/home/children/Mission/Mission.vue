@@ -6,6 +6,9 @@
       :designatedTasksList="designatedTasksList"
       :UserDesignatedTasksData="UserDesignatedTasksData"
       :Designated="Designated"
+      :designatedTasksCount="designatedTasksCount"
+      :UserDesignatedTasksCount="UserDesignatedTasksCount"
+      :DesignatedCount="DesignatedCount"
       @goDetails="goDetails"
       @loadMore="loadMore"
     />
@@ -37,6 +40,9 @@ export default {
       succpages: 1,
       partici: 1,
       allpage: 1,
+      designatedTasksCount: 0,
+      UserDesignatedTasksCount: 0,
+      DesignatedCount: 0,
     }
   },
   created() {},
@@ -94,6 +100,7 @@ export default {
       const { data } = await getUserDesignatedTasks(
         this.getUserDesignatedTasksData
       )
+      this.UserDesignatedTasksCount = data.count
       data.designatedTasksList.map((item) => {
         this.designatedTasksList.push(item)
       })
@@ -103,6 +110,7 @@ export default {
       const { data } = await getCompleteDesignatedTasks(
         this.getUserDesignatedTasksData
       )
+      this.designatedTasksCount = data.count
       data.designatedTasksList.map((item) => {
         this.UserDesignatedTasksData.push(item)
       })
@@ -110,6 +118,7 @@ export default {
     },
     async getDesignated() {
       const { data } = await getDesignatedTasks(this.getUserDesignatedTasksData)
+      this.DesignatedCount = data.count
       data.designatedTasksList.map((item) => {
         this.Designated.push(item)
       })

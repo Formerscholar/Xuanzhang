@@ -363,7 +363,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 0.857143rem;
+          font-size: 1rem ;
           color: #818181;
           .time_pircle {
             .black {

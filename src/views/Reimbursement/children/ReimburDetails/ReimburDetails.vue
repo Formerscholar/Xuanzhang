@@ -13,12 +13,12 @@
       <div class="logo">
         <div class="leftbox">
           <div class="picter">
-            <img v-if="userInfo[0].img_url" :src="userInfo[0].img_url.substr(1)" alt="logo" />
+            <img v-if="userInfo.img_url" :src="userInfo.img_url.substr(1)" alt="logo" />
             <img v-else src="@/assets/image/dpng.png" />
           </div>
           <div class="text">
-            <em>{{userInfo[0].name}}</em>
-            <p>{{userInfo[0].department.name}}-{{userInfo[0].role.display_name}}</p>
+            <em>{{userInfo.name}}</em>
+            <p>{{userInfo.department_name}}-{{userInfo.display_name}}</p>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <el-card class="box-card detail">
           <div class="item date Reimburser">
             <span>报销人</span>
-            <em>{{reimbursement.operator_name}}</em>
+            <em>{{reimbursement.reimburser_name}}</em>
           </div>
         </el-card>
       </div>
@@ -119,7 +119,14 @@ export default {
     this.iid = this.$route.params.id
     this.getreimbursementDetail()
   },
-  deactivated() {},
+  deactivated() {
+    this.iid = 0
+    this.reimbursement = {}
+    this.reimbursementDetail = []
+    this.userInfo = []
+    this.textContent = ''
+    this.isShow = false
+  },
   computed: {
     reimbursementDetailData() {
       return {
@@ -165,7 +172,7 @@ export default {
       const { data } = await reimbursementDetail(this.reimbursementDetailData)
       this.reimbursement = data.reimbursement
       this.reimbursementDetail = data.reimbursementDetail
-      this.userInfo = data.userInfo
+      this.userInfo = data.reimburser[0]
       console.log('reimbursementDetail', data)
     },
   },

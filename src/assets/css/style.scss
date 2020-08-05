@@ -254,10 +254,10 @@ i {
   }
 
   .el-tag {
-    height: 1.142857rem;
+    height: 1rem;
+    font-size: 0.857143rem;
     padding: 0 .571429rem;
     line-height: .928571rem;
-    font-size: 0.857143rem;
     margin-right: 0.214286rem;
   }
 }
@@ -279,7 +279,8 @@ i {
 #ScreenItem,
 #ShipmentItem,
 #cardbox,
-#engravDetail {
+#engravDetail,
+#completions {
   .el-card__body {
     padding: 0.571429rem;
   }
@@ -361,6 +362,11 @@ i {
     display: flex;
     justify-content: center;
   }
+
+  .van-button {
+    height: 100%;
+  }
+
 }
 
 #turnover {

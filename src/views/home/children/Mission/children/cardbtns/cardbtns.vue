@@ -6,7 +6,7 @@
       </template>
     </van-search>
     <el-tabs v-model="activeName">
-      <el-tab-pane class="first" :label="'参与'+ designatedTasksList.length" name="first">
+      <el-tab-pane class="first" :label="'参与'+ UserDesignatedTasksCount" name="first">
         <scroll
           class="scroll-wrapper"
           ref="scrollss"
@@ -132,7 +132,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="second" :label="'已完成' +UserDesignatedTasksData.length" name="second">
+      <el-tab-pane class="second" :label="'已完成' + designatedTasksCount " name="second">
         <scroll
           class="scroll-wrapper"
           ref="scrolls"
@@ -183,7 +183,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="third" :label="'所有' + Designated.length" name="fourth">
+      <el-tab-pane class="third" :label="'所有' + DesignatedCount" name="fourth">
         <scroll
           class="scroll-wrapper"
           ref="scroll"
@@ -259,6 +259,18 @@ export default {
     Designated: {
       type: Array,
       default: [],
+    },
+    designatedTasksCount: {
+      type: Number,
+      default: 0,
+    },
+    UserDesignatedTasksCount: {
+      type: Number,
+      default: 0,
+    },
+    DesignatedCount: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {

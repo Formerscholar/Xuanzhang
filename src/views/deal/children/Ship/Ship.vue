@@ -65,6 +65,13 @@
             title="日期"
             :valueData="timersList.DeliveryDate"
           />
+          <van-uploader
+            style="padding: .714286rem 1.142857rem;"
+            v-model="fileList"
+            multiple
+            @delete="filedelete"
+            :after-read="afterRead"
+          />
           <van-field v-model="DeliveryNotes" type="text" label="发货备注" />
         </el-card>
       </div>
@@ -95,6 +102,7 @@ import {
   getMateriel,
 } from '@/network/deal'
 
+import { uploadImg } from '@/network/materials'
 import { setTimerType } from '@/common/filter'
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { TotalPriceCalc } from '@/common/utils'
@@ -114,14 +122,13 @@ export default {
       materiel: [],
       isShow: false,
       textContent: '',
-
+      fileList: [],
       restaurants: [],
       restaurant: [],
       state: '',
       states: '',
       timeout: null,
       radio: '0',
-      fileList: [],
       table: false,
       dialog: false,
       Addresslog: false,
@@ -160,6 +167,7 @@ export default {
       distributor_id: 0,
       shippingValue: '',
       shippingData: [],
+      img_url_Arr: [],
       DeliveryNotes: '',
       isFlowingShow: [],
       isWeightShow: false,
@@ -207,6 +215,7 @@ export default {
         apply_time,
         type: 0,
         remark: this.DeliveryNotes,
+        img_url: this.img_url_Arr,
       }
     },
     addAutonomousDatas() {
@@ -222,6 +231,7 @@ export default {
         apply_time,
         type: 1,
         remark: this.DeliveryNotes,
+        img_url: this.img_url_Arr,
       }
     },
     getMaterieldata() {
@@ -234,6 +244,23 @@ export default {
     },
   },
   methods: {
+    filedelete(file, detail) {
+      this.img_url_Arr.splice(detail.index, 1)
+    },
+    async afterRead(file) {
+      console.log(file)
+      lrz(file.content, {
+        quality: 0.6,
+        fieldName: 'user_file',
+      }).then(async (rst) => {
+        const { data } = await uploadImg({
+          user_image: rst.base64,
+          token: this.$store.state.token,
+        })
+        console.log(data.url)
+        this.img_url_Arr.push(data.url)
+      })
+    },
     tableClick(index) {
       console.log(index)
       this.$dialog
@@ -304,6 +331,7 @@ export default {
       this.product = {}
       this.options = regionData
       this.address = []
+      this.img_url_Arr = []
       this.tableData = []
       this.isShowed = false
       this.distributor_id = 0

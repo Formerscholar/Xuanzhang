@@ -155,6 +155,9 @@ const OutsourcingItem = () =>
 
 const createGoodpage = () =>
   import('@/views/deal/children/Outsourcing/createGoodpage')
+
+const completions = () =>
+  import('@/views/deal/children/Outsourcing/completions')
 const routes = [
   {
     path: '/',
@@ -551,6 +554,10 @@ const routes = [
     path: '/createGoodpage',
     name: 'data',
     component: createGoodpage,
+  },
+  {
+    path: '/completions/:id',
+    component: completions,
   },
 ]
 

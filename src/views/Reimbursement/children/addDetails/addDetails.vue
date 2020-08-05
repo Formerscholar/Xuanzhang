@@ -26,6 +26,7 @@
             v-model="timervalue"
             align="right"
             type="date"
+            style=" width: 100%;"
             placeholder="选择日期"
             :picker-options="pickerOptions"
           ></el-date-picker>
@@ -131,16 +132,19 @@ export default {
   methods: {
     btnClick() {
       this.$store.commit('setAddDetailsData', {
-        optionstype: this.value,
         apply: this.apply * 1,
         timervalue: this.timervalue,
         description: this.description,
       })
+      this.dialogImageUrl = ''
+      this.dialogVisible = false
+      this.options = []
+      this.value = ''
+      this.pickerOptions = {}
+      this.timervalue = ''
+      this.apply = ''
+      this.description = ''
       this.$router.replace('/account')
-      this.value = null
-      this.apply = null
-      this.timervalue = null
-      this.description = null
     },
     blacknext() {
       this.$router.go(-1)
@@ -208,12 +212,14 @@ export default {
       border-bottom: 1px solid #ececec;
       padding: 0.714286rem;
       .top {
-        color: #a0a0a0;
+        color: #505050;
+        font-size: 1.042857rem;
         .el-icon-star-on {
           margin-right: 0.357143rem;
         }
       }
       .bto {
+        flex: 1;
         font-size: 1.142857rem;
         display: flex;
         .el-input {
@@ -230,7 +236,6 @@ export default {
 
       padding: 0.714286rem;
       .left {
-        width: 50%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -243,10 +248,8 @@ export default {
         }
       }
       .right {
-        width: 50%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+        flex: 1;
+
         i {
           margin-left: 0.714286rem;
           font-size: 1.285714rem;

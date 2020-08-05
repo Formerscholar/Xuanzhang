@@ -356,6 +356,7 @@ export default {
           message: msg,
           type: 'success',
         })
+        this.clearData()
       } else {
         this.$message({
           showClose: true,
@@ -363,7 +364,6 @@ export default {
           type: 'error',
         })
       }
-      this.clearData()
     },
     handleChange(val) {
       console.log(val)

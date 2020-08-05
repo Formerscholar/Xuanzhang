@@ -119,7 +119,7 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
-      margin-left: -3.071429rem;
+      margin-left: -2.071429rem;
       font-size: 1.285714rem;
       font-weight: 700;
       color: #030303;

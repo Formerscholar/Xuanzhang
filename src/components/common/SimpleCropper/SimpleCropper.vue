@@ -37,7 +37,6 @@ export default {
     this.init()
   },
   methods: {
-    // 初始化裁剪插件
     init() {
       let cropperImg = this.$refs['cropperImg']
       this.cropper = new Cropper(cropperImg, {
@@ -45,11 +44,9 @@ export default {
         dragMode: 'move',
       })
     },
-    // 点击上传按钮
     upload() {
       this.$refs['file'].click()
     },
-    // 选择上传文件
     uploadChange(e) {
       let file = e.target.files[0]
       this.filename = file['name']
@@ -57,27 +54,31 @@ export default {
       this.$refs['layer'].style.display = 'block'
       this.cropper.replace(URL.createObjectURL(file))
     },
-    // 取消上传
     cancelHandle() {
       this.cropper.reset()
       this.$refs['layer'].style.display = 'none'
       this.$refs['file'].value = ''
     },
-    // 确定上传
-    async confirmHandle() {
-      let cropBox = this.cropper.getCropBoxData()
-      let scale = this.initParam
+    confirmHandle() {
       let cropCanvas = this.cropper.getCroppedCanvas({
-        width: cropBox.width * scale,
-        height: cropBox.height * scale,
+        width: 300,
+        height: 300,
+        imageSmoothingEnabled: false,
       })
       let imgData = cropCanvas.toDataURL('image/jpeg')
-      let formData = new FormData()
-      formData.append('token', this.$store.state.token)
-      formData.append('user_image', imgData)
-      const res = await uploadImage(formData)
-      this.successCallback(res.data.url)
-      this.cancelHandle()
+      lrz(imgData, {
+        width: 300,
+        height: 300,
+        quality: 0.7,
+        fieldName: 'user_image',
+      }).then(async (rst) => {
+        let formData = new FormData()
+        formData.append('token', this.$store.state.token)
+        formData.append('user_image', rst.base64)
+        const res = await uploadImage(formData)
+        this.successCallback(res.data.url)
+        this.cancelHandle()
+      })
     },
   },
 }

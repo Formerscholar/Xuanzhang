@@ -10,10 +10,9 @@
       <div slot="right"></div>
     </navbar>
     <div class="BasicInfo">
-      <div class="title">报销类别</div>
-      <div class="item1">
-        <span>选择类别</span>
-        <el-select v-model="value" clearable placeholder="请选择">
+      <div class="title">基本信息</div>
+      <van-field @focus="Inputfocus" v-model="picker" label="报销类别" />
+      <!-- <el-select v-model="value" clearable placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -21,9 +20,7 @@
             :value="item.value"
             ref="optionstype"
           ></el-option>
-        </el-select>
-      </div>
-      <div class="title">基本信息</div>
+      </el-select>-->
       <div class="item1">
         <span>报销事由</span>
         <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
@@ -31,7 +28,6 @@
     </div>
     <div class="ChargeDetails">
       <div class="title">费用明细</div>
-
       <div class="item1" v-for="(item,index) in NewCost" :key="index">
         <div class="top">
           <div class="left">
@@ -70,6 +66,15 @@
         <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
       </div>
     </div>
+    <div class="picker" v-if="ispicker">
+      <van-picker
+        title="报销类别"
+        show-toolbar
+        :columns="columns"
+        @confirm="onConfirm"
+        @cancel="onCancel"
+      />
+    </div>
   </div>
 </template>
     
@@ -87,8 +92,11 @@ export default {
       Remarks: '',
       options: [],
       apply: 0,
+      columns: [],
+      ispicker: false,
+      picker: '',
       applyName: '',
-      value: '',
+      pickerID: 0,
       type: [],
       reimbursement_detail: [],
       user_id: 0,
@@ -105,21 +113,35 @@ export default {
   },
   deactivated() {},
   methods: {
+    Inputfocus() {
+      this.ispicker = true
+    },
+    onConfirm(value, index) {
+      console.log(`当前值：${value}, 当前索引：${index}`)
+      this.picker = value
+      this.options.forEach((item, index1) => {
+        if (index1 == index) {
+          this.pickerID = item.value
+        }
+      })
+      this.ispicker = false
+      console.log(this.picker, this.pickerID)
+    },
+    onCancel() {
+      this.picker = ''
+      this.pickerID = 0
+      this.ispicker = false
+      console.log(this.picker, this.pickerID)
+    },
     setNewCost() {
       let rootData = this.$store.state.AddDetailsData
       console.log(this.$store.state.AddDetailsData)
 
-      if (rootData.optionstype != undefined) {
+      if (rootData.apply != undefined) {
         let newObj = {}
         let newArr = new Array(5)
-        let iid = rootData.optionstype
-        newArr[0] = iid
+        newArr[0] = ''
 
-        this.type.forEach((item) => {
-          if (item.id == iid) {
-            newObj.title = item.category_name
-          }
-        })
         newObj.detailed = rootData.description
         if (rootData.apply != undefined) {
           newArr[1] = rootData.apply
@@ -144,6 +166,7 @@ export default {
         this.reimbursement_detail.push(newArr)
         console.log(this.reimbursement_detail)
         this.NewCost.push(newObj)
+        console.log(this.NewCost)
         this.$store.commit('setAddDetailsData', {})
       }
     },
@@ -165,13 +188,39 @@ export default {
           value: item.id,
           label: item.category_name,
         }
+        this.columns.push(item.category_name)
         this.options.push(optionsObj)
       })
     },
     async goBtnClick() {
-      const { data } = await addReimbursement(this.getReimbursementData)
-      console.log(data)
-      this.$router.replace('/reimbursement')
+      const { code, data, msg } = await addReimbursement(
+        this.getReimbursementData
+      )
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.NewCost = []
+        this.Reasons = ''
+        this.Remarks = ''
+        this.options = []
+        this.apply = 0
+        this.applyName = ''
+        this.value = ''
+        this.type = []
+        this.reimbursement_detail = []
+        this.user_id = 0
+        this.token = ''
+        this.$router.replace('/reimbursement')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
     },
   },
   computed: {
@@ -180,7 +229,7 @@ export default {
         token: this.token,
         operator_remark: this.Remarks,
         reimbursement_detail: this.reimbursement_detail,
-        user_id: this.user_id,
+        category_id: this.pickerID,
         reason: this.Reasons,
       }
     },
@@ -223,6 +272,9 @@ export default {
       span {
         color: #5d5d5d;
         margin-right: 0.571429rem;
+      }
+      .el-select {
+        flex: 1;
       }
       .el-input {
         color: #232323;
@@ -394,6 +446,12 @@ export default {
         background-color: #3574e6;
       }
     }
+  }
+  .picker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

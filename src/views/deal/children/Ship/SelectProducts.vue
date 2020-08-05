@@ -177,8 +177,6 @@ export default {
   },
   activated() {
     this.getMaterielLists()
-
-    this.$refs.scroll.finishPullUp()
   },
   deactivated() {
     this.state = ''

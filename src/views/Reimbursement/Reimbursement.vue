@@ -53,33 +53,35 @@
                 </ul>
               </el-card>
             </div>
-            <div
-              class="cardban"
-              v-for="(item,index) in reimbursementList"
-              :key="index"
-              @click="reimburClick(item.id)"
-            >
-              <el-card class="box-card">
-                <el-row class="item1">
-                  <div class="leftbox">
-                    <span>{{item.created_at}}</span>
-                  </div>
-                  <div class="rightbox">
-                    <div class="timer">
-                      <span>{{item.operator_name}}</span>
+
+            <van-swipe-cell v-for="(item,index) in reimbursementList" :key="index">
+              <div class="cardban" @click="reimburClick(item.id)">
+                <el-card class="box-card">
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>{{item.created_at}}</span>
                     </div>
-                  </div>
-                </el-row>
-                <el-row class="item2">
-                  <div class="leftbox">
-                    <span>{{item.reason}}</span>
-                  </div>
-                  <div class="rightbox">
-                    <span>{{item.money}}</span>
-                  </div>
-                </el-row>
-              </el-card>
-            </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.reimburser_name}}</span>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>{{item.money}}</span>
+                    </div>
+                  </el-row>
+                </el-card>
+              </div>
+              <template #right>
+                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
+              </template>
+            </van-swipe-cell>
+
             <div class="text">
               <span>已经加载全部数据</span>
             </div>
@@ -174,7 +176,10 @@
 </template>
     
 <script>
-import { getReimbursementLists } from '@/network/Reimbursement.js'
+import {
+  getReimbursementLists,
+  toExamineReimbursement,
+} from '@/network/Reimbursement'
 
 export default {
   name: 'Reimbursement',
@@ -203,6 +208,26 @@ export default {
   },
   deactivated() {},
   methods: {
+    async audit_enabled(id) {
+      console.log('审核', id)
+      const { code, msg } = await toExamineReimbursement({
+        id: [id],
+        token: this.$store.state.token,
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
     blackhome() {
       this.$router.go(-1)
     },

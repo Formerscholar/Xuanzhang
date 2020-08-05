@@ -148,7 +148,7 @@ export function uploadFile(data) {
   return request({
     url: '/materiel/uploadFile',
     method: 'POST',
-    data,
+    data: Qs.stringify(data),
   })
 }
 export function getContractOrder(data) {
@@ -470,6 +470,22 @@ export function editOutsourcingOrder(data) {
 export function deleteOutsourcingOrderProduct(data) {
   return request({
     url: '/OutsourcingOrder/deleteOutsourcingOrderProduct',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getChangeOutsourcingOrder(data) {
+  return request({
+    url: '/OutsourcingOrder/getChangeOutsourcingOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function changeOutsourcingOrder(data) {
+  return request({
+    url: '/OutsourcingOrder/changeOutsourcingOrder',
     method: 'POST',
     data: Qs.stringify(data),
   })

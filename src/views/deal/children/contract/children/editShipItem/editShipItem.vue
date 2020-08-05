@@ -70,6 +70,13 @@
             title="日期"
             :valueData="timersList.DeliveryDate"
           />
+          <van-uploader
+            style="padding: .714286rem 1.142857rem;"
+            v-model="fileList"
+            multiple
+            @delete="filedelete"
+            :after-read="afterRead"
+          />
           <van-field v-model="DeliveryNotes" type="text" label="发货备注" />
         </el-card>
       </div>
@@ -95,6 +102,7 @@ import {
   getEditDeliverRecord,
   editAutonomousDeliverRecord,
 } from '@/network/deal'
+import { uploadImg } from '@/network/materials'
 
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
@@ -107,6 +115,8 @@ export default {
       Shipment: 0,
       Amounts: 0,
       number: '',
+      fileList: [],
+      img_url_Arr: [],
       timersList: {
         DeliveryDate: new Date().getTime(),
       },
@@ -118,7 +128,6 @@ export default {
       states: '',
       timeout: null,
       radio: '0',
-      fileList: [],
       table: false,
       dialog: false,
       Addresslog: false,
@@ -236,6 +245,7 @@ export default {
         apply_time,
         type: 0,
         remark: this.DeliveryNotes,
+        img_url: this.img_url_Arr,
       }
     },
     addAutonomousDatas() {
@@ -252,6 +262,7 @@ export default {
         apply_time,
         type: 1,
         remark: this.DeliveryNotes,
+        img_url: this.img_url_Arr,
       }
     },
     getMaterieldata() {
@@ -271,6 +282,23 @@ export default {
     },
   },
   methods: {
+    filedelete(file, detail) {
+      this.img_url_Arr.splice(detail.index, 1)
+    },
+    async afterRead(file) {
+      console.log(file)
+      lrz(file.content, {
+        quality: 0.6,
+        fieldName: 'user_file',
+      }).then(async (rst) => {
+        const { data } = await uploadImg({
+          user_image: rst.base64,
+          token: this.$store.state.token,
+        })
+        console.log(data.url)
+        this.img_url_Arr.push(data.url)
+      })
+    },
     tableClick(index) {
       console.log(index)
       this.$dialog
@@ -362,6 +390,14 @@ export default {
         if (data.customerProductExtraField.length > 0) {
           this.isFlowingShow = data.customerProductExtraField
         }
+        data.flowDeliveryImg.forEach((item) => {
+          let obj = {
+            url: item.img_url,
+          }
+          this.fileList.push(obj)
+          this.img_url_Arr.push(item.img_url)
+          console.log(this.img_url_Arr)
+        })
       }
     },
     focusClick() {
@@ -402,9 +438,10 @@ export default {
       this.restaurants = []
       this.restaurant = []
       this.state = ''
+      this.fileList = []
+      this.img_url_Arr = []
       this.states = ''
       this.timeout = null
-      this.fileList = []
       this.table = false
       this.form = {}
       this.Address = {}

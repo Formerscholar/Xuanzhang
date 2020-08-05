@@ -49,7 +49,7 @@ export default {
     myHeader,
     Ability,
     myEcharts,
-
+    Interval: null,
     reminder,
     MainTabBar,
   },
@@ -60,6 +60,13 @@ export default {
     }
   },
   activated() {
+    this.getlogin()
+    clearInterval(this.Interval)
+    console.log(this.Interval)
+    if (!this.Interval) {
+      this.Interval = setInterval(this.getlogin, 1500000)
+      console.log('开启定时器 时间 25m')
+    }
     this.getUserDesignat()
   },
   deactivated() {
@@ -142,11 +149,6 @@ export default {
     ReimbursementClick() {
       this.$router.push('/reimbursement')
     },
-  },
-  created() {
-    setInterval(this.getlogin, 1500000)
-    console.log('开启定时器 时间 10s')
-    console.log(this.$store.state.userInfo)
   },
 }
 </script>
