@@ -11,7 +11,7 @@
     </navbar>
     <div class="BasicInfo">
       <div class="title">基本信息</div>
-      <van-field @focus="Inputfocus" v-model="picker" label="报销类别" />
+      <van-field @click="Inputfocus" readonly v-model="picker" label="报销类别" />
       <!-- <el-select v-model="value" clearable placeholder="请选择">
           <el-option
             v-for="item in options"

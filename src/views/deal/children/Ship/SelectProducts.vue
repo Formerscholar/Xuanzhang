@@ -23,7 +23,10 @@
         </div>
 
         <van-field v-model="state" label="产品名称" @focus="focusClick" />
-        <van-field v-model="Products" label="产品型号" @focus="focusClick" />
+
+        <van-field v-if="isfouck" v-model="Products" label="产品型号" @focus="focusClick" />
+        <van-field v-else v-model="Products" label="产品型号" />
+
         <van-field v-model="productPrice" type="number" label="产品价格" />
         <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
         <van-field
@@ -35,7 +38,7 @@
         />
         <van-field v-model="quantity" type="number" label="产品数量" />
         <van-field v-model="processCost" type="number" label="加工费" />
-        <van-field v-model="ProductSubtotal" type="number" label="产品小计" />
+        <van-field v-model="ProductSubtotal" type="number" label="产品小计" @focus="SubtotalFocus" />
         <van-field v-model="ProductNotes" label="产品备注" />
         <div class="btns">
           <van-button @click="commite" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
@@ -50,7 +53,7 @@
 import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { bestURL, crosURl } from '@/network/baseURL'
 import { getMaterielList } from '@/network/deal'
-
+import { TotalPriceCalc } from '@/common/utils'
 export default {
   data() {
     return {
@@ -72,6 +75,7 @@ export default {
       listItem: {},
       listItems: [],
       allData: {},
+      isfouck: true,
     }
   },
   components: {
@@ -79,18 +83,30 @@ export default {
   },
   filters: {
     getUrl(value) {
-      return bestURL + value
+      if (value.indexOf(bestURL) == -1) {
+        return bestURL + value
+      } else {
+        return value
+      }
     },
   },
   computed: {
     getMaterielListData() {
       return {
-        company_id: 1,
+        company_id: this.$store.state.userInfo[0].user_compser_id,
         _: new Date().getTime(),
       }
     },
   },
   methods: {
+    SubtotalFocus() {
+      this.ProductSubtotal = TotalPriceCalc(
+        this.productPrice,
+        this.productWeight,
+        this.processCost,
+        this.quantity
+      )
+    },
     async getMaterielLists() {
       const { data } = await getMaterielList(this.getMaterielListData)
       this.listItem = { ...data }
@@ -131,6 +147,7 @@ export default {
       this.FlowingProducts = ['0']
       this.isWeightShow = false
       this.quantity = ''
+      this.isfouck = true
       this.img_url_lin = ''
       this.ProductSubtotal = ''
       this.ProductNotes = ''
@@ -151,23 +168,28 @@ export default {
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
         this.$refs.scroll.finishPullUp()
-        console.log(item)
-        this.isWeightShow = item.weight ? true : false
-        this.productWeight = item.weight
-        this.allData = item
-        this.state = item.name
-        this.Products = item.specification
-        this.productPrice = item.out_price
-        this.img_URL = item.img_url
-        this.PropsImg = item.img_url
-        this.img_url_lin = item.img_url_lin
-        this.listItem = { ...this.$route.query.data.materiel }
-        this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
-        for (const key in this.listItem) {
-          this.listItems.push(this.listItem[key])
+        if (typeof item == 'string') {
+          this.isfouck = false
+          console.log(item)
+          this.state = item
+        } else {
+          this.isfouck = true
+          this.isWeightShow = item.weight ? true : false
+          this.productWeight = item.weight
+          this.allData = item
+          this.state = item.name
+          this.Products = item.specification
+          this.productPrice = item.out_price
+          this.img_URL = item.img_url
+          this.PropsImg = item.img_url
+          this.img_url_lin = item.img_url_lin
+          this.listItem = { ...this.$route.query.data.materiel }
+          this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
+          for (const key in this.listItem) {
+            this.listItems.push(this.listItem[key])
+          }
+          console.log(this.listItems)
         }
-        console.log(this.listItems)
-        // this.distributor_id = item.id
       })
     },
     blacknext() {

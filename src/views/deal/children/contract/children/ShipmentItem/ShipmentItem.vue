@@ -123,7 +123,11 @@ export default {
       return '创建:' + value
     },
     getUrl(value) {
-      return bestURL + value
+      if (value.indexOf(bestURL) == -1) {
+        return bestURL + value
+      } else {
+        return value
+      }
     },
   },
   computed: {

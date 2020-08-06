@@ -195,7 +195,11 @@ export default {
   },
   filters: {
     getUrl(value) {
-      return bestURL + value
+      if (value.indexOf(bestURL) == -1) {
+        return bestURL + value
+      } else {
+        return value
+      }
     },
   },
   activated() {
@@ -391,11 +395,15 @@ export default {
           this.isFlowingShow = data.customerProductExtraField
         }
         data.flowDeliveryImg.forEach((item) => {
+          let url = item.img_url
+          if (item.img_url.indexOf(bestURL) == -1) {
+            url = bestURL + item.img_url
+          }
           let obj = {
-            url: item.img_url,
+            url,
           }
           this.fileList.push(obj)
-          this.img_url_Arr.push(item.img_url)
+          this.img_url_Arr.push(url)
           console.log(this.img_url_Arr)
         })
       }

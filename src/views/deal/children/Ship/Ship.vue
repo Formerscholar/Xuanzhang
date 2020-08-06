@@ -12,10 +12,16 @@
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <van-field v-model="state" label="客户名称" @focus="focusClick" />
+          <van-field
+            v-model="state"
+            label="客户名称"
+            @focus="focusClick"
+            placeholder="点击检索客户名称"
+            right-icon="arrow"
+          />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line">
+          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
             <div class="product_box" v-for="(item,index) in tableData" :key="index">
               <van-swipe-cell>
                 <div class="wrap_item">
@@ -57,7 +63,7 @@
         </el-card>
 
         <el-card class="box-card item1">
-          <van-field v-model="Shipment" type="number" label="发货金额" />
+          <van-field v-model="Shipment " type="number" label="发货金额" />
           <van-field v-model="Amounts" type="number" label="折后金额" />
           <timers
             class="DeliveryDate"
@@ -185,10 +191,6 @@ export default {
     if (this.$store.state.timers.timers.DeliveryDate != '') {
       this.timersList.DeliveryDate = this.$store.state.timers.timers.DeliveryDate
     }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
-    document.querySelector('textarea').style.border = 'none'
   },
   filters: {
     getUrl(value) {
@@ -416,56 +418,106 @@ export default {
             this.isTemporary = '0'
             this.tableData.pop()
           })
+          .finally(() => {
+            let totalPrice = TotalPriceCalc(
+              this.productPrice,
+              this.productWeight,
+              this.processCost,
+              this.quantity
+            )
+
+            let addproductdata = {
+              goods: this.states,
+              model: this.Products,
+              nums: this.quantity,
+              price: this.productPrice,
+              totalPrice,
+              weight: this.productWeight,
+              process_cost: this.processCost,
+              product_img: this.product_img,
+            }
+            this.tableData.push(addproductdata)
+
+            let newArr = []
+            newArr.push(this.shippingValue)
+            newArr.push(this.Products)
+            newArr.push(this.quantity)
+            newArr.push(this.productPrice)
+            newArr.push(this.ProductNotes)
+            newArr.push(this.productWeight)
+            newArr.push(this.isTemporary) // 零时库
+            newArr.push(this.processCost) //加工费
+            newArr.push(this.product_img) // 一张图片URL
+            newArr.push(this.FlowingProducts)
+            this.shippingData.push(newArr)
+            console.log(this.shippingData)
+            let allmonpement = 0
+            this.tableData.forEach((item) => {
+              allmonpement += parseFloat(item.totalPrice)
+            })
+            this.Shipment = allmonpement
+            this.Amounts = allmonpement
+
+            this.states = ''
+            this.Products = ''
+            this.productPrice = ''
+            this.productWeight = ''
+            this.FlowingProducts = ''
+            this.quantity = ''
+            this.ProductSubtotal = ''
+            this.ProductNotes = ''
+            this.isShowed = false
+          })
+      } else {
+        let totalPrice = TotalPriceCalc(
+          this.productPrice,
+          this.productWeight,
+          this.processCost,
+          this.quantity
+        )
+
+        let addproductdata = {
+          goods: this.states,
+          model: this.Products,
+          nums: this.quantity,
+          price: this.productPrice,
+          totalPrice,
+          weight: this.productWeight,
+          process_cost: this.processCost,
+          product_img: this.product_img,
+        }
+        this.tableData.push(addproductdata)
+
+        let newArr = []
+        newArr.push(this.shippingValue)
+        newArr.push(this.Products)
+        newArr.push(this.quantity)
+        newArr.push(this.productPrice)
+        newArr.push(this.ProductNotes)
+        newArr.push(this.productWeight)
+        newArr.push(this.isTemporary) // 零时库
+        newArr.push(this.processCost) //加工费
+        newArr.push(this.product_img) // 一张图片URL
+        newArr.push(this.FlowingProducts)
+        this.shippingData.push(newArr)
+        console.log(this.shippingData)
+        let allmonpement = 0
+        this.tableData.forEach((item) => {
+          allmonpement += parseFloat(item.totalPrice)
+        })
+        this.Shipment = allmonpement
+        this.Amounts = allmonpement
+
+        this.states = ''
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = ''
+        this.quantity = ''
+        this.ProductSubtotal = ''
+        this.ProductNotes = ''
+        this.isShowed = false
       }
-
-      let totalPrice = TotalPriceCalc(
-        this.productPrice,
-        this.productWeight,
-        this.processCost,
-        this.quantity
-      )
-
-      let addproductdata = {
-        goods: this.states,
-        model: this.Products,
-        nums: this.quantity,
-        price: this.productPrice,
-        totalPrice,
-        weight: this.productWeight,
-        process_cost: this.processCost,
-        product_img: this.product_img,
-      }
-      this.tableData.push(addproductdata)
-
-      let newArr = []
-      newArr.push(this.shippingValue)
-      newArr.push(this.Products)
-      newArr.push(this.quantity)
-      newArr.push(this.productPrice)
-      newArr.push(this.ProductNotes)
-      newArr.push(this.productWeight)
-      newArr.push(this.isTemporary) // 零时库
-      newArr.push(this.processCost) //加工费
-      newArr.push(this.product_img) // 一张图片URL
-      newArr.push(this.FlowingProducts)
-      this.shippingData.push(newArr)
-      console.log(this.shippingData)
-      let allmonpement = 0
-      this.tableData.forEach((item) => {
-        allmonpement += parseFloat(item.totalPrice)
-      })
-      this.Shipment = allmonpement
-      this.Amounts = allmonpement
-
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = ''
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
     },
     closeOverlay() {
       this.isShow = false
@@ -599,7 +651,6 @@ export default {
         .product_box {
           .wrap_item {
             padding: 0.357143rem;
-            border-bottom: 1px solid #f2f2f2;
 
             .wrap_left {
               display: flex;

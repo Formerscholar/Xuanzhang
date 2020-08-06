@@ -79,7 +79,11 @@ export default {
   },
   filters: {
     getUrl(value) {
-      return bestURL + value
+      if (value.indexOf(bestURL) == -1) {
+        return bestURL + value
+      } else {
+        return value
+      }
     },
   },
   activated() {

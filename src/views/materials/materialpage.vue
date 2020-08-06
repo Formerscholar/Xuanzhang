@@ -79,7 +79,13 @@
             <div>
               <el-card class="box-card">
                 <div class="content_box_card">
-                  <div class="left_card"></div>
+                  <img
+                    class="left_card"
+                    v-if="item.img_url"
+                    :src="bestURL + item.img_url"
+                    alt="logo"
+                  />
+                  <div v-else class="left_card"></div>
                   <div class="right_card">
                     <span>{{item.name}}</span>
                     <span>{{item.specification}}</span>

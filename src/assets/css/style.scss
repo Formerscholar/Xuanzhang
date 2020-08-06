@@ -160,6 +160,12 @@ i {
   }
 }
 
+#Ship {
+  .van-cell__title {
+    border-right: 1px solid #F4F4F4;
+  }
+}
+
 #createGoodpage {
   .el-card__body {
     padding: .357143rem;

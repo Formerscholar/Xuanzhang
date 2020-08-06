@@ -21,16 +21,17 @@
         <div class="left">
           <span>发生时间</span>
         </div>
-        <div class="right">
-          <el-date-picker
+        <!-- <div class="right"> -->
+        <timers class="right Sign" type="Shipdata" :valueData="timersList.Shipdata" />
+        <!-- <el-date-picker
             v-model="timervalue"
             align="right"
             type="date"
             style=" width: 100%;"
             placeholder="选择日期"
             :picker-options="pickerOptions"
-          ></el-date-picker>
-        </div>
+        ></el-date-picker>-->
+        <!-- </div> -->
       </el-row>
 
       <div class="timer">
@@ -82,6 +83,9 @@ export default {
   name: 'addDetails',
   data() {
     return {
+      timersList: {
+        Shipdata: new Date().getTime(),
+      },
       dialogImageUrl: '',
       dialogVisible: false,
       options: [],
@@ -122,6 +126,9 @@ export default {
     }
   },
   activated() {
+    if (this.$store.state.timers.timers.Shipdata != '') {
+      this.timersList.Shipdata = this.$store.state.timers.timers.Shipdata
+    }
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
@@ -133,7 +140,7 @@ export default {
     btnClick() {
       this.$store.commit('setAddDetailsData', {
         apply: this.apply * 1,
-        timervalue: this.timervalue,
+        timervalue: this.timersList.Shipdata,
         description: this.description,
       })
       this.dialogImageUrl = ''

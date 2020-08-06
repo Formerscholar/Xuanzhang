@@ -9,6 +9,7 @@
             <input class="filterinput" id="forms" v-model="value" type="text" />
             <van-icon name="close" @click="closeClick" />
           </form>
+          <div @click="comfromClick">确认</div>
         </div>
       </div>
       <ul id="demo-list">
@@ -45,6 +46,14 @@ export default {
     this.itemData = {}
   },
   methods: {
+    comfromClick() {
+      if (JSON.stringify(this.itemData) == '{}') {
+        this.$bus.$emit('productNameSearch', this.value)
+      } else {
+        this.$bus.$emit('productNameSearch', this.itemData)
+      }
+      this.blacknext()
+    },
     closeClick() {
       this.value = ''
     },
@@ -52,8 +61,6 @@ export default {
       this.itemData = { ...item }
       this.value = item.name
       console.log(item)
-      this.$bus.$emit('productNameSearch', item)
-      this.blacknext()
     },
     blacknext() {
       this.listItem = []
@@ -88,9 +95,14 @@ export default {
         font-size: 1.571429rem;
       }
       #form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         flex: 1;
         margin-left: 0.714286rem;
         .filterform {
+          flex: 1;
+          margin-right: 0.714286rem;
           border: 1px solid #999;
           border-radius: 1.071429rem;
           padding: 0.285714rem 0.857143rem;
