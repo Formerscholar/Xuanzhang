@@ -12,10 +12,18 @@
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <van-field v-model="state" label="客户名称" @focus="focusClick" />
+          <van-field
+            v-model="state"
+            label="客户名称"
+            @focus="focusClick"
+            class="newStyle"
+            @click-right-icon="focusClick"
+            placeholder="点击检索客户名称"
+            right-icon="arrow"
+          />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line">
+          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
             <div class="product_box" v-for="(item,index) in tableData" :key="index">
               <van-swipe-cell>
                 <div class="wrap_item">
@@ -29,14 +37,17 @@
                     <div class="text">
                       <div class="title">
                         <p>{{item.goods}}</p>
-                        <div class="funds_box">
-                          <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
-                        </div>
                       </div>
                       <p class="model">{{item.model}}</p>
+
                       <div class="wrap_right">
-                        <span>({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span
+                          class="wrap_right_text"
+                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -49,21 +60,19 @@
           </el-row>
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
-              <i class="el-icon-box"></i>
+              <i class="iconfont icon-copy"></i>
               <em>添加产品</em>
             </div>
           </el-row>
         </el-card>
 
         <el-card class="box-card item1">
-          <van-field v-model="Shipment" type="number" label="退货金额" />
-          <van-field v-model="Amounts" type="number" label="折后金额" />
-          <timers
-            class="DeliveryDate"
-            type="DeliveryDate"
-            title="日期"
-            :valueData="timersList.DeliveryDate"
-          />
+          <van-field v-model="Shipment" type="number" class="newStyle" label="退货金额" />
+          <van-field v-model="Amounts" type="number" class="newStyle" label="折后金额" />
+          <el-row class="DeliveryDate">
+            <span class="lable">日期</span>
+            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+          </el-row>
           <van-uploader
             style="padding: .714286rem 1.142857rem;"
             v-model="fileList"
@@ -71,7 +80,14 @@
             @delete="filedelete"
             :after-read="afterRead"
           />
-          <van-field v-model="DeliveryNotes" type="text" label="退货备注" />
+          <van-field
+            v-model="DeliveryNotes"
+            autosize
+            type="textarea"
+            label="退货备注"
+            placeholder="(选填)简要描述产品说明"
+            class="newStyle"
+          />
         </el-card>
       </div>
     </scroll>
@@ -89,6 +105,18 @@
         <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
+
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
   </div>
 </template>
     
@@ -102,6 +130,7 @@ import {
   addAutonomousReturnRecord,
   getMateriel,
 } from '@/network/deal'
+
 import { setTimerType } from '@/common/filter'
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { TotalPriceCalc } from '@/common/utils'
@@ -110,12 +139,14 @@ import { bestURL, crosURl } from '@/network/baseURL'
 export default {
   data() {
     return {
+      isDatetime: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
       Shipment: 0,
       Amounts: 0,
       number: '',
-      timersList: {
-        DeliveryDate: new Date().getTime(),
-      },
+      DeliveryDate: setTimerType(new Date().getTime()),
       fileList: [],
       img_url_Arr: [],
       distributors: [],
@@ -170,6 +201,8 @@ export default {
       isFlowingShow: [],
       isWeightShow: false,
       isTemporary: '0',
+      processCost: '',
+      product_img: '',
     }
   },
   components: {
@@ -178,21 +211,10 @@ export default {
   },
   activated() {
     this.getAddDeliverGood()
-    if (this.$store.state.timers.timers.DeliveryDate != '') {
-      this.timersList.DeliveryDate = this.$store.state.timers.timers.DeliveryDate
-    }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
-    document.querySelector('textarea').style.border = 'none'
   },
   filters: {
     getUrl(value) {
-      if (value.indexOf(bestURL) == -1) {
-        return bestURL + value
-      } else {
-        return value
-      }
+      return bestURL + value
     },
   },
   computed: {
@@ -205,14 +227,13 @@ export default {
     addAutonomousData() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
-      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time,
+        apply_time: this.DeliveryDate,
         type: 0,
         remark: this.DeliveryNotes,
         img_url: this.img_url_Arr,
@@ -221,14 +242,13 @@ export default {
     addAutonomousDatas() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
-      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time,
+        apply_time: this.DeliveryDate,
         type: 1,
         remark: this.DeliveryNotes,
         img_url: this.img_url_Arr,
@@ -244,6 +264,16 @@ export default {
     },
   },
   methods: {
+    cancel() {
+      this.isDatetime = false
+    },
+    confirms(value) {
+      this.DeliveryDate = setTimerType(value)
+      this.isDatetime = false
+    },
+    tiemrClick() {
+      this.isDatetime = true
+    },
     filedelete(file, detail) {
       this.img_url_Arr.splice(detail.index, 1)
     },
@@ -329,11 +359,10 @@ export default {
       this.table = false
       this.form = {}
       this.Address = {}
-      this.img_url_Arr = []
-
       this.product = {}
       this.options = regionData
       this.address = []
+      this.img_url_Arr = []
       this.tableData = []
       this.isShowed = false
       this.distributor_id = 0
@@ -399,55 +428,106 @@ export default {
             this.isTemporary = '0'
             this.tableData.pop()
           })
+          .finally(() => {
+            let totalPrice = TotalPriceCalc(
+              this.productPrice,
+              this.productWeight,
+              this.processCost,
+              this.quantity
+            )
+
+            let addproductdata = {
+              goods: this.states,
+              model: this.Products,
+              nums: this.quantity,
+              price: this.productPrice,
+              totalPrice,
+              weight: this.productWeight,
+              process_cost: this.processCost,
+              product_img: this.product_img,
+            }
+            this.tableData.push(addproductdata)
+
+            let newArr = []
+            newArr.push(this.shippingValue)
+            newArr.push(this.Products)
+            newArr.push(this.quantity)
+            newArr.push(this.productPrice)
+            newArr.push(this.ProductNotes)
+            newArr.push(this.productWeight)
+            // newArr.push(this.isTemporary) // 零时库
+            newArr.push(this.processCost) //加工费
+            // newArr.push(this.product_img) // 一张图片URL
+            newArr.push(this.FlowingProducts)
+            this.shippingData.push(newArr)
+            console.log(this.shippingData)
+            let allmonpement = 0
+            this.tableData.forEach((item) => {
+              allmonpement += parseFloat(item.totalPrice)
+            })
+            this.Shipment = allmonpement
+            this.Amounts = allmonpement
+
+            this.states = ''
+            this.Products = ''
+            this.productPrice = ''
+            this.productWeight = ''
+            this.FlowingProducts = ''
+            this.quantity = ''
+            this.ProductSubtotal = ''
+            this.ProductNotes = ''
+            this.isShowed = false
+          })
+      } else {
+        let totalPrice = TotalPriceCalc(
+          this.productPrice,
+          this.productWeight,
+          this.processCost,
+          this.quantity
+        )
+
+        let addproductdata = {
+          goods: this.states,
+          model: this.Products,
+          nums: this.quantity,
+          price: this.productPrice,
+          totalPrice,
+          weight: this.productWeight,
+          process_cost: this.processCost,
+          product_img: this.product_img,
+        }
+        this.tableData.push(addproductdata)
+
+        let newArr = []
+        newArr.push(this.shippingValue)
+        newArr.push(this.Products)
+        newArr.push(this.quantity)
+        newArr.push(this.productPrice)
+        newArr.push(this.ProductNotes)
+        newArr.push(this.productWeight)
+        // newArr.push(this.isTemporary) // 零时库
+        newArr.push(this.processCost) //加工费
+        // newArr.push(this.product_img) // 一张图片URL
+        newArr.push(this.FlowingProducts)
+        this.shippingData.push(newArr)
+        console.log(this.shippingData)
+        let allmonpement = 0
+        this.tableData.forEach((item) => {
+          allmonpement += parseFloat(item.totalPrice)
+        })
+        this.Shipment = allmonpement
+        this.Amounts = allmonpement
+
+        this.states = ''
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = ''
+        this.quantity = ''
+        this.ProductSubtotal = ''
+        this.ProductNotes = ''
+        this.isShowed = false
       }
-
-      let totalPrice = TotalPriceCalc(
-        this.productPrice,
-        this.productWeight,
-        this.processCost,
-        this.quantity
-      )
-      let addproductdata = {
-        goods: this.states,
-        model: this.Products,
-        nums: this.quantity,
-        price: this.productPrice,
-        totalPrice,
-        weight: this.productWeight,
-        process_cost: this.processCost,
-        product_img: this.product_img,
-      }
-      this.tableData.push(addproductdata)
-
-      let newArr = []
-      newArr.push(this.shippingValue)
-      newArr.push(this.Products)
-      newArr.push(this.quantity)
-      newArr.push(this.productPrice)
-      newArr.push(this.ProductNotes)
-      newArr.push(this.productWeight)
-      // newArr.push(this.isTemporary) // 零时库
-      newArr.push(this.processCost) //加工费
-      // newArr.push(this.product_img) // 一张图片URL
-      newArr.push(this.FlowingProducts)
-      this.shippingData.push(newArr)
-
-      let allmonpement = 0
-      this.tableData.forEach((item) => {
-        allmonpement += parseFloat(item.totalPrice)
-      })
-      this.Shipment = allmonpement
-      this.Amounts = allmonpement
-
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = ''
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
     },
     closeOverlay() {
       this.isShow = false
@@ -508,7 +588,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 3.785714rem;
+    bottom: 2.785714rem;
     width: 100%;
     overflow: hidden;
   }
@@ -545,7 +625,7 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
-      margin-left: -3.071429rem;
+      margin-left: -1.071429rem;
       font-size: 1.285714rem;
       font-weight: 700;
       color: #030303;
@@ -557,12 +637,30 @@ export default {
 
     .item1 {
       margin-bottom: 0.714286rem;
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 6.2em;
+          padding: 0 0.714286rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          border-right: 1px solid #e7e7e7;
+        }
+        .time {
+          flex: 1;
+          text-align: right;
+          padding: 0 1rem;
+        }
+      }
       .btns {
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
         .van-button {
-          margin-right: 10px;
+          margin-right: 0.714286rem;
         }
       }
       .line {
@@ -577,7 +675,6 @@ export default {
         .product_box {
           .wrap_item {
             padding: 0.357143rem;
-            border-bottom: 1px solid #f2f2f2;
 
             .wrap_left {
               display: flex;
@@ -600,9 +697,6 @@ export default {
                   justify-content: space-between;
                   align-items: center;
                   font-size: 1rem;
-                  .funds_box {
-                    flex: 0;
-                  }
                 }
                 .model {
                   color: #ccc;
@@ -613,10 +707,15 @@ export default {
                 .wrap_right {
                   width: 100%;
                   display: flex;
-                  justify-content: flex-start;
+                  justify-content: space-between;
+                  align-items: flex-end;
                   color: #ccc;
-                  span {
+                  .wrap_right_text {
                     font-size: 0.857143rem;
+                  }
+                  .funds_box {
+                    font-size: 1.142857rem;
+                    color: black;
                   }
                 }
               }
@@ -635,14 +734,12 @@ export default {
           display: block;
           font-size: 1.142857rem;
           color: #585858;
-          font-weight: 700;
           width: 6.357143rem;
           text-align: left;
         }
         div {
           display: block;
           font-size: 1.142857rem;
-          font-weight: 700;
           text-align: left;
           flex: 1;
         }
@@ -664,6 +761,12 @@ export default {
         }
       }
     }
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

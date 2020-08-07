@@ -17,6 +17,14 @@ ul {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  font-family: 'Droid sans fallback';
+  /*
+  , 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
+    '\5b8b\4f53', sans-serif, Avenir, Helvetica
+  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -102,6 +110,76 @@ i {
 
 }
 
+#SelectProducts,
+#Ship {
+
+  .van-stepper__input {
+    width: 100%;
+    max-width: 6.428571rem;
+  }
+
+  input,
+  textarea {
+    text-align: right;
+  }
+
+  #select {
+    padding: 0.357143rem 0.714286rem;
+
+    input {
+      text-align: center;
+    }
+  }
+
+  .van-cell__title {
+    padding: 0.357143rem 0;
+  }
+
+  .newStyle {
+    .van-cell__title {
+      padding: 0.357143rem 0;
+
+      span {
+        display: block;
+        padding: 0 0.714286rem;
+        text-align: justify;
+        color: black;
+        text-align-last: justify;
+        border-right: 1px solid #e7e7e7;
+      }
+
+    }
+
+    .van-cell__value {
+      padding: 0.357143rem 0.714286rem;
+
+    }
+  }
+
+  .field_handle {
+    input {
+      text-align: left;
+    }
+  }
+
+  .el-card__body {
+    padding: 0;
+  }
+
+  .van-cell {
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  .btns {
+    .van-button {
+      width: 100%;
+      background-color: #EC6F35;
+      color: #fff;
+      border-radius: .357143rem;
+      overflow: hidden;
+    }
+  }
+}
 
 
 #LargeScreen {
@@ -161,9 +239,13 @@ i {
 }
 
 #Ship {
-  .van-cell__title {
-    border-right: 1px solid #F4F4F4;
+
+  .van-cell,
+  .el-row {
+    padding: .428571rem .714286rem;
   }
+
+
 }
 
 #createGoodpage {
@@ -253,7 +335,8 @@ i {
   }
 }
 
-#contract {
+#contract,
+#aside {
   .van-swipe-cell__right {
     display: flex;
     flex-direction: column;

@@ -5,14 +5,22 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>发货编辑</span>
+        <span>流水编辑</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
-          <van-field v-model="state" label="客户名称" @focus="focusClick" />
+          <van-field
+            v-model="state"
+            label="客户名称"
+            @focus="focusClick"
+            lass="newStyle"
+            @click-right-icon="focusClick"
+            placeholder="点击检索客户名称"
+            right-icon="arrow"
+          />
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
@@ -34,14 +42,16 @@
                     <div class="text">
                       <div class="title">
                         <p>{{item.goods}}</p>
-                        <div class="funds_box">
-                          <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
-                        </div>
                       </div>
                       <p class="model">{{item.model}}</p>
                       <div class="wrap_right">
-                        <span>({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span
+                          class="wrap_right_text"
+                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -62,14 +72,12 @@
         </el-card>
 
         <el-card class="box-card item1">
-          <van-field v-model="Shipment" type="number" label="发货金额" />
-          <van-field v-model="Amounts" type="number" label="折后金额" />
-          <timers
-            class="DeliveryDate"
-            type="DeliveryDate"
-            title="日期"
-            :valueData="timersList.DeliveryDate"
-          />
+          <van-field v-model="Shipment" type="number" class="newStyle" label="发货金额" />
+          <van-field v-model="Amounts" type="number" class="newStyle" label="折后金额" />
+          <el-row class="DeliveryDate">
+            <span class="lable">日期</span>
+            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+          </el-row>
           <van-uploader
             style="padding: .714286rem 1.142857rem;"
             v-model="fileList"
@@ -77,7 +85,14 @@
             @delete="filedelete"
             :after-read="afterRead"
           />
-          <van-field v-model="DeliveryNotes" type="text" label="发货备注" />
+          <van-field
+            v-model="DeliveryNotes"
+            autosize
+            type="textarea"
+            label="流水备注"
+            placeholder="(选填)简要描述产品说明"
+            class="newStyle"
+          />
         </el-card>
       </div>
     </scroll>
@@ -89,6 +104,24 @@
         <span>立即提交</span>
       </span>
     </myBtns>
+
+    <van-overlay :show="isShow" @click="closeOverlay">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
+
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
   </div>
 </template>
     
@@ -103,6 +136,7 @@ import {
   editAutonomousDeliverRecord,
 } from '@/network/deal'
 import { uploadImg } from '@/network/materials'
+import myVqr from '@/components/common/my_vqr/myVqr'
 
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
@@ -112,14 +146,16 @@ import myBtns from '@/components/common/my_btns/my_btns'
 export default {
   data() {
     return {
+      isDatetime: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
       Shipment: 0,
       Amounts: 0,
       number: '',
       fileList: [],
       img_url_Arr: [],
-      timersList: {
-        DeliveryDate: new Date().getTime(),
-      },
+      DeliveryDate: setTimerType(new Date().getTime()),
       distributors: [],
       materiel: [],
       restaurants: [],
@@ -163,6 +199,8 @@ export default {
       address: [],
       tableData: [],
       isShowed: false,
+      isShow: false,
+      textContent: '',
       distributor_id: 0,
       shippingValue: '',
       shippingData: [],
@@ -177,6 +215,7 @@ export default {
     }
   },
   components: {
+    myVqr,
     myBtns,
   },
   watch: {
@@ -195,11 +234,7 @@ export default {
   },
   filters: {
     getUrl(value) {
-      if (value.indexOf(bestURL) == -1) {
-        return bestURL + value
-      } else {
-        return value
-      }
+      return bestURL + value
     },
   },
   activated() {
@@ -219,14 +254,6 @@ export default {
     // this.getEditDelive()
 
     //
-    if (this.$store.state.timers.timers.DeliveryDate != '') {
-      console.log(this.$store.state.timers.timers.DeliveryDate)
-      this.timersList.DeliveryDate = this.$store.state.timers.timers.DeliveryDate
-    }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
-    document.querySelector('textarea').style.border = 'none'
   },
   computed: {
     getAddDeliverData() {
@@ -238,7 +265,6 @@ export default {
     addAutonomousData() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
-      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         id: this.iid,
         distributor_id: this.distributor_id,
@@ -246,7 +272,7 @@ export default {
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time,
+        apply_time: this.DeliveryDate,
         type: 0,
         remark: this.DeliveryNotes,
         img_url: this.img_url_Arr,
@@ -255,7 +281,6 @@ export default {
     addAutonomousDatas() {
       console.log(this.isFlowingShow)
       console.log('this.FlowingProducts', this.FlowingProducts)
-      let apply_time = setTimerType(this.timersList.DeliveryDate)
       return {
         id: this.iid,
         distributor_id: this.distributor_id,
@@ -263,7 +288,7 @@ export default {
         token: this.$store.state.token,
         total_funds: this.Amounts,
         total_money: this.Shipment,
-        apply_time,
+        apply_time: this.DeliveryDate,
         type: 1,
         remark: this.DeliveryNotes,
         img_url: this.img_url_Arr,
@@ -286,6 +311,16 @@ export default {
     },
   },
   methods: {
+    cancel() {
+      this.isDatetime = false
+    },
+    confirms(value) {
+      this.DeliveryDate = setTimerType(value)
+      this.isDatetime = false
+    },
+    tiemrClick() {
+      this.isDatetime = true
+    },
     filedelete(file, detail) {
       this.img_url_Arr.splice(detail.index, 1)
     },
@@ -387,7 +422,7 @@ export default {
         })
         this.Shipment = total_funds
         this.Amounts = total_money
-        this.timersList.DeliveryDate = apply_time
+        this.DeliveryDate = apply_time
         this.DeliveryNotes = remark
         this.distributors = data.distributors
         this.materiel = data.materiel
@@ -437,7 +472,6 @@ export default {
       this.materiel = data.materiel
     },
     blacknext() {
-      this.isEdit = true
       this.Shipment = 0
       this.Amounts = 0
       this.number = ''
@@ -446,16 +480,16 @@ export default {
       this.restaurants = []
       this.restaurant = []
       this.state = ''
-      this.fileList = []
-      this.img_url_Arr = []
       this.states = ''
       this.timeout = null
+      this.fileList = []
       this.table = false
       this.form = {}
       this.Address = {}
       this.product = {}
       this.options = regionData
       this.address = []
+      this.img_url_Arr = []
       this.tableData = []
       this.isShowed = false
       this.distributor_id = 0
@@ -549,56 +583,110 @@ export default {
             this.isTemporary = '0'
             this.tableData.pop()
           })
+          .finally(() => {
+            let totalPrice = TotalPriceCalc(
+              this.productPrice,
+              this.productWeight,
+              this.processCost,
+              this.quantity
+            )
+
+            let addproductdata = {
+              goods: this.states,
+              model: this.Products,
+              nums: this.quantity,
+              price: this.productPrice,
+              totalPrice,
+              weight: this.productWeight,
+              process_cost: this.processCost,
+              product_img: this.product_img,
+            }
+            this.tableData.push(addproductdata)
+
+            let newArr = []
+            newArr.push(this.shippingValue)
+            newArr.push(this.Products)
+            newArr.push(this.quantity)
+            newArr.push(this.productPrice)
+            newArr.push(this.ProductNotes)
+            newArr.push(this.productWeight)
+            newArr.push(this.isTemporary) // 零时库
+            newArr.push(this.processCost) //加工费
+            newArr.push(this.product_img) // 一张图片URL
+            newArr.push(this.FlowingProducts)
+            this.shippingData.push(newArr)
+            console.log(this.shippingData)
+            let allmonpement = 0
+            this.tableData.forEach((item) => {
+              allmonpement += parseFloat(item.totalPrice)
+            })
+            this.Shipment = allmonpement
+            this.Amounts = allmonpement
+
+            this.states = ''
+            this.Products = ''
+            this.productPrice = ''
+            this.productWeight = ''
+            this.FlowingProducts = ''
+            this.quantity = ''
+            this.ProductSubtotal = ''
+            this.ProductNotes = ''
+            this.isShowed = false
+          })
+      } else {
+        let totalPrice = TotalPriceCalc(
+          this.productPrice,
+          this.productWeight,
+          this.processCost,
+          this.quantity
+        )
+
+        let addproductdata = {
+          goods: this.states,
+          model: this.Products,
+          nums: this.quantity,
+          price: this.productPrice,
+          totalPrice,
+          weight: this.productWeight,
+          process_cost: this.processCost,
+          product_img: this.product_img,
+        }
+        this.tableData.push(addproductdata)
+
+        let newArr = []
+        newArr.push(this.shippingValue)
+        newArr.push(this.Products)
+        newArr.push(this.quantity)
+        newArr.push(this.productPrice)
+        newArr.push(this.ProductNotes)
+        newArr.push(this.productWeight)
+        newArr.push(this.isTemporary) // 零时库
+        newArr.push(this.processCost) //加工费
+        newArr.push(this.product_img) // 一张图片URL
+        newArr.push(this.FlowingProducts)
+        this.shippingData.push(newArr)
+        console.log(this.shippingData)
+        let allmonpement = 0
+        this.tableData.forEach((item) => {
+          allmonpement += parseFloat(item.totalPrice)
+        })
+        this.Shipment = allmonpement
+        this.Amounts = allmonpement
+
+        this.states = ''
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = ''
+        this.quantity = ''
+        this.ProductSubtotal = ''
+        this.ProductNotes = ''
+        this.isShowed = false
       }
-
-      let totalPrice = TotalPriceCalc(
-        this.productPrice,
-        this.productWeight,
-        this.processCost,
-        this.quantity
-      )
-
-      let addproductdata = {
-        goods: this.states,
-        model: this.Products,
-        nums: this.quantity,
-        price: this.productPrice,
-        totalPrice,
-        weight: this.productWeight,
-        process_cost: this.processCost,
-        product_img: this.product_img,
-      }
-      this.tableData.push(addproductdata)
-
-      let newArr = []
-      newArr.push(this.shippingValue)
-      newArr.push(this.Products)
-      newArr.push(this.quantity)
-      newArr.push(this.productPrice)
-      newArr.push(this.ProductNotes)
-      newArr.push(this.productWeight)
-      newArr.push(this.isTemporary) // 零时库
-      newArr.push(this.processCost) //加工费
-      newArr.push(this.product_img) // 一张图片URL
-      newArr.push(this.FlowingProducts)
-      this.shippingData.push(newArr)
-      console.log(this.shippingData)
-      let allmonpement = 0
-      this.tableData.forEach((item) => {
-        allmonpement += parseFloat(item.totalPrice)
-      })
-      this.Shipment = allmonpement
-      this.Amounts = allmonpement
-
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = ''
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
+    },
+    closeOverlay() {
+      this.isShow = false
+      this.blacknext()
     },
     async SubmitNow() {
       const { code, msg, data } = await editAutonomousDeliverRecord(
@@ -611,7 +699,8 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -631,7 +720,8 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.blacknext()
+        this.isShow = true
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -690,7 +780,7 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
-      margin-left: -3.071429rem;
+      margin-left: -1.071429rem;
       font-size: 1.285714rem;
       font-weight: 700;
       color: #030303;
@@ -702,6 +792,24 @@ export default {
 
     .item1 {
       margin-bottom: 0.714286rem;
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 6.2em;
+          padding: 0 0.714286rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          border-right: 1px solid #e7e7e7;
+        }
+        .time {
+          flex: 1;
+          text-align: right;
+          padding: 0 1rem;
+        }
+      }
       .btns {
         display: flex;
         justify-content: flex-end;
@@ -722,7 +830,6 @@ export default {
         .product_box {
           .wrap_item {
             padding: 0.357143rem;
-            border-bottom: 1px solid #f2f2f2;
 
             .wrap_left {
               display: flex;
@@ -745,9 +852,6 @@ export default {
                   justify-content: space-between;
                   align-items: center;
                   font-size: 1rem;
-                  .funds_box {
-                    flex: 0;
-                  }
                 }
                 .model {
                   color: #ccc;
@@ -758,10 +862,15 @@ export default {
                 .wrap_right {
                   width: 100%;
                   display: flex;
-                  justify-content: flex-start;
+                  justify-content: space-between;
+                  align-items: flex-end;
                   color: #ccc;
-                  span {
+                  .wrap_right_text {
                     font-size: 0.857143rem;
+                  }
+                  .funds_box {
+                    font-size: 1.142857rem;
+                    color: black;
                   }
                 }
               }
@@ -780,32 +889,14 @@ export default {
           display: block;
           font-size: 1.142857rem;
           color: #585858;
-          font-weight: 700;
           width: 6.357143rem;
           text-align: left;
         }
         div {
           display: block;
           font-size: 1.142857rem;
-          font-weight: 700;
           text-align: left;
           flex: 1;
-        }
-        .table {
-          .title,
-          .bodys {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.357143rem;
-            span {
-              flex: 1;
-              text-align: center;
-            }
-          }
-          .bodys {
-            font-weight: normal;
-          }
         }
       }
       .AddProduct {
@@ -825,6 +916,12 @@ export default {
         }
       }
     }
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

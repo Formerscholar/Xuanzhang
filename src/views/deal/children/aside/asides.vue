@@ -9,7 +9,50 @@
     >
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="入库清单" class="Delivery">
-          <div
+          <el-card class="box-card" v-for="(item, index) in warehouseAccessList" :key="index">
+            <div
+              @click="gocontractList(warehouseAccessList[index])"
+              :class="item.deleted_at && 'color_break ' "
+            >
+              <div class="title">
+                <div class="title_text">
+                  <span
+                    :class="item.deleted_at ? 'color_break model' :' model'"
+                  >{{ item.order_number }}</span>
+                  <span
+                    :class="item.deleted_at ? 'color_break name' :' name'"
+                    @click.stop="gotodetails(item.distributor_id)"
+                  >{{item.name}}</span>
+                </div>
+              </div>
+              <div class="itemlist" v-if="item.detail.length">
+                <div class="items">
+                  <selection :selectionList="item.detail" />
+                </div>
+                <div class="right_box">
+                  <em :class="item.deleted_at && 'color_break ' ">共</em>
+                  <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                  <em :class="item.deleted_at && 'color_break ' ">种</em>
+                </div>
+              </div>
+              <div class="time_box">
+                <span
+                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                >创建时间:{{item.created_at}}</span>
+                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                  <el-tag
+                    :class="item.deleted_at ? 'color_break ' :' '"
+                    :type="item.type == 0 ? '' : 'danger'"
+                    effect="plain"
+                  >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                  <em
+                    :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
+                  >￥{{item.total_price}}</em>
+                </span>
+              </div>
+            </div>
+          </el-card>
+          <!-- <div
             v-for="(item, index) in warehouseAccessList"
             :key="index"
             @click="listClick(item)"
@@ -31,7 +74,7 @@
                 <em>{{ item.apply_time | setApplyTime}}</em>
               </div>
             </el-card>
-          </div>
+          </div>-->
         </van-tab>
         <van-tab title="明细列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
@@ -93,14 +136,15 @@
 import {
   getWarehouseLists,
   getWarehouseDetailList,
-  delWarehouseRecord
+  delWarehouseRecord,
 } from '@/network/deal'
 
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
-
+import { throttle } from '@/common/utils.ts'
+import selection from '@/views/deal/children/selection_cont/selection_cont'
 export default {
-  components: { myVqr },
+  components: { selection, myVqr },
   data() {
     return {
       active: 0,
@@ -117,7 +161,7 @@ export default {
       listIsShow: false,
       myVqrShow: false,
       textContent: '',
-      iid: 0
+      iid: 0,
     }
   },
   computed: {
@@ -127,7 +171,7 @@ export default {
         page: this.allIndex,
         offset: 20,
         supplier_id: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     deleteContractOrderData() {
@@ -135,7 +179,7 @@ export default {
       form.append('token', this.$store.state.tonken)
       form.append('id', this.iid)
       return form
-    }
+    },
   },
   filters: {
     setOperatorName(value) {
@@ -149,7 +193,7 @@ export default {
     },
     setNumber(value) {
       return '数量:' + value
-    }
+    },
   },
   activated() {
     this.allIndex = 1
@@ -227,7 +271,7 @@ export default {
     async getDeliverLists() {
       const { data } = await getWarehouseLists(this.getDeliverGoodsListData)
       console.log('getWarehouseLists', data)
-      data.warehouseAccessList.map(item => {
+      data.warehouseAccessList.map((item) => {
         this.warehouseAccessList.push(item)
       })
     },
@@ -239,7 +283,7 @@ export default {
         this.getDeliverGoodsListData
       )
       console.log('getFlowOrderList', data)
-      data.warehouseAccessList.map(item => {
+      data.warehouseAccessList.map((item) => {
         this.flowOrderList.push(item)
       })
     },
@@ -252,8 +296,8 @@ export default {
       }
     },
     openClick() {},
-    closedClick() {}
-  }
+    closedClick() {},
+  },
 }
 </script>
     
@@ -291,46 +335,125 @@ export default {
       padding: 0.571429rem 1rem;
       .box-card {
         margin-bottom: 0.571429rem;
-        .topbox {
+        .color_break {
+          color: #ccc !important;
+          border-color: #ccc !important;
+          filter: grayscale(100%);
+        }
+        .title {
           display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          span {
-            font-size: 0.857143rem;
-            color: #ff9d17;
-            font-weight: 700;
-            em {
-              color: #acacac;
-              padding-left: 0.571429rem;
-              font-weight: normal;
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 0.357143rem;
+          .img_box {
+            width: 1.857143rem;
+            height: 1.857143rem;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1.142857rem;
+            img {
+              width: 100%;
+              height: 100%;
             }
           }
-          i {
+          .title_text {
+            display: flex;
             font-size: 1rem;
-            font-weight: 700;
-            color: #000;
+            .model {
+              color: #2a88ff;
+              margin-right: 0.714286rem;
+            }
+            .name {
+            }
           }
         }
-        .botbox {
+        .itemlist {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
-          font-size: 0.857143rem;
-          margin-top: 0.714286rem;
-          span {
-            font-weight: 700;
+          align-items: flex-start;
+          margin-bottom: 0.357143rem;
+          white-space: nowrap;
+          position: relative;
+          .items {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
           }
-          .black {
-            color: #000000;
+          .right_box {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #818181;
+            background-color: rgba(255, 255, 255, 0.6);
           }
-          .red {
-            color: red;
-          }
-          em {
-            color: #acacac;
+        }
+        .time_box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 1rem;
+          color: #818181;
+          .time_pircle {
+            .black {
+              color: #000000;
+            }
+            .red {
+              color: red;
+            }
+            em {
+              color: #acacac;
+            }
           }
         }
       }
+      // .box-card {
+      //   margin-bottom: 0.571429rem;
+      //   .topbox {
+      //     display: flex;
+      //     justify-content: space-between;
+      //     align-items: flex-end;
+      //     span {
+      //       font-size: 0.857143rem;
+      //       color: #ff9d17;
+      //       font-weight: 700;
+      //       em {
+      //         color: #acacac;
+      //         padding-left: 0.571429rem;
+      //         font-weight: normal;
+      //       }
+      //     }
+      //     i {
+      //       font-size: 1rem;
+      //       font-weight: 700;
+      //       color: #000;
+      //     }
+      //   }
+      //   .botbox {
+      //     display: flex;
+      //     justify-content: space-between;
+      //     align-items: flex-end;
+      //     font-size: 0.857143rem;
+      //     margin-top: 0.714286rem;
+      //     span {
+      //       font-weight: 700;
+      //     }
+      //     .black {
+      //       color: #000000;
+      //     }
+      //     .red {
+      //       color: red;
+      //     }
+      //     em {
+      //       color: #acacac;
+      //     }
+      //   }
+      // }
     }
 
     .Detailed {

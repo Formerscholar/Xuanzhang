@@ -268,7 +268,7 @@ export default {
       const { data } = await getAddWarehouseEnter(this.getAddDeliverData)
       console.log('getAddWarehouseEnter', data)
       if (data.customerProductExtraField.length > 0) {
-        this.isFlowingShow = data.customerProductExtraField.length
+        this.isFlowingShow = data.customerProductExtraField
       }
       if (data.customerProductField.weight == 1) {
         this.isWeightShow = true

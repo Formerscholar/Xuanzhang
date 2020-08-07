@@ -352,7 +352,7 @@ export default {
       margin-bottom: 0.357143rem;
       padding: 0.357143rem 0.857143rem;
       .box-card {
-        font-family: 'SimHei';
+        // font-family: 'SimHei';
         .numstag {
           display: flex;
           justify-content: space-between;

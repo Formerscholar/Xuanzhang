@@ -107,10 +107,11 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  font-family: 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
-    '\5b8b\4f53', sans-serif, Avenir, Helvetica;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  // font-family: 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
+  //   '\5b8b\4f53', sans-serif, Avenir, Helvetica;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+
   max-width: 73.142857rem;
 
   // 同级跳转

@@ -141,7 +141,7 @@ export default {
           font-size: 1.142857rem;
           margin-top: 0.428571rem;
           color: #020202;
-          font-family: 'SimHei';
+          // font-family: 'SimHei';
         }
         .kh_address {
           font-size: 0.857143rem;

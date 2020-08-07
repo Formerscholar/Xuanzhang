@@ -118,7 +118,7 @@ export default {
       border-bottom: 1px solid #fff;
       span {
         color: #000;
-        font-family: Arial, Helvetica, sans-serif;
+        // font-family: Arial, Helvetica, sans-serif;
         font-size: 11px;
         text-decoration: none;
       }

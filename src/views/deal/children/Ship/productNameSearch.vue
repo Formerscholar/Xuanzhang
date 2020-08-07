@@ -134,7 +134,7 @@ export default {
       align-items: center;
       span {
         color: #000;
-        font-family: Arial, Helvetica, sans-serif;
+        // font-family: Arial, Helvetica, sans-serif;
         font-size: 0.785714rem;
         text-decoration: none;
       }
