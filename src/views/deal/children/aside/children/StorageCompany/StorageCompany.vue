@@ -38,12 +38,12 @@
         <el-card class="box-card items" v-for="(item,index) in orderList" :key="index">
           <div class="coutent">
             <div class="leftbox">
-              <img src="@/assets/image/logo.png" />
+              <img src="@/assets/image/Default.png" />
             </div>
             <div class="rightbox">
               <div class="timer">
                 <div class="leftitem">{{item.order_number}}</div>
-                <div class="rightitem">{{item.apply_time | setApplyTime}}</div>
+                <div class="rightitem">{{item.apply_time}}</div>
               </div>
               <div class="article">
                 <div class="leftitem">{{item.product_name}}</div>
@@ -54,7 +54,7 @@
               </div>
               <div class="literature">
                 <div class="leftitem">{{item.product_model}}</div>
-                <div class="rightitem">￥{{item.total_price}}</div>
+                <div class="rightitem">￥{{item.total_funds}}</div>
               </div>
             </div>
           </div>
@@ -73,18 +73,13 @@ export default {
       active: 0,
       iid: 0,
       distributorNew: {},
-      orderList: []
+      orderList: [],
     }
   },
 
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()
-  },
-  filters: {
-    setApplyTime(value) {
-      return '发货时间:' + value
-    }
   },
   computed: {
     getDistributorDate() {
@@ -96,9 +91,9 @@ export default {
         order_number: null,
         start_time: null,
         end_time: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     blackhome() {
@@ -112,8 +107,8 @@ export default {
       console.log('getDistributor', data)
       this.distributorNew = data.supplierNew
       this.orderList = data.orderList
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -202,7 +197,7 @@ export default {
           align-items: flex-end;
           font-size: 1rem;
           .leftitem {
-            color: #fd9500;
+            color: #2a88ff;
             font-weight: 700;
           }
           .rightitem {

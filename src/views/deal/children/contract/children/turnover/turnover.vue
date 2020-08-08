@@ -35,6 +35,7 @@
             </ul>
           </el-card>
         </div>
+
         <el-card class="box-card items" v-for="(item,index) in orderList" :key="index">
           <div class="coutent">
             <div class="leftbox">
@@ -59,6 +60,7 @@
             </div>
           </div>
         </el-card>
+
       </div>
     </scroll>
   </div>
@@ -82,7 +84,6 @@ export default {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
-  deactivated() {},
   computed: {
     getDistributorDate() {
       return {

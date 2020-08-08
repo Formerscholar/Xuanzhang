@@ -490,3 +490,10 @@ export function changeOutsourcingOrder(data) {
     data: Qs.stringify(data),
   })
 }
+export function getWarehouseDetail(params) {
+  return request({
+    url: '/Warehouse/getWarehouseDetail',
+    method: 'GET',
+    params,
+  })
+}

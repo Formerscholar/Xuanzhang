@@ -111,7 +111,8 @@ i {
 }
 
 #SelectProducts,
-#Ship {
+#Ship,
+#editShipItem {
 
   .van-stepper__input {
     width: 100%;
@@ -238,7 +239,8 @@ i {
   }
 }
 
-#Ship {
+#Ship,
+#editShipItem {
 
   .van-cell,
   .el-row {

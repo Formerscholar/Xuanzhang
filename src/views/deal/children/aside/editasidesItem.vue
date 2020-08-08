@@ -1,29 +1,29 @@
 <template>
-  <div id="Ship">
+  <div id="editShipItem">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blacknext">
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>退货</span>
+        <span>采购编辑</span>
       </div>
-      <div slot="right" class="right"></div>
+      <div slot="right"></div>
     </navbar>
     <scroll class="scroll-wrapper">
       <div class="body">
         <el-card class="box-card item1">
           <van-field
             v-model="state"
-            label="供货单位"
+            label="客户名称"
             @focus="focusClick"
-            class="newStyle"
+            lass="newStyle"
             @click-right-icon="focusClick"
-            placeholder="点击检索供货单位"
+            placeholder="点击检索客户名称"
             right-icon="arrow"
           />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
+          <el-row class="tanle line">
             <div class="product_box" v-for="(item,index) in tableData" :key="index">
               <van-swipe-cell>
                 <div class="wrap_item">
@@ -32,6 +32,11 @@
                       v-if="item.product_img && item.product_img != 0 "
                       class="img"
                       :src="item.product_img | getUrl"
+                    />
+                    <img
+                      v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                      class="img"
+                      :src="item.img_url_lin  | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
@@ -61,59 +66,35 @@
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
               <i class="iconfont icon-copy"></i>
-              <em>选择零件</em>
+              <em>添加产品</em>
             </div>
           </el-row>
         </el-card>
 
-        <!-- <el-card class="box-card item1" v-show="isShowed">
-          <el-row class="SigningDate line">
-            <em>名称</em>
-            <div>
-              <el-autocomplete
-                v-model="states"
-                :fetch-suggestions="querySearchAsyncs"
-                placeholder="请输入内容"
-                @select="handleSelect"
-                @change="handchange"
-              ></el-autocomplete>
-            </div>
-          </el-row>
-          <van-field v-model="Products" label="规格" />
-          <van-field
-            v-model="FlowingProducts[index+1]"
-            v-for="(item,index) in isFlowingShow"
-            :key="index"
-            :data-id="index+1"
-            label="字段"
-          />
-          <van-field v-model="productPrice" type="number" label="价格" />
-          <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="变量" />
-          <van-field v-model="quantity" type="number" label="数量" />
-          <van-field v-model="LocationSubtotal" type="number" label="库位号" />
-          <van-field v-model="ProductSubtotal" type="number" label="编码" />
-          <van-field v-model="ProductNotes" label="备注" />
-          <div class="btns">
-            <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-            <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-          </div>
-        </el-card>-->
         <el-card class="box-card item1">
           <el-row class="DeliveryDate">
             <span class="lable">日期</span>
             <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
           </el-row>
+          <!-- <van-uploader
+            style="padding: .714286rem 1.142857rem;"
+            v-model="fileList"
+            multiple
+            @delete="filedelete"
+            :after-read="afterRead"
+          />-->
           <van-field
             v-model="DeliveryNotes"
             autosize
             type="textarea"
-            label="单据明细"
+            label="采购备注"
             placeholder="(选填)简要描述产品说明"
             class="newStyle"
           />
         </el-card>
       </div>
     </scroll>
+
     <myBtns :commitFun="SubmitNow" :cancelFun="blacknext">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
@@ -145,17 +126,21 @@
 import { regionData, CodeToText } from 'element-china-area-data'
 
 import {
-  getAddWarehouseEnter,
-  getMaterielList,
-  addWarehouseOut,
+  getAddDeliverGoodsDistributors,
+  addAutonomousDeliverRecord,
   getMateriel,
+  editAutonomousDeliverRecord,
+  getEditWarehouseEnter,
+  editWarehouseOut,
 } from '@/network/deal'
 import { uploadImg } from '@/network/materials'
-import { setTimerType } from '@/common/filter'
 import myVqr from '@/components/common/my_vqr/myVqr'
+
+import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
-import myBtns from '@/components/common/my_btns/my_btns'
 import { bestURL, crosURl } from '@/network/baseURL'
+import myBtns from '@/components/common/my_btns/my_btns'
+
 export default {
   data() {
     return {
@@ -163,19 +148,11 @@ export default {
       minDate: new Date(2020, 0, 1),
       maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
-      LocationSubtotal: '',
-      Products: '',
-      productPrice: '',
-      productWeight: '',
-      FlowingProducts: [null],
-      quantity: '',
-      ProductSubtotal: '',
-      ProductNotes: '',
       Shipment: 0,
       Amounts: 0,
       number: '',
-      isShow: false,
-      textContent: '',
+      fileList: [],
+      img_url_Arr: [],
       DeliveryDate: setTimerType(new Date().getTime()),
       distributors: [],
       materiel: [],
@@ -190,7 +167,17 @@ export default {
       Addresslog: false,
       productlog: false,
       loading: false,
-
+      form: {
+        companyName: '',
+        Referred: '',
+        selectedOptions: [],
+        DetailedAddress: '',
+        contact: '',
+        position: '',
+        phone: '',
+        email: '',
+        salesman: '',
+      },
       Address: {
         DetailedAddress: '',
         contact: '',
@@ -206,9 +193,12 @@ export default {
         specifications: '',
         price: '',
       },
+      options: regionData,
       address: [],
       tableData: [],
       isShowed: false,
+      isShow: false,
+      textContent: '',
       distributor_id: 0,
       shippingValue: '',
       shippingData: [],
@@ -218,49 +208,82 @@ export default {
       isTemporary: '0',
       processCost: '',
       product_img: '',
+      iid: '',
+      isEdit: true,
     }
   },
   components: {
     myVqr,
     myBtns,
   },
-  activated() {
-    this.getAddDeliverGood()
-    // this.getMaterielLists()
+  watch: {
+    $route(to, from) {
+      const toDepths = to.path
+      const fromDepths = from.path
+      if (
+        fromDepths == '/SelectProducts' ||
+        fromDepths == '/nameSearch' ||
+        fromDepths == '/productNameSearch' ||
+        fromDepths == '/selectTime/DeliveryDate'
+      ) {
+        this.isEdit = false
+      }
+    },
   },
   filters: {
     getUrl(value) {
       return bestURL + value
     },
   },
+  activated() {
+    // 进入只执行一次
+    if (this.isEdit) {
+      // this.getAddDeliverGood()
+      this.iid = this.$route.params.id
+      this.getEditDelive()
+    }
+
+    // this.getAddDeliverGood()
+    // this.deliveryRecordItem = this.$route.query.data
+    // console.log(this.deliveryRecordItem)
+    // const { id, distributor_id } = this.deliveryRecordItem
+    // this.distributor_id = distributor_id
+    // this.iid = id
+    // this.getEditDelive()
+
+    //
+  },
   computed: {
     getAddDeliverData() {
       return {
         token: this.$store.state.token,
+        id: this.iid,
         _: new Date().getTime(),
       }
     },
     addAutonomousData() {
+      console.log(this.isFlowingShow)
+      console.log('this.FlowingProducts', this.FlowingProducts)
       return {
-        supplier_id: this.distributor_id,
         apply_time: this.DeliveryDate,
-        detailed: this.DeliveryNotes,
+        id: this.iid,
+        supplier_id: this.distributor_id,
         materiel_warehouse_enter_data: this.shippingData,
         token: this.$store.state.token,
       }
     },
-
     getMaterieldata() {
       return {
         token: this.$store.state.token,
-        product_name: this.states,
+        product_name: this.shippingValue,
         product_model: this.Products,
         _: new Date().getTime(),
       }
     },
-    getMaterielListData() {
+    getEditDeliveData() {
       return {
-        company_id: 1,
+        token: this.$store.state.token,
+        id: this.iid,
         _: new Date().getTime(),
       }
     },
@@ -279,36 +302,18 @@ export default {
     filedelete(file, detail) {
       this.img_url_Arr.splice(detail.index, 1)
     },
-    // async getMaterielLists() {
-    //   const { data } = await getMaterielList(this.getMaterielListData)
-    //   this.materiel = data
-    //   this.materiel.map((item, index) => {
-    //     let obj = {
-    //       value: item.name,
-    //       address: item.id,
-    //     }
-    //     this.restaurant.push(obj)
-    //   })
-    // },
-    inputchanges(value) {
-      this.distributor_id = value.address
-    },
-    async getAddDeliverGood() {
-      const { data } = await getAddWarehouseEnter(this.getAddDeliverData)
-      console.log('getAddWarehouseEnter', data)
-      if (data.customerProductExtraField.length > 0) {
-        this.isFlowingShow = data.customerProductExtraField
-      }
-      if (data.customerProductField.weight == 1) {
-        this.isWeightShow = true
-      }
-      this.distributors = data.suppliers
-      this.distributors.map((item, index) => {
-        let obj = {
-          value: item.name,
-          address: item.id,
-        }
-        this.restaurants.push(obj)
+    async afterRead(file) {
+      console.log(file)
+      lrz(file.content, {
+        quality: 0.6,
+        fieldName: 'user_file',
+      }).then(async (rst) => {
+        const { data } = await uploadImg({
+          user_image: rst.base64,
+          token: this.$store.state.token,
+        })
+        console.log(data.url)
+        this.img_url_Arr.push(data.url)
       })
     },
     tableClick(index) {
@@ -335,6 +340,88 @@ export default {
           console.log(index, this.tableData, this.shippingData)
         })
     },
+    async getEditDelive() {
+      const { data, code, msg } = await getEditWarehouseEnter(
+        this.getEditDeliveData
+      )
+      if (code !== 200) {
+        this.$message.error(msg)
+        this.$router.replace('/deal/contract')
+      } else {
+        console.log('getEditWarehouseEnter', data)
+        this.flowDelivery = data.warehouseAccess
+        const {
+          name,
+          warehouseAccessDetail,
+          total_funds,
+          total_money,
+          apply_time,
+          supplier_id,
+          remark,
+        } = this.flowDelivery
+        this.distributor_id = supplier_id
+        this.state = name
+        warehouseAccessDetail.forEach((item, index) => {
+          let unit_price = parseFloat(item.unit_price)
+          let weight = parseFloat(item.weight)
+          let process_cost = parseFloat(item.process_cost)
+          let number = parseFloat(item.number)
+          if (item.weight != '') {
+            unit_price *= weight
+          }
+          if (process_cost != '') {
+            unit_price += process_cost
+          }
+          unit_price *= number
+          unit_price = unit_price.toFixed(2)
+          this.tableData.push({
+            goods: item.materiel_name,
+            model: item.materiel_model,
+            nums: item.number,
+            price: item.unit_price,
+            totalPrice: unit_price,
+            weight: item.weight,
+            process_cost: item.process_cost,
+            product_img: '',
+            img_url_lin: item.img_url_lin,
+          })
+          let newArr = []
+          newArr.push(item.materiel_id)
+          newArr.push(item.materiel_name)
+          newArr.push(item.materiel_model)
+          newArr.push(item.number)
+          newArr.push(item.unit_price)
+          newArr.push(item.remark)
+          newArr.push(item.weight)
+          newArr.push(0) // 零时库
+          newArr.push(item.process_cost) //加工费
+          newArr.push(item.img_url_lin) // 一张图片URL
+          newArr.push(item.extra)
+          this.shippingData.push(newArr)
+        })
+        this.Shipment = total_funds
+        this.Amounts = total_money
+        this.DeliveryDate = apply_time
+        this.DeliveryNotes = remark
+        this.distributors = data.suppliers
+        this.materiel = data.materiel
+        if (data.customerProductExtraField.length > 0) {
+          this.isFlowingShow = data.customerProductExtraField
+        }
+        // data.flowDeliveryImg.forEach((item) => {
+        //   let url = item.img_url
+        //   if (item.img_url.indexOf(bestURL) == -1) {
+        //     url = bestURL + item.img_url
+        //   }
+        //   let obj = {
+        //     url,
+        //   }
+        //   this.fileList.push(obj)
+        //   this.img_url_Arr.push(url)
+        //   console.log(this.img_url_Arr)
+        // })
+      }
+    },
     focusClick() {
       this.$router.push({
         path: '/nameSearch',
@@ -352,6 +439,18 @@ export default {
           this.distributor_id = item.id
         }
       })
+    },
+    async getAddDeliverGood() {
+      const { data } = await getEditWarehouseEnter(this.getAddDeliverData)
+      console.log('getEditWarehouseEnter', data)
+      if (data.customerProductExtraField.length > 0) {
+        this.isFlowingShow = data.customerProductExtraField
+      }
+      if (data.customerProductField.weight == 1) {
+        this.isWeightShow = true
+      }
+      this.distributors = data.distributors
+      this.materiel = data.materiel
     },
     blacknext() {
       this.Shipment = 0
@@ -386,7 +485,7 @@ export default {
       this.Addresslog = false
       this.productlog = false
       this.radio = '0'
-      this.$router.replace('/deal/aside')
+      this.$router.replace('/deal/contract')
     },
     // querySearchAsync(queryString, cb) {
     //   var restaurants = this.restaurants
@@ -415,8 +514,16 @@ export default {
         )
       }
     },
+    handleSelect(item) {
+      // 转数字类型
+      this.shippingValue = item.value
+      let nums = parseInt(item.address)
+      console.log(nums)
+    },
+    handchange(value) {
+      this.shippingValue = value
+    },
     addNewProduct() {
-      console.log(this.isFlowingShow)
       this.$router.push({
         path: '/SelectProducts',
         query: {
@@ -442,43 +549,9 @@ export default {
       })
     },
 
-    closeOverlay() {
-      this.isShow = false
-      this.blacknext()
-    },
-    // handleSelect(value) {
-    //   this.shippingValue = value.address
-    //   console.log(this.shippingValue)
-
-    //   this.materiel.map((item, index) => {
-    //     if (item.id == this.shippingValue) {
-    //       this.Products = item.specification
-    //       this.productPrice = item.out_price
-    //       this.ProductSubtotal = item.scope_of_business
-    //       this.LocationSubtotal = item.warehouse_position
-    //     }
-    //   })
-    // },
-    handchange(value) {
-      this.shippingValue = value
-      console.log(this.shippingValue)
-    },
-    cancelClick() {
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = []
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
-    },
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
-      console.log(data)
       let iid = data.id
-
       if (data.isExistence == 0) {
         this.$dialog
           .confirm({
@@ -520,7 +593,7 @@ export default {
             newArr.push(this.productPrice)
             newArr.push(this.ProductNotes)
             newArr.push(this.productWeight)
-            newArr.push(this.isTemporary)
+            newArr.push(this.isTemporary) // 零时库
             newArr.push(this.processCost) //加工费
             newArr.push(this.product_img) // 一张图片URL
             newArr.push(this.FlowingProducts)
@@ -571,7 +644,7 @@ export default {
         newArr.push(this.productPrice)
         newArr.push(this.ProductNotes)
         newArr.push(this.productWeight)
-        newArr.push(this.isTemporary)
+        newArr.push(this.isTemporary) // 零时库
         newArr.push(this.processCost) //加工费
         newArr.push(this.product_img) // 一张图片URL
         newArr.push(this.FlowingProducts)
@@ -600,8 +673,8 @@ export default {
       this.blacknext()
     },
     async SubmitNow() {
-      const { code, data, msg } = await addWarehouseOut(this.addAutonomousData)
-      console.log('addWarehouseOut', code)
+      const { code, msg, data } = await editWarehouseOut(this.addAutonomousData)
+      console.log('editWarehouseOut', data)
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -609,7 +682,7 @@ export default {
           type: 'success',
         })
         this.isShow = true
-        this.textContent = `http://219.83.161.11:8030/view/html/run/warehouse_print.php?id=${data.flowId}`
+        this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${data.flowId}&orderType=flow`
       } else {
         this.$message({
           showClose: true,
@@ -623,7 +696,7 @@ export default {
 </script>
     
 <style lang="scss" scoped>
-#Ship {
+#editShipItem {
   padding-top: 5.428571rem;
   padding-bottom: 3.785714rem;
   min-height: 100vh;
@@ -668,8 +741,9 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
+      margin-left: -1.071429rem;
       font-size: 1.285714rem;
-      margin-left: -1.571429rem;
+      font-weight: 700;
       color: #030303;
     }
   }
@@ -707,8 +781,7 @@ export default {
       }
       .line {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
         border-bottom: 1px solid #f8f7f5;
         padding: 0.714286rem 1.142857rem;
         .delect {
@@ -735,6 +808,7 @@ export default {
                 font-size: 1rem;
                 color: #000;
                 overflow: hidden;
+                white-space: nowrap;
                 .title {
                   display: flex;
                   justify-content: space-between;
@@ -795,6 +869,9 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          .icon-copy {
+            font-size: 1.428571rem;
+          }
           em {
             text-align: center;
           }

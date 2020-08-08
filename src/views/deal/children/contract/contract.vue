@@ -236,7 +236,6 @@ export default {
       }
     },
     gocontractList(deliveryRecordList) {
-      console.log('--------gocontractList-------------', deliveryRecordList)
       this.$router.push(`/ShipmentItem/${deliveryRecordList.id}`)
     },
     onSelect(item) {
@@ -365,7 +364,14 @@ export default {
           align-items: center;
           font-size: 1rem;
           color: #818181;
+          .timer_text {
+            white-space: nowrap;
+            overflow: hidden;
+          }
           .time_pircle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             .black {
               color: #000000;
             }
@@ -479,7 +485,8 @@ export default {
           flex: 1;
           margin-left: 1rem;
           font-size: 1rem;
-
+          white-space: nowrap;
+          overflow: hidden;
           .timer {
             display: flex;
             justify-content: space-between;
@@ -498,8 +505,6 @@ export default {
             }
             .rightitem {
               margin-right: 2rem;
-              white-space: nowrap;
-              overflow: hidden;
             }
           }
           .article {
@@ -508,8 +513,6 @@ export default {
             align-items: flex-end;
             margin-right: 2rem;
             .leftitem {
-              white-space: nowrap;
-              overflow: hidden;
             }
             .rightitem {
               em {
@@ -525,8 +528,6 @@ export default {
 
             .leftitem {
               color: #aeaeae;
-              white-space: nowrap;
-              overflow: hidden;
             }
             .rightitem {
             }

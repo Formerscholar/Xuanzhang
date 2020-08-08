@@ -158,6 +158,11 @@ const createGoodpage = () =>
 
 const completions = () =>
   import('@/views/deal/children/Outsourcing/completions')
+
+const asidesItem = () => import('@/views/deal/children/aside/asidesItem')
+const editasidesItem = () =>
+  import('@/views/deal/children/aside/editasidesItem')
+
 const routes = [
   {
     path: '/',
@@ -404,8 +409,16 @@ const routes = [
     component: ShipmentItem,
   },
   {
+    path: '/asidesItem/:id',
+    component: asidesItem,
+  },
+  {
     path: '/editShipItem/:id',
     component: editShipItem,
+  },
+  {
+    path: '/editasidesItem/:id',
+    component: editasidesItem,
   },
   {
     path: '/OutsourcingItem/:id',

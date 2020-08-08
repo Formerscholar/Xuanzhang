@@ -17,7 +17,7 @@
           <span>{{deliveryRecordItem.name }}</span>
           <span>
             <em>￥</em>
-            {{deliveryRecordItem.total_money }}
+            {{deliveryRecordItem.total_price }}
           </span>
         </div>
         <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
@@ -44,13 +44,13 @@
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.product_name}}</p>
+                <p>{{item.materiel_name}}</p>
                 <div>
                   <span>￥</span>
-                  <span class="funds">{{item.total_funds}}</span>
+                  <span class="funds">{{item.total_price}}</span>
                 </div>
               </div>
-              <p class="model">{{item.product_model}}</p>
+              <p class="model">{{item.materiel_model}}</p>
               <div class="wrap_right">
                 <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
               </div>
@@ -78,8 +78,7 @@
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL, crosURl } from '@/network/baseURL'
-
-import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
+import { delWarehouseRecord, getWarehouseDetail } from '@/network/deal'
 export default {
   name: 'ShipmentItem',
   data() {
@@ -135,7 +134,6 @@ export default {
       let from = new FormData()
       from.append('token', this.$store.state.token)
       from.append('id', this.deliveryRecordItem.id)
-      from.append('order_type', 'flow')
       return from
     },
     getFlowDeliverData() {
@@ -162,14 +160,14 @@ export default {
       }
     },
     printShip() {
-      this.textContent = `http://219.83.161.11:8030/view/html/run/print.php?id=${this.deliveryRecordItem.id}&orderType=flow`
+      this.textContent = `http://219.83.161.11:8030/view/html/run/warehouse_print.php?id=${this.deliveryRecordItem.id}`
       this.isShow = true
     },
     async getFlowDeliverD() {
-      const { data } = await getFlowDeliverDetail(this.getFlowDeliverData)
-      console.log('getFlowDeliverDetail', data)
-      this.deliverGoodsDetail = data.deliverGoodsDetail
-      this.deliveryRecordItem = data.deliver
+      const { data } = await getWarehouseDetail(this.getFlowDeliverData)
+      console.log('getWarehouseDetail', data)
+      this.deliverGoodsDetail = data.warehouseDetail
+      this.deliveryRecordItem = data.warehouse
       console.log(this.deliveryRecordItem)
 
       // data.deliver
@@ -179,13 +177,13 @@ export default {
       })
     },
     editShip() {
-      this.$router.push(`/editShipItem/${this.deliveryRecordItem.id}`)
+      this.$router.push(`/editasidesItem/${this.deliveryRecordItem.id}`)
     },
     blacknext() {
       this.$router.go(-1)
     },
     async deleteDeliver() {
-      const { code, msg } = await deleteDeliverRecord(this.deleteDeliverData)
+      const { code, msg } = await delWarehouseRecord(this.deleteDeliverData)
       if (code == 200) {
         this.$message({
           showClose: true,

@@ -453,8 +453,12 @@ export default {
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
         console.log(item)
-        this.state = item.name
-        this.distributor_id = item.id
+        if (typeof item == 'string') {
+          this.state = item
+        } else {
+          this.state = item.name
+          this.distributor_id = item.id
+        }
       })
     },
     async getAddDeliverGood() {
@@ -847,6 +851,8 @@ export default {
                 font-size: 1rem;
                 color: #000;
                 overflow: hidden;
+                white-space: nowrap;
+
                 .title {
                   display: flex;
                   justify-content: space-between;

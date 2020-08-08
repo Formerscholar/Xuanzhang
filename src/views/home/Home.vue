@@ -60,13 +60,10 @@ export default {
     }
   },
   activated() {
-    this.getlogin()
     clearInterval(this.Interval)
-    console.log(this.Interval)
-    if (!this.Interval) {
-      this.Interval = setInterval(this.getlogin, 1500000)
-      console.log('开启定时器 时间 25m')
-    }
+    this.Interval = setInterval(this.getlogin, 1500000)
+    console.log('开启定时器 时间 25m')
+    this.getlogin()
     this.getUserDesignat()
   },
   deactivated() {

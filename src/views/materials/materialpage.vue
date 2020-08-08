@@ -37,8 +37,8 @@
                   />
                   <div v-else class="left_card"></div>
                   <div class="right_card">
-                    <span>{{item.name}}</span>
-                    <span>{{item.specification}}</span>
+                    <span class="right_card_name">{{item.name}}</span>
+                    <span class="right_card_model">{{item.specification}}</span>
                     <span>
                       {{item.stock}}
                       <em>当前库存</em>
@@ -87,8 +87,8 @@
                   />
                   <div v-else class="left_card"></div>
                   <div class="right_card">
-                    <span>{{item.name}}</span>
-                    <span>{{item.specification}}</span>
+                    <span class="right_card_name">{{item.name}}</span>
+                    <span class="right_card_model">{{item.specification}}</span>
                     <span>
                       {{item.stock}}
                       <em>当前库存</em>
@@ -427,6 +427,8 @@ export default {
           float: left;
           display: flex;
           flex-direction: column;
+          overflow: hidden;
+          white-space: nowrap;
           span {
             font-size: 1rem;
             color: #686868;
@@ -442,6 +444,16 @@ export default {
               color: #c6c6c6;
               font-weight: 700;
             }
+          }
+          .right_card_name {
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
+          }
+          .right_card_model {
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
           }
         }
       }

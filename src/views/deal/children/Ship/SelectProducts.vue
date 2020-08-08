@@ -374,17 +374,21 @@ export default {
       }
       .right_box {
         height: 100%;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         .right_name {
           font-size: 1.285714rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 1rem;
-
           span {
-            width: 20.142857rem;
-            white-space: nowrap;
+            flex: 1;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .pltext {
             width: 100%;
@@ -402,11 +406,12 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          flex: 1;
+          overflow: hidden;
           span {
-            width: 20.142857rem;
-            white-space: nowrap;
+            flex: 1;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .pltext {
             width: 100%;

@@ -21,7 +21,7 @@
                   >{{ item.order_number }}</span>
                   <span
                     :class="item.deleted_at ? 'color_break name' :' name'"
-                    @click.stop="gotodetails(item.distributor_id)"
+                    @click.stop="gotodetails(item.supplier_id)"
                   >{{item.name}}</span>
                 </div>
               </div>
@@ -78,6 +78,50 @@
         </van-tab>
         <van-tab title="明细列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
+            <van-swipe-cell>
+              <div class="coutent">
+                <div class="leftbox">
+                  <img src="@/assets/image/Default.png" />
+                </div>
+                <div class="rightbox">
+                  <div class="timer">
+                    <div class="leftitem">{{item.order_number}}</div>
+                    <div
+                      class="rightitem"
+                      @click="RetrieveData(item.distributor_id)"
+                    >{{item.name_alias}}</div>
+                  </div>
+                  <div class="timers">
+                    <div class="rightitem">{{item.created_at |setCommitmentPeriod}}</div>
+                  </div>
+                  <div class="article">
+                    <div class="leftitem">{{item.materiel_name}}</div>
+                  </div>
+                  <div class="literature">
+                    <div class="leftitem">{{item.materiel_model}}</div>
+                    <div class="rightitem">{{item.number | setNumber}}</div>
+                  </div>
+                </div>
+              </div>
+              <template #right>
+                <van-button
+                  square
+                  text="作废"
+                  type="danger"
+                  class="delete-button"
+                  @click="goDetailItem(item.id)"
+                />
+                <van-button
+                  square
+                  text="收款"
+                  type="warning"
+                  class="delete-button"
+                  @click="toReceivables(item)"
+                />
+              </template>
+            </van-swipe-cell>
+          </el-card>
+          <!-- <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
             <div class="coutent">
               <div class="leftbox">
                 <img src="@/assets/image/logo.png" />
@@ -97,7 +141,7 @@
                 </div>
               </div>
             </div>
-          </el-card>
+          </el-card>-->
         </van-tab>
       </van-tabs>
     </scroll>
@@ -188,11 +232,14 @@ export default {
     setApplyTime(value) {
       return '发货时间:' + value
     },
+    setCommitmentPeriod(value) {
+      return '创建:' + value
+    },
     setApply(value) {
       return '交期:' + value
     },
     setNumber(value) {
-      return '数量:' + value
+      return '×' + value
     },
   },
   activated() {
@@ -209,6 +256,15 @@ export default {
     this.textContent = ''
   },
   methods: {
+    RetrieveData(id) {
+      this.distributor_id = id
+      this.flowOrderList = []
+      this.getFlowOrderLists()
+    },
+    gocontractList(deliveryRecordList) {
+      console.log(deliveryRecordList)
+      this.$router.push(`/asidesItem/${deliveryRecordList.id}`)
+    },
     editlists() {
       this.$router.push(`/editwarehouse/${this.iid}`)
       this.show = false
@@ -399,7 +455,14 @@ export default {
           align-items: center;
           font-size: 1rem;
           color: #818181;
+          .timer_text {
+            white-space: nowrap;
+            overflow: hidden;
+          }
           .time_pircle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             .black {
               color: #000000;
             }
@@ -489,6 +552,14 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-right: 0.357143rem;
+          .goods-card {
+            margin: 0;
+          }
+
+          .delete-button {
+            height: 100%;
+          }
         }
         .leftbox {
           width: 5.928571rem;
@@ -503,13 +574,15 @@ export default {
         .rightbox {
           flex: 1;
           margin-left: 1rem;
+          font-size: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
           .timer {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            font-size: 1rem;
             .leftitem {
-              color: #fd9500;
+              color: #2a88ff;
               font-weight: 700;
             }
             .rightitem {
@@ -519,11 +592,8 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin: 1.057143rem 0;
+            margin-right: 2rem;
             .leftitem {
-              font-weight: 700;
-              font-size: 1rem;
-              color: #9a9a9a;
             }
             .rightitem {
               font-size: 1rem;
@@ -537,12 +607,9 @@ export default {
             justify-content: space-between;
             align-items: flex-end;
             .leftitem {
-              font-size: 1rem;
               color: #aeaeae;
             }
             .rightitem {
-              font-size: 1.142857rem;
-              font-weight: 700;
             }
           }
         }
