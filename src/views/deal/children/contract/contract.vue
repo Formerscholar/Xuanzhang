@@ -38,7 +38,7 @@
               <div class="time_box">
                 <span
                   :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >创建时间:{{item.created_at}}</span>
+                >{{item.created_at | setCommitmentPeriod}}</span>
                 <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
                   <el-tag
                     :class="item.deleted_at ? 'color_break ' :' '"

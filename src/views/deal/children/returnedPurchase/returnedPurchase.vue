@@ -325,7 +325,7 @@ export default {
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
         console.log(item)
-         if (typeof item == 'string') {
+        if (typeof item == 'string') {
           this.state = item
         } else {
           this.state = item.name
@@ -341,7 +341,7 @@ export default {
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
-      if (data.customerProductField.weight == 1) {
+      if (data?.customerProductField?.weight == 1) {
         this.isWeightShow = true
       }
       this.distributors = data.distributors

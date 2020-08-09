@@ -12,15 +12,6 @@
     <div class="BasicInfo">
       <div class="title">基本信息</div>
       <van-field @click="Inputfocus" readonly v-model="picker" label="报销类别" />
-      <!-- <el-select v-model="value" clearable placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            ref="optionstype"
-          ></el-option>
-      </el-select>-->
       <div class="item1">
         <span>报销事由</span>
         <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
@@ -269,6 +260,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       display: flex;
+      padding-left: 1.071429rem;
       span {
         color: #5d5d5d;
         margin-right: 0.571429rem;

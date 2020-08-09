@@ -1,7 +1,7 @@
 import { request } from './request'
 import Qs from 'qs'
 
-export function getReimbursementLists(params) {
+export function getReimbursementList(params) {
   return request({
     url: '/Finance/getReimbursementList',
     method: 'GET',
@@ -47,4 +47,18 @@ export function toExamineReimbursement(data) {
     data: Qs.stringify(data),
   })
 }
-// 
+export function getUserReimbursementList(params) {
+  return request({
+    url: '/Finance/getUserReimbursementList',
+    method: 'GET',
+    params,
+  })
+}
+
+export function getMyToExamineReimbursementList(params) {
+  return request({
+    url: '/Finance/getMyToExamineReimbursementList',
+    method: 'GET',
+    params,
+  })
+}

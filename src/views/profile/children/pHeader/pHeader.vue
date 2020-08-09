@@ -45,6 +45,7 @@ export default {
   methods: {
     toProfileInfo() {
       this.$emit('toProfileInfo')
+   
     },
   },
 }

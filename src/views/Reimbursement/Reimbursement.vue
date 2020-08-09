@@ -8,9 +8,6 @@
       <div class="center" slot="center">
         <span>报销</span>
       </div>
-      <div class="right" slot="right">
-        <!-- <i class="el-icon-plus newbtn"></i> -->
-      </div>
     </navbar>
     <!-- titlebox -->
     <div class="titlebox">
@@ -33,7 +30,7 @@
       </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="我的申请" class="itembox" name="first">
+      <el-tab-pane label="待审列表" class="itembox" name="first">
         <scroll class="scroll-wrapper">
           <div class="body_box">
             <div class="btn">
@@ -88,126 +85,277 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="我的通过" class="itembox" name="second">
+      <el-tab-pane label="通过列表" class="itembox" name="second">
         <scroll class="scroll-wrapper">
           <div class="body_box">
-            <div class="boxbtn">
-              <div class="ltext">
-                <span class="approval">
-                  <i class="el-icon-s-promotion"></i>
-                  <span>待我审批</span>
-                  <span>
-                    (
-                    <em>1</em>
-                    )
-                  </span>
-                </span>
-                <span class="copy">
-                  <em>@</em>
-                  <span>抄送我的</span>
-                  <span>
-                    (
-                    <em>0</em>
-                    )
-                  </span>
-                </span>
+            <van-swipe-cell v-for="item in reimbursementLists" :key="item.id">
+              <div class="cardmoney">
+                <el-card class="box-card">
+                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                    <div class="leftbox">
+                      <span>
+                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.created_at | setTimerType}}</span>
+                        <i class="el-icon-arrow-right"></i>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <!-- <el-tag type="primiry">部门经理</el-tag> -->
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>{{item.money}}</span>
+                    </div>
+                  </el-row>
+                </el-card>
               </div>
-              <div class="rtext">
-                <span class="apphistory">
-                  <span>审批历史</span>
-                  <i class="el-icon-arrow-right"></i>
-                </span>
-              </div>
-            </div>
 
-            <div class="cardmoney">
-              <el-card class="box-card">
-                <el-row class="item1" style="margin-bottom: 1.428571rem;">
-                  <div class="leftbox">
-                    <span>
-                      <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                      <em style="margin-left: .714286rem;">吴鹏</em>
-                    </span>
-                  </div>
-                  <div class="rightbox">
-                    <div class="timer">
-                      <span>2020/05/05</span>
-                      <i class="el-icon-arrow-right"></i>
-                    </div>
-                  </div>
-                </el-row>
-                <el-row class="item1">
-                  <div class="leftbox">
-                    <span>
-                      ￥
-                      <em>500.00</em>
-                    </span>
-                  </div>
-                  <div class="rightbox">
-                    <div class="timer">
-                      <el-tag type="primiry">部门经理</el-tag>
-                    </div>
-                  </div>
-                </el-row>
-                <el-row class="item2">
-                  <div class="leftbox">
-                    <span>招待费</span>
-                  </div>
-                  <div class="rightbox">
-                    <span>500.00</span>
-                  </div>
-                </el-row>
-              </el-card>
-            </div>
+              <template #right>
+                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+              </template>
+            </van-swipe-cell>
+
             <div class="text">
               <span>已经加载全部数据</span>
             </div>
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="全部" name="third">
-        <scroll class="scroll-wrapper">角色管理</scroll>
+      <el-tab-pane label="我的报销" class="itembox" name="third">
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <van-swipe-cell v-for="item in reimbursementListss" :key="item.id">
+              <div class="cardmoney">
+                <el-card class="box-card">
+                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                    <div class="leftbox">
+                      <span>
+                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.created_at | setTimerType}}</span>
+                        <i class="el-icon-arrow-right"></i>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer"></div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>{{item.money}}</span>
+                    </div>
+                  </el-row>
+                </el-card>
+              </div>
+
+              <template #right>
+                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+              </template>
+            </van-swipe-cell>
+
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
+          </div>
+        </scroll>
+      </el-tab-pane>
+      <el-tab-pane label="我的待审" class="itembox" name="three">
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <van-swipe-cell v-for="item in auditRecordLists" :key="item.id">
+              <div class="cardmoney">
+                <el-card class="box-card">
+                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                    <div class="leftbox">
+                      <span>
+                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.created_at | setTimerType}}</span>
+                        <i class="el-icon-arrow-right"></i>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer"></div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>{{item.money}}</span>
+                    </div>
+                  </el-row>
+                </el-card>
+              </div>
+
+              <template #right>
+                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+              </template>
+            </van-swipe-cell>
+
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
+          </div>
+        </scroll>
       </el-tab-pane>
     </el-tabs>
 
     <!-- body -->
     <i class="el-icon-plus" @click="newAccount"></i>
+    <van-overlay :show="isShow" @click="isShow = false">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
 <script>
 import {
-  getReimbursementLists,
+  getReimbursementList,
   toExamineReimbursement,
+  getUserReimbursementList,
+  getMyToExamineReimbursementList,
 } from '@/network/Reimbursement'
+import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
-  name: 'Reimbursement',
-
   data() {
     return {
       activeName: 'first',
       reimbursementList: [],
+      reimbursementLists: [],
+      reimbursementListss: [],
+      auditRecordLists: [],
+      isShow: false,
       titleName: {},
+      textContent: '',
       img_url: '',
       StateList: [],
     }
   },
-  created() {},
+  components: {
+    myVqr,
+  },
   computed: {
     getReimbursementListsState() {
       return {
         token: this.$store.state.token,
         page: 1,
         offset: 20,
+        reason: null,
+        category_id: null,
+        operator_id: null,
+        status: 0,
+        _: new Date().getTime(),
+      }
+    },
+    getReimbursementListsStates() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        reason: null,
+        category_id: null,
+        operator_id: null,
+        status: 1,
+        _: new Date().getTime(),
+      }
+    },
+    getUserReimbursementListData() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        reason: null,
+        category_id: null,
+        operator_id: null,
+        _: new Date().getTime(),
+      }
+    },
+    getMyToExamineReimbursementListData() {
+      return {
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        _: new Date().getTime(),
       }
     },
   },
   activated() {
     this.getReimburse()
+    this.getReimburses()
+    this.getUserReimbursement()
+    this.getMyToExamineReimbursement()
   },
-  deactivated() {},
   methods: {
+    async getMyToExamineReimbursement() {
+      const { data } = await getMyToExamineReimbursementList(
+        this.getMyToExamineReimbursementListData
+      )
+      console.log('getMyToExamineReimbursementList', data)
+      this.auditRecordLists = data.auditRecordLists
+    },
+    async getUserReimbursement() {
+      const { data } = await getUserReimbursementList(
+        this.getUserReimbursementListData
+      )
+      console.log('getUserReimbursementList', data)
+      this.reimbursementListss = data.reimbursementList
+    },
+    printH5(iid) {
+      console.log('print', iid)
+      this.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${iid}`
+      this.isShow = true
+    },
     async audit_enabled(id) {
       console.log('审核', id)
       const { code, msg } = await toExamineReimbursement({
@@ -238,7 +386,7 @@ export default {
       this.$router.push('/account')
     },
     async getReimburse() {
-      const { data } = await getReimbursementLists(
+      const { data } = await getReimbursementList(
         this.getReimbursementListsState
       )
       console.log('reimbursementList', data)
@@ -250,6 +398,13 @@ export default {
         compserName: data.userInfo[0].user_compser_name || '公司全称',
         roleName: data.userInfo[0].role.display_name,
       }
+    },
+    async getReimburses() {
+      const { data } = await getReimbursementList(
+        this.getReimbursementListsStates
+      )
+      console.log('reimbursementList', data)
+      this.reimbursementLists = data.reimbursementList
     },
     reimburClick(id) {
       console.log('-----ReimburDetails--------')
@@ -270,14 +425,9 @@ export default {
       }
     }
     .center {
-      margin-left: 0.928571rem;
+      margin-left: -1.071429rem;
       span {
         font-size: 1.571429rem;
-      }
-    }
-    .right {
-      margin-right: 1.071429rem;
-      .newbtn {
       }
     }
   }
@@ -500,6 +650,7 @@ export default {
               .leftbox {
                 flex: 1;
                 overflow: hidden;
+                white-space: nowrap;
                 span {
                   color: #525252;
                   font-size: 1.142857rem;
@@ -557,8 +708,9 @@ export default {
             align-items: center;
 
             .leftbox {
-              width: 50%;
-
+              flex: 1;
+              white-space: nowrap;
+              overflow: hidden;
               span {
                 color: #525252;
                 font-size: 1.142857rem;
@@ -566,7 +718,6 @@ export default {
               }
             }
             .rightbox {
-              width: 50%;
               text-align: right;
               font-weight: 700;
               span {

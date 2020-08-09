@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       chosenAddressId: 0,
-      list: []
+      list: [],
     }
   },
   components: {},
@@ -38,7 +38,7 @@ export default {
           name: item.consignee,
           tel: item.consignee_tel,
           address: item.consignee_address,
-          isDefault: item.is_default == '0' ? true : false
+          isDefault: item.is_default == '0' ? true : false,
         }
         this.list.push(obj)
       })
@@ -65,12 +65,14 @@ export default {
       console.log(item, index)
       console.log(item)
       this.$store.commit('setAddress', item)
+      this.chosenAddressId = 0
+      this.list = []
       this.$router.go(-1)
     },
     blacknext() {
       this.$router.go(-1)
-    }
-  }
+    },
+  },
 }
 </script>
 

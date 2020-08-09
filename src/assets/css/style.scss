@@ -46,6 +46,13 @@ a {
   text-decoration: none;
 }
 
+
+
+
+.van-overlay {
+  z-index: 2 !important;
+}
+
 .pswp__top-bar {
   margin-top: 2.071429rem;
 }
@@ -112,7 +119,8 @@ i {
 
 #SelectProducts,
 #Ship,
-#editShipItem {
+#editShipItem,
+#createContract {
 
   .van-stepper__input {
     width: 100%;
@@ -200,12 +208,6 @@ i {
 }
 
 
-#createContract {
-  .van-cell {
-    padding: .714286rem 1.428571rem;
-  }
-}
-
 #createContract,
 #OEM,
 #addbill,
@@ -240,7 +242,8 @@ i {
 }
 
 #Ship,
-#editShipItem {
+#editShipItem,
+#createContract {
 
   .van-cell,
   .el-row {
@@ -371,7 +374,8 @@ i {
 #ShipmentItem,
 #cardbox,
 #engravDetail,
-#completions {
+#completions,
+#Reimbursement {
   .el-card__body {
     padding: 0.571429rem;
   }

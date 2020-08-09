@@ -7,130 +7,93 @@
       <div class="center" slot="center">
         <span>新增合同</span>
       </div>
-      <div class="right" slot="right">
-        <van-icon name="plus" style="margin-left: 0.714286rem;" @click="addNewCustomers" />
-      </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" ref="scroll">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="customerName line">
-            <em>客户名称</em>
-            <div>
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </div>
-          </el-row>
-          <el-row class="PartyContract line">
-            <em>对方合同号</em>
-            <div>
-              <el-input v-model="PartyContract" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-          <timers class="Sign" type="Sign" title="签约日期" :valueData="timersList.Sign" />
-          <timers
-            class="committed"
-            type="committed"
-            title="承诺交期"
-            :valueData="timersList.committed"
+          <van-field
+            v-model="state"
+            label="客户名称"
+            @focus="focusClick"
+            class="newStyle"
+            @click-right-icon="focusClick"
+            placeholder="点击检索客户名称"
+            right-icon="arrow"
           />
-          <el-row class="CompanyContact line">
-            <em>公司联系人</em>
-            <div>
-              <el-input v-model="CompanyContact" placeholder="请输入内容"></el-input>
-            </div>
+          <van-field v-model="PartyContract" label="对方合同" placeholder="请输入内容" class="newStyle" />
+          <el-row class="DeliveryDate van-cell">
+            <span class="lable">签约日期</span>
+            <span class="time" @click="tiemrClick">{{Sign}}</span>
           </el-row>
-          <el-row class="CompanyNumber line">
-            <em>联系人电话</em>
-            <div>
-              <el-input v-model="CompanyNumber" placeholder="请输入内容"></el-input>
-            </div>
+          <el-row class="DeliveryDate van-cell">
+            <span class="lable">承诺交期</span>
+            <span class="time" @click="tiemrClicks">{{committed}}</span>
           </el-row>
-          <el-row class="CustomerContact line">
-            <em>客户联系人</em>
-            <div>
-              <el-input v-model="CustomerContact" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-          <el-row class="CustomerNumber line">
-            <em>联系人电话</em>
-            <div>
-              <el-input v-model="CustomerNumber" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
+          <van-field v-model="CompanyContact" label="公司联系" placeholder="请输入内容" class="newStyle" />
+          <van-field
+            v-model="CompanyNumber"
+            type="digit"
+            label="联系号码"
+            placeholder="请输入内容"
+            class="newStyle"
+          />
+          <van-field v-model="CustomerContact" label="客户联系" placeholder="请输入内容" class="newStyle" />
+          <van-field
+            v-model="CustomerNumber"
+            type="digit"
+            label="联系号码"
+            placeholder="请输入内容"
+            class="newStyle"
+          />
         </el-card>
+
         <el-card class="box-card item1">
-          <!--  -->
-          <el-row class="tanle line">
-            <el-table :data="tableData" style="width: 100%; font-size: .714286rem;">
-              <el-table-column prop="goods" label="品名"></el-table-column>
-              <el-table-column prop="model" label="型号"></el-table-column>
-              <el-table-column prop="nums" label="数量"></el-table-column>
-              <el-table-column prop="price" label="单价"></el-table-column>
-              <el-table-column prop="totalPrice" label="总价"></el-table-column>
-            </el-table>
+          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
+            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+              <van-swipe-cell>
+                <div class="wrap_item">
+                  <div class="wrap_left">
+                    <img
+                      v-if="item.product_img && item.product_img != 0 "
+                      class="img"
+                      :src="item.product_img | getUrl"
+                    />
+                    <img src="@/assets/image/Default.png" class="img" v-else />
+                    <div class="text">
+                      <div class="title">
+                        <p>{{item.goods}}</p>
+                      </div>
+                      <p class="model">{{item.model}}</p>
+                      <div class="wrap_right">
+                        <span
+                          class="wrap_right_text"
+                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <template #right>
+                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                </template>
+              </van-swipe-cell>
+            </div>
           </el-row>
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
-              <i class="el-icon-box"></i>
+              <i class="iconfont icon-copy"></i>
               <em>添加产品</em>
             </div>
           </el-row>
-          <div class="box-card item1" v-show="isShowed">
-            <el-row class="SigningDate line">
-              <em>选择产品</em>
-              <div>
-                <el-autocomplete
-                  v-model="states"
-                  :fetch-suggestions="querySearchAsyncs"
-                  placeholder="请输入内容"
-                  @select="handleSelects"
-                  @change="handchange"
-                ></el-autocomplete>
-              </div>
-            </el-row>
-            <van-field v-model="Products" label="产品规格" />
-            <van-field v-model="productPrice" type="number" label="产品价格" />
-            <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="产品重量" />
-            <van-field
-              v-model="FlowingProducts[index+1]"
-              v-for="(item,index) in isFlowingShow"
-              :key="index"
-              :data-id="index+1"
-              label="合同产品"
-            />
-            <van-field v-model="quantity" type="number" label="产品数量" />
-            <van-field v-model="ProductNotes" label="产品备注" />
-            <div class="btns">
-              <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-              <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-            </div>
-          </div>
-          <el-row class="contractAmount line">
-            <em>合同金额</em>
-            <div>
-              <el-input v-model="contractAmount" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-          <el-row class="DiscountedAmount line">
-            <em>折后金额</em>
-            <div>
-              <el-input v-model="DiscountedAmount" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-          <!-- ------------------- -->
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="TermsPayment line">
-            <em>付款方式</em>
-            <div>
-              <el-input v-model="TermsPaymentInput" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
+          <van-field v-model="contractAmount" class="newStyle" type="number" label="合同金额" />
+          <van-field v-model="DiscountedAmount" class="newStyle" type="number" label="折后金额" />
+          <van-field v-model="TermsPaymentInput" class="newStyle" type="number" label="付款方式" />
+
           <el-row
             class="ContractField1 line"
             v-for="(item,index) in ContractField1Input"
@@ -138,37 +101,28 @@
           >
             <em>{{item.field_name}}</em>
             <div>
-              <el-input v-model="item.field_content" placeholder="请输入内容"></el-input>
+              <van-field v-model="item.field_content" class="newStyle" />
             </div>
           </el-row>
-          <el-row class="TransportationAssume line">
-            <em>运输承担</em>
-            <div>
-              <el-input v-model="TransportationAssume" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-          <el-row class="WarrantyTime line">
-            <em>质保时间</em>
-            <div>
-              <el-input v-model="WarrantyTime" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
-
-          <el-row class="OtherInstructions line">
-            <em>其他说明</em>
-            <div>
-              <el-input v-model="OtherInstructions" placeholder="请输入内容"></el-input>
-            </div>
-          </el-row>
+          <van-field v-model="TransportationAssume" class="newStyle" type="number" label="运输承担" />
+          <van-field v-model="WarrantyTime" class="newStyle" type="number" label="质保时间" />
+          <van-field
+            v-model="OtherInstructions"
+            autosize
+            type="textarea"
+            label="其他说明"
+            placeholder="(选填)简要描述其他说明"
+            class="newStyle"
+          />
+        </el-card>
+        <el-card class="box-card item1">
           <el-row class="contractAttachment line">
-            <em>合同附件</em>
             <van-uploader :after-read="afterRead" v-model="fileList" multiple>
-              <van-button icon="photo" type="primary">上传文件</van-button>
+              <van-button icon="photo" type="primary">上传附件</van-button>
             </van-uploader>
           </el-row>
         </el-card>
-
-        <el-card class="box-card item1">
+        <el-card class="box-card item1" v-if="addressData.name">
           <div class="address" @click="addressClick">
             <div class="lefticon">
               <van-icon name="location" />
@@ -189,15 +143,44 @@
         </el-card>
       </div>
     </scroll>
-    <div class="footer">
-      <el-button type="primary" plain @click="quoteclick">生产报价合同</el-button>
-      <el-button type="primary" @click="formalClick" plain>生产正式合同</el-button>
-    </div>
+
+    <myBtns :commitFun="formalClick" :cancelFun="quoteclick">
+      <span slot="cancel-btn">报价合同</span>
+      <span slot="commit-btn">
+        ￥{{DiscountedAmount}}
+        <span>正式合同</span>
+      </span>
+    </myBtns>
+
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetimes"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirmss"
+      @cancel="cancel"
+    />
   </div>
 </template>
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
+import { setTimerType } from '@/common/filter'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getAddContractOrder,
@@ -212,6 +195,11 @@ export default {
   name: 'createContract',
   data() {
     return {
+      isDatetime: false,
+      isDatetimes: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
       MaterielList: [],
       selectedID: '',
       restaurants: [],
@@ -219,6 +207,8 @@ export default {
       timeout: null,
       TermsPaymentInput: '',
       ContractField1Input: [],
+      Sign: setTimerType(new Date().getTime()),
+      committed: setTimerType(new Date().getTime()),
       ContractField2Input: '',
       TransportationAssume: '',
       WarrantyTime: '',
@@ -227,6 +217,7 @@ export default {
       CompanyContact: '',
       CompanyNumber: '',
       CustomerContact: '',
+      distributors: '',
       CustomerNumber: '',
       contractAmount: 0,
       DiscountedAmount: 0,
@@ -262,7 +253,6 @@ export default {
         specifications: '',
         price: '',
       },
-      formLabelWidth: '80px',
       options: regionData,
       address: [],
       tableData: [],
@@ -293,17 +283,12 @@ export default {
       shippingData: [],
     }
   },
-  components: { timers },
-  created() {
-    this.getAddContract()
+  components: {
+    myBtns,
   },
   activated() {
-    if (this.$store.state.timers.timers.Sign != '') {
-      this.timersList.Sign = this.$store.state.timers.timers.Sign
-    }
-    if (this.$store.state.timers.timers.committed != '') {
-      this.timersList.committed = this.$store.state.timers.timers.committed
-    }
+    this.getAddContract()
+
     if (this.$store.state.Address.id != undefined) {
       this.addressData.name = this.$store.state.Address.name
       this.addressData.tel = this.$store.state.Address.tel
@@ -311,12 +296,7 @@ export default {
       this.addressData.id = this.$store.state.Address.id
       this.$store.commit('setAddress', {})
     }
-
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
   },
-
   computed: {
     getAddContractOrderData() {
       return {
@@ -345,9 +325,9 @@ export default {
       })
       return {
         distributor_id: this.selectedID,
-        contract_date: this.timersList.Sign,
-        commitment_period: this.timersList.committed,
-        pay_method: this.TermsPaymentInput,
+        contract_date: this.Sign,
+        commitment_period: this.committed,
+        pay_method: 0,
         pay_method_content: this.TermsPaymentInput,
         template_set: 0,
         receiving_id: this.addressData.id,
@@ -376,9 +356,9 @@ export default {
       })
       return {
         distributor_id: this.selectedID,
-        contract_date: this.timersList.Sign,
-        commitment_period: this.timersList.committed,
-        pay_method: this.TermsPaymentInput,
+        contract_date: this.Sign,
+        commitment_period: this.committed,
+        pay_method: 0,
         pay_method_content: this.TermsPaymentInput,
         template_set: 0,
         receiving_id: this.addressData.id,
@@ -408,6 +388,50 @@ export default {
     },
   },
   methods: {
+    tableClick(index) {
+      console.log(index)
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否删除产品?',
+        })
+        .then(() => {
+          if (this.tableData.length == 1) {
+            this.tableData = []
+            this.shippingData = []
+          } else {
+            this.tableData = this.tableData.splice(index - 1, 1)
+            this.shippingData = this.shippingData.splice(index - 1, 1)
+          }
+          let allmonpement = 0
+          this.tableData.forEach((item) => {
+            allmonpement += parseFloat(item.totalPrice)
+          })
+          this.Shipment = allmonpement
+          this.Amounts = allmonpement
+          console.log(index, this.tableData, this.shippingData)
+        })
+    },
+    cancel() {
+      this.isDatetime = false
+      this.isDatetimes = false
+    },
+    confirms(value) {
+      this.Sign = setTimerType(value)
+      this.isDatetime = false
+      this.isDatetimes = false
+    },
+    confirmss(value) {
+      this.committed = setTimerType(value)
+      this.isDatetime = false
+      this.isDatetimes = false
+    },
+    tiemrClick() {
+      this.isDatetime = true
+    },
+    tiemrClicks() {
+      this.isDatetimes = true
+    },
     AddClick() {
       let adderssnum = this.productPrice * this.quantity
       let addproductdata = {
@@ -429,7 +453,6 @@ export default {
       newArr.push(this.productWeight)
       newArr.push(this.FlowingProducts)
       this.shippingData.push(newArr)
-      this.cancelClick()
     },
     handchange(value) {
       console.log('shippingValue', value)
@@ -457,55 +480,146 @@ export default {
         cb(results)
       }, 3000 * Math.random())
     },
-    cancelClick() {
-      this.states = ''
-      this.Products = ''
-      this.productPrice = ''
-      this.productWeight = ''
-      this.FlowingProducts = []
-      this.quantity = ''
-      this.ProductSubtotal = ''
-      this.ProductNotes = ''
-      this.isShowed = false
-    },
     async quoteclick() {
-      const { code } = await addContractOrder(this.addContractOrderData)
+      const { code, msg } = await addContractOrder(this.addContractOrderData)
       if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.isDatetime = false
+        this.isDatetimes = false
+        this.currentDate = new Date()
+        this.MaterielList = []
+        this.selectedID = ''
+        this.restaurants = []
         this.state = ''
-        this.PartyContract = ''
-        this.CompanyNumber = ''
-        this.CustomerContact = ''
-        this.CustomerNumber = ''
-        this.tableData = []
-        this.contractAmount = 0
-        this.DiscountedAmount = 0
+        this.timeout = null
         this.TermsPaymentInput = ''
+        this.ContractField1Input = []
+        this.Sign = setTimerType(new Date().getTime())
+        this.committed = setTimerType(new Date().getTime())
+        this.ContractField2Input = ''
         this.TransportationAssume = ''
         this.WarrantyTime = ''
+        this.PartyContract = ''
         this.OtherInstructions = ''
+        this.CompanyContact = ''
+        this.CompanyNumber = ''
+        this.CustomerContact = ''
+        this.distributors = ''
+        this.CustomerNumber = ''
+        this.contractAmount = 0
+        this.DiscountedAmount = 0
+        this.radio = '0'
         this.fileList = []
+        this.table = false
+        this.dialog = false
+        this.Addresslog = false
+        this.productlog = false
+        this.loading = false
+        this.form = {}
+        this.Address = {}
+        this.product = {}
+        this.options = regionData
+        this.address = []
+        this.tableData = []
         this.addressData = {}
+        this.timersList = {}
+        this.imgUrl = ''
+        this.listData = []
+        this.isShowed = false
+        this.states = ''
+        this.restaurant = []
+        this.shippingValue = ''
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = [null]
+        this.isFlowingShow = []
+        this.isWeightShow = false
+        this.quantity = ''
+        this.ProductNotes = ''
+        this.shippingData = []
         this.$router.replace('/deal/sales')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     async formalClick() {
-      const { code } = await addContractOrder(this.addContractOrderDatas)
+      const { code, msg } = await addContractOrder(this.addContractOrderDatas)
       if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.isDatetime = false
+        this.isDatetimes = false
+        this.currentDate = new Date()
+        this.MaterielList = []
+        this.selectedID = ''
+        this.restaurants = []
         this.state = ''
-        this.PartyContract = ''
-        this.CompanyNumber = ''
-        this.CustomerContact = ''
-        this.CustomerNumber = ''
-        this.tableData = []
-        this.contractAmount = 0
-        this.DiscountedAmount = 0
+        this.timeout = null
         this.TermsPaymentInput = ''
+        this.ContractField1Input = []
+        this.Sign = setTimerType(new Date().getTime())
+        this.committed = setTimerType(new Date().getTime())
+        this.ContractField2Input = ''
         this.TransportationAssume = ''
         this.WarrantyTime = ''
+        this.PartyContract = ''
         this.OtherInstructions = ''
+        this.CompanyContact = ''
+        this.CompanyNumber = ''
+        this.CustomerContact = ''
+        this.distributors = ''
+        this.CustomerNumber = ''
+        this.contractAmount = 0
+        this.DiscountedAmount = 0
+        this.radio = '0'
         this.fileList = []
+        this.table = false
+        this.dialog = false
+        this.Addresslog = false
+        this.productlog = false
+        this.loading = false
+        this.form = {}
+        this.Address = {}
+        this.product = {}
+        this.options = regionData
+        this.address = []
+        this.tableData = []
         this.addressData = {}
+        this.timersList = {}
+        this.imgUrl = ''
+        this.listData = []
+        this.isShowed = false
+        this.states = ''
+        this.restaurant = []
+        this.shippingValue = ''
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = [null]
+        this.isFlowingShow = []
+        this.isWeightShow = false
+        this.quantity = ''
+        this.ProductNotes = ''
+        this.shippingData = []
         this.$router.replace('/deal/sales')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     async afterRead(file) {
@@ -535,6 +649,27 @@ export default {
     },
     blacknext() {
       this.$router.replace('/deal/sales')
+    },
+    focusClick() {
+      this.$router.push({
+        path: '/nameSearch',
+        query: {
+          data: { ...this.distributors },
+        },
+      })
+      this.$bus.$off('nameSupplier')
+      this.$bus.$on('nameSupplier', (item) => {
+        console.log(item)
+        if (typeof item == 'string') {
+          this.state = item
+        } else {
+          this.state = item.name
+          this.selectedID = item.id
+          this.getReceiving()
+          this.getContractOrders()
+          this.getMateriel()
+        }
+      })
     },
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants
@@ -648,17 +783,35 @@ export default {
       this.Address = {}
     },
     addNewProduct() {
-      this.isShowed = true
+      this.$router.push({
+        path: '/SelectProducts',
+        query: {
+          data: {
+            isFlowingShow: this.isFlowingShow,
+          },
+        },
+      })
+      this.$bus.$off('SelectProducts')
+      this.$bus.$on('SelectProducts', (item) => {
+        this.$refs.scroll.finishPullUp()
+        console.log(item)
+        this.shippingValue = item.selectData.productName
+        this.Products = item.selectData.productModel
+        this.productPrice = item.selectData.productPrice
+        this.quantity = item.selectData.quantity
+        this.states = item.selectData.productName
+        this.ProductNotes = item.selectData.ProductNotes
+        this.productWeight = item.selectData.productWeight
+        this.FlowingProducts = item.selectData.FlowingProducts
+        this.product_img = item.selectData.img_url
+        this.processCost = item.selectData.processCost
+        this.AddClick()
+      })
     },
     async getAddContract() {
       const { data } = await getAddContractOrder(this.getAddContractOrderData)
       console.log('getAddContractOrder', data)
-      data.distributors.map((item, index) => {
-        this.restaurants.push({
-          value: item.name,
-          address: item.id,
-        })
-      })
+      this.distributors = data.distributors
       this.CompanyContact = data.userInfo[0].name
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
@@ -710,12 +863,9 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
-      margin-left: 0.928571rem;
+      margin-left: -1.071429rem;
       font-size: 1.285714rem;
       color: #030303;
-    }
-    .right {
-      margin-right: 1.071429rem;
     }
   }
   .scroll-wrapper {
@@ -745,16 +895,98 @@ export default {
 
     .item1 {
       margin-bottom: 0.714286rem;
-      .btns {
+      .DeliveryDate {
         display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        .van-button {
-          margin-right: 0.714286rem;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 6.2em;
+          padding: 0 0.714286rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          border-right: 1px solid #e7e7e7;
+        }
+        .time {
+          flex: 1;
+          text-align: right;
+          padding: 0 1rem;
         }
       }
-      &:first-child {
-        margin-top: 0.714286rem;
+      .line {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #f8f7f5;
+        padding: 0.714286rem 1.142857rem;
+        .delect {
+          height: 100%;
+          line-height: 6.571429rem;
+        }
+        .product_box {
+          .wrap_item {
+            padding: 0.357143rem;
+
+            .wrap_left {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .img {
+                width: 5.928571rem;
+                height: 5.928571rem;
+                background-color: #655d55;
+                border-radius: 0.357143rem;
+                margin-right: 0.714286rem;
+              }
+              .text {
+                flex: 1;
+                font-size: 1rem;
+                color: #000;
+                overflow: hidden;
+                .title {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-size: 1rem;
+                }
+                .model {
+                  color: #ccc;
+                }
+                p {
+                  margin-bottom: 0.357143rem;
+                }
+                .wrap_right {
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-end;
+                  color: #ccc;
+                  .wrap_right_text {
+                    font-size: 0.857143rem;
+                  }
+                  .funds_box {
+                    font-size: 1.142857rem;
+                    color: black;
+                  }
+                }
+              }
+            }
+          }
+          .wrap_money {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 0.357143rem;
+            font-size: 1.142857rem;
+            color: #848484;
+          }
+        }
+        em {
+          display: block;
+          font-size: 1.142857rem;
+          color: #585858;
+          width: 6.357143rem;
+          text-align: left;
+        }
       }
 
       .address {
@@ -810,26 +1042,26 @@ export default {
           }
         }
       }
-      .line {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #f8f7f5;
-        padding: 0.428571rem 1.428571rem;
-        em {
-          display: block;
-          font-size: 1rem;
-          color: #585858;
-          width: 6.357143rem;
-          text-align: left;
-        }
-        div {
-          display: block;
-          font-size: 1.142857rem;
-          text-align: left;
-          flex: 1;
-        }
-      }
+      // .line {
+      //   display: flex;
+      //   justify-content: space-between;
+      //   align-items: center;
+      //   border-bottom: 1px solid #f8f7f5;
+      //   padding: 0.428571rem 1.428571rem;
+      //   em {
+      //     display: block;
+      //     font-size: 1rem;
+      //     color: #585858;
+      //     width: 6.357143rem;
+      //     text-align: left;
+      //   }
+      //   div {
+      //     display: block;
+      //     font-size: 1.142857rem;
+      //     text-align: left;
+      //     flex: 1;
+      //   }
+      // }
       .AddProduct {
         display: flex;
         justify-content: center;
@@ -844,6 +1076,12 @@ export default {
         }
       }
     }
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

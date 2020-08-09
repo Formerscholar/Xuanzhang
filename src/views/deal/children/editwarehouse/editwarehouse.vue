@@ -270,7 +270,7 @@ export default {
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
-      if (data.customerProductField.weight == 1) {
+      if (data?.customerProductField?.weight == 1) {
         this.isWeightShow = true
       }
       this.distributors = data.suppliers
