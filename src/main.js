@@ -55,6 +55,9 @@ Object.keys(filter).forEach((item) => {
 import _ from 'lodash'
 Vue.prototype._ = _
 
+import VueCompositionAPI from '@vue/composition-api'
+Vue.use(VueCompositionAPI)
+
 new Vue({
   router,
   store,

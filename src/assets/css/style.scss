@@ -462,6 +462,17 @@ i {
     height: 100%;
   }
 
+  .el-tabs__item {
+    padding: 0 .714286rem;
+    height: 2.857143rem;
+    line-height: 2.857143rem;
+    font-size: 1rem;
+  }
+
+  .el-tabs__header {
+    padding: 0 !important;
+  }
+
 }
 
 #turnover {

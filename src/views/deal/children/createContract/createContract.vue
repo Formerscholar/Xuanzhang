@@ -826,10 +826,6 @@ export default {
     
 <style lang="scss" scoped>
 #createContract {
-  padding-top: 5.428571rem;
-  padding-bottom: 3.785714rem;
-  min-height: 100vh;
-
   .drawer_my {
     .demo-drawer__content {
       max-width: 1024px;
@@ -872,7 +868,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 3.785714rem;
+    bottom: 0;
     width: 100%;
     overflow: hidden;
   }
