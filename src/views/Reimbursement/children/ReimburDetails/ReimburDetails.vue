@@ -163,7 +163,7 @@ export default {
       this.isShow = true
     },
     editShip() {
-      console.log('编辑')
+      this.$router.push(`/editAccount/${this.iid}`)
     },
     blacknext() {
       this.$router.go(-1)

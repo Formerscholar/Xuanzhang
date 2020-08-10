@@ -206,7 +206,7 @@ import {
   getContractOrder,
   addContractOrder,
   editContractOrder,
-  getMaterielList
+  getMaterielList,
 } from '@/network/deal'
 
 export default {
@@ -246,7 +246,7 @@ export default {
         position: '',
         phone: '',
         email: '',
-        salesman: ''
+        salesman: '',
       },
       Address: {
         DetailedAddress: '',
@@ -256,12 +256,12 @@ export default {
         number: '',
         ProductTesting1: '',
         ProductTesting2: '',
-        note: ''
+        note: '',
       },
       product: {
         name: '',
         specifications: '',
-        price: ''
+        price: '',
       },
       formLabelWidth: '80px',
       options: regionData,
@@ -271,11 +271,11 @@ export default {
         id: '0',
         name: '',
         tel: '',
-        address: ''
+        address: '',
       },
       timersList: {
         Sign: '',
-        committed: ''
+        committed: '',
       },
       imgUrl: '',
       listData: [],
@@ -293,7 +293,7 @@ export default {
       ProductNotes: '',
       shippingData: [],
       paramsData: {},
-      iid: ''
+      iid: '',
     }
   },
   components: { timers },
@@ -301,7 +301,7 @@ export default {
     this.getAddContract()
   },
   activated() {
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     this.paramsData = this.$route.query.data
@@ -322,7 +322,7 @@ export default {
       pay_method_content,
       receiving,
       contractOrderExtra,
-      receivingList
+      receivingList,
     } = this.paramsData.contractOrder
     this.iid = id
     this.selectedID = distributor_id
@@ -340,7 +340,7 @@ export default {
         model: item.product_model,
         nums: item.surplus_number,
         price: item.unit_price,
-        totalPrice: item.total_price
+        totalPrice: item.total_price,
       }
       let Arr = []
       Arr.push(item.product_name)
@@ -389,7 +389,7 @@ export default {
     getAddContractOrderData() {
       return {
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getReceiveDate() {
@@ -397,7 +397,7 @@ export default {
         token: this.$store.state.token,
         id: this.selectedID,
         type: 'distributor',
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getContractOrderData() {
@@ -434,7 +434,7 @@ export default {
         kehu_lxr: this.CustomerContact,
         kehu_lxr_tel: this.CustomerNumber,
         fujian: this.imgUrl,
-        order_field: NewArr
+        order_field: NewArr,
       }
     },
     addContractOrderDatas() {
@@ -466,15 +466,15 @@ export default {
         kehu_lxr: this.CustomerContact,
         kehu_lxr_tel: this.CustomerNumber,
         fujian: this.imgUrl,
-        order_field: NewArr
+        order_field: NewArr,
       }
     },
     getMaterielListData() {
       return {
-        company_id: 1,
-        _: new Date().getTime()
+        company_id: this.$store.state.userInfo[0].user_compser_id,
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     AddClick() {
@@ -484,7 +484,7 @@ export default {
         model: this.Products,
         nums: this.quantity,
         price: this.productPrice,
-        totalPrice: adderssnum
+        totalPrice: adderssnum,
       }
       this.contractAmount += adderssnum
       this.DiscountedAmount += adderssnum
@@ -511,7 +511,7 @@ export default {
       this.MaterielList.map((item, index) => {
         let obj = {
           value: item.name,
-          address: index
+          address: index,
         }
         this.restaurant.push(obj)
       })
@@ -585,8 +585,8 @@ export default {
       this.$router.push({
         name: 'addressList',
         params: {
-          data: this.listData
-        }
+          data: this.listData,
+        },
       })
     },
     handleChange() {
@@ -613,7 +613,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -660,7 +660,7 @@ export default {
       if (this.form.companyName != '' && this.form.DetailedAddress != '') {
         this.restaurants.push({
           value: this.form.companyName,
-          address: this.form.DetailedAddress
+          address: this.form.DetailedAddress,
         })
       }
       if (this.Address.DetailedAddress != '') {
@@ -680,7 +680,7 @@ export default {
           model: this.product.specifications,
           nums: this.product.number,
           price: this.product.price,
-          totalPrice: this.product.price * this.product.number
+          totalPrice: this.product.price * this.product.number,
         }
         this.tableData.push(addproductdata)
       }
@@ -722,7 +722,7 @@ export default {
       data.distributors.map((item, index) => {
         this.restaurants.push({
           value: item.name,
-          address: item.id
+          address: item.id,
         })
       })
       if (data.customerProductField.weight == '1') {
@@ -731,8 +731,8 @@ export default {
         this.isWeightShow = false
       }
       this.isFlowingShow = data.customerProductExtraField
-    }
-  }
+    },
+  },
 }
 </script>
     

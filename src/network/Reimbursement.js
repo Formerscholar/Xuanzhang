@@ -62,3 +62,18 @@ export function getMyToExamineReimbursementList(params) {
     params,
   })
 }
+
+export function getEditReimbursement(params) {
+  return request({
+    url: '/Finance/getEditReimbursement',
+    method: 'GET',
+    params,
+  })
+}
+export function editReimbursement(data) {
+  return request({
+    url: '/Finance/editReimbursement',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

@@ -16,21 +16,32 @@
 </template>
     
 <script>
- 
+import {
+  reactive,
+  onMounted,
+  onUpdated,
+  onBeforeUnmount,
+  activated,
+} from '@vue/composition-api'
 import { logout } from '@/network/login'
 
 export default {
-  name: 'pNavBar',
-  data() {
-    return {}
-  },
-  components: {
-  },
-  methods: {
-    gobaseLogin() {
+  setup() {
+    onMounted(() => {
+      console.log('onMounted  ----  挂载后')
+    })
+    onUpdated(() => {
+      console.log('onUpdated  ---  更新后')
+    })
+    onBeforeUnmount(() => {
+      console.log('onBeforeUnmount  ---  卸载前')
+    })
+
+    function gobaseLogin() {
       this.$router.push('/businessLogin')
-    },
-    async exitLogin() {
+    }
+
+    async function exitLogin() {
       const { code } = await logout()
       if (code == 200) {
         window.localStorage.removeItem('token')
@@ -39,13 +50,18 @@ export default {
         this.$store.commit('setUserInfo', [])
         this.$store.commit('setDetailsData', {})
         this.$store.commit('setToken', '')
-        this.isShow = true
         this.$router.replace('/')
       }
     }
+
+    return {
+      gobaseLogin,
+      exitLogin,
+    }
   },
-  activated() {},
-  computed: {}
+  activated() {
+    console.log('activated --- 路由激活')
+  },
 }
 </script>
     

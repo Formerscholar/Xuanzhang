@@ -10,57 +10,70 @@
       <div class="right" slot="right"></div>
     </navbar>
     <van-address-edit
-      :area-list="areaList"
-      show-postal
-      show-delete
+      :area-list="state.areaList"
       show-search-result
-      :search-result="searchResult"
+      :search-result="state.searchResult"
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
-      @delete="onDelete"
     />
   </div>
 </template>
     
 <script>
 import areaList from '@/common/area'
-
+import { reactive, computed } from '@vue/composition-api'
+import { addReceivingInformation } from '@/network/deal'
 export default {
-  name: 'addressEdit',
-  data() {
-    return {
+  setup() {
+    const state = reactive({
+      iid: 0,
       areaList,
-      searchResult: []
-    }
-  },
-  components: {
-  },
+      searchResult: [],
+    })
 
-  methods: {
-    onSave(content) {
+    async function onSave(content) {
       console.log('save', content)
-      this.$store.commit('setAddressID', ++this.$store.state.AddressID)
-      let obj = {
-        id: this.$store.state.AddressID,
-        name: content.name,
-        tel: content.tel,
-        address:
+      const { code, msg } = await addReceivingInformation({
+        consignee: content.name,
+        consignee_address:
           content.province +
           content.city +
           content.county +
           content.addressDetail,
-        isDefault: content.isDefault
+        consignee_tel: content.tel,
+        token: this.$store.state.token,
+        consignee_id: state.iid,
+        type: 'distributor',
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.blacknext()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
-      this.$store.commit('setAddress', obj)
-      this.$router.replace('/addressList')
-    },
-    onDelete() {
-      this.$router.replace('/addressList')
-    },
-    blacknext() {
+    }
+
+    function blacknext() {
       this.$router.go(-1)
     }
-  }
+
+    return {
+      state,
+      onSave,
+      blacknext,
+    }
+  },
+  activated() {
+    this.state.iid = this.$route.params.id
+  },
 }
 </script>
     

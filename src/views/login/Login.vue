@@ -90,6 +90,8 @@ export default {
         // pass: '234567',
         name: '18083795906',
         pass: '123456',
+        // name: '13338149978',
+        // pass: '123456',
       },
       rules: {
         name: [
@@ -128,10 +130,11 @@ export default {
             if (res.data.customers.length > 1) {
               this.$router.replace('/businessLogin')
             } else {
+              storage.setItem('ChooseCompany', res.data.company_id)
               var form = new FormData()
               form.append('username', res.data.requestData.username)
               form.append('password', res.data.requestData.password)
-              form.append('company_id', res.data.customers[0].id)
+              form.append('company_id', res.data.company_id)
               const res1 = await getIndex(form)
               if (res1.code == 200) {
                 this.$store.commit(
@@ -155,12 +158,10 @@ export default {
             return
           }
         } else {
-          // 失败
           return false
         }
       })
     },
-    // opacity
     allfocusnone() {
       document.querySelector('#Login .tips').style.display = 'none'
     },

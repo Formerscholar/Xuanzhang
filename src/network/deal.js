@@ -497,3 +497,11 @@ export function getWarehouseDetail(params) {
     params,
   })
 }
+
+export function addReceivingInformation(data) {
+  return request({
+    url: '/TradingCenter/addReceivingInformation',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

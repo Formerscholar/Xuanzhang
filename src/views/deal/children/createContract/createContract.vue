@@ -123,7 +123,7 @@
           </el-row>
         </el-card>
         <el-card class="box-card item1" v-if="addressData.name">
-          <div class="address" @click="addressClick">
+          <div class="address" @click.stop="addressClick">
             <div class="lefticon">
               <van-icon name="location" />
             </div>
@@ -174,6 +174,39 @@
       @confirm="confirmss"
       @cancel="cancel"
     />
+    <van-overlay :show="overlayshow">
+      <div class="overlaywrapper">
+        <div class="overlayblock" id="block">
+          <div class="title">
+            <span></span>
+            <span class="title_text">选择地址</span>
+            <van-icon name="cross" @click.stop="overlayshow = false" />
+          </div>
+          <div
+            class="items"
+            v-for="item in listData"
+            :key="item.id"
+            @click="addressItemClick(item)"
+          >
+            <div class="info">
+              <div class="adderss_top">
+                <span>{{item.consignee_address}}</span>
+              </div>
+              <div class="infos_bto">
+                <span class="name">{{item.consignee}}</span>
+                <span class="phone">{{item.consignee_tel}}</span>
+              </div>
+            </div>
+            <van-icon name="edit" class="edit" @click.stop="editAddress(item.id)" />
+          </div>
+
+          <div class="btn" @click.stop="newAddress">
+            <van-icon name="add-o" class="add" />
+            <span>新增收货地址</span>
+          </div>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
     
@@ -203,6 +236,8 @@ export default {
       MaterielList: [],
       selectedID: '',
       restaurants: [],
+      overlayshow: false,
+      contractOrder: {},
       state: '',
       timeout: null,
       TermsPaymentInput: '',
@@ -288,14 +323,6 @@ export default {
   },
   activated() {
     this.getAddContract()
-
-    if (this.$store.state.Address.id != undefined) {
-      this.addressData.name = this.$store.state.Address.name
-      this.addressData.tel = this.$store.state.Address.tel
-      this.addressData.address = this.$store.state.Address.address
-      this.addressData.id = this.$store.state.Address.id
-      this.$store.commit('setAddress', {})
-    }
   },
   computed: {
     getAddContractOrderData() {
@@ -319,10 +346,6 @@ export default {
       return from
     },
     addContractOrderData() {
-      let NewArr = [null]
-      this.ContractField1Input.map((item, index) => {
-        NewArr.push(item.field_content)
-      })
       return {
         distributor_id: this.selectedID,
         contract_date: this.Sign,
@@ -346,14 +369,10 @@ export default {
         kehu_lxr: this.CustomerContact,
         kehu_lxr_tel: this.CustomerNumber,
         fujian: this.imgUrl,
-        order_field: NewArr,
+        fujian_name: 'NewArr',
       }
     },
     addContractOrderDatas() {
-      let NewArr = [null]
-      this.ContractField1Input.map((item, index) => {
-        NewArr.push(item.field_content)
-      })
       return {
         distributor_id: this.selectedID,
         contract_date: this.Sign,
@@ -377,17 +396,23 @@ export default {
         kehu_lxr: this.CustomerContact,
         kehu_lxr_tel: this.CustomerNumber,
         fujian: this.imgUrl,
-        order_field: NewArr,
+        fujian_name: 'NewArr',
       }
     },
     getMaterielListData() {
       return {
-        company_id: 1,
+        company_id: this.$store.state.userInfo[0].user_compser_id,
         _: new Date().getTime(),
       }
     },
   },
   methods: {
+    editAddress(iid) {
+      console.log(iid, this.contractOrder.distributor_id)
+    },
+    newAddress() {
+      this.$router.push(`/addressEdit/${this.contractOrder.distributor_id}`)
+    },
     tableClick(index) {
       console.log(index)
       this.$dialog
@@ -488,61 +513,7 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.isDatetime = false
-        this.isDatetimes = false
-        this.currentDate = new Date()
-        this.MaterielList = []
-        this.selectedID = ''
-        this.restaurants = []
-        this.state = ''
-        this.timeout = null
-        this.TermsPaymentInput = ''
-        this.ContractField1Input = []
-        this.Sign = setTimerType(new Date().getTime())
-        this.committed = setTimerType(new Date().getTime())
-        this.ContractField2Input = ''
-        this.TransportationAssume = ''
-        this.WarrantyTime = ''
-        this.PartyContract = ''
-        this.OtherInstructions = ''
-        this.CompanyContact = ''
-        this.CompanyNumber = ''
-        this.CustomerContact = ''
-        this.distributors = ''
-        this.CustomerNumber = ''
-        this.contractAmount = 0
-        this.DiscountedAmount = 0
-        this.radio = '0'
-        this.fileList = []
-        this.table = false
-        this.dialog = false
-        this.Addresslog = false
-        this.productlog = false
-        this.loading = false
-        this.form = {}
-        this.Address = {}
-        this.product = {}
-        this.options = regionData
-        this.address = []
-        this.tableData = []
-        this.addressData = {}
-        this.timersList = {}
-        this.imgUrl = ''
-        this.listData = []
-        this.isShowed = false
-        this.states = ''
-        this.restaurant = []
-        this.shippingValue = ''
-        this.Products = ''
-        this.productPrice = ''
-        this.productWeight = ''
-        this.FlowingProducts = [null]
-        this.isFlowingShow = []
-        this.isWeightShow = false
-        this.quantity = ''
-        this.ProductNotes = ''
-        this.shippingData = []
-        this.$router.replace('/deal/sales')
+        this.blacknext()
       } else {
         this.$message({
           showClose: true,
@@ -559,61 +530,7 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.isDatetime = false
-        this.isDatetimes = false
-        this.currentDate = new Date()
-        this.MaterielList = []
-        this.selectedID = ''
-        this.restaurants = []
-        this.state = ''
-        this.timeout = null
-        this.TermsPaymentInput = ''
-        this.ContractField1Input = []
-        this.Sign = setTimerType(new Date().getTime())
-        this.committed = setTimerType(new Date().getTime())
-        this.ContractField2Input = ''
-        this.TransportationAssume = ''
-        this.WarrantyTime = ''
-        this.PartyContract = ''
-        this.OtherInstructions = ''
-        this.CompanyContact = ''
-        this.CompanyNumber = ''
-        this.CustomerContact = ''
-        this.distributors = ''
-        this.CustomerNumber = ''
-        this.contractAmount = 0
-        this.DiscountedAmount = 0
-        this.radio = '0'
-        this.fileList = []
-        this.table = false
-        this.dialog = false
-        this.Addresslog = false
-        this.productlog = false
-        this.loading = false
-        this.form = {}
-        this.Address = {}
-        this.product = {}
-        this.options = regionData
-        this.address = []
-        this.tableData = []
-        this.addressData = {}
-        this.timersList = {}
-        this.imgUrl = ''
-        this.listData = []
-        this.isShowed = false
-        this.states = ''
-        this.restaurant = []
-        this.shippingValue = ''
-        this.Products = ''
-        this.productPrice = ''
-        this.productWeight = ''
-        this.FlowingProducts = [null]
-        this.isFlowingShow = []
-        this.isWeightShow = false
-        this.quantity = ''
-        this.ProductNotes = ''
-        this.shippingData = []
-        this.$router.replace('/deal/sales')
+        this.blacknext()
       } else {
         this.$message({
           showClose: true,
@@ -630,12 +547,14 @@ export default {
       this.imgUrl = data.url
     },
     addressClick() {
-      this.$router.push({
-        name: 'addressList',
-        params: {
-          data: this.listData,
-        },
-      })
+      this.overlayshow = true
+    },
+    addressItemClick(item) {
+      this.addressData = {}
+      this.addressData.name = item.consignee
+      this.addressData.tel = item.consignee_tel
+      this.addressData.address = item.consignee_address
+      this.overlayshow = false
     },
     handleChange() {
       var loc = ''
@@ -648,6 +567,60 @@ export default {
       this.fileList = fileList.slice(-3)
     },
     blacknext() {
+      this.isDatetime = false
+      this.isDatetimes = false
+      this.currentDate = new Date()
+      this.MaterielList = []
+      this.selectedID = ''
+      this.restaurants = []
+      this.state = ''
+      this.timeout = null
+      this.TermsPaymentInput = ''
+      this.ContractField1Input = []
+      this.Sign = setTimerType(new Date().getTime())
+      this.committed = setTimerType(new Date().getTime())
+      this.ContractField2Input = ''
+      this.TransportationAssume = ''
+      this.WarrantyTime = ''
+      this.PartyContract = ''
+      this.OtherInstructions = ''
+      this.CompanyContact = ''
+      this.CompanyNumber = ''
+      this.CustomerContact = ''
+      this.distributors = ''
+      this.CustomerNumber = ''
+      this.contractAmount = 0
+      this.DiscountedAmount = 0
+      this.radio = '0'
+      this.fileList = []
+      this.table = false
+      this.dialog = false
+      this.Addresslog = false
+      this.productlog = false
+      this.loading = false
+      this.form = {}
+      this.Address = {}
+      this.product = {}
+      this.options = regionData
+      this.address = []
+      this.tableData = []
+      this.addressData = {}
+      this.timersList = {}
+      this.imgUrl = ''
+      this.listData = []
+      this.isShowed = false
+      this.states = ''
+      this.restaurant = []
+      this.shippingValue = ''
+      this.Products = ''
+      this.productPrice = ''
+      this.productWeight = ''
+      this.FlowingProducts = [null]
+      this.isFlowingShow = []
+      this.isWeightShow = false
+      this.quantity = ''
+      this.ProductNotes = ''
+      this.shippingData = []
       this.$router.replace('/deal/sales')
     },
     focusClick() {
@@ -706,12 +679,12 @@ export default {
     async getContractOrders() {
       const { data } = await getContractOrder(this.getContractOrderData)
       console.log('getContractOrder', data)
-      this.CompanyContact = data.contractOrder.self_lxr
-      this.CompanyNumber = data.contractOrder.self_lxr_tel
-      this.CustomerContact = data.contractOrder.kehu_lxr
-      this.CustomerNumber = data.contractOrder.kehu_lxr_tel
-      this.PartyContract = data.contractOrder.order_number
-      this.ContractField1Input = data.contractOrderExtra
+      this.contractOrder = { ...data.contractOrder }
+      this.CompanyContact = this.contractOrder.self_lxr
+      this.CompanyNumber = this.contractOrder.self_lxr_tel
+      this.CustomerContact = this.contractOrder.kehu_lxr
+      this.CustomerNumber = this.contractOrder.kehu_lxr_tel
+      this.ContractField1Input = this.contractOrderExtra
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)
@@ -868,7 +841,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 4.642857rem;
     width: 100%;
     overflow: hidden;
   }
@@ -1078,6 +1051,82 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+  }
+  .overlaywrapper {
+    height: 100%;
+    .overlayblock {
+      width: 100%;
+      border-top-left-radius: 1.785714rem;
+      border-top-right-radius: 1.785714rem;
+      background-color: #fff;
+      padding-bottom: 1rem;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      .title {
+        height: 4rem;
+        font-size: 1.285714rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        margin-bottom: 0.714286rem;
+        .title_text {
+          margin-left: 2.857143rem;
+          color: #0d0d0d;
+        }
+      }
+      .items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.071429rem;
+        white-space: nowrap;
+        margin-top: 0.714286rem;
+        border-bottom: 1px solid #f8f7f5;
+        padding-bottom: 0.714286rem;
+        .info {
+          overflow: hidden;
+          margin-right: 0.714286rem;
+          .adderss_top {
+            span {
+              font-size: 1.285714rem;
+            }
+          }
+          .infos_bto {
+            font-size: 1.142857rem;
+            .name {
+              margin-right: 1.071429rem;
+            }
+            .phone {
+            }
+          }
+        }
+        .edit {
+          font-size: 1.428571rem;
+        }
+      }
+      .btn {
+        margin: 0 0.714286rem;
+        margin-top: 4.642857rem;
+        font-size: 1.428571rem;
+        display: flex;
+        height: 2.785714rem;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.357143rem;
+        background-color: #f5f5f5;
+        .add {
+          margin-right: 1rem;
+          color: #fcc248;
+        }
+        span {
+          color: #0d0d0d;
+        }
+      }
+    }
   }
 }
 </style>

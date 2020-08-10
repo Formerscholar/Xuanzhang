@@ -60,8 +60,6 @@ const addNewCustomerslist = () =>
   import('../views/deal/children/createContract/children/addNewCustomerslist')
 const addressEdit = () =>
   import('../views/deal/children/addressEdit/addressEdit')
-const addressList = () =>
-  import('../views/deal/children/addressList/addressList')
 const addbill = () => import('../views/deal/children/addbill/addbill')
 const addbillWl = () => import('../views/deal/children/addbillWl/addbillWl')
 const Ship = () => import('../views/deal/children/Ship/Ship')
@@ -99,6 +97,10 @@ const ReimburDetails = () =>
 
 const newAccount = () =>
   import('../views/Reimbursement/children/newAccount/newAccount')
+
+const editAccount = () =>
+  import('../views/Reimbursement/children/editAccount/editAccount')
+
 const addDetails = () =>
   import('../views/Reimbursement/children/addDetails/addDetails')
 
@@ -293,6 +295,10 @@ const routes = [
     component: newAccount,
   },
   {
+    path: '/editAccount/:id',
+    component: editAccount,
+  },
+  {
     path: '/add-details',
     component: addDetails,
   },
@@ -366,13 +372,8 @@ const routes = [
     component: outsource,
   },
   {
-    path: '/addressEdit',
+    path: '/addressEdit/:id',
     component: addressEdit,
-  },
-  {
-    path: '/addressList',
-    name: 'addressList',
-    component: addressList,
   },
   {
     path: '/selectTime/:type',

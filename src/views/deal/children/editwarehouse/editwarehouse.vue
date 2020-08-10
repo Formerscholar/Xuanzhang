@@ -209,7 +209,7 @@ export default {
     },
     getMaterielListData() {
       return {
-        company_id: 1,
+        company_id: this.$store.state.userInfo[0].user_compser_id,
         _: new Date().getTime(),
       }
     },
