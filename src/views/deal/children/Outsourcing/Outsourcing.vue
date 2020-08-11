@@ -152,8 +152,11 @@ export default {
     this.allPage = 1
     this.processing = 1
     this.Completed = 1
-    this.getOrderList()
-    this.getLiquidated()
+    if (this.indexTab) {
+      this.getLiquidated()
+    } else {
+      this.getOrderList()
+    }
   },
   deactivated() {
     this.outsourcingOrderList = []
@@ -257,6 +260,11 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event)
       this.indexTab = tab
+      if (this.indexTab) {
+        this.getLiquidated()
+      } else {
+        this.getOrderList()
+      }
     },
     async getOrderList() {
       const { data } = await getUndischargedOutsourcingOrderList(

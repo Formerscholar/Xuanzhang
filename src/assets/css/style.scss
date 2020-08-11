@@ -140,27 +140,26 @@ i {
     }
   }
 
-  .van-cell__title {
-    padding: 0.357143rem 0;
-  }
+
 
   .newStyle {
+
+
     .van-cell__title {
-      padding: 0.357143rem 0;
+      width: 4.928571rem;
 
       span {
-        display: block;
-        padding: 0 0.714286rem;
         text-align: justify;
-        color: black;
         text-align-last: justify;
+        color: black;
+        padding-right: 0.714286rem;
         border-right: 1px solid #e7e7e7;
       }
 
     }
 
     .van-cell__value {
-      padding: 0.357143rem 0.714286rem;
+      padding: 0;
 
     }
   }
@@ -177,6 +176,7 @@ i {
 
   .van-cell {
     border-bottom: 1px solid #e7e7e7;
+    line-height: normal;
   }
 
   .btns {
@@ -216,7 +216,8 @@ i {
 #returnedPurchase,
 #addNewProductlist,
 #editShipItem,
-#Receivable {
+#Receivable,
+#addressList {
   .el-card__body {
     padding: 0 !important;
   }
@@ -247,9 +248,8 @@ i {
 
   .van-cell,
   .el-row {
-    padding: .428571rem .714286rem;
+    padding: 1rem 1.142857rem;
   }
-
 
 }
 

@@ -74,6 +74,12 @@
         </el-row>
         <van-field v-model="LocationNum" type="digit" label="库位号" />
       </el-card>
+      <el-card class="box-card">
+        <div v-for="(item,index) in materielField" :key="item.id">
+          <van-field v-model="SetMaterialFlags[index]" :label="item.field_name" />
+        </div>
+      </el-card>
+
       <!-- <el-card class="box-card">
         <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item title="库存预警" name="1">
@@ -138,6 +144,7 @@ export default {
     return {
       fileList: [],
       activeNames: [],
+      SetMaterialFlags: [],
       PropsImg: '',
       Propsfile: '',
       Propsdesign: '',
@@ -178,6 +185,7 @@ export default {
       DetailsproductMaterial: '',
       DetailsMoldCode: '',
       uploadParam: 4,
+      materielField: [],
     }
   },
   components: { SimpleCropper },
@@ -220,6 +228,7 @@ export default {
     this.DetailsPiecePrice = ''
     this.DetailsproductMaterial = ''
     this.DetailsMoldCode = ''
+    this.SetMaterialFlags = []
     this.uploadParam = 4
   },
   computed: {
@@ -230,6 +239,11 @@ export default {
       }
     },
     addMaterielData() {
+      console.log(this.SetMaterialFlags)
+      let field_data = ''
+      this.SetMaterialFlags.map((item) => {
+        field_data += ',' + item
+      })
       return {
         token: this.$store.state.token,
         name: this.MaterialName,
@@ -246,6 +260,7 @@ export default {
         piecework_price: this.DetailsPiecePrice,
         img_url: this.PropsImg,
         stock: this.BasicInventory,
+        field_data,
       }
     },
   },
@@ -286,6 +301,7 @@ export default {
     async getAddMater() {
       const { data } = await getAddMateriel(this.getAddMaterielData)
       console.log('getAddMateriel', data)
+      this.materielField = data.materielField
       data.materielCategory.forEach((item, index) => {
         let obj = {
           value: item.id,

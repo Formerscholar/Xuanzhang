@@ -122,10 +122,10 @@
             </van-uploader>
           </el-row>
         </el-card>
-        <el-card class="box-card item1" v-if="addressData.name">
+        <el-card class="box-card item1" v-if="addressData.name ">
           <div class="address" @click.stop="addressClick">
             <div class="lefticon">
-              <van-icon name="location" />
+              <span>收</span>
             </div>
             <div class="cententbox">
               <div class="nametell">
@@ -137,7 +137,7 @@
               </div>
             </div>
             <div class="righticon">
-              <van-icon name="arrow" />
+              <span>地址簿</span>
             </div>
           </div>
         </el-card>
@@ -174,7 +174,7 @@
       @confirm="confirmss"
       @cancel="cancel"
     />
-    <van-overlay :show="overlayshow">
+    <!-- <van-overlay :show="overlayshow">
       <div class="overlaywrapper">
         <div class="overlayblock" id="block">
           <div class="title">
@@ -206,7 +206,7 @@
           </div>
         </div>
       </div>
-    </van-overlay>
+    </van-overlay>-->
   </div>
 </template>
     
@@ -483,7 +483,6 @@ export default {
       console.log('shippingValue', value)
       this.shippingValue = value
     },
-    // this.restaurant 请求初始化产品数据 点击公司后请求
     async getMateriel() {
       const { data } = await getMaterielList(this.getMaterielListData)
       this.MaterielList = data
@@ -547,7 +546,18 @@ export default {
       this.imgUrl = data.url
     },
     addressClick() {
-      this.overlayshow = true
+      console.log('跳转合同操作页面')
+      this.$router.push(`/addressList/${this.selectedID}`)
+      this.$bus.$off('waitNoChange')
+      this.$bus.$on(
+        'waitNoChange',
+        ({ consignee, consignee_tel, consignee_address }) => {
+          this.addressData = {}
+          this.addressData.name = consignee
+          this.addressData.tel = consignee_tel
+          this.addressData.address = consignee_address
+        }
+      )
     },
     addressItemClick(item) {
       this.addressData = {}
@@ -785,7 +795,7 @@ export default {
       const { data } = await getAddContractOrder(this.getAddContractOrderData)
       console.log('getAddContractOrder', data)
       this.distributors = data.distributors
-      this.CompanyContact = data.userInfo[0].name
+      // this.CompanyContact = data.userInfo[0].name
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -869,11 +879,11 @@ export default {
         justify-content: space-between;
         align-items: center;
         .lable {
-          width: 6.2em;
-          padding: 0 0.714286rem;
+          width: 4.928571rem;
           text-align: justify;
           text-align-last: justify;
           color: black;
+          padding-right: 0.714286rem;
           border-right: 1px solid #e7e7e7;
         }
         .time {
@@ -962,40 +972,35 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.642857rem 1.142857rem;
+        padding: 0.714286rem 1rem;
         .lefticon {
           width: 1.714286rem;
           height: 1.714286rem;
-          border-radius: 50%;
-          background-color: #ff4400;
+          border-radius: 0.357143rem;
+          background-color: black;
+          font-size: 1rem;
           display: flex;
           justify-content: center;
           align-items: center;
-          .van-icon {
-            color: #fff;
-            font-size: 0.857143rem;
-          }
+          color: #fff;
         }
         .cententbox {
           text-align: left;
-          margin: 0 0.714286rem;
+          margin-left: 0.857143rem;
           flex: 1;
+          white-space: nowrap;
+          overflow: hidden;
           .nametell {
-            span {
-              font-size: 0.857143rem;
-              color: #333333;
-            }
+            font-size: 1.142857rem;
+            margin-bottom: 0.714286rem;
             em {
-              font-size: 0.571429rem;
-              color: #999;
               margin-left: 0.357143rem;
             }
           }
           .NEWSaddress {
-            margin: 0.607143rem 0;
             span {
-              font-size: 0.642857rem;
-              color: #333333;
+              font-size: 1rem;
+              color: #686868;
             }
           }
           .title {
@@ -1006,9 +1011,12 @@ export default {
           }
         }
         .righticon {
-          .van-icon {
-            color: #ccc;
-          }
+          font-size: 1rem;
+          color: #717171;
+          padding: 0.571429rem 0;
+          padding-left: 0.857143rem;
+          border-left: 1px solid #f5f5f5;
+          margin-left: 0.357143rem;
         }
       }
       // .line {

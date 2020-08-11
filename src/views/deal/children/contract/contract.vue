@@ -187,8 +187,11 @@ export default {
     },
   },
   activated() {
-    this.getDeliverLists()
-    this.getFlowOrderLists()
+    if (this.isShow) {
+      this.getDeliverLists()
+    } else {
+      this.getFlowOrderLists()
+    }
   },
   deactivated() {
     this.deliveryRecordList = []
@@ -273,8 +276,10 @@ export default {
       console.log(name)
       if (name) {
         this.isShow = false
+        this.getFlowOrderLists()
       } else {
         this.isShow = true
+        this.getDeliverLists()
       }
     },
     openClick() {},

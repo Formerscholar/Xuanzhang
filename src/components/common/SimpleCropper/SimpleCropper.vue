@@ -6,8 +6,8 @@
     <input class="file" ref="file" type="file" accept="image/*" @change="uploadChange" />
     <div class="v-cropper-layer" ref="layer">
       <div class="layer-header">
-        <van-button @click="cancelHandle" type="info">取消</van-button>
-        <van-button type="primary" @click="confirmHandle">裁剪</van-button>
+        <div @click="cancelHandle" style="color:#fff;">取消</div>
+        <van-button type="primary" @click="confirmHandle">确定</van-button>
       </div>
       <img ref="cropperImg" />
     </div>
@@ -109,11 +109,13 @@ export default {
       width: 100%;
       height: 5.8rem;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       box-sizing: border-box;
+      padding: 0 1.142857rem;
+      font-size: 1.142857rem;
       .van-button {
-        margin-right: 0.714286rem;
+        height: 2.428571rem;
       }
     }
   }

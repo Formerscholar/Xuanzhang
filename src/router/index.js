@@ -58,8 +58,8 @@ const editContract = () =>
   import('../views/deal/children/editContract/editContract')
 const addNewCustomerslist = () =>
   import('../views/deal/children/createContract/children/addNewCustomerslist')
-const addressEdit = () =>
-  import('../views/deal/children/addressEdit/addressEdit')
+const InvalidAddress = () =>
+  import('../views/deal/children/InvalidAddress/InvalidAddress')
 const addbill = () => import('../views/deal/children/addbill/addbill')
 const addbillWl = () => import('../views/deal/children/addbillWl/addbillWl')
 const Ship = () => import('../views/deal/children/Ship/Ship')
@@ -133,7 +133,6 @@ const LargeScreen = () =>
 const ScreenItem = () =>
   import('../views/home/children/LargeScreen/children/ScreenItem.vue')
 
-Vue.use(VueRouter)
 const outSearch = () => import('@/views/deal/children/outSearch/outSearch')
 const nameSearch = () => import('@/views/deal/children/Ship/nameSearch')
 const SelectProducts = () => import('@/views/deal/children/Ship/SelectProducts')
@@ -165,6 +164,10 @@ const asidesItem = () => import('@/views/deal/children/aside/asidesItem')
 const editasidesItem = () =>
   import('@/views/deal/children/aside/editasidesItem')
 
+const addressList = () =>
+  import('@/views/deal/children/addressList/addressList')
+const editAddress = () =>
+  import('@/views/deal/children/editAddress/editAddress')
 const routes = [
   {
     path: '/',
@@ -372,8 +375,8 @@ const routes = [
     component: outsource,
   },
   {
-    path: '/addressEdit/:id',
-    component: addressEdit,
+    path: '/InvalidAddress/:id',
+    component: InvalidAddress,
   },
   {
     path: '/selectTime/:type',
@@ -573,7 +576,17 @@ const routes = [
     path: '/completions/:id',
     component: completions,
   },
+  {
+    path: '/addressList/:id',
+    component: addressList,
+  },
+  {
+    path: '/editAddress/:id',
+    component: editAddress,
+  },
 ]
+
+Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes,

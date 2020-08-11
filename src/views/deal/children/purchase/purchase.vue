@@ -109,7 +109,7 @@
 <script>
 import {
   getUndischargedOemOrderList,
-  getLiquidatedOemOrderList
+  getLiquidatedOemOrderList,
 } from '@/network/deal'
 
 import myVqr from '@/components/common/my_vqr/myVqr'
@@ -131,13 +131,15 @@ export default {
       textContent: '',
       show: false,
       item: {},
-      distributor_id: null
+      distributor_id: null,
     }
   },
   activated() {
-    this.indexPage = 1
-    this.getOrderList()
-    this.getLiquidated()
+    if (this.indexTab) {
+      this.getLiquidated()
+    } else {
+      this.getOrderList()
+    }
   },
   deactivated() {
     this.distributor_id = null
@@ -155,9 +157,9 @@ export default {
         distributor_id: this.distributor_id,
         order_number: null,
         other_order_number: null,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   filters: {
     setSalespersonName(value) {
@@ -171,7 +173,7 @@ export default {
     },
     setAmountInDiscount(value) {
       return '成交价格:' + value
-    }
+    },
   },
   methods: {
     printClick() {
@@ -189,8 +191,8 @@ export default {
       this.$router.push({
         path: '/IncomDelivery/oem',
         query: {
-          data: this.item
-        }
+          data: this.item,
+        },
       })
     },
     touchin() {
@@ -229,24 +231,29 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event)
       this.indexTab = tab
+      if (this.indexTab) {
+        this.getLiquidated()
+      } else {
+        this.getOrderList()
+      }
     },
     async getOrderList() {
       const { data } = await getUndischargedOemOrderList(this.getOrderListData)
-      data.oemOrderList.map(item => {
+      data.oemOrderList.map((item) => {
         this.outsourcingOrderList.push(item)
       })
     },
     async getLiquidated() {
       const { data } = await getLiquidatedOemOrderList(this.getOrderListData)
-      data.oemOrderList.map(item => {
+      data.oemOrderList.map((item) => {
         this.outsourcingOrderListed.push(item)
       })
     },
     toOme() {
       this.indexPage = 1
       this.$router.push('/oem')
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -246,8 +246,11 @@ export default {
     this.allIndex = 1
     this.Library = 1
     this.detail = 1
-    this.getDeliverLists()
-    this.getFlowOrderLists()
+    if (this.isShow) {
+      this.getDeliverLists()
+    } else {
+      this.getFlowOrderLists()
+    }
   },
   deactivated() {
     this.warehouseAccessList = []
@@ -347,8 +350,10 @@ export default {
       console.log(name)
       if (name) {
         this.isShow = false
+        this.getFlowOrderLists()
       } else {
         this.isShow = true
+        this.getDeliverLists()
       }
     },
     openClick() {},

@@ -48,7 +48,7 @@ import { throttle } from '@/common/utils.ts'
 import {
   getContractOrderList,
   deleteContractOrder,
-  getEditContractOrder
+  getEditContractOrder,
 } from '@/network/deal'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
@@ -69,22 +69,20 @@ export default {
       request: true,
       show: false,
       textContent: '',
-      print_html: ''
+      print_html: '',
     }
   },
   components: {
     DealGoodsItem,
     Options,
-
-    myVqr
-  },
-  created() {
-    this.getOrderList(1)
-    this.getOrderList(0)
+    myVqr,
   },
   activated() {
-    this.getOrderList(1)
-    this.getOrderList(0)
+    if (this.pageIndex) {
+      this.getOrderList(0)
+    } else {
+      this.getOrderList(1)
+    }
   },
   deactivated() {
     this.goodsLists = []
@@ -100,7 +98,7 @@ export default {
       form.append('token', this.$store.state.tonken)
       form.append('id', this.iid)
       return form
-    }
+    },
   },
   methods: {
     printList() {
@@ -112,7 +110,7 @@ export default {
         this.$message({
           showClose: true,
           message: '暂未生成',
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -124,7 +122,7 @@ export default {
       const { data } = await getEditContractOrder({
         id: datas.data.id,
         token: this.$store.state.tonken,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       })
       this.print_html = data.contractOrder.print_html
     },
@@ -140,14 +138,18 @@ export default {
       this.$router.push({
         path: '/edit-contract',
         query: {
-          data: this.editData
-        }
+          data: this.editData,
+        },
       })
       this.show = false
     },
     selectIndex(i) {
       this.pageIndex = i
-      console.log(this.pageIndex)
+      if (this.pageIndex) {
+        this.getOrderList(0)
+      } else {
+        this.getOrderList(1)
+      }
     },
     loadMore() {
       console.log('loadMore', this.pageIndex)
@@ -181,7 +183,7 @@ export default {
         distributor_id: '',
         order_number: '',
         is_contract: id,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     async getOrderList(id) {
@@ -189,7 +191,7 @@ export default {
       console.log('getContractOrderList', data)
       if (id == 1) {
         if (data.contractOrderList.length != 0) {
-          data.contractOrderList.forEach(item => {
+          data.contractOrderList.forEach((item) => {
             this.goodsLists.push({
               isIndex: 1,
               id: item.id,
@@ -204,15 +206,15 @@ export default {
               schedule: {
                 Settlement: item.settlement_progress * 1,
                 Ship: item.delivery_schedule * 1,
-                invoice: item.invoice_progress * 1
-              }
+                invoice: item.invoice_progress * 1,
+              },
             })
           })
         } else {
           this.request = false
         }
       } else if (id == 0) {
-        data.contractOrderList.forEach(item => {
+        data.contractOrderList.forEach((item) => {
           this.QuoteList.push({
             contract: item.order_number,
             Amount: item.amount_of_discount,
@@ -223,16 +225,16 @@ export default {
             schedule: {
               Settlement: item.settlement_progress * 1,
               Ship: item.delivery_schedule * 1,
-              invoice: item.invoice_progress * 1
-            }
+              invoice: item.invoice_progress * 1,
+            },
           })
         })
       }
     },
     createContract() {
       this.$router.push('/create-contract')
-    }
-  }
+    },
+  },
 }
 </script>
     

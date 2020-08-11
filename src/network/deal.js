@@ -505,3 +505,19 @@ export function addReceivingInformation(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function getEditReceivingInformation(params) {
+  return request({
+    url: '/TradingCenter/getEditReceivingInformation',
+    method: 'GET',
+    params,
+  })
+}
+
+export function editReceivingInformation(data) {
+  return request({
+    url: '/TradingCenter/editReceivingInformation',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

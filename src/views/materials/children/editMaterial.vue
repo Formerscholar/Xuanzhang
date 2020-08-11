@@ -54,6 +54,14 @@
 
         <Lists name="默认仓库" route="DWarehouse" :data="valuesss" @listhandleClick="listhandleClick" />
         <Lists name="库位号" route="WLNumber" :data="LocationNum" @listhandleClick="listhandleClick" />
+        <div v-for="item in materielExtra" :key="item.id">
+          <Lists
+            :name="item.field_name"
+            route="WLNumber"
+            :data="item.field_content"
+            @listhandleClick="listhandleClick"
+          />
+        </div>
       </div>
     </scroll>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
@@ -88,6 +96,7 @@ export default {
       value: '',
       values: '',
       optionsss: [],
+      materielExtra: [],
       valuess: '',
       optionssss: [],
       valuesss: '',
@@ -278,6 +287,7 @@ export default {
     async getEditMater() {
       const { data } = await getEditMateriel(this.getEditMaterData)
       console.log('getEditMateriel', data)
+      this.materielExtra = data.materielExtra
       this.itemData = { ...data.materiel[0] }
       data.materielCategory.forEach((item, index) => {
         let obj = {
@@ -373,6 +383,7 @@ export default {
       this.fileLists = []
       this.fileListss = []
       this.fileListsss = []
+      this.materielExtra = []
       this.iid = 0
       this.type = false
       this.activeNames = []
@@ -524,11 +535,14 @@ export default {
       align-items: flex-start;
       margin-top: 1.571429rem;
       .left_box {
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
         margin-bottom: 1.571429rem;
+        white-space: nowrap;
+        overflow: hidden;
         .left_name {
           font-size: 1.285714rem;
           margin-bottom: 1.142857rem;
@@ -540,6 +554,8 @@ export default {
         }
       }
       .right_box {
+        width: 5.5rem;
+
         span {
           height: 1.571429rem;
           width: 5.5rem;

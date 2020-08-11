@@ -654,11 +654,11 @@ export default {
         justify-content: space-between;
         align-items: center;
         .lable {
-          width: 6.2em;
-          padding: 0 0.714286rem;
+          width: 4.928571rem;
           text-align: justify;
           text-align-last: justify;
           color: black;
+          padding-right: 0.714286rem;
           border-right: 1px solid #e7e7e7;
         }
         .time {

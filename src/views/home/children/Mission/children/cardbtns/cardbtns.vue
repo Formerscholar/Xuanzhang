@@ -395,7 +395,7 @@ export default {
           .left_box {
             flex: 1;
             .name {
-              font-size: 1.285714rem;
+              font-size: 1.142857rem;
             }
             .timers {
               font-size: 0.857143rem;
@@ -408,7 +408,7 @@ export default {
           .right_box {
             flex: 1;
             .name {
-              font-size: 1.285714rem;
+              font-size: 1.142857rem;
             }
             .timers {
               font-size: 0.857143rem;
