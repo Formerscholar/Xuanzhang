@@ -521,3 +521,11 @@ export function editReceivingInformation(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function deleteReceivingInformation(data) {
+  return request({
+    url: '/TradingCenter/deleteReceivingInformation',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

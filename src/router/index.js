@@ -168,6 +168,7 @@ const addressList = () =>
   import('@/views/deal/children/addressList/addressList')
 const editAddress = () =>
   import('@/views/deal/children/editAddress/editAddress')
+const minimap = () => import('@/views/profile/children/minimap/minimap')
 const routes = [
   {
     path: '/',
@@ -583,6 +584,10 @@ const routes = [
   {
     path: '/editAddress/:id',
     component: editAddress,
+  },
+  {
+    path: '/minimap',
+    component: minimap,
   },
 ]
 

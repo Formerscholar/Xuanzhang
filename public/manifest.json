@@ -258,7 +258,20 @@
                     "appleiap" : {},
                     "alipay" : {}
                 },
-                "share" : {}
+                "share" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "869101a3b22f6f7be13cfd818baab46d",
+                        "appkey_android" : "c80df2583ec25b5ae75075323071ad4f"
+                    }
+                },
+                "geolocation" : {
+                    "amap" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "869101a3b22f6f7be13cfd818baab46d",
+                        "appkey_android" : "c80df2583ec25b5ae75075323071ad4f"
+                    }
+                }
             }
         },
         "statusbar" : {

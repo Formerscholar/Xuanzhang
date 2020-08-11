@@ -238,7 +238,7 @@ export default {
       margin-bottom: 0.357143rem;
       .Company {
         margin-bottom: 0.714286rem;
-        font-size: 1.142857rem;
+        font-size: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;

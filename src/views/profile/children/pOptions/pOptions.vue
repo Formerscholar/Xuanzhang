@@ -3,6 +3,7 @@
     <pOptionsItem />
     <BankAccounts />
     <management />
+    <!-- 隐藏 -->
     <FakePosition />
   </div>
 </template>

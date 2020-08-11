@@ -136,9 +136,20 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {},
   computed: {
     addMaterielData() {
+      console.log(this.materielExtra)
+      let field_data = ''
+      if (this.materielExtra.length) {
+        this.materielExtra.map((item) => {
+          field_data += ',' + item
+        })
+      } else {
+        this.materielField.map((item) => {
+          field_data += ', '
+        })
+      }
+
       return {
         token: this.$store.state.token,
         name: this.MaterialName,
@@ -156,6 +167,7 @@ export default {
         img_url: this.PropsImg,
         stock: this.BasicInventory,
         id: this.iid,
+        field_data,
       }
     },
     getEditMaterData() {
@@ -288,6 +300,7 @@ export default {
       const { data } = await getEditMateriel(this.getEditMaterData)
       console.log('getEditMateriel', data)
       this.materielExtra = data.materielExtra
+      this.materielField = data.materielField
       this.itemData = { ...data.materiel[0] }
       data.materielCategory.forEach((item, index) => {
         let obj = {

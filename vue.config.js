@@ -1,10 +1,10 @@
 module.exports = {
   // publicPath: '././',
-  // outputDir: 'dist',
-  // lintOnSave: true,
-  // runtimeCompiler: true,
-  // productionSourceMap: false,
 
+  outputDir: 'dist',
+  lintOnSave: true,
+  runtimeCompiler: true,
+  productionSourceMap: false,
   devServer: {
     port: 8088,
     https: false,
@@ -20,7 +20,6 @@ module.exports = {
       },
     },
   },
-
   configureWebpack: {
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.json'],

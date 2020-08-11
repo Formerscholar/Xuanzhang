@@ -7,7 +7,7 @@
       <div class="title_options">
         <span>我的位置</span>
       </div>
-      <div class="icon_options">
+      <div class="icon_options" @click="goControlled">
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -15,7 +15,17 @@
 </template>
     
 <script>
-export default {}
+import { computed } from '@vue/composition-api'
+export default {
+  setup(props, { root }) {
+    function goControlled() {
+      root.$router.push('/minimap')
+    }
+    return {
+      goControlled,
+    }
+  },
+}
 </script>
     
 <style  lang="scss">
