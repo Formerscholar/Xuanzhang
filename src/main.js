@@ -1,7 +1,10 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
+import VueRouter from 'vue-router'
+
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import routes from './router'
+import storeConfig from './store'
 
 Vue.config.productionTip = false
 
@@ -57,6 +60,32 @@ Vue.prototype._ = _
 
 import VueCompositionAPI from '@vue/composition-api'
 Vue.use(VueCompositionAPI)
+
+Vue.use(Vuex)
+const store = new Vuex.Store(storeConfig)
+
+Vue.use(VueRouter)
+const router = new VueRouter({
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (!window.localStorage) {
+      alert('浏览器不支持localstorage')
+    } else {
+      var storage = window.localStorage
+      let tokenStr = JSON.parse(storage.getItem('token'))
+      if (!tokenStr) {
+        return next('/login')
+      } else {
+        return next()
+      }
+    }
+  } else {
+    return next()
+  }
+})
 
 new Vue({
   router,

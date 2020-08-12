@@ -2,9 +2,11 @@ import { bestURL, crosURl } from './baseURL'
 
 import { Toast } from 'vant'
 import axios from 'axios'
+
 axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded'
 axios.defaults.withCredentials = true
+
 let loading
 let loadingNum = 0
 function startLoading() {

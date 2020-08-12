@@ -1,6 +1,3 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
 const Home = () => import('../views/home/Home')
 
 const homeManu = () => import('@/views/homeManu/homeManu')
@@ -591,27 +588,4 @@ const routes = [
   },
 ]
 
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-  routes,
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth) {
-    if (!window.localStorage) {
-      alert('浏览器不支持localstorage')
-    } else {
-      var storage = window.localStorage
-      let tokenStr = JSON.parse(storage.getItem('token'))
-      if (!tokenStr) {
-        return next('/login')
-      } else {
-        return next()
-      }
-    }
-  } else {
-    return next()
-  }
-})
-export default router
+export default routes
