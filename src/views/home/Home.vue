@@ -12,7 +12,7 @@
           @goEarly="goEarly"
         />
         <Ability />
-        <reminder />
+        <!-- <reminder /> -->
         <myEcharts />
       </div>
     </scroll>

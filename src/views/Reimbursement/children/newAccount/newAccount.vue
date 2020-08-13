@@ -9,63 +9,78 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <div class="BasicInfo">
-      <div class="title">基本信息</div>
-      <van-field @click="Inputfocus" readonly v-model="picker" label="报销类别" />
-      <div class="item1">
-        <span>报销事由</span>
-        <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
-      </div>
-    </div>
-    <div class="ChargeDetails">
-      <div class="title">费用明细</div>
-      <div class="item1" v-for="(item,index) in NewCost" :key="index">
-        <div class="top">
-          <div class="left">
-            <i class="el-icon-s-flag"></i>
-            <span>{{item.title}}</span>
-            <em class="timer">{{item.timer}}</em>
-          </div>
-          <div class="right">
-            <span>CNY</span>
-          </div>
-        </div>
-        <div class="bot">
-          <div class="left">
-            <span>{{item.detailed}}</span>
-          </div>
-          <div class="right">
-            <span>{{item.Whole}}</span>
-            <em>.{{item.Loose}}</em>
-          </div>
+    <scroll class="scroll-wrapper">
+      <div class="BasicInfo">
+        <div class="title">基本信息</div>
+        <van-field @click="Inputfocus" readonly v-model="picker" label="报销类别" />
+        <div class="item1">
+          <span>报销事由</span>
+          <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
         </div>
       </div>
+      <div class="ChargeDetails">
+        <div class="title">费用明细</div>
 
-      <div class="Manual" @click="gotoDetails">
-        <span>
-          <i class="el-icon-discount"></i>手动添加费用
-        </span>
+        <van-swipe-cell v-for="(item,index) in NewCost" :key="index">
+          <div class="item1">
+            <div class="top">
+              <div class="left">
+                <i class="el-icon-s-flag"></i>
+                <span>{{item.title}}</span>
+                <em class="timer">{{item.timer}}</em>
+              </div>
+              <div class="right">
+                <span>CNY</span>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="left">
+                <span>{{item.detailed}}</span>
+              </div>
+              <div class="right">
+                <span>{{item.Whole }}</span>
+                <em>.{{item.Loose}}</em>
+              </div>
+            </div>
+          </div>
+
+          <template #right>
+            <van-button
+              @click="deleteChargeDetail(index)"
+              square
+              style="height:100%;"
+              type="danger"
+              text="删除"
+            />
+          </template>
+        </van-swipe-cell>
+
+        <div class="Manual" @click="gotoDetails">
+          <span>
+            <i class="el-icon-discount"></i>手动添加费用
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="Summary">
-      <div class="title">汇总</div>
-      <div class="item1">
-        <span>累计报销金额</span>
-        <em>￥{{apply==undefined?'0':apply}}</em>
+      <div class="Summary">
+        <div class="title">汇总</div>
+        <div class="item1">
+          <span>累计报销金额</span>
+          <em>￥{{apply==undefined?'0':apply | setTwo}}</em>
+        </div>
+        <div class="item4">
+          <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
+        </div>
       </div>
-      <div class="item4">
-        <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
+      <div class="picker" v-if="ispicker">
+        <van-picker
+          title="报销类别"
+          show-toolbar
+          :columns="columns"
+          @confirm="onConfirm"
+          @cancel="onCancel"
+        />
       </div>
-    </div>
-    <div class="picker" v-if="ispicker">
-      <van-picker
-        title="报销类别"
-        show-toolbar
-        :columns="columns"
-        @confirm="onConfirm"
-        @cancel="onCancel"
-      />
-    </div>
+    </scroll>
   </div>
 </template>
     
@@ -94,7 +109,6 @@ export default {
       token: '',
     }
   },
-  components: {},
   activated() {
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
@@ -102,8 +116,16 @@ export default {
     this.getAddReimbursementData()
     this.setNewCost()
   },
-  deactivated() {},
+  filters: {
+    setTwo(value) {
+      return value.toFixed(2)
+    },
+  },
   methods: {
+    deleteChargeDetail(index) {
+      this.NewCost.splice(index, 1)
+      this.reimbursement_detail.splice(index, 1)
+    },
     Inputfocus() {
       this.ispicker = true
     },
@@ -141,7 +163,7 @@ export default {
           this.apply = this.apply + rootData.apply
           let arr = String(rootData.apply).split('.')
           newObj.Whole = arr[0]
-          newObj.Loose = arr[1]
+          newObj.Loose = arr[1] || '00'
         }
         if (rootData.timervalue != undefined) {
           let d = new Date(rootData.timervalue)
@@ -230,8 +252,6 @@ export default {
     
 <style scoped lang="scss">
 #newAccount {
-  padding-top: 6.428571rem;
-
   .p_root_box {
     color: #1a1a1a;
     background-color: #fff;
@@ -245,6 +265,16 @@ export default {
       font-size: 1.285714rem;
     }
   }
+
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5.428571rem;
+    bottom: 0;
+    overflow: hidden;
+  }
+
   .BasicInfo {
     .title {
       line-height: 2.571429rem;

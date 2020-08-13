@@ -69,10 +69,12 @@
         <el-card class="box-card item1">
           <van-field v-model="Shipment" class="newStyle" type="number" label="发货金额" />
           <van-field v-model="Amounts" class="newStyle" type="number" label="折后金额" />
+
           <el-row class="DeliveryDate">
             <span class="lable">日期</span>
             <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
           </el-row>
+
           <van-uploader
             style="padding: .714286rem 1.142857rem;"
             v-model="fileList"

@@ -8,7 +8,13 @@
       <i slot="right" class="el-icon-circle-plus-outline" @click="btnsclickadd"></i>
     </navbar>
     <van-search v-model="searchValue" show-action @focus="focusClick" @cancel="onCancel" />
-    <scroll class="scroll-wrapper">
+    <scroll
+      class="scroll-wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <borderCard @tabListTach="tabListTach">
         <cardbox
           :distributor="distributor"
@@ -66,6 +72,11 @@ export default {
       distributor: [],
       supplier: [],
       options: [],
+      allPage: 1,
+      onePage: 1,
+      twoPage: 1,
+      isOneNetwork: true,
+      isTwoNetwork: true,
       searchValue: '',
       isSearch: false,
       searchID: 0,
@@ -159,6 +170,28 @@ export default {
         this.titlename = '供应商'
       }
     },
+    loadMore() {
+      if (this.searchID == 0) {
+        if (this.isOneNetwork) {
+          this.onePage += 1
+          this.allPage = this.onePage
+          this.getDistri()
+          console.log('客户+1')
+        } else {
+          this.$toast('没有更多数据了')
+        }
+      } else if (this.searchID == 1) {
+        if (this.isTwoNetwork) {
+          this.twoPage += 1
+          this.allPage = this.twoPage
+          this.getSupplier()
+          console.log('供应商+1')
+        } else {
+          this.$toast('没有更多数据了')
+        }
+      }
+      this.$refs.scroll.finishPullUp()
+    },
     addcus() {
       this.show = true
     },
@@ -183,20 +216,33 @@ export default {
     },
     async getDistri() {
       const { data } = await getDistributors(this.getDistributorsData)
-      this.distributor = data.distributor
-      console.log('Distri', this.distributor)
+      if (data.distributor.length) {
+        data.distributor.forEach((item) => {
+          this.distributor.push(item)
+        })
+        console.log('Distri', this.distributor)
+      } else {
+        this.isOneNetwork = false
+      }
     },
     async getSupplier() {
       const { data } = await getSuppliers(this.getDistributorsData)
-      this.supplier = data.supplier
-      console.log('getSuppliers', this.supplier)
+
+      if (data.supplier.length) {
+        data.supplier.forEach((item) => {
+          this.supplier.push(item)
+        })
+        console.log('getSuppliers', this.supplier)
+      } else {
+        this.isTwoNetwork = false
+      }
     },
   },
   computed: {
     getDistributorsData() {
       return {
         token: this.$store.state.token,
-        page: 1,
+        page: this.allPage,
         offset: 20,
         _: new Date().getTime(),
       }
@@ -211,6 +257,11 @@ export default {
   },
   deactivated() {
     this.options = []
+    this.allPage = 1
+    this.onePage = 1
+    this.twoPage = 1
+    this.isOneNetwork = true
+    this.isTwoNetwork = true
   },
 }
 </script>

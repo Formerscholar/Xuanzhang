@@ -7,76 +7,105 @@
       <div class="center" slot="center">
         <span>新增任务</span>
       </div>
-      <div class="right" slot="right"></div>
     </navbar>
 
     <scroll class="scroll-wrapper">
       <el-card class="box-card" body-style="padding: 0.357143rem ;">
-        <el-form :model="form">
-          <el-form-item label="任务类型" class="TaskType" :label-width="formLabelWidth">
-            <el-select v-model="value" placeholder="请选择">
-              <el-option
-                v-for="item in selectionArr"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="任务属性" class="properties" :label-width="formLabelWidth">
-            <el-select v-model="styleValue" placeholder="请选择">
-              <el-option
-                v-for="item in form.styleValue"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <timers class="end_time" type="end_time" title="截至时间" :valueData="timersList.end_time" />
-          <el-form-item label="任务标题" class="title" :label-width="formLabelWidth">
-            <el-input v-model="form.title" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="指派对象" class="Aobjects" :label-width="formLabelWidth">
-            <el-select v-model="Assign" placeholder="请选择">
-              <el-option
-                v-for="item in AssignArr"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="抄送" class="ccpepol" :label-width="formLabelWidth">
-            <el-select v-model="Ccpeople" multiple placeholder="请选择">
-              <el-option
-                v-for="item in AssignArr"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+        <div @click="SelectionClick" class="newStyle van-cell DeliveryDate">
+          <span class="lable">任务类型</span>
+          <span>{{SelectionData}}</span>
+        </div>
+        <div @click="propertiesClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">任务属性</span>
+          <span>{{propertiesData}}</span>
+        </div>
+        <div class="newStyle DeliveryDate van-cell">
+          <span class="lable">截止时间</span>
+          <span class="time" @click="tiemrClick">{{end_time}}</span>
+        </div>
+        <van-field v-model="title" class="newStyle DeliveryDate van-cell" label="任务标题" />
+        <div @click="AobjectsClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">指派对象</span>
+          <span>{{AobjectsData}}</span>
+        </div>
+        <div @click="ccpepolClick" class="newStyle DeliveryDate van-cell ccpepolData">
+          <span class="lable">抄送人</span>
+          <div>
+            <span v-for="(item,index) in ccpepolData" :key="index">{{item}},</span>
+          </div>
+          <van-icon name="close" @click.stop="clearcpepol" />
+        </div>
 
-          <el-form-item label="图片上传" class="img_upload" :label-width="formLabelWidth">
-            <img class="img_box" v-if="userImg" :src="userImg" @click="httpRequest" />
-            <div v-else class="img_box" @click="httpRequest"></div>
-          </el-form-item>
-
-          <el-form-item label="任务详情" class="details" :label-width="formLabelWidth"></el-form-item>
-          <el-form-item id="textarea" class="details" label-width="0">
-            <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
-          </el-form-item>
-        </el-form>
+        <van-field
+          v-model="textarea"
+          autosize
+          type="textarea"
+          label="任务详情"
+          placeholder="(选填)简要描述任务详情"
+          class="newStyle DeliveryDate"
+        />
+        <div class="img_upload van-cell DeliveryDate">
+          <span class="lable">上传图片</span>
+          <img class="img_box" v-if="userImg" :src="userImg" @click="httpRequest" />
+          <div v-else class="img_box" @click="httpRequest"></div>
+        </div>
       </el-card>
     </scroll>
 
-    <div class="btns">
-      <el-button @click="cancelForm">返 回</el-button>
-      <el-button type="primary" @click="addDesignatedTask">确 定</el-button>
-    </div>
-
+    <myBtns :commitFun="addDesignatedTask" :cancelFun="cancelForm">
+      <span slot="cancel-btn">返 回</span>
+      <span slot="commit-btn">
+        <span>确 定</span>
+      </span>
+    </myBtns>
     <SimpleCroppes :initParam="uploadParam" :successCallback="uploadHandle" ref="croppers" />
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="isSelection"
+      title="任务类型"
+      show-toolbar
+      :columns="selectionArr"
+      @confirm="SelectiononConfirm"
+      @cancel="SelectiononCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="isproperties"
+      title="任务属性"
+      show-toolbar
+      :columns="styleValue"
+      @confirm="propertiesonConfirm"
+      @cancel="propertiesnCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="isAobjects"
+      title="指派对象"
+      show-toolbar
+      :columns="AssignArr"
+      @confirm="AobjectsonConfirm"
+      @cancel="AobjectsnCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="isccpepol"
+      title="抄送人"
+      show-toolbar
+      :columns="AssignArr"
+      @confirm="ccpepolConfirm"
+      @cancel="ccpepolCancel"
+    />
   </div>
 </template>
     
@@ -85,70 +114,63 @@ import { addDesignatedTasks, getAddDesignatedTasks } from '@/network/home'
 import { setTimerType } from '@/common/filter'
 import SimpleCroppes from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { bestURL, crosURl } from '@/network/baseURL'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   name: 'Newtask',
   data() {
     return {
-      timersList: {
-        end_time: new Date().getTime(),
-      },
+      isDatetime: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
+      end_time: setTimerType(new Date().getTime()),
       dialogImageUrl: '',
       dialogVisible: false,
       uploadParam: 4,
+      SelectionData: '',
+      propertiesData: '',
+      isSelection: false,
+      isproperties: false,
+      isccpepol: false,
+      isAobjects: false,
       timer: null,
       userImg: '',
       dialog: false,
       loading: false,
-      formLabelWidth: '5rem',
-      form: {
-        value: this.selectionArr,
-        styleValue: [
-          {
-            value: 1,
-            label: '一般',
-          },
-          {
-            value: 2,
-            label: '紧急',
-          },
-        ],
-        Assign: this.AssignArr,
-        title: '',
-      },
+      styleValue: ['一般', '紧急'],
+      title: '',
       value: '',
-      styleValue: '',
       Assign: '',
       Ccpeople: [],
       textarea: '',
       imgUrlAdd: '',
+      propertieValue: '',
+      AobjectsData: '',
+      ccpepolData: [],
       selectionArr: [],
       AssignArr: [],
+      designatedTasksType: [],
+      users: [],
     }
   },
   components: {
     SimpleCroppes,
+    myBtns,
   },
   async activated() {
-    if (this.$store.state.timers.timers.end_time != '') {
-      this.timersList.end_time = this.$store.state.timers.timers.end_time
-    }
     const { data } = await getAddDesignatedTasks({
       token: this.$store.state.token,
       _: new Date().getTime(),
     })
     console.log('UserDesignatedTasksData', data)
+    this.designatedTasksType = data.designatedTasksType
     data.designatedTasksType.map((item) => {
-      this.selectionArr.push({
-        value: item.id,
-        label: item.name,
-      })
+      this.selectionArr.push(item.name)
     })
+    this.users = data.users
     data.users.map((item) => {
-      this.AssignArr.push({
-        value: item.id,
-        label: item.name,
-      })
+      this.AssignArr.push(item.name)
     })
   },
   deactivated() {
@@ -168,13 +190,12 @@ export default {
       }
     },
     addDesignatedTasksData() {
-      let end_time = setTimerType(this.timersList.end_time)
       return {
         token: this.$store.state.token,
         type: this.value,
-        attribute: this.styleValue,
-        end_time,
-        title: this.form.title,
+        attribute: this.propertieValue,
+        end_time: this.end_time,
+        title: this.title,
         user_id: this.Assign,
         details: this.imgUrlAdd + this.textarea,
         users_cc: [...this.Ccpeople],
@@ -182,7 +203,80 @@ export default {
     },
   },
   methods: {
-    // 上传头像成功回调
+    clearcpepol() {
+      this.ccpepolData = []
+      this.Ccpeople = []
+    },
+    ccpepolConfirm(value, index) {
+      this.ccpepolData.push(value)
+      this.users.forEach((item, index1) => {
+        if (index1 == index) {
+          this.Ccpeople.push(item.id)
+        }
+      })
+      console.log(value, index, this.Ccpeople)
+      this.isccpepol = false
+    },
+    ccpepolCancel() {
+      this.isccpepol = false
+    },
+    ccpepolClick() {
+      this.isccpepol = true
+    },
+    AobjectsonConfirm(value, index) {
+      this.AobjectsData = value
+      this.users.forEach((item, index1) => {
+        if (index1 == index) {
+          this.Assign = item.id
+        }
+      })
+      console.log(value, index, this.AobjectsData)
+      this.isAobjects = false
+    },
+    AobjectsnCancel() {
+      this.isAobjects = false
+    },
+    AobjectsClick() {
+      this.isAobjects = true
+    },
+    propertiesonConfirm(value, index) {
+      this.propertiesData = value
+      this.propertieValue = index + 1
+      console.log(value, index, this.propertieValue)
+      this.isproperties = false
+    },
+    propertiesnCancel() {
+      this.isproperties = false
+    },
+    propertiesClick() {
+      this.isproperties = true
+    },
+    SelectionClick() {
+      this.isSelection = true
+    },
+    SelectiononConfirm(value, index) {
+      this.SelectionData = value
+      this.designatedTasksType.forEach((item, index1) => {
+        if (index1 == index) {
+          this.value = item.id
+        }
+      })
+      console.log(value, index, this.value)
+      this.isSelection = false
+    },
+    SelectiononCancel() {
+      this.isSelection = false
+    },
+    tiemrClick() {
+      this.isDatetime = true
+    },
+    cancel() {
+      this.isDatetime = false
+    },
+    confirms(value) {
+      this.end_time = setTimerType(value)
+      this.isDatetime = false
+    },
     uploadHandle(data) {
       this.userImg = data
       this.imgUrlAdd = `<img src="${data.split(bestURL)[1]}" />`
@@ -210,15 +304,33 @@ export default {
       }
     },
     blacknext() {
+      this.isDatetime = false
+      this.dialogImageUrl = ''
+      this.dialogVisible = false
+      this.uploadParam = 4
+      this.SelectionData = ''
+      this.propertiesData = ''
+      this.isSelection = false
+      this.isproperties = false
+      this.isccpepol = false
+      this.isAobjects = false
+      this.timer = null
+      this.userImg = ''
+      this.dialog = false
+      this.loading = false
+      this.title = ''
       this.value = ''
-      this.selectionArr = []
-      this.styleValue = ''
-      this.form.title = ''
-      this.AssignArr = []
       this.Assign = ''
       this.Ccpeople = []
-      this.dialogImageUrl = ''
       this.textarea = ''
+      this.imgUrlAdd = ''
+      this.propertieValue = ''
+      this.AobjectsData = ''
+      this.ccpepolData = []
+      this.selectionArr = []
+      this.AssignArr = []
+      this.designatedTasksType = []
+      this.users = []
       this.$router.go(-1)
     },
     cancelForm() {
@@ -242,119 +354,66 @@ export default {
     }
     .center {
       font-size: 1.285714rem;
+      margin-left: -1.071429rem;
       color: #030303;
-    }
-    .right {
-      margin-right: 1.071429rem;
     }
   }
   .scroll-wrapper {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 3rem;
+    bottom: 0;
     width: 100%;
     overflow: hidden;
     .box-card {
-      min-height: calc(100vh - 5.428571rem);
-      .el-form {
-        .el-form-item {
-          padding: 0.357143rem;
-          border-bottom: 1px solid #f8f7f5;
-          margin-bottom: 0.357143rem;
-          .el-form-item__content {
-            width: 100%;
-          }
+      .img_upload {
+        .img_box {
+          display: inline-block;
+          width: 3.5rem;
+          height: 3.5rem;
+          background-color: #ccc;
         }
-        .TaskType {
-          .el-select {
-            .el-option {
-            }
-          }
+      }
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 4.928571rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          padding-right: 0.714286rem;
+          border-right: 1px solid #e7e7e7;
         }
-        .properties {
-          .el-select {
-            .el-option {
-            }
-          }
+        .time {
+          flex: 1;
+          text-align: right;
         }
-        .end_time {
-          .el-date-picker {
-          }
+      }
+      .ccpepolData {
+        position: relative;
+        padding-right: 2.5rem;
+        .van-icon {
+          position: absolute;
+          right: 0.714286rem;
+          font-size: 1.285714rem;
         }
-        .title {
-          .el-input {
-          }
-        }
-        .Aobjects {
-          .el-select {
-            .el-option {
-            }
-          }
-        }
-        .ccpepol {
-          .el-select {
-            .el-option {
-            }
-          }
-        }
-        .details {
-          border: none;
-          margin-bottom: 0;
-        }
-        .img_upload {
-          .img_box {
-            display: inline-block;
-            width: 3.5rem;
-            height: 3.5rem;
-            background-color: #ccc;
-          }
-        }
+      }
+
+      .details {
+        border: none;
+        margin-bottom: 0;
       }
     }
   }
-
-  .btns {
-    display: flex;
-    justify-content: flex-end;
+  .datetime {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
-    padding-bottom: 0.714286rem;
-    padding-right: 0.357143rem;
   }
 }
 </style>
 
 
-<style lang="scss">
-#Newtask {
-  input,
-  textarea {
-    border: none;
-    text-align: right;
-  }
-  textarea {
-    text-align: left;
-  }
-  label {
-    text-align: justify;
-  }
-  .el-card {
-    text-align: right;
-  }
-  #timers {
-    .van-cell {
-      padding: 0.714286rem 0.357143rem;
-      .van-cell__title {
-        text-align: left;
-      }
-      .van-field__control {
-        text-align: right;
-      }
-    }
-  }
-}
-</style>

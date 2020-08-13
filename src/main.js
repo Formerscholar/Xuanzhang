@@ -28,10 +28,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI, { size: 'small', zIndex: 3000 })
 
-import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
-Vue.component('chart', ECharts)
-
 import preview from 'vue-photo-preview'
 import 'vue-photo-preview/dist/skin.css'
 Vue.use(preview)

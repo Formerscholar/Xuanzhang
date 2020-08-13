@@ -1,144 +1,100 @@
 <template>
-  <div class="myech my_package">
-    <chart class="myEchars my_content" ref="chart1" :options="option" :auto-resize="true"></chart>
-  </div>
+  <div id="container" style="width: 100%;height:15.714286rem;"></div>
 </template>
     
 <script>
+import { reactive, onActivated, computed } from '@vue/composition-api'
+import { getUserIndex } from '@/network/home'
+
 export default {
-  name: 'myEcharts',
-  created() {
-    this.calcMonth()
-  },
-  activated() {
-    this.calcMonth()
-  },
-  data() {
-    return {
-      option: {
+  setup(props, { root }) {
+    const state = reactive({
+      options: {
+        credits: { enabled: false },
+        subtitle: {
+          text: '',
+        },
         title: {
-          text: '堆叠区域图',
+          text: '销售订单报表',
+          align: 'left',
+        },
+        xAxis: {
+          categories: [
+            '一月',
+            '二月',
+            '三月',
+            '四月',
+            '五月',
+            '六月',
+            '七月',
+            '八月',
+            '九月',
+            '十月',
+            '十一月',
+            '十二月',
+          ],
+        },
+        yAxis: {
+          visible: false,
+          title: {
+            text: '',
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080',
+            },
+          ],
         },
         tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985',
-            },
-          },
+          valueSuffix: '元',
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'],
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle',
+          borderWidth: 0,
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {},
-          },
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
-        },
-        xAxis: [
+        series: [
           {
-            type: 'category',
-            boundaryGap: false,
+            name: '',
             data: [],
           },
         ],
-        yAxis: [
-          {
-            type: 'value',
-          },
-        ],
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {},
-            data: [120, 132, 101, 134, 90, 230, 210, 210],
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {},
-            data: [220, 182, 191, 234, 290, 330, 310, 1],
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {},
-            data: [150, 232, 201, 154, 190, 330, 410, 810],
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {},
-            data: [320, 332, 301, 334, 390, 330, 320, 320],
-          },
-          {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-              },
-            },
-            areaStyle: {},
-            data: [820, 932, 901, 934, 1290, 1330, 1320, 5888],
-          },
-        ],
       },
-    }
-  },
-  methods: {
-    calcMonth() {
-      let Arr = [
-        '一月',
-        '二月',
-        '三月',
-        '四月',
-        '五月',
-        '六月',
-        '七月',
-        '八月',
-        '九月',
-        '十月',
-        '十一月',
-        '十二月',
-      ]
-      let Month = new Date().getMonth()
-      let newArr = []
-      Arr.forEach((item, index) => {
-        if (index <= Month) {
-          newArr.push(item)
+    })
+
+    onActivated(() => {
+      getechIndex()
+    })
+
+    const getUserIndexData = computed(() => {
+      return {
+        token: root.$store.state.token,
+        _: new Date().getTime(),
+      }
+    })
+
+    async function getechIndex() {
+      const { data } = await getUserIndex(getUserIndexData.value)
+      console.log('getUserIndex', data)
+      let Arr = []
+      for (const key in data.OrderStatus) {
+        if (typeof data.OrderStatus[key] == 'object') {
+          Arr.push(Math.round(data.OrderStatus[key].Sale))
         }
-      })
-      this.option.xAxis[0].data = newArr
-    },
+      }
+      state.options.series[0].data = Arr.reverse()
+      Highcharts.chart('container', state.options)
+    }
+
+    return {
+      state,
+    }
   },
 }
 </script>
     
-<style lang="scss">
-.myech {
-  height: 17.142857rem;
-  .echarts {
-    height: 100%;
-    width: 100%;
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
+<style lang="scss" scoped>
 </style>

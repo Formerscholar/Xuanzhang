@@ -257,8 +257,20 @@ export default {
       this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
       console.log(this.img_URL, this.PropsImg)
-      const res = await editMateriel(this.addMaterielData)
-      console.log(res)
+      const { code, msg } = await editMateriel(this.addMaterielData)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
     },
     imgClick() {
       this.isWrite = true

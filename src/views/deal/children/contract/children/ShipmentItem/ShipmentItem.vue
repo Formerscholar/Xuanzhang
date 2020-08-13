@@ -45,14 +45,14 @@
             <div class="text">
               <div class="title">
                 <p>{{item.product_name}}</p>
-                <div>
-                  <span>￥</span>
-                  <span class="funds">{{item.total_funds}}</span>
-                </div>
               </div>
               <p class="model">{{item.product_model}}</p>
               <div class="wrap_right">
                 <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <div class="funds">
+                  <span>￥</span>
+                  <span>{{item.total_funds}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -291,10 +291,6 @@ export default {
               justify-content: space-between;
               align-items: center;
               font-size: 1rem;
-
-              .funds {
-                font-size: 1rem;
-              }
             }
             .model {
               color: #ccc;
@@ -305,10 +301,13 @@ export default {
             .wrap_right {
               width: 100%;
               display: flex;
-              justify-content: flex-start;
+              justify-content: space-between;
+              align-items: center;
               color: #ccc;
-              span {
-                font-size: 0.857143rem;
+              font-size: 0.857143rem;
+              .funds {
+                font-size: 1rem;
+                color: black;
               }
             }
           }
