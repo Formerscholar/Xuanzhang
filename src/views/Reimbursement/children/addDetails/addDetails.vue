@@ -11,37 +11,12 @@
     </navbar>
     <div class="isolation"></div>
     <div class="body">
-      <div class="money">
-        <div class="top">报销金额</div>
-        <div class="bto">
-          <el-input v-model="apply" type="number" placeholder="￥请输入内容"></el-input>
-        </div>
+      <van-field class="newStyle" v-model="apply" type="number" label="报销金额" placeholder="￥请输入内容" />
+      <div class="newStyle DeliveryDate van-cell">
+        <span class="lable">发生时间</span>
+        <span class="time" @click="tiemrClick">{{end_time}}</span>
       </div>
-      <el-row class="timer">
-        <div class="left">
-          <span>发生时间</span>
-        </div>
-        <!-- <div class="right"> -->
-        <timers class="right Sign" type="Shipdata" :valueData="timersList.Shipdata" />
-        <!-- <el-date-picker
-            v-model="timervalue"
-            align="right"
-            type="date"
-            style=" width: 100%;"
-            placeholder="选择日期"
-            :picker-options="pickerOptions"
-        ></el-date-picker>-->
-        <!-- </div> -->
-      </el-row>
-
-      <div class="timer">
-        <div class="left">
-          <span>费用明细</span>
-        </div>
-        <div class="right">
-          <el-input v-model="description" placeholder="请输入内容"></el-input>
-        </div>
-      </div>
+      <van-field class="newStyle" v-model="description" label="费用明细" placeholder="请输入内容" />
       <!-- <div class="upload">
         <div class="left">
           <div class="upload">
@@ -59,95 +34,80 @@
           </div>
         </div>
       </div>-->
-
-      <el-row class="Feecollection">
-        <div class="left">
-          <span class="fee">费用合计</span>
-          <span class="amount">
-            <em>{{apply==''?'0.00':apply}}</em>
-            CNY
-          </span>
-        </div>
-        <div class="right">
-          <el-button type="primary" @click="btnClick">保存</el-button>
-        </div>
-      </el-row>
     </div>
+
+    <el-row class="Feecollection">
+      <div class="left">
+        <span class="fee">费用合计</span>
+        <span class="amount">
+          <em>{{apply==''?'0.00':apply}}</em>
+          CNY
+        </span>
+      </div>
+      <div class="right">
+        <el-button type="primary" @click="btnClick">保存</el-button>
+      </div>
+    </el-row>
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
   </div>
 </template>
     
 <script>
 import { getAddReimbursement } from '@/network/Reimbursement.js'
+import { setTimerType } from '@/common/filter'
 
 export default {
   name: 'addDetails',
   data() {
     return {
-      timersList: {
-        Shipdata: new Date().getTime(),
-      },
+      isDatetime: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
+      end_time: setTimerType(new Date().getTime()),
       dialogImageUrl: '',
       dialogVisible: false,
       options: [],
       value: '',
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            },
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            },
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            },
-          },
-        ],
-      },
       timervalue: '',
       apply: '',
-
       description: '',
     }
   },
   activated() {
-    if (this.$store.state.timers.timers.Shipdata != '') {
-      this.timersList.Shipdata = this.$store.state.timers.timers.Shipdata
-    }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
-
     this.getAddReimbursementData()
   },
-  deactivated() {},
   methods: {
+    tiemrClick() {
+      this.isDatetime = true
+    },
+    cancel() {
+      this.isDatetime = false
+    },
+    confirms(value) {
+      this.end_time = setTimerType(value)
+      this.isDatetime = false
+    },
     btnClick() {
       this.$store.commit('setAddDetailsData', {
         apply: this.apply * 1,
-        timervalue: this.timersList.Shipdata,
+        timervalue: this.end_time,
         description: this.description,
       })
       this.dialogImageUrl = ''
       this.dialogVisible = false
       this.options = []
       this.value = ''
-      this.pickerOptions = {}
       this.timervalue = ''
       this.apply = ''
       this.description = ''
@@ -211,6 +171,23 @@ export default {
     background-color: #f3f3f3;
   }
   .body {
+    .DeliveryDate {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .lable {
+        width: 4.928571rem;
+        text-align: justify;
+        text-align-last: justify;
+        color: black;
+        padding-right: 0.714286rem;
+        border-right: 1px solid #e7e7e7;
+      }
+      .time {
+        flex: 1;
+        text-align: right;
+      }
+    }
     .money {
       height: 3.571429rem;
       display: flex;
@@ -336,43 +313,51 @@ export default {
         }
       }
     }
-    .Feecollection {
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .Feecollection {
+    position: fixed;
+    bottom: 0.571429rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      padding: 0.357143rem;
-      padding-bottom: 14.285714rem;
+      text-align: left;
+      position: relative;
+      left: -0.928571rem;
+      .fee {
+        width: 100%;
+        font-size: 1rem;
+      }
+      .amount {
+        width: 100%;
 
-      .left {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        text-align: left;
-        position: relative;
-        left: -0.928571rem;
-        .fee {
-          width: 100%;
-          font-size: 1rem;
-        }
-        .amount {
-          width: 100%;
-
-          font-size: 1rem;
-          color: #3063da;
-          em {
-            font-size: 1.857143rem;
-          }
+        font-size: 1rem;
+        color: #3063da;
+        em {
+          font-size: 1.857143rem;
         }
       }
-      .right {
-        position: relative;
-        right: -0.928571rem;
-        .el-button {
-          width: 10.714286rem;
-          height: 3.571429rem;
-          font-size: 1.428571rem;
-        }
+    }
+    .right {
+      position: relative;
+      right: -0.928571rem;
+      .el-button {
+        width: 10.714286rem;
+        height: 3.571429rem;
+        font-size: 1.428571rem;
       }
     }
   }

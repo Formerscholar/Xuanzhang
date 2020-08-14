@@ -121,7 +121,15 @@ i {
 #Ship,
 #editShipItem,
 #createContract,
-#Newtask {
+#Newtask,
+#newAccount,
+#addDetails,
+#addMaterial,
+#Inventory {
+
+  .van-cell:not(:last-child)::after {
+    border: none;
+  }
 
   .van-stepper__input {
     width: 100%;
@@ -134,7 +142,7 @@ i {
   }
 
   #select {
-    padding: 0.357143rem 0.714286rem;
+    padding: 0;
 
     input {
       text-align: center;
@@ -148,20 +156,19 @@ i {
 
     .van-cell__title {
       width: 4.928571rem;
+      width: 4.928571rem;
+      text-align: justify;
+      text-align-last: justify;
+      color: black;
+      padding-right: 0.714286rem;
+      border-right: 1px solid #e7e7e7;
 
-      span {
-        text-align: justify;
-        text-align-last: justify;
-        color: black;
-        padding-right: 0.714286rem;
-        border-right: 1px solid #e7e7e7;
-      }
+
 
     }
 
     .van-cell__value {
       padding: 0;
-
     }
   }
 
@@ -350,9 +357,10 @@ i {
 
   .el-tag {
     height: 1rem;
-    font-size: 0.857143rem;
-    padding: 0 .571429rem;
-    line-height: .928571rem;
+    font-size: .571429rem;
+    padding: 0 .214286rem;
+    line-height: .785714rem;
+    border-radius: .142857rem;
     margin-right: 0.214286rem;
   }
 }
@@ -459,16 +467,18 @@ i {
     justify-content: center;
   }
 
-  .van-button {
-    height: 100%;
-  }
-
   .el-tabs__item {
     padding: 0 .714286rem;
     height: 2.857143rem;
     line-height: 2.857143rem;
     font-size: 1rem;
   }
+
+  .van-button {
+    height: 100%;
+  }
+
+
 
   .el-tabs__header {
     padding: 0 !important;

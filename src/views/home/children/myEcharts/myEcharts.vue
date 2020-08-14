@@ -15,24 +15,26 @@ export default {
           text: '',
         },
         title: {
-          text: '销售订单报表',
+          text: '发货数据',
           align: 'left',
         },
         xAxis: {
-          categories: [
-            '一月',
-            '二月',
-            '三月',
-            '四月',
-            '五月',
-            '六月',
-            '七月',
-            '八月',
-            '九月',
-            '十月',
-            '十一月',
-            '十二月',
-          ],
+          categories: [],
+          labels: {
+            autoRotation: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // step: 2,
+            // formatter: function () {
+            //   if (
+            //     this.value == '1' ||
+            //     this.value == '3' ||
+            //     this.value == '6' ||
+            //     this.value == '9' ||
+            //     this.value == '12'
+            //   ) {
+            //     return this.value
+            //   }
+            // },
+          },
         },
         yAxis: {
           visible: false,
@@ -55,6 +57,7 @@ export default {
           align: 'right',
           verticalAlign: 'middle',
           borderWidth: 0,
+          enabled: false,
         },
         series: [
           {
@@ -79,13 +82,15 @@ export default {
     async function getechIndex() {
       const { data } = await getUserIndex(getUserIndexData.value)
       console.log('getUserIndex', data)
-      let Arr = []
-      for (const key in data.OrderStatus) {
-        if (typeof data.OrderStatus[key] == 'object') {
-          Arr.push(Math.round(data.OrderStatus[key].Sale))
-        }
+      let arr = []
+      let month = []
+      for (let k = 11; k >= 0; k--) {
+        arr.push(parseInt(data.OrderStatus.flowingWater[k].sale))
+        month.push(data.OrderStatus.flowingWater[k].month.split('月')[0])
       }
-      state.options.series[0].data = Arr.reverse()
+      console.log(arr, month)
+      state.options.series[0].data = arr
+      state.options.xAxis.categories = month
       Highcharts.chart('container', state.options)
     }
 

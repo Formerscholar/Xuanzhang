@@ -3,16 +3,18 @@
     <van-swipe-cell v-for="(item,index) in distributor" :key="index">
       <div class="box-card">
         <div class="content" @click="gokhlist(item)">
-          <div class="left_box">
+          <div class="title">
             <span class="kh_name">{{item.name}}</span>
+            <span class="kh_moneny">￥{{item.arrearsCount }}</span>
+          </div>
+          <div class="body">
             <span class="kh_address">{{item.province}}{{item.contacts_address}}</span>
+          </div>
+          <div class="btn_box">
             <span class="kh_phone">
               <i>{{item.contacts.length != 0 ?item.contacts[0].contacts:''}}</i>
               <em>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</em>
             </span>
-          </div>
-          <div class="right_box">
-            <span class="kh_moneny">￥{{item.arrearsCount }}</span>
             <span class="kh_created">{{item.created_at | getCreatedAt}}</span>
           </div>
         </div>
@@ -128,51 +130,41 @@ export default {
   .box-card {
     border-bottom: 1px solid #f2f2f2;
     .content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.357143rem;
-      .left_box {
-        flex: 1;
+      padding: 0.357143rem 0;
+      .title,
+      .body,
+      .btn_box {
         display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        .kh_name {
-          font-size: 1.142857rem;
-          margin-top: 0.428571rem;
-          color: #020202;
-          // font-family: 'SimHei';
-        }
-        .kh_address {
-          font-size: 0.857143rem;
-          white-space: nowrap;
-          color: #727272;
-        }
-        .kh_phone {
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-end;
-          font-size: 0.857143rem;
-          color: #89c2ec;
-          i {
-            margin-right: 0.714286rem;
-          }
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .kh_name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #020202;
+      }
+      .kh_moneny {
+        color: #d6503e;
+        font-size: 1rem;
+      }
+      .kh_address {
+        font-size: 0.857143rem;
+        white-space: nowrap;
+        color: #727272;
+      }
+      .kh_phone {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        font-size: 0.857143rem;
+        color: #89c2ec;
+        i {
+          margin-right: 0.714286rem;
         }
       }
-      .right_box {
-        max-width: 8.714286rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        .kh_moneny {
-          margin-bottom: 1.142857rem;
-          color: #d6503e;
-          font-size: 1rem;
-        }
-        .kh_created {
-          font-size: 0.857143rem;
-          color: #a5a5a5;
-        }
+      .kh_created {
+        font-size: 0.857143rem;
+        color: #a5a5a5;
       }
     }
   }

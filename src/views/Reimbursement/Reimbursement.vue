@@ -1,6 +1,5 @@
 <template>
   <div id="Reimbursement">
-    <!-- header -->
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blackhome">
         <i class="el-icon-back"></i>
@@ -9,144 +8,33 @@
         <span>报销</span>
       </div>
     </navbar>
-    <!-- titlebox -->
     <div class="titlebox">
       <div class="topbox">
         <div class="leftbox">
-          <img v-if="img_url" :src="img_url" alt="logo" />
+          <img v-if="state.img_url" :src="state.img_url" alt="logo" />
           <img v-else src="@/assets/image/dpng.png" alt="logo" />
         </div>
         <div class="flex_box">
           <div class="centerbox">
             <div class="namebox">
-              <span>{{titleName.name}}</span>
-              <span class="bordertext">{{titleName.roleName}}</span>
+              <span>{{state.titleName.name}}</span>
+              <span class="bordertext">{{state.titleName.roleName}}</span>
             </div>
             <div class="firm">
-              <span>{{titleName.compserName}}</span>
+              <span>{{state.titleName.compserName}}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="待审列表" class="itembox" name="first">
-        <scroll class="scroll-wrapper">
-          <div class="body_box">
-            <div class="btn">
-              <button>查看已完成的申请</button>
-            </div>
-            <div class="card">
-              <el-card class="box-card topcard">
-                <ul>
-                  <li>
-                    <span>待审金额</span>
-                    <em>0.00</em>
-                  </li>
-                  <li>
-                    <span>我的余额</span>
-                    <em>0.00</em>
-                  </li>
-                </ul>
-              </el-card>
-            </div>
-
-            <van-swipe-cell v-for="(item,index) in reimbursementList" :key="index">
-              <div class="cardban" @click="reimburClick(item.id)">
-                <el-card class="box-card">
-                  <el-row class="item1">
-                    <div class="leftbox">
-                      <span>{{item.created_at}}</span>
-                    </div>
-                    <div class="rightbox">
-                      <div class="timer">
-                        <span>{{item.reimburser_name}}</span>
-                      </div>
-                    </div>
-                  </el-row>
-                  <el-row class="item2">
-                    <div class="leftbox">
-                      <span>{{item.reason}}</span>
-                    </div>
-                    <div class="rightbox">
-                      <span>{{item.money}}</span>
-                    </div>
-                  </el-row>
-                </el-card>
-              </div>
-              <template #right>
-                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
-              </template>
-            </van-swipe-cell>
-
-            <div class="text">
-              <span>已经加载全部数据</span>
-            </div>
-          </div>
-        </scroll>
-      </el-tab-pane>
-      <el-tab-pane label="通过列表" class="itembox" name="second">
-        <scroll class="scroll-wrapper">
-          <div class="body_box">
-            <van-swipe-cell v-for="item in reimbursementLists" :key="item.id">
-              <div class="cardmoney">
-                <el-card class="box-card">
-                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
-                    <div class="leftbox">
-                      <span>
-                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
-                      </span>
-                    </div>
-                    <div class="rightbox">
-                      <div class="timer">
-                        <span>{{item.created_at | setTimerType}}</span>
-                        <i class="el-icon-arrow-right"></i>
-                      </div>
-                    </div>
-                  </el-row>
-                  <el-row class="item1">
-                    <div class="leftbox">
-                      <span>
-                        ￥
-                        <em>{{item.money}}</em>
-                      </span>
-                    </div>
-                    <div class="rightbox">
-                      <div class="timer">
-                        <!-- <el-tag type="primiry">部门经理</el-tag> -->
-                      </div>
-                    </div>
-                  </el-row>
-                  <el-row class="item2">
-                    <div class="leftbox">
-                      <span>{{item.reason}}</span>
-                    </div>
-                    <div class="rightbox">
-                      <span>{{item.money}}</span>
-                    </div>
-                  </el-row>
-                </el-card>
-              </div>
-
-              <template #right>
-                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
-              </template>
-            </van-swipe-cell>
-
-            <div class="text">
-              <span>已经加载全部数据</span>
-            </div>
-          </div>
-        </scroll>
-      </el-tab-pane>
+    <el-tabs v-model="state.activeName">
       <el-tab-pane label="我的报销" class="itembox" name="third">
         <scroll class="scroll-wrapper">
           <div class="body_box">
-            <van-swipe-cell v-for="item in reimbursementListss" :key="item.id">
-              <div class="cardmoney">
+            <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
+              <div class="cardmoney" @click="reimburClicks(item.id)">
                 <el-card class="box-card">
-                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                  <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
@@ -162,10 +50,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>
-                        ￥
-                        <em>{{item.money}}</em>
-                      </span>
+                      <span>{{item.category_name}}</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -176,7 +61,10 @@
                       <span>{{item.reason}}</span>
                     </div>
                     <div class="rightbox">
-                      <span>{{item.money}}</span>
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
                     </div>
                   </el-row>
                 </el-card>
@@ -196,10 +84,10 @@
       <el-tab-pane label="我的待审" class="itembox" name="three">
         <scroll class="scroll-wrapper">
           <div class="body_box">
-            <van-swipe-cell v-for="item in auditRecordLists" :key="item.id">
-              <div class="cardmoney">
+            <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
+              <div class="cardmoney" @click="reimburClicks(item.id)">
                 <el-card class="box-card">
-                  <el-row class="item1" style="margin-bottom: 1.428571rem;">
+                  <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
@@ -215,10 +103,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>
-                        ￥
-                        <em>{{item.money}}</em>
-                      </span>
+                      <span>{{item.category_name}}</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -229,7 +114,10 @@
                       <span>{{item.reason}}</span>
                     </div>
                     <div class="rightbox">
-                      <span>{{item.money}}</span>
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
                     </div>
                   </el-row>
                 </el-card>
@@ -246,13 +134,133 @@
           </div>
         </scroll>
       </el-tab-pane>
-    </el-tabs>
+      <el-tab-pane label="全部待审" class="itembox" name="second">
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
+              <div class="cardmoney" @click="reimburClicks(item.id)">
+                <el-card class="box-card">
+                  <el-row class="item1" style="margin-bottom: .357143rem;">
+                    <div class="leftbox">
+                      <span>
+                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.created_at | setTimerType}}</span>
+                        <i class="el-icon-arrow-right"></i>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>{{item.category_name}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer"></div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
+                    </div>
+                  </el-row>
+                </el-card>
+              </div>
 
-    <!-- body -->
+              <template #right>
+                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+              </template>
+            </van-swipe-cell>
+
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
+          </div>
+        </scroll>
+      </el-tab-pane>
+      <el-tab-pane label="全部通过" class="itembox" name="first">
+        <scroll class="scroll-wrapper">
+          <div class="body_box">
+            <div class="btn">
+              <button>查看已完成的申请</button>
+            </div>
+            <div class="card">
+              <el-card class="box-card topcard">
+                <ul>
+                  <li>
+                    <span>待审金额</span>
+                    <em>0.00</em>
+                  </li>
+                  <li>
+                    <span>我的余额</span>
+                    <em>0.00</em>
+                  </li>
+                </ul>
+              </el-card>
+            </div>
+            <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
+              <div class="cardban" @click="reimburClick(item.id)">
+                <el-card class="box-card">
+                  <el-row class="item1" style="margin-bottom: .357143rem;">
+                    <div class="leftbox">
+                      <span>
+                        <i class="el-icon-s-custom" style="color:#6898ef"></i>
+                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                      </span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer">
+                        <span>{{item.created_at | setTimerType}}</span>
+                        <i class="el-icon-arrow-right"></i>
+                      </div>
+                    </div>
+                  </el-row>
+                  <el-row class="item1">
+                    <div class="leftbox">
+                      <span>{{item.category_name}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <div class="timer"></div>
+                    </div>
+                  </el-row>
+                  <el-row class="item2">
+                    <div class="leftbox">
+                      <span>{{item.reason}}</span>
+                    </div>
+                    <div class="rightbox">
+                      <span>
+                        ￥
+                        <em>{{item.money}}</em>
+                      </span>
+                    </div>
+                  </el-row>
+                </el-card>
+              </div>
+              <template #right>
+                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
+              </template>
+            </van-swipe-cell>
+
+            <div class="text">
+              <span>已经加载全部数据</span>
+            </div>
+          </div>
+        </scroll>
+      </el-tab-pane>
+    </el-tabs>
     <i class="el-icon-plus" @click="newAccount"></i>
-    <van-overlay :show="isShow" @click="isShow = false">
+    <van-overlay :show="state.isShow" @click="state.isShow = false">
       <div class="wrapper-qrCode">
-        <myVqr :Content="textContent"></myVqr>
+        <myVqr :Content="state.textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
@@ -267,10 +275,15 @@ import {
 } from '@/network/Reimbursement'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
+import { reactive, computed, onActivated } from '@vue/composition-api'
+
 export default {
-  data() {
-    return {
-      activeName: 'first',
+  components: {
+    myVqr,
+  },
+  setup(props, { root }) {
+    const state = reactive({
+      activeName: 'third',
       reimbursementList: [],
       reimbursementLists: [],
       reimbursementListss: [],
@@ -280,15 +293,18 @@ export default {
       textContent: '',
       img_url: '',
       StateList: [],
-    }
-  },
-  components: {
-    myVqr,
-  },
-  computed: {
-    getReimbursementListsState() {
+    })
+
+    onActivated(() => {
+      getReimburse()
+      getReimburses()
+      getUserReimbursement()
+      getMyToExamineReimbursement()
+    })
+
+    const getReimbursementListsState = computed(() => {
       return {
-        token: this.$store.state.token,
+        token: root.$store.state.token,
         page: 1,
         offset: 20,
         reason: null,
@@ -297,10 +313,11 @@ export default {
         status: 0,
         _: new Date().getTime(),
       }
-    },
-    getReimbursementListsStates() {
+    })
+
+    const getReimbursementListsStates = computed(() => {
       return {
-        token: this.$store.state.token,
+        token: root.$store.state.token,
         page: 1,
         offset: 20,
         reason: null,
@@ -309,10 +326,10 @@ export default {
         status: 1,
         _: new Date().getTime(),
       }
-    },
-    getUserReimbursementListData() {
+    })
+    const getUserReimbursementListData = computed(() => {
       return {
-        token: this.$store.state.token,
+        token: root.$store.state.token,
         page: 1,
         offset: 20,
         reason: null,
@@ -320,96 +337,100 @@ export default {
         operator_id: null,
         _: new Date().getTime(),
       }
-    },
-    getMyToExamineReimbursementListData() {
+    })
+    const getMyToExamineReimbursementListData = computed(() => {
       return {
-        token: this.$store.state.token,
+        token: root.$store.state.token,
         page: 1,
         offset: 20,
         _: new Date().getTime(),
       }
-    },
-  },
-  activated() {
-    this.getReimburse()
-    this.getReimburses()
-    this.getUserReimbursement()
-    this.getMyToExamineReimbursement()
-  },
-  methods: {
-    async getMyToExamineReimbursement() {
+    })
+
+    async function getMyToExamineReimbursement() {
       const { data } = await getMyToExamineReimbursementList(
-        this.getMyToExamineReimbursementListData
+        getMyToExamineReimbursementListData.value
       )
       console.log('getMyToExamineReimbursementList', data)
-      this.auditRecordLists = data.auditRecordLists
-    },
-    async getUserReimbursement() {
+      state.auditRecordLists = data.auditRecordLists
+    }
+    async function getUserReimbursement() {
       const { data } = await getUserReimbursementList(
-        this.getUserReimbursementListData
+        getUserReimbursementListData.value
       )
       console.log('getUserReimbursementList', data)
-      this.reimbursementListss = data.reimbursementList
-    },
-    printH5(iid) {
+      state.reimbursementListss = data.reimbursementList
+    }
+    function printH5(iid) {
       console.log('print', iid)
-      this.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${iid}`
-      this.isShow = true
-    },
-    async audit_enabled(id) {
+      state.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${iid}`
+      state.isShow = true
+    }
+    async function audit_enabled(id) {
       console.log('审核', id)
       const { code, msg } = await toExamineReimbursement({
         id: [id],
-        token: this.$store.state.token,
+        token: root.$store.state.token,
       })
       if (code == 200) {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
       } else {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'error',
         })
       }
-    },
-    blackhome() {
-      this.$router.go(-1)
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
-    },
-    newAccount() {
-      this.$router.push('/account')
-    },
-    async getReimburse() {
+    }
+    function blackhome() {
+      root.$router.go(-1)
+    }
+
+    function newAccount() {
+      root.$router.push('/account')
+    }
+    async function getReimburse() {
       const { data } = await getReimbursementList(
-        this.getReimbursementListsState
+        getReimbursementListsState.value
       )
       console.log('reimbursementList', data)
-      this.img_url = data.userInfo[0].img_url.substr(1)
-      this.StateList = data.is_verified
-      this.reimbursementList = data.reimbursementList
-      this.titleName = {
+      state.img_url = data.userInfo[0].img_url.substr(1)
+      state.StateList = data.is_verified
+      state.reimbursementList = data.reimbursementList
+      state.titleName = {
         name: data.userInfo[0].name || '姓名',
         compserName: data.userInfo[0].user_compser_name || '公司全称',
         roleName: data.userInfo[0].role.display_name,
       }
-    },
-    async getReimburses() {
+    }
+    async function getReimburses() {
       const { data } = await getReimbursementList(
-        this.getReimbursementListsStates
+        state.getReimbursementListsStates
       )
       console.log('reimbursementList', data)
-      this.reimbursementLists = data.reimbursementList
-    },
-    reimburClick(id) {
+      state.reimbursementLists = data.reimbursementList
+    }
+    function reimburClick(id) {
       console.log('-----ReimburDetails--------')
-      this.$router.push(`/reimburDetails/${id}`)
-    },
+      root.$router.push(`/reimburDetails/${id}`)
+    }
+    function reimburClicks(id) {
+      root.$router.push(`/reimburDetail/${id}`)
+    }
+
+    return {
+      state,
+      blackhome,
+      reimburClick,
+      reimburClicks,
+      audit_enabled,
+      printH5,
+      newAccount,
+    }
   },
 }
 </script>
@@ -447,8 +468,8 @@ export default {
         img {
           width: 100%;
           height: 100%;
-          border-radius: 50%;
           background-color: #fff;
+          border: 0.214286rem solid #67a6d9;
         }
       }
       .flex_box {
@@ -467,8 +488,13 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         .namebox {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          margin-bottom: 0.714286rem;
           span {
-            margin-right: 1.071429rem;
+            margin-right: 0.714286rem;
+            font-size: 1.142857rem;
           }
           .bordertext {
             position: relative;
@@ -546,7 +572,6 @@ export default {
             white-space: nowrap;
 
             .approval {
-              font-weight: 700;
             }
             .copy {
               color: #818181;
@@ -609,7 +634,6 @@ export default {
                   color: #9b9b9b;
                 }
                 em {
-                  font-weight: 700;
                   font-style: normal;
                   font-size: 22px;
                 }
@@ -658,7 +682,6 @@ export default {
               }
               .rightbox {
                 text-align: right;
-                font-weight: 700;
                 font-size: 1.142857rem;
                 margin-left: 0.357143rem;
                 span {
@@ -676,7 +699,6 @@ export default {
             align-items: center;
             .leftbox {
               width: 50%;
-              font-weight: 700;
               font-size: 1.028571rem;
               span {
                 em {
@@ -714,12 +736,10 @@ export default {
               span {
                 color: #525252;
                 font-size: 1.142857rem;
-                font-weight: 550;
               }
             }
             .rightbox {
               text-align: right;
-              font-weight: 700;
               span {
               }
             }
@@ -745,7 +765,6 @@ export default {
             height: 4.857143rem;
             font-size: 2.857143rem;
             i {
-              font-weight: 700;
             }
           }
         }

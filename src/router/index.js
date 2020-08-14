@@ -91,7 +91,8 @@ const early = () => import('../views/early/early')
 
 const ReimburDetails = () =>
   import('../views/Reimbursement/children/ReimburDetails/ReimburDetails')
-
+const ReimburDetail = () =>
+  import('../views/Reimbursement/children/ReimburDetails/ReimburDetail')
 const newAccount = () =>
   import('../views/Reimbursement/children/newAccount/newAccount')
 
@@ -166,6 +167,10 @@ const addressList = () =>
 const editAddress = () =>
   import('@/views/deal/children/editAddress/editAddress')
 const minimap = () => import('@/views/profile/children/minimap/minimap')
+const Inventory = () => import('@/views/InventoryPick/Inventory')
+const MaterialReturn = () => import('@/views/InventoryPick/MaterialReturn')
+const picking = () => import('@/views/InventoryPick/picking')
+
 const routes = [
   {
     path: '/',
@@ -315,6 +320,10 @@ const routes = [
   {
     path: '/reimburDetails/:id',
     component: ReimburDetails,
+  },
+  {
+    path: '/reimburDetail/:id',
+    component: ReimburDetail,
   },
   {
     path: '/selfConcordat/:id',
@@ -585,6 +594,18 @@ const routes = [
   {
     path: '/minimap',
     component: minimap,
+  },
+  {
+    path: '/Inventory',
+    component: Inventory,
+  },
+  {
+    path: '/MaterialReturn',
+    component: MaterialReturn,
+  },
+  {
+    path: '/picking',
+    component: picking,
   },
 ]
 

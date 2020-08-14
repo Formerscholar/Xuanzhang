@@ -45,12 +45,11 @@
           </div>
         </div>
       </el-card>
+
       <el-card class="box-card item1">
-        <div class="van-cell van-field">
-          <div class="van-cell__title van-field__label">
-            <div class="title_item">数量</div>
-          </div>
-          <div class="van-cell__value van-field__value" id="select">
+        <el-row class="DeliveryDate van-cell">
+          <span class="lable">数量</span>
+          <span class="time">
             <van-stepper
               v-model="quantity"
               min="0"
@@ -59,8 +58,8 @@
               @change="stepperChange"
               integer
             />
-          </div>
-        </div>
+          </span>
+        </el-row>
 
         <van-field
           v-model="productWeight"
@@ -97,14 +96,10 @@
           @input="SubtotalFocus"
         />
 
-        <div class="van-cell van-field">
-          <div class="van-cell__title van-field__label">
-            <div class="title_item">小计</div>
-          </div>
-          <div class="van-cell__value van-field__value" id="select">
-            <span style="color:#ea6e33;">￥{{ProductSubtotal}}</span>
-          </div>
-        </div>
+        <el-row class="DeliveryDate van-cell">
+          <span class="lable">小计</span>
+          <span class="time" style="color:#ea6e33;">￥{{ProductSubtotal}}</span>
+        </el-row>
 
         <van-field
           v-model="ProductNotes"
@@ -182,6 +177,7 @@ export default {
     },
   },
   methods: {
+    
     stepperChange(value) {
       console.log(value)
       this.ProductSubtotal = TotalPriceCalc(
@@ -333,13 +329,30 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    // top: 0;
     top: 5.142857rem;
     bottom: 0;
     overflow: hidden;
   }
   .item1 {
     margin-bottom: 0.714286rem;
+    .DeliveryDate {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .lable {
+        width: 4.928571rem;
+        text-align: justify;
+        text-align-last: justify;
+        color: black;
+        padding-right: 0.714286rem;
+        border-right: 1px solid #e7e7e7;
+      }
+      .time {
+        flex: 1;
+        text-align: right;
+        padding: 0 1rem;
+      }
+    }
     .title_box_ess {
       background-color: #eee;
       font-size: 1rem;
@@ -348,14 +361,7 @@ export default {
       line-height: 3.142857rem;
       padding: 0 1.142857rem;
     }
-    .title_item {
-      padding: 0 0.714286rem;
-      width: 100%;
-      text-align: justify;
-      text-align-last: justify;
-      color: black;
-      border-right: 1px solid #e7e7e7;
-    }
+
     .product_box {
       display: flex;
       justify-content: space-between;
@@ -427,77 +433,6 @@ export default {
         }
       }
     }
-    .swiper_img {
-      width: 100%;
-      height: 25.714286rem;
-      background-color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      .img_btn {
-        position: absolute;
-        bottom: 1.071429rem;
-        right: 1.071429rem;
-        color: #fff;
-        text-align: center;
-        border-radius: 50%;
-        width: 2.857143rem;
-        height: 2.857143rem;
-        line-height: 2.857143rem;
-        background-color: rgba(45, 52, 54, 0.4);
-        font-size: 1.428571rem;
-      }
-      img {
-        height: 100%;
-        width: 100%;
-      }
-    }
-
-    .line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #f8f7f5;
-      padding: 0.714286rem 1.142857rem;
-
-      em {
-        display: block;
-        font-size: 1.142857rem;
-        color: #585858;
-        font-weight: 700;
-        width: 6.357143rem;
-        text-align: left;
-      }
-      div {
-        display: block;
-        font-size: 1.142857rem;
-        font-weight: 700;
-        text-align: left;
-        flex: 1;
-      }
-    }
-    .AddProduct {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .coutent {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        em {
-          text-align: center;
-        }
-      }
-    }
-  }
-  .btns {
-    position: fixed;
-    bottom: 0.714286rem;
-    left: 0;
-    right: 0;
-    padding: 0 0.857143rem;
   }
 }
 </style>

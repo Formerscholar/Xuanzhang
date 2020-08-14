@@ -31,7 +31,7 @@
                 <div class="content_box_card">
                   <img
                     class="left_card"
-                    v-if="item.img_url"
+                    v-if="item.img_url && item.img_url != '0'"
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />
@@ -81,7 +81,7 @@
                 <div class="content_box_card">
                   <img
                     class="left_card"
-                    v-if="item.img_url"
+                    v-if="item.img_url && item.img_url != '0'"
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />

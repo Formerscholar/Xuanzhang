@@ -92,6 +92,8 @@ export default {
         // pass: '123456',
         // name: '13338149978',
         // pass: '123456',
+        // name: '18061166850',
+        // pass: '123456',
       },
       rules: {
         name: [

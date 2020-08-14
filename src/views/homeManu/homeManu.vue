@@ -121,6 +121,21 @@ export default {
           icon_Url: 'icon-daifahuo',
           title: '收货质检',
         },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '盘库',
+          color: '#ff7f12',
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '领料',
+          color: '#ff7f12',
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '退料',
+          color: '#ff7f12',
+        },
         // {
         //   icon_Url: 'icon-lvyoumenpiao',
         //   title: '开据发票',

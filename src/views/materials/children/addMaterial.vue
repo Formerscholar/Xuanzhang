@@ -1,136 +1,150 @@
 <template>
   <div id="addMaterial">
-    <div class="topheader bg-primary"></div>
-    <van-nav-bar
-      title="新建物料"
-      left-arrow
-      @click-left="onClickLeft"
-      right-text="提交"
-      @click-right="onsubmit"
-    />
+    <navbar class="p_root_box">
+      <div class="left" slot="left" @click="onClickLeft">
+        <i class="el-icon-arrow-left"></i>
+      </div>
+      <div class="center" slot="center">
+        <span>新建物料</span>
+      </div>
+    </navbar>
     <scroll class="scroll-wrapper">
       <el-card class="box-card">
-        <el-row class="van-cell uploadImage">
-          <span>图片</span>
-          <img v-if="img_URL" :src="img_URL" alt="logo" @click="imgClick" />
-          <img v-else src="@/assets/image/dpng.png" alt="logo" @click="imgClick" />
-        </el-row>
-        <van-field v-model="MaterialName
-" label="物料名称" />
-        <van-field v-model="specification" label="物料规格" />
-        <el-row class="van-cell MaterialProperties">
-          <span>物料属性</span>
-          <el-select v-model="value" style="margin: 0 0.357143rem;">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <span class="Propertiestext"></span>
-        </el-row>
-        <el-row class="van-cell MaterialProperties">
-          <span>物料分类</span>
-          <el-select v-model="values" placeholder="请选择" style="margin: 0 0.357143rem;">
-            <el-option
-              v-for="item in optionss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext">新增分类</span> -->
-        </el-row>
-        <van-field label="物料编码" :value="MaterialCode" readonly />
-        <el-row class="van-cell MaterialProperties">
-          <span>基本单位</span>
-          <el-select v-model="valuess" placeholder="请选择" style="margin: 0 0.357143rem;">
-            <el-option
-              v-for="item in optionsss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <!-- <span class="Propertiestext">新增单位</span> -->
-        </el-row>
-        <van-field v-model="MaterialPrice" type="number" label="物料价格" />
-        <van-field label="入库价格" :value="StoragePrices" readonly />
-        <van-field label="出库价格" :value="OutboundPrice" readonly />
-        <van-field label="bom价格" :value="bomPrice" readonly />
-      </el-card>
-      <el-card class="box-card">
-        <el-row class="van-cell MaterialProperties">
-          <span>默认仓库</span>
-          <el-select v-model="valuesss" placeholder="请选择" style="margin: 0 0.357143rem;">
-            <el-option
-              v-for="item in optionssss"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-row>
-        <van-field v-model="LocationNum" type="digit" label="库位号" />
-      </el-card>
-      <el-card class="box-card">
-        <div v-for="(item,index) in materielField" :key="item.id">
-          <van-field v-model="SetMaterialFlags[index]" :label="item.field_name" />
+        <div class="img_upload van-cell DeliveryDate">
+          <span class="lable">上传图片</span>
+          <img class="img_box" v-if="state.img_URL" :src="state.img_URL" @click="imgClick" />
+          <div v-else class="img_box" @click="imgClick"></div>
         </div>
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          v-model="state.MaterialName"
+          label="物料名称"
+        />
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          v-model="state.specification"
+          label="物料规格"
+        />
+        <div @click="propertiesClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">物料属性</span>
+          <span>
+            {{state.value}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <div @click="MaterialPropertiesClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">物料分类</span>
+          <span>
+            {{state.values}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          label="物料编码"
+          :value="state.MaterialCode"
+          readonly
+        />
+
+        <div @click="BasicUnitClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">基本单位</span>
+          <span>
+            {{state.valuess}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          v-model="state.MaterialPrice"
+          type="number"
+          label="物料价格"
+        />
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          label="入库价格"
+          :value="state.StoragePrices"
+          readonly
+        />
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          label="出库价格"
+          :value="state.OutboundPrice"
+          readonly
+        />
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          label="bom价格"
+          :value="state.bomPrice"
+          readonly
+        />
+
+        <div @click="DeWarehouseClick" class="newStyle DeliveryDate van-cell">
+          <span class="lable">默认仓库</span>
+          <span>
+            {{state.valuesss}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <van-field
+          class="newStyle DeliveryDate van-cell"
+          v-model="state.LocationNum"
+          type="digit"
+          label="库位号"
+        />
       </el-card>
-
-      <!-- <el-card class="box-card">
-        <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="库存预警" name="1">
-            <van-field v-model="MaximumInventory" type="digit" label="最大库存" />
-            <van-field v-model="SafetyStock" type="digit" label="安全库存" />
-            <van-field v-model="MinimumInventory" type="digit" label="最小库存" />
-            <van-field v-model="BasicInventory" type="digit" label="基本库存" />
-          </el-collapse-item>
-          <el-collapse-item title="物料详情" name="2">
-            <van-field v-model="Detailsweight" label="重量" />
-            <van-field v-model="DetailsPiecePrice" label="计件价格" />
-            <van-field v-model="DetailsproductMaterial
-" label="产品材质" />
-            <van-field v-model="DetailsMoldCode" label="模具编码" />
-
-            <el-row class="van-cell uploadImage">
-              <span>模具照片</span>
-              <van-uploader
-                :after-read="afterRead"
-                :max-size="10 * 1024 * 1024"
-                v-model="fileList"
-                multiple
-              />
-            </el-row>
-          </el-collapse-item>
-          <el-collapse-item title="质量验收及图纸" name="3">
-            <el-row class="van-cell uploadImage">
-              <span>设计图</span>
-              <van-uploader
-                :after-read="afterRead"
-                :max-size="10 * 1024 * 1024"
-                v-model="fileList"
-                multiple
-              />
-            </el-row>
-            <el-row class="van-cell uploadImage">
-              <span>文件</span>
-              <van-uploader
-                :after-read="afterRead"
-                :max-size="10 * 1024 * 1024"
-                v-model="fileList"
-                multiple
-              />
-            </el-row>
-
-            <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
-          </el-collapse-item>
-        </el-collapse>
-      </el-card>-->
+      <div v-for="(item,index) in state.materielField" :key="item.id">
+        <van-field v-model="state.SetMaterialFlags[index]" :label="item.field_name" />
+      </div>
     </scroll>
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+
+    <myBtns :commitFun="onsubmit" :cancelFun="onClickLeft">
+      <span slot="cancel-btn">返 回</span>
+      <span slot="commit-btn">
+        <span>确 定</span>
+      </span>
+    </myBtns>
+
+    <simple-cropper :initParam="state.uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <van-picker
+      class="datetime"
+      v-if="state.isproperties"
+      title="物料属性"
+      show-toolbar
+      :columns="state.options"
+      @confirm="propertiesonConfirm"
+      @cancel="propertiesnCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="state.isMaterialProperties"
+      title="物料属性"
+      show-toolbar
+      :columns="state.optionss"
+      @confirm="MaterialPropertiesConfirm"
+      @cancel="MaterialPropertiesCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="state.isBasicUnit"
+      title="基本单位"
+      show-toolbar
+      :columns="state.optionsss"
+      @confirm="BasicUnitConfirm"
+      @cancel="BasicUnitCancel"
+    />
+    <van-picker
+      class="datetime"
+      v-if="state.isDeWarehouse"
+      title="默认仓库"
+      show-toolbar
+      :columns="state.optionssss"
+      @confirm="DeWarehouseConfirm"
+      @cancel="DeWarehouseCancel"
+    />
   </div>
 </template>
     
@@ -138,10 +152,24 @@
 import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
+import myBtns from '@/components/common/my_btns/my_btns'
+
+import {
+  reactive,
+  onActivated,
+  onDeactivated,
+  computed,
+  ref,
+} from '@vue/composition-api'
+
 export default {
-  name: 'addMaterial',
-  data() {
-    return {
+  components: {
+    SimpleCropper,
+    myBtns,
+  },
+  setup(props, { root }) {
+    const cropper = ref(null)
+    const state = reactive({
       fileList: [],
       activeNames: [],
       SetMaterialFlags: [],
@@ -151,23 +179,18 @@ export default {
       PropsMould: '',
       Remarks: '',
       img_URL: '',
-      options: [
-        {
-          value: '1',
-          label: '产品',
-        },
-        {
-          value: '2',
-          label: '零件',
-        },
-      ],
-      value: '1',
+      options: ['产品', '零件'],
+      value: '',
       optionss: [],
       values: '',
       optionsss: [],
       valuess: '',
       optionssss: [],
       valuesss: '',
+      propertieValue: '',
+      MaterialPropertiesValue: '',
+      BasicUnitValue: '',
+      DeWarehouseValue: '',
       MaterialName: '',
       specification: '',
       MaterialCode: '自动生成',
@@ -178,6 +201,10 @@ export default {
       LocationNum: '',
       MaximumInventory: 0,
       SafetyStock: 0,
+      isproperties: false,
+      isMaterialProperties: false,
+      isBasicUnit: false,
+      isDeWarehouse: false,
       MinimumInventory: 0,
       BasicInventory: 0,
       Detailsweight: '',
@@ -186,187 +213,300 @@ export default {
       DetailsMoldCode: '',
       uploadParam: 4,
       materielField: [],
-    }
-  },
-  components: { SimpleCropper },
-  activated() {
-    this.getAddMater()
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
+      materielCategory: [],
+      materielUnit: [],
+      materielWarehouse: [],
     })
-  },
-  deactivated() {
-    this.fileList = []
-    this.activeNames = []
-    this.PropsImg = ''
-    this.Propsfile = ''
-    this.Propsdesign = ''
-    this.PropsMould = ''
-    this.Remarks = ''
-    this.img_URL = ''
-    this.options = []
-    this.value = '1'
-    this.optionss = []
-    this.values = ''
-    this.optionsss = []
-    this.valuess = ''
-    this.optionssss = []
-    this.valuesss = ''
-    this.MaterialName = ''
-    this.specification = ''
-    this.MaterialCode = '自动生成'
-    this.StoragePrices = '自动生成'
-    this.OutboundPrice = '自动生成'
-    this.bomPrice = '自动生成'
-    this.MaterialPrice = ''
-    this.LocationNum = ''
-    this.MaximumInventory = 0
-    this.SafetyStock = 0
-    this.MinimumInventory = 0
-    this.BasicInventory = 0
-    this.Detailsweight = ''
-    this.DetailsPiecePrice = ''
-    this.DetailsproductMaterial = ''
-    this.DetailsMoldCode = ''
-    this.SetMaterialFlags = []
-    this.uploadParam = 4
-  },
-  computed: {
-    getAddMaterielData() {
+    onActivated(() => {
+      getAddMater()
+    })
+
+    onDeactivated(() => {
+      state.fileList = []
+      state.activeNames = []
+      state.SetMaterialFlags = []
+      state.PropsImg = ''
+      state.Propsfile = ''
+      state.Propsdesign = ''
+      state.PropsMould = ''
+      state.Remarks = ''
+      state.img_URL = ''
+      state.value = ''
+      state.optionss = []
+      state.values = ''
+      state.optionsss = []
+      state.valuess = ''
+      state.optionssss = []
+      state.valuesss = ''
+      state.propertieValue = ''
+      state.MaterialPropertiesValue = ''
+      state.BasicUnitValue = ''
+      state.DeWarehouseValue = ''
+      state.MaterialName = ''
+      state.specification = ''
+      state.MaterialPrice = ''
+      state.LocationNum = ''
+      state.MaximumInventory = 0
+      state.SafetyStock = 0
+      state.isproperties = false
+      state.isMaterialProperties = false
+      state.isBasicUnit = false
+      state.isDeWarehouse = false
+      state.MinimumInventory = 0
+      state.BasicInventory = 0
+      state.Detailsweight = ''
+      state.DetailsPiecePrice = ''
+      state.DetailsproductMaterial = ''
+      state.DetailsMoldCode = ''
+      state.uploadParam = 4
+      state.materielField = []
+      state.materielCategory = []
+      state.materielUnit = []
+      state.materielWarehouse = []
+    })
+
+    const getAddMaterielData = computed(() => {
       return {
-        token: this.$store.state.token,
+        token: root.$store.state.token,
         _: new Date().getTime(),
       }
-    },
-    addMaterielData() {
-      console.log(this.SetMaterialFlags)
+    })
+
+    const addMaterielData = computed(() => {
+      console.log(state.SetMaterialFlags)
       let field_data = ''
-      this.SetMaterialFlags.map((item) => {
+      state.SetMaterialFlags.map((item) => {
         field_data += ',' + item
       })
       return {
-        token: this.$store.state.token,
-        name: this.MaterialName,
-        specification: this.specification,
-        attribute: this.value == 1 ? 'product' : 'spare_parts',
-        materiel_category_id: this.values,
-        unit_id: this.valuess,
-        unit_price: this.MaterialPrice,
-        warehouse_id: this.valuesss,
-        warehouse_position: this.LocationNum,
-        design_chart: this.Propsdesign,
-        file_dir: this.Propsfile,
-        remark: this.Remarks,
-        piecework_price: this.DetailsPiecePrice,
-        img_url: this.PropsImg,
-        stock: this.BasicInventory,
+        token: root.$store.state.token,
+        name: state.MaterialName,
+        specification: state.specification,
+        attribute: state.propertieValue == 1 ? 'product' : 'spare_parts',
+        materiel_category_id: state.MaterialPropertiesValue,
+        unit_id: state.BasicUnitValue,
+        unit_price: state.MaterialPrice,
+        warehouse_id: state.DeWarehouseValue,
+        warehouse_position: state.LocationNum,
+        design_chart: state.Propsdesign,
+        file_dir: state.Propsfile,
+        remark: state.Remarks,
+        piecework_price: state.DetailsPiecePrice,
+        img_url: state.PropsImg,
+        stock: state.BasicInventory,
         field_data,
       }
-    },
-  },
-  methods: {
-    uploadHandle(data) {
-      this.img_URL = data.substr(1)
-      this.PropsImg = this.img_URL.split(bestURL)[1]
-      console.log(this.img_URL, this.PropsImg)
-    },
-    imgClick() {
-      this.$refs['cropper'].upload()
-    },
-    async afterRead(file) {
+    })
+
+    function uploadHandle(data) {
+      state.img_URL = data.substr(1)
+      state.PropsImg = state.img_URL.split(bestURL)[1]
+      console.log(state.img_URL, state.PropsImg)
+    }
+    function imgClick() {
+      cropper.value.upload()
+    }
+    async function afterRead(file) {
       console.log(file)
       const { data } = await uploadImg({
         user_image: file.content,
-        token: this.$store.state.token,
+        token: root.$store.state.token,
       })
-      this.PropsImg = data.url
-    },
-    async onsubmit() {
-      const { code, msg } = await addMateriel(this.addMaterielData)
+      state.PropsImg = data.url
+    }
+    async function onsubmit() {
+      const { code, msg } = await addMateriel(addMaterielData.value)
       if (code == 200) {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
-        this.$router.replace('/materialpage')
+        root.$router.replace('/materialpage')
       } else {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'error',
         })
       }
-    },
-    async getAddMater() {
-      const { data } = await getAddMateriel(this.getAddMaterielData)
+    }
+    async function getAddMater() {
+      const { data } = await getAddMateriel(getAddMaterielData.value)
       console.log('getAddMateriel', data)
-      this.materielField = data.materielField
-      data.materielCategory.forEach((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.category_name,
-        }
-        this.optionss.push(obj)
+      state.materielField = data.materielField
+      state.materielCategory = data.materielCategory
+      state.materielUnit = data.materielUnit
+      state.materielWarehouse = data.materielWarehouse
+      data.materielCategory.map((item, index) => {
+        state.optionss.push(item.category_name)
       })
       data.materielUnit.forEach((item) => {
-        let obj = {
-          value: item.id,
-          label: item.unit_name,
-        }
-        this.optionsss.push(obj)
+        state.optionsss.push(item.unit_name)
       })
       data.materielWarehouse.forEach((item) => {
-        let obj = {
-          value: item.id,
-          label: item.warehouse_name,
-        }
-        this.optionssss.push(obj)
+        state.optionssss.push(item.warehouse_name)
       })
-    },
-    handleChange(val) {
+    }
+    function handleChange(val) {
       console.log(val)
-    },
-    onClickLeft() {
-      this.$router.replace('/materialpage')
-    },
+    }
+    function onClickLeft() {
+      root.$router.replace('/materialpage')
+    }
+
+    function propertiesonConfirm(value, index) {
+      state.value = value
+      state.propertieValue = index + 1
+      state.isproperties = false
+    }
+    function propertiesnCancel() {
+      state.isproperties = false
+    }
+    function propertiesClick() {
+      state.isproperties = true
+    }
+    function MaterialPropertiesConfirm(value, index) {
+      state.values = value
+      state.materielCategory.map((item, index1) => {
+        if (index1 == index) {
+          state.MaterialPropertiesValue = item.id
+        }
+      })
+      state.isMaterialProperties = false
+    }
+    function MaterialPropertiesCancel() {
+      state.isMaterialProperties = false
+    }
+    function MaterialPropertiesClick() {
+      state.isMaterialProperties = true
+    }
+    function BasicUnitConfirm(value, index) {
+      state.valuess = value
+      state.materielUnit.map((item, index1) => {
+        if (index1 == index) {
+          state.BasicUnitValue = item.id
+        }
+      })
+      state.isBasicUnit = false
+    }
+    function BasicUnitCancel() {
+      state.isBasicUnit = false
+    }
+    function BasicUnitClick() {
+      state.isBasicUnit = true
+    }
+    function DeWarehouseConfirm(value, index) {
+      state.valuesss = value
+      state.materielWarehouse.map((item, index1) => {
+        if (index1 == index) {
+          state.DeWarehouseValue = item.id
+        }
+      })
+      state.isDeWarehouse = false
+    }
+    function DeWarehouseCancel() {
+      state.isDeWarehouse = false
+    }
+    function DeWarehouseClick() {
+      state.isDeWarehouse = true
+    }
+    return {
+      state,
+      cropper,
+      imgClick,
+      uploadHandle,
+      onClickLeft,
+      onsubmit,
+      propertiesClick,
+      propertiesnCancel,
+      propertiesonConfirm,
+      MaterialPropertiesConfirm,
+      MaterialPropertiesCancel,
+      MaterialPropertiesClick,
+      BasicUnitConfirm,
+      BasicUnitCancel,
+      BasicUnitClick,
+      DeWarehouseConfirm,
+      DeWarehouseCancel,
+      DeWarehouseClick,
+    }
   },
 }
 </script>
     
 <style scoped lang="scss">
 #addMaterial {
-  height: calc(100vh - 5.214285rem);
-  .topheader {
-    height: 1.928571rem;
+  padding-top: 5.428571rem;
+  .p_root_box {
+    color: #747474;
+    background-color: #fff;
+    border: none;
+    box-shadow: none;
+
+    .left {
+      margin-left: 1.071429rem;
+    }
+    .center {
+      font-size: 1.285714rem;
+      margin-left: -1.071429rem;
+      color: #030303;
+    }
   }
   .scroll-wrapper {
     position: absolute;
     left: 0;
-    right: 0;
-    top: 5.214285rem;
+    top: 5.428571rem;
     bottom: 0;
+    width: 100%;
     overflow: hidden;
     .box-card {
-      margin-bottom: 0.571429rem;
-    }
-  }
+      .img_upload {
+        .img_box {
+          display: inline-block;
+          width: 3.5rem;
+          height: 3.5rem;
+          background-color: #ccc;
+        }
+      }
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 4.928571rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          padding-right: 0.714286rem;
+          border-right: 1px solid #e7e7e7;
+        }
+        .time {
+          flex: 1;
+          text-align: right;
+        }
+      }
+      .ccpepolData {
+        position: relative;
+        padding-right: 2.5rem;
+        .van-icon {
+          position: absolute;
+          right: 0.714286rem;
+          font-size: 1.285714rem;
+        }
+      }
 
-  .uploadImage {
-    img {
-      width: 5.714286rem;
-      height: 5.714286rem;
-      margin-left: 3.928571rem;
+      .details {
+        border: none;
+        margin-bottom: 0;
+      }
     }
   }
-  .MaterialProperties {
-    display: flex;
-    .el-select {
-      flex: 1;
-    }
-    .Propertiestext {
-      width: 6.357143rem;
-    }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

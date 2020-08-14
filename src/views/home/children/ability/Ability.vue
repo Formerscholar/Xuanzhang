@@ -72,21 +72,39 @@ export default {
         },
         {
           icon_Url: 'icon-ziyuan140',
+          title: '盘库',
+          color: '#ff7f12',
+          path: '/Inventory',
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '领料',
+          color: '#ff7f12',
+          path: '/MaterialReturn',
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
+          title: '退料',
+          color: '#ff7f12',
+          path: '/picking',
+        },
+        {
+          icon_Url: 'icon-ziyuan140',
           title: '任务管理',
           color: '#ff7f12',
         },
-        {
-          icon_Url: 'icon-shujuxiazai-01',
-          title: '合同收货',
-        },
-        {
-          icon_Url: 'icon-zonghebaobiao-01',
-          title: '流水计划',
-        },
-        {
-          icon_Url: 'icon-ziyuan146',
-          title: '统计报表',
-        },
+        // {
+        //   icon_Url: 'icon-shujuxiazai-01',
+        //   title: '合同收货',
+        // },
+        // {
+        //   icon_Url: 'icon-zonghebaobiao-01',
+        //   title: '流水计划',
+        // },
+        // {
+        //   icon_Url: 'icon-ziyuan146',
+        //   title: '统计报表',
+        // },
         // {
         //   icon_Url: 'icon-kefu',
         //   title: '售后',

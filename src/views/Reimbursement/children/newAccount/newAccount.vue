@@ -12,11 +12,15 @@
     <scroll class="scroll-wrapper">
       <div class="BasicInfo">
         <div class="title">基本信息</div>
-        <van-field @click="Inputfocus" readonly v-model="picker" label="报销类别" />
-        <div class="item1">
-          <span>报销事由</span>
-          <el-input v-model="Reasons" placeholder="请输入内容"></el-input>
-        </div>
+        <van-field
+          class="newStyle"
+          @click="Inputfocus"
+          readonly
+          v-model="picker"
+          label="报销类别"
+          right-icon="arrow"
+        />
+        <van-field class="newStyle" v-model="Reasons" label="报销事由" placeholder="请输入内容" />
       </div>
       <div class="ChargeDetails">
         <div class="title">费用明细</div>
@@ -67,9 +71,6 @@
           <span>累计报销金额</span>
           <em>￥{{apply==undefined?'0':apply | setTwo}}</em>
         </div>
-        <div class="item4">
-          <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
-        </div>
       </div>
       <div class="picker" v-if="ispicker">
         <van-picker
@@ -81,6 +82,9 @@
         />
       </div>
     </scroll>
+    <div class="item4">
+      <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
+    </div>
   </div>
 </template>
     
@@ -445,35 +449,36 @@ export default {
       justify-content: space-between;
       align-items: center;
     }
-    .item4 {
-      line-height: 1.714286rem;
-      padding: 1.071429rem;
-      font-size: 0.857143rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f2f2f2;
-      .el-button {
-        width: 11.714286rem;
-        height: 3.142857rem;
-        font-size: 1.285714rem;
-      }
-      .writhe {
-        border-color: #fff;
-        background-color: #fff;
-        color: #2f54c6;
-      }
-      .blue {
-        border-color: #3574e6;
-        background-color: #3574e6;
-      }
-    }
   }
   .picker {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+  }
+  .item4 {
+    position: fixed;
+    bottom: 0.571429rem;
+    left: 0;
+    right: 0;
+    font-size: 0.857143rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .el-button {
+      width: 11.714286rem;
+      height: 3.142857rem;
+      font-size: 1.285714rem;
+    }
+    .writhe {
+      border-color: #fff;
+      background-color: #fff;
+      color: #2f54c6;
+    }
+    .blue {
+      border-color: #3574e6;
+      background-color: #3574e6;
+    }
   }
 }
 </style>

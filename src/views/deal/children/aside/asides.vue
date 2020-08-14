@@ -458,7 +458,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 1rem;
+          font-size: 0.857143rem;
           color: #818181;
           .timer_text {
             white-space: nowrap;

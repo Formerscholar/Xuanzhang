@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>报销编号:{{state.iid}}</span>
+        <span>报销编号:{{iid}}</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -13,37 +13,33 @@
       <div class="logo">
         <div class="leftbox">
           <div class="picter">
-            <img v-if="state.userInfo.img_url" :src="state.userInfo.img_url.substr(1)" alt="logo" />
+            <img v-if="userInfo.img_url" :src="userInfo.img_url.substr(1)" alt="logo" />
             <img v-else src="@/assets/image/dpng.png" />
           </div>
           <div class="text">
-            <em>{{state.userInfo.name}}</em>
-            <p>{{state.userInfo.department_name}}-{{state.userInfo.display_name}}</p>
+            <em>{{userInfo.name}}</em>
+            <p>{{userInfo.department_name}}-{{userInfo.display_name}}</p>
           </div>
         </div>
       </div>
       <el-card class="box-card Cause">
         <div class="title">
           <span>报销事由</span>
-          <em style="text-align: right; color:#000;">{{state.reimbursement.category_name}}</em>
+          <em style="text-align: right; color:#000;">{{reimbursement.category_name}}</em>
         </div>
         <div class="content">
           <div class="item">
-            <h4>{{state.reimbursement.reason}}</h4>
+            <h4>{{reimbursement.reason}}</h4>
           </div>
         </div>
         <div class="title">
           <em>创建日期</em>
-          <em style="text-align: right;">{{state.reimbursement.created_at}}</em>
+          <em style="text-align: right;">{{reimbursement.created_at}}</em>
         </div>
       </el-card>
       <div class="Details">
         <div class="title">报销明细</div>
-        <el-card
-          class="box-card detail"
-          v-for="(item,index) in state.reimbursementDetail"
-          :key="index"
-        >
+        <el-card class="box-card detail" v-for="(item,index) in reimbursementDetail" :key="index">
           <div class="newDail">
             <div class="left_box">
               <div>{{item.reason_time}}</div>
@@ -67,8 +63,8 @@
           <div class="item timer">
             <span class="moneny">累计报销金额</span>
             <em>
-              <i>{{state.reimbursement.money.split('.')[0]}}</i>
-              .{{state.reimbursement.money.split('.')[1]}}
+              <i>{{reimbursement.money.split('.')[0]}}</i>
+              .{{reimbursement.money.split('.')[1]}}
             </em>
           </div>
         </el-card>
@@ -76,22 +72,22 @@
         <el-card class="box-card detail">
           <div class="item date Reimburser">
             <span>报销人</span>
-            <em>{{state.reimbursement.reimburser_name}}</em>
+            <em>{{reimbursement.reimburser_name}}</em>
           </div>
         </el-card>
       </div>
     </div>
     <div class="btns">
-      <div class="deleteDeliver" @click="deleteDeliver"></div>
-      <div class="deleteDelivers" @click="deleteDeliver">删除</div>
+      <div class="deleteDeliver"></div>
+      <div class="deleteDelivers"></div>
       <div class="printShip" @click="printShip">打印</div>
-      <div class="editShips" @click="editShip">编辑</div>
-      <div class="editShip" @click="editShip"></div>
+      <div class="editShips"></div>
+      <div class="editShip"></div>
       <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
     </div>
-    <van-overlay :show="state.isShow" @click="state.isShow = false">
+    <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
-        <myVqr :Content="state.textContent"></myVqr>
+        <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
@@ -103,91 +99,82 @@ import {
   deleteReimbursement,
 } from '@/network/Reimbursement.js'
 import myVqr from '@/components/common/my_vqr/myVqr'
-import {
-  reactive,
-  computed,
-  onActivated,
-  onDeactivated,
-} from '@vue/composition-api'
+
 export default {
-  components: {
-    myVqr,
-  },
-  setup(props, { root }) {
-    const state = reactive({
+  name: 'ReimburDetails',
+  data() {
+    return {
       iid: 0,
       reimbursement: {},
       reimbursementDetail: [],
       userInfo: [],
       textContent: '',
       isShow: false,
-    })
-    onActivated(() => {
-      state.iid = root.$route.params.id
-      getreimbursementDetail()
-    })
-    onDeactivated(() => {
-      state.iid = 0
-      state.reimbursement = {}
-      state.reimbursementDetail = []
-      state.userInfo = []
-      state.textContent = ''
-      state.isShow = false
-    })
-    const reimbursementDetailData = computed(() => {
+    }
+  },
+  components: {
+    myVqr,
+  },
+  activated() {
+    this.iid = this.$route.params.id
+    this.getreimbursementDetail()
+  },
+  deactivated() {
+    this.iid = 0
+    this.reimbursement = {}
+    this.reimbursementDetail = []
+    this.userInfo = []
+    this.textContent = ''
+    this.isShow = false
+  },
+  computed: {
+    reimbursementDetailData() {
       return {
-        token: root.$store.state.token,
-        id: state.iid,
+        token: this.$store.state.token,
+        id: this.iid,
         _: new Date().getTime(),
       }
-    })
-
-    async function deleteDeliver() {
+    },
+  },
+  methods: {
+    async deleteDeliver() {
       const { code, msg } = await deleteReimbursement({
-        token: root.$store.state.token,
-        id: state.reimbursement.id,
+        token: this.$store.state.token,
+        id: this.reimbursement.id,
       })
       if (code == 200) {
-        root.$message({
+        this.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
-        root.$router.replace('/reimbursement')
+        this.$router.replace('/reimbursement')
       } else {
-        root.$message({
+        this.$message({
           showClose: true,
           message: msg,
           type: 'error',
         })
       }
-    }
-    function printShip() {
+    },
+    printShip() {
       console.log('打印')
-      state.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${state.reimbursement.id}`
-      state.isShow = true
-    }
-    function editShip() {
-      root.$router.push(`/editAccount/${state.iid}`)
-    }
-    function blacknext() {
-      root.$router.go(-1)
-    }
-    async function getreimbursementDetail() {
-      const { data } = await reimbursementDetail(reimbursementDetailData.value)
-      state.reimbursement = data.reimbursement
-      state.reimbursementDetail = data.reimbursementDetail
-      state.userInfo = data.reimburser[0]
+      this.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${this.reimbursement.id}`
+      this.isShow = true
+    },
+    editShip() {
+      this.$router.push(`/editAccount/${this.iid}`)
+    },
+    blacknext() {
+      this.$router.go(-1)
+    },
+    async getreimbursementDetail() {
+      const { data } = await reimbursementDetail(this.reimbursementDetailData)
+      this.reimbursement = data.reimbursement
+      this.reimbursementDetail = data.reimbursementDetail
+      this.userInfo = data.reimburser[0]
       console.log('reimbursementDetail', data)
-    }
-
-    return {
-      state,
-      blacknext,
-      deleteDeliver,
-      printShip,
-      editShip,
-    }
+    },
   },
 }
 </script>
