@@ -529,3 +529,34 @@ export function deleteReceivingInformation(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function addInventory(data) {
+  return request({
+    url: '/MaterielManagement/addInventory',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function getAddPicking(params) {
+  return request({
+    url: '/MaterielManagement/getAddPicking',
+    method: 'GET',
+    params,
+  })
+}
+
+export function addPicking(data) {
+  return request({
+    url: '/MaterielManagement/addPicking',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function addMaterielReturn(data) {
+  return request({
+    url: '/MaterielManagement/addMaterielReturn',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

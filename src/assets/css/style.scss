@@ -125,7 +125,9 @@ i {
 #newAccount,
 #addDetails,
 #addMaterial,
-#Inventory {
+#Inventory,
+#MaterialReturn,
+#ContractDetails {
 
   .van-cell:not(:last-child)::after {
     border: none;
@@ -151,6 +153,7 @@ i {
 
 
 
+
   .newStyle {
 
 
@@ -162,9 +165,6 @@ i {
       color: black;
       padding-right: 0.714286rem;
       border-right: 1px solid #e7e7e7;
-
-
-
     }
 
     .van-cell__value {
@@ -186,6 +186,20 @@ i {
     border-bottom: 1px solid #e7e7e7;
     line-height: normal;
   }
+
+  .leftINPUT {
+    border-bottom: 1px solid #27ae60 !important;
+    line-height: normal;
+    padding: .714286rem 0;
+
+    input {
+      text-align: left;
+      color: #27ae60;
+      font-size: 2rem;
+    }
+
+  }
+
 
   .btns {
     .van-button {
@@ -476,6 +490,12 @@ i {
 
   .van-button {
     height: 100%;
+
+    .van-button__text {
+      margin: 0 auto;
+      width: 1.428571rem;
+      line-height: 1.714286rem;
+    }
   }
 
 
@@ -483,6 +503,9 @@ i {
   .el-tabs__header {
     padding: 0 !important;
   }
+
+
+
 
 }
 

@@ -20,19 +20,19 @@
         </div>
       </div>
       <template #right>
-        <div style=" height: 100%;display: flex;flex-direction: column;">
+        <div style=" height: 100%;">
           <van-button
             square
             type="primary"
             text="编辑"
-            style=" height: 50%;"
+            style=" height: 100%;"
             @click="editClick(item)"
           />
           <van-button
             square
             text="删除"
             type="danger"
-            style=" height: 50%;"
+            style=" height: 100%;"
             @click="delelClick(item.id)"
           />
         </div>

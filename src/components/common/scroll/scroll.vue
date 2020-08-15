@@ -14,26 +14,26 @@ export default {
   props: {
     probeType: {
       type: Number,
-      default: 0
+      default: 0,
     },
     pullUpLoad: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      scroll: null
+      scroll: null,
     }
   },
-  mounted() {
+  activated() {
     this.scroll = new BScroll(this.$refs.wrapper, {
       click: true,
       probeType: this.probeType,
-      pullUpLoad: this.pullUpLoad
+      pullUpLoad: this.pullUpLoad,
     })
     if (this.probeType === 2 || this.probeType === 3) {
-      this.scroll.on('scroll', position => {
+      this.scroll.on('scroll', (position) => {
         if (position.y > 50) {
           throttle(() => {
             this.$emit('scroll', position)
@@ -59,13 +59,12 @@ export default {
     },
     getScrollY() {
       return this.scroll ? this.scroll.y : 0
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .content {
-  min-height: 100vh;
 }
 </style>

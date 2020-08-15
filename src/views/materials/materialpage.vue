@@ -199,19 +199,15 @@ export default {
         if (this.isOne) {
           this.allPage = ++this.onePage
           this.getMaterie()
-          this.$refs.scroll.finishPullUp()
         } else {
           this.$toast('没有更多数据了')
-          this.$refs.scroll.finishPullUp()
         }
       } else {
         if (this.isTwo) {
           this.allPage = ++this.twoPage
           this.getTemporary()
-          this.$refs.scrolls.finishPullUp()
         } else {
           this.$toast('没有更多数据了')
-          this.$refs.scrolls.finishPullUp()
         }
       }
     },

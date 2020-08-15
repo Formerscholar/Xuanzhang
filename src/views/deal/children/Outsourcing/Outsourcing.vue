@@ -125,6 +125,7 @@ import {
 
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
+import { throttle } from '@/common/utils'
 
 export default {
   name: 'Outsourcing',
@@ -159,10 +160,20 @@ export default {
     }
   },
   deactivated() {
+    this.Loop = null
+    this.active = 0
     this.outsourcingOrderList = []
     this.outsourcingOrderListed = []
-    this.supplier_id = null
+    this.indexTab = 0
+    this.allPage = 1
+    this.processing = 1
+    this.isShow = false
     this.textContent = ''
+    this.Completed = 1
+    this.listIsShow = false
+    this.show = false
+    this.item = {}
+    this.supplier_id = null
   },
   computed: {
     getOrderListData() {
@@ -255,16 +266,17 @@ export default {
         this.allPage = this.Completed
         this.getOrderList()
       }
-      this.$refs.scroll.finishPullUp()
     },
     handleClick(tab, event) {
-      console.log(tab, event)
-      this.indexTab = tab
-      if (this.indexTab) {
-        this.getLiquidated()
-      } else {
-        this.getOrderList()
-      }
+      throttle(() => {
+        console.log(tab, event)
+        this.indexTab = tab
+        if (this.indexTab) {
+          this.getLiquidated()
+        } else {
+          this.getOrderList()
+        }
+      }, 500)
     },
     async getOrderList() {
       const { data } = await getUndischargedOutsourcingOrderList(

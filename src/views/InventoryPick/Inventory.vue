@@ -44,7 +44,7 @@
             />
           </div>
         </div>
-        <van-field v-model="digit" class="newStyle" type="digit" label="数量" />
+        <van-field v-model="digit" class="newStyle leftINPUT" type="digit" />
       </el-card>
     </scroll>
     <myBtns :commitFun="commite" :cancelFun="onClickLeft">
@@ -60,7 +60,7 @@
 <script>
 import myBtns from '@/components/common/my_btns/my_btns'
 import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
-import { getMaterielList } from '@/network/deal'
+import { getMaterielList, addInventory } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
@@ -70,6 +70,7 @@ export default {
       img_URL: '',
       img_url_lin: '',
       Products: '',
+      material_id: '',
       digit: 0,
       isfouck: true,
       uploadParam: 4,
@@ -87,16 +88,39 @@ export default {
         _: new Date().getTime(),
       }
     },
+    addInventoryData() {
+      return {
+        token: this.$store.state.token,
+        material_id: this.material_id,
+        inventory_num: this.digit,
+      }
+    },
   },
   activated() {
     this.getMaterielLists()
   },
   methods: {
     Scan() {
+      this.$router.push('/scan')
       console.log('扫码')
     },
-    commite() {
+    async commite() {
       console.log('提交')
+      const { code, msg } = await addInventory(this.addInventoryData)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.onClickLeft()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
     },
     async getMaterielLists() {
       const { data } = await getMaterielList(this.getMaterielListData)
@@ -109,13 +133,21 @@ export default {
     },
     uploadHandle(data) {
       this.img_URL = data
-      this.PropsImg = this.img_URL.split(bestURL)[1]
-      console.log(this.img_URL, this.PropsImg)
+      console.log(this.img_URL)
     },
     imgClick() {
       this.$refs['cropper'].upload()
     },
     onClickLeft() {
+      this.state = ''
+      this.img_URL = ''
+      this.img_url_lin = ''
+      this.Products = ''
+      this.material_id = ''
+      this.digit = 0
+      this.isfouck = true
+      this.uploadParam = 4
+      this.listItems = []
       this.$router.replace('/home')
     },
     focusClick() {
@@ -127,22 +159,17 @@ export default {
       })
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
-        this.$refs.scroll.finishPullUp()
         console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
           this.state = item
         } else {
           this.isfouck = true
-          this.isWeightShow = item.weight ? true : false
-          this.productWeight = item.weight
-          this.allData = item
           this.state = item.name
           this.Products = item.specification
-          this.productPrice = item.out_price
           this.img_URL = item?.img_url
-          this.PropsImg = item?.img_url
           this.img_url_lin = item.img_url_lin
+          this.material_id = item.id
           this.listItem = {}
           this.isFlowingShow = []
           for (const key in this.listItem) {

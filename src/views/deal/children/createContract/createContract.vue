@@ -776,7 +776,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        this.$refs.scroll.finishPullUp()
         console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel

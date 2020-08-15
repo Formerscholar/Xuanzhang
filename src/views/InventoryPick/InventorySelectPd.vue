@@ -60,63 +60,13 @@
             />
           </span>
         </el-row>
-
-        <van-field
-          v-model="productWeight"
-          v-if="isWeightShow"
-          type="number"
-          label="重量"
-          placeholder="请填写单件重量"
-          @input="SubtotalFocus"
-          class="newStyle"
-        />
-
-        <van-field
-          v-model="productPrice"
-          type="number"
-          label="单价"
-          class="newStyle"
-          placeholder="请填写产品单价"
-          @input="SubtotalFocus"
-        />
-        <van-field
-          v-for="(item,index) in isFlowingShow"
-          v-model="FlowingProducts[index+1]"
-          :key="item.id"
-          :data-id="item.id"
-          class="newStyle"
-          :label="item.field_name"
-        />
-        <van-field
-          v-model="processCost"
-          type="number"
-          class="newStyle"
-          label="加工费"
-          placeholder="请填写产品加工费"
-          @input="SubtotalFocus"
-        />
-
-        <el-row class="DeliveryDate van-cell">
-          <span class="lable">小计</span>
-          <span class="time" style="color:#ea6e33;">￥{{ProductSubtotal}}</span>
-        </el-row>
-
-        <van-field
-          v-model="ProductNotes"
-          autosize
-          type="textarea"
-          class="newStyle"
-          label="备注"
-          placeholder="(选填)简要描述产品说明"
-        />
       </el-card>
     </scroll>
 
     <myBtns :commitFun="commite" :cancelFun="blacknext">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        ￥{{ProductSubtotal}}
-        <span>提交订单</span>
+        <span>提交</span>
       </span>
     </myBtns>
 
@@ -140,7 +90,6 @@ export default {
       productWeight: '',
       FlowingProducts: ['0'],
       isWeightShow: false,
-      isFlowingShow: [],
       quantity: '',
       img_url_lin: '',
       uploadParam: 4,
@@ -197,7 +146,6 @@ export default {
     async getMaterielLists() {
       const { data } = await getMaterielList(this.getMaterielListData)
       this.listItem = { ...data }
-      this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
       for (const key in this.listItem) {
         this.listItems.push(this.listItem[key])
       }
@@ -223,7 +171,7 @@ export default {
         processCost: this.processCost,
         img_url: this.PropsImg,
       }
-      this.$bus.$emit('SelectProducts', {
+      this.$bus.$emit('InventorySelectPd', {
         allData: this.allData,
         selectData,
       })
@@ -241,7 +189,6 @@ export default {
       this.listItem = {}
       this.listItems = []
       this.img_URL = ''
-      this.isFlowingShow = []
       this.allData = {}
       this.$router.go(-1)
     },
@@ -270,7 +217,7 @@ export default {
           this.PropsImg = item?.img_url
           this.img_url_lin = item.img_url_lin
           this.listItem = { ...this.$route.query.data.materiel }
-          this.isFlowingShow = [...this.$route.query.data.isFlowingShow]
+
           for (const key in this.listItem) {
             this.listItems.push(this.listItem[key])
           }

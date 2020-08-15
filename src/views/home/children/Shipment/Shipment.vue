@@ -72,7 +72,7 @@ import myVqr from '@/components/common/my_vqr/myVqr'
 import {
   getDeliverGoodsList,
   delDeliverRecord,
-  cancelDelDeliverRecord
+  cancelDelDeliverRecord,
 } from '@/network/deal'
 
 export default {
@@ -83,7 +83,7 @@ export default {
       pages: 1,
       ifquire: true,
       isShow: false,
-      textContent: ''
+      textContent: '',
     }
   },
   computed: {
@@ -94,9 +94,9 @@ export default {
         offset: 20,
         order_type: 'flow',
         distributor_id: 0,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     printClick(html) {
@@ -108,7 +108,7 @@ export default {
         this.$message({
           showClose: true,
           message: '暂未生成',
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -126,13 +126,13 @@ export default {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'success'
+            type: 'success',
           })
         } else {
           this.$message({
             showClose: true,
             message: '不可作废',
-            type: 'error'
+            type: 'error',
           })
         }
       } else {
@@ -144,13 +144,13 @@ export default {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'success'
+            type: 'success',
           })
         } else {
           this.$message({
             showClose: true,
             message: msg,
-            type: 'error'
+            type: 'error',
           })
         }
       }
@@ -162,13 +162,12 @@ export default {
       } else {
         this.$toast('没有更多数据了')
       }
-      this.$refs.scroll.finishPullUp()
     },
     async getDeliverGoods() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodData)
       console.log('getDeliverGoodsList', data)
       if (data.deliveryRecordList.length) {
-        data.deliveryRecordList.map(item => {
+        data.deliveryRecordList.map((item) => {
           this.deliveryRecordList.push(item)
         })
       } else {
@@ -177,7 +176,7 @@ export default {
     },
     blacknext() {
       this.$router.replace('/home')
-    }
+    },
   },
   activated() {
     this.getDeliverGoods()
@@ -186,7 +185,7 @@ export default {
     this.deliveryRecordList = []
     this.pages = 1
     this.textContent = ''
-  }
+  },
 }
 </script>
 

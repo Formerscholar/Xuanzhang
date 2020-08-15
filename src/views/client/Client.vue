@@ -190,7 +190,6 @@ export default {
           this.$toast('没有更多数据了')
         }
       }
-      this.$refs.scroll.finishPullUp()
     },
     addcus() {
       this.show = true
@@ -256,12 +255,19 @@ export default {
     }
   },
   deactivated() {
+    this.distributor = []
+    this.supplier = []
     this.options = []
     this.allPage = 1
     this.onePage = 1
     this.twoPage = 1
     this.isOneNetwork = true
     this.isTwoNetwork = true
+    this.searchValue = ''
+    this.isSearch = false
+    this.searchID = 0
+    this.optionss = []
+    this.show = false
   },
 }
 </script>

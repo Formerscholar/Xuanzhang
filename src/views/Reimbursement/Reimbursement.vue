@@ -40,6 +40,13 @@
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
                         <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
                       </span>
+                      <div class="examines">
+                        <div
+                          v-for="items in item.auditRecord"
+                          :key="items.user_id"
+                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                        ></div>
+                      </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
@@ -93,6 +100,13 @@
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
                         <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
                       </span>
+                      <div class="examines">
+                        <div
+                          v-for="items in item.auditRecord"
+                          :key="items.user_id"
+                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                        ></div>
+                      </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
@@ -124,7 +138,7 @@
               </div>
 
               <template #right>
-                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
               </template>
             </van-swipe-cell>
 
@@ -138,7 +152,7 @@
         <scroll class="scroll-wrapper">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
-              <div class="cardmoney" @click="reimburClicks(item.id)">
+              <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
                 <el-card class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
@@ -146,6 +160,13 @@
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
                         <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
                       </span>
+                      <div class="examines">
+                        <div
+                          v-for="items in item.auditRecord"
+                          :key="items.user_id"
+                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                        ></div>
+                      </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
@@ -177,7 +198,14 @@
               </div>
 
               <template #right>
-                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+                <van-button
+                  v-if="item.to_examine"
+                  square
+                  type="primary"
+                  @click="cancel_enabled(item.id)"
+                  text="取消待审"
+                />
+                <van-button v-else square type="primary" @click="audit_enabled(item.id)" text="审核" />
               </template>
             </van-swipe-cell>
 
@@ -208,7 +236,7 @@
               </el-card>
             </div>
             <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
-              <div class="cardban" @click="reimburClick(item.id)">
+              <div class="cardban" @click="reimburClicks(item.id)">
                 <el-card class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
@@ -216,6 +244,13 @@
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
                         <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
                       </span>
+                      <div class="examines">
+                        <div
+                          v-for="items in item.auditRecord"
+                          :key="items.user_id"
+                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                        ></div>
+                      </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
@@ -246,7 +281,7 @@
                 </el-card>
               </div>
               <template #right>
-                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
+                <van-button square type="primary" @click="cancel_enabled(item.id)" text="取消待审" />
               </template>
             </van-swipe-cell>
 
@@ -272,6 +307,7 @@ import {
   toExamineReimbursement,
   getUserReimbursementList,
   getMyToExamineReimbursementList,
+  cancelToExamineReimbursement,
 } from '@/network/Reimbursement'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
@@ -310,7 +346,7 @@ export default {
         reason: null,
         category_id: null,
         operator_id: null,
-        status: 0,
+        status: 1,
         _: new Date().getTime(),
       }
     })
@@ -323,7 +359,7 @@ export default {
         reason: null,
         category_id: null,
         operator_id: null,
-        status: 1,
+        status: 0,
         _: new Date().getTime(),
       }
     })
@@ -335,6 +371,7 @@ export default {
         reason: null,
         category_id: null,
         operator_id: null,
+        status: 2,
         _: new Date().getTime(),
       }
     })
@@ -409,7 +446,7 @@ export default {
     }
     async function getReimburses() {
       const { data } = await getReimbursementList(
-        state.getReimbursementListsStates
+        getReimbursementListsStates.value
       )
       console.log('reimbursementList', data)
       state.reimbursementLists = data.reimbursementList
@@ -422,6 +459,41 @@ export default {
       root.$router.push(`/reimburDetail/${id}`)
     }
 
+    async function cancel_enabled(iid) {
+      const cancelToExamineReimbursementData = computed(() => {
+        return {
+          id: [iid],
+          token: root.$store.state.token,
+        }
+      })
+      const { code, msg } = await cancelToExamineReimbursement(
+        cancelToExamineReimbursementData.value
+      )
+      console.log('cancelToExamineReimbursement', code, msg)
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    }
+
+    function JudgmentReview(to_examine, iid) {
+      console.log(to_examine, iid)
+      if (to_examine) {
+        reimburClicks(iid)
+      } else {
+        reimburClick(iid)
+      }
+    }
+
     return {
       state,
       blackhome,
@@ -430,6 +502,8 @@ export default {
       audit_enabled,
       printH5,
       newAccount,
+      cancel_enabled,
+      JudgmentReview,
     }
   },
 }
@@ -652,8 +726,26 @@ export default {
               .leftbox {
                 flex: 1;
                 font-size: 1.142857rem;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
                 span {
                   color: #5e5e5e;
+                }
+                .examines {
+                  margin-left: 0.357143rem;
+                  display: flex;
+                  .examines-bg {
+                    width: 0.857143rem;
+                    height: 0.857143rem;
+                    margin-right: 0.357143rem;
+                  }
+                  .examines-bg-pramiry {
+                    background-color: #ccc;
+                  }
+                  .examines-bg-info {
+                    background-color: #3568d9;
+                  }
                 }
               }
               .rightbox {
@@ -700,8 +792,22 @@ export default {
             .leftbox {
               width: 50%;
               font-size: 1.028571rem;
-              span {
-                em {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .examines {
+                margin-left: 0.357143rem;
+                display: flex;
+                .examines-bg {
+                  width: 0.857143rem;
+                  height: 0.857143rem;
+                  margin-right: 0.357143rem;
+                }
+                .examines-bg-pramiry {
+                  background-color: #ccc;
+                }
+                .examines-bg-info {
+                  background-color: #3568d9;
                 }
               }
             }

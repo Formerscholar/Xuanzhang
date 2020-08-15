@@ -7,85 +7,78 @@
       <div class="center" slot="center">
         <span>合同详情</span>
       </div>
-      <div class="right" slot="right">
-        <span></span>
-      </div>
     </navbar>
-    <div class="content">
-      <div class="text_arr">
-        <div class="row">
-          <span>
-            <em>{{contractOrder.distributor_name | SetDistributorName}}</em>
-          </span>
+    <scroll class="scroll-wrapper">
+      <el-card class="content_wrap">
+        <div class="Company">{{contractOrder.platform | SetPlatform}}</div>
+        <div class="Company">
+          <span>{{contractOrder.distributor_name }}</span>
+          <span>{{contractOrder.order_number }}</span>
         </div>
-        <div class="row">
-          <span>
-            <em>{{contractOrder.order_number | SetOrderNumber}}</em>
-          </span>
+        <div class="Company itembox">
+          <span>{{contractOrder.self_lxr | SetSelfLxr}}</span>
+          <span>{{contractOrder.self_lxr_tel}}</span>
         </div>
-        <div class="row">
-          <span>
-            <em>{{contractOrder.platform | SetPlatform}}</em>
-          </span>
+        <div class="itembox">
+          <span>{{contractOrder.kehu_lxr |SetKehuLxr}}</span>
+          <span>{{contractOrder.kehu_lxr_tel}}</span>
         </div>
-        <div class="row">
-          <span>
-            {{contractOrder.self_lxr | SetSelfLxr}}
-            <em>{{contractOrder.self_lxr_tel}}</em>
-          </span>
-        </div>
-        <div class="row">
-          <span>
-            {{contractOrder.kehu_lxr |SetKehuLxr}}
-            <em>{{contractOrder.kehu_lxr_tel}}</em>
-          </span>
-        </div>
-      </div>
-      <el-card class="box-card" v-for="item in contractOrder.contractOrderProduct" :key="item.id">
-        <div class="context">
-          <div class="left">
-            <img src="@/assets/image/logo.png" />
-          </div>
-          <div class="right">
-            <div class="text_row">
-              <div class="left_title">{{item.product_name}}</div>
-              <div class="right_txt">{{item.unit_price | SetUnitPrice}}{{item.number}}</div>
+      </el-card>
+
+      <el-card class="product_box">
+        <div
+          class="wrap_item"
+          v-for="(item,index) in contractOrder.contractOrderProduct"
+          :key="index"
+        >
+          <div class="wrap_left">
+            <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
+              <img
+                v-if="item.img_url && item.img_url != 0 "
+                class="img"
+                :src="item.img_url  | getUrl"
+              />
+              <img
+                v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                class="img"
+                :src="item.img_url_lin  | getUrl"
+              />
+              <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
-            <div class="text_row">
-              <div class="left_title">{{item.product_model}}</div>
-              <div class="right_txt"></div>
-            </div>
-            <div class="text_row">
-              <div class="left_title"></div>
-              <div class="right_txt">￥{{item.total_price}}</div>
+            <div class="text">
+              <div class="title">
+                <p>{{item.product_name}}</p>
+              </div>
+              <p class="model">{{item.product_model}}</p>
+              <div class="wrap_right">
+                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <div class="funds">
+                  <span>￥</span>
+                  <span>{{item.total_price}}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </el-card>
-      <div class="operationList">
-        <div class="listitem">
-          <em>{{contractOrder.pay_method_content | SetPayMethodContent}}</em>
+      <el-card class="content_wrap">
+        <div class="Company">{{contractOrder.pay_method_content | SetPayMethodContent}}</div>
+        <div class="Company">
+          <span>{{contractOrder.updated_at | SetUpdatedAt}}</span>
         </div>
-        <div class="listitem">
-          <em>{{contractOrder.updated_at | SetUpdatedAt}}</em>
+        <div class="itembox">
+          <span>{{contractOrder.remark | SetRemark}}</span>
         </div>
-        <div class="listitem">
-          质量要求
-          <em></em>
-        </div>
-        <div class="listitem">
-          技术参数
-          <em></em>
-        </div>
-        <div class="listitem">
-          <em>{{contractOrder.remark | SetRemark}}</em>
-        </div>
-      </div>
-    </div>
+      </el-card>
+    </scroll>
+
     <div class="btns">
-      <van-button plain type="primary" @click="keepmoney">收款</van-button>
-      <van-button plain type="primary" @click="toShop">发货</van-button>
-      <van-button plain type="primary">开票</van-button>
+      <div class="deleteDeliver" @click="keepmoney"></div>
+      <div class="deleteDelivers" @click="keepmoney">收款</div>
+      <div class="printShip" @click="toShop">发货</div>
+      <div class="editShips">开票</div>
+      <div class="editShip"></div>
+      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="toShop" />
     </div>
   </div>
 </template>
@@ -100,7 +93,7 @@ export default {
       contractOrder: {},
       editData: {},
       isShow: false,
-      imgData: ''
+      imgData: '',
     }
   },
   activated() {
@@ -108,20 +101,14 @@ export default {
     this.getEditContractOrders()
   },
   filters: {
-    SetDistributorName(value) {
-      return '客户信息:' + value
-    },
-    SetOrderNumber(value) {
-      return '客户信息:' + value
-    },
     SetPlatform(value) {
-      return '对应合同:' + value
+      return '编号:' + value
     },
     SetSelfLxr(value) {
-      return '公司联系人:' + value
+      return '公司联系:' + value
     },
     SetKehuLxr(value) {
-      return '客户联系人:' + value
+      return '客户联系:' + value
     },
     SetUnitPrice(value) {
       return '￥:' + value + '*'
@@ -134,32 +121,45 @@ export default {
     },
     SetRemark(value) {
       return '其他要素 ' + value
-    }
+    },
   },
   computed: {
     getEditContractOrderData() {
       return {
         id: this.iid,
         token: this.$store.state.tonken,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
+    cleartime(materiel_id) {
+      clearInterval(this.Loop)
+      if (this.touch) {
+        this.touch = false
+        this.$router.push(`/editMaterial/${materiel_id}`)
+      }
+    },
+    touchin() {
+      clearInterval(this.Loop)
+      this.Loop = setTimeout(() => {
+        this.touch = true
+      }, 800)
+    },
     keepmoney() {
       this.$router.push({
         path: '/keepmoneypage',
         query: {
-          data: this.contractOrder
-        }
+          data: this.contractOrder,
+        },
       })
     },
     toShop() {
       this.$router.push({
         path: '/listShop',
         query: {
-          data: this.editData
-        }
+          data: this.editData,
+        },
       })
     },
     blacknext() {
@@ -170,8 +170,8 @@ export default {
       console.log('getEditContractOrder', data)
       this.editData = data
       this.contractOrder = data.contractOrder
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -188,78 +188,174 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
+      margin-left: -1.071429rem;
       font-size: 1.285714rem;
       color: #030303;
     }
-    .right {
-      margin-right: 1.071429rem;
-      font-size: 0.714286rem;
-    }
   }
-  .content {
-    padding: 0.571429rem 0.714286rem;
-    background-color: #f5f5f5;
-
-    .text_arr {
-      .row {
-        margin-bottom: 0.285714rem;
-        span {
-          em {
-          }
-        }
-      }
-    }
-    .box-card {
-      margin-bottom: 0.571429rem;
-      .context {
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    top: 5.428571rem;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    padding: 1.428571rem 0.714286rem;
+    .content_wrap {
+      padding: 0.714286rem 1.071429rem;
+      margin-top: 0.357143rem;
+      margin-bottom: 0.357143rem;
+      .Company {
+        margin-bottom: 0.714286rem;
+        font-size: 1rem;
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        .left {
-          width: 2.857143rem;
-          img {
-            width: 2.857143rem;
-          }
+        align-items: center;
+        em {
+          font-size: 0.714286rem;
         }
-        .right {
-          flex: 1;
+      }
+      .Numbers {
+        margin-bottom: 0.357143rem;
+        font-size: 0.857143rem;
+        color: #5b534d;
+      }
+      .itembox {
+        font-size: 0.857143rem;
+        color: #5b534d;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+        }
+      }
+    }
+    .product_box {
+      .wrap_item {
+        padding: 0.357143rem;
+        border-bottom: 1px solid #f2f2f2;
+
+        .wrap_left {
           display: flex;
-          flex-direction: column;
-          .text_row {
-            margin-left: 0.571429rem;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            .left_title {
+          justify-content: flex-start;
+          align-items: center;
+          .img {
+            width: 5.928571rem;
+            height: 5.928571rem;
+            background-color: #655d55;
+            border-radius: 0.357143rem;
+            margin-right: 0.714286rem;
+          }
+          .text {
+            flex: 1;
+            font-size: 1rem;
+            color: #000;
+            overflow: hidden;
+            white-space: nowrap;
+
+            .title {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 1rem;
             }
-            .right_txt {
+            .model {
+              color: #ccc;
+            }
+            p {
+              margin-bottom: 0.357143rem;
+            }
+            .wrap_right {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              color: #ccc;
+              font-size: 0.857143rem;
+              .funds {
+                font-size: 1rem;
+                color: black;
+              }
             }
           }
         }
       }
-    }
-    .operationList {
-      .listitem {
-        margin-bottom: 0.357143rem;
+      .wrap_money {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        padding: 0.357143rem;
+        font-size: 1.142857rem;
+        color: #848484;
       }
     }
   }
   .btns {
-    position: fixed;
-    bottom: 0.357143rem;
-    display: flex;
-    justify-content: flex-end;
+    height: 3.5rem;
     width: 100%;
-    .van-button {
-      margin-right: 0.357143rem;
-    }
-  }
-  .wrapper {
+    padding: 0.357143rem 2.142857rem;
+    position: fixed;
+    bottom: 1.428571rem;
+    left: 0;
+    right: 0;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 100%;
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip,
+    .editShips,
+    .editShip {
+      height: 2.785714rem;
+      line-height: 2.785714rem;
+    }
+
+    .deleteDeliver,
+    .editShip {
+      width: 2.785714rem;
+      border-radius: 50%;
+    }
+
+    .deleteDeliver,
+    .deleteDelivers,
+    .printShip {
+      background-color: #000;
+    }
+    .deleteDelivers,
+    .printShip {
+      color: #fff;
+    }
+    .deleteDelivers {
+      text-align: left;
+      margin-left: -1.428571rem;
+      flex: 3;
+      font-size: 1rem;
+    }
+    .printShip {
+      flex: 14;
+      margin-left: 0.214286rem;
+      text-align: right;
+      padding-right: 3.214286rem;
+    }
+    .editShips {
+      flex: 3;
+      text-align: right;
+      margin-right: -1.428571rem;
+      z-index: 2;
+      background-color: #f2c659;
+      color: #000;
+      font-size: 1rem;
+    }
+    .editShip {
+      background-color: #f2c659;
+    }
+    .Print {
+      width: 6.428571rem;
+      height: 6.428571rem;
+      position: fixed;
+      bottom: 0.714286rem;
+      left: 30%;
+    }
   }
 }
 </style>

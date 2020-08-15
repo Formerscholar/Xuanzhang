@@ -181,7 +181,6 @@ export default {
         this.TPage = 1
         this.OllPage = 1
       })
-      this.$refs.scroll.finishPullUp()
     },
     clickscroll() {
       if (!this.active) {

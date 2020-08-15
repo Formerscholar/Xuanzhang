@@ -4,7 +4,7 @@
       v-for="(item, index) in goodsLists"
       :key="index"
       class="goodsListItem"
-      @click="listClick(item)"
+      @click.stop="listClick(item)"
       @touchstart.prevent="touchin"
       @touchend.prevent="cleartime"
     >

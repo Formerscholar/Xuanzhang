@@ -311,7 +311,6 @@ export default {
         this.allIndex = this.detail
         this.getFlowOrderLists()
       }
-      this.$refs.scroll.finishPullUp()
     },
     onSelect(item) {
       this.show = false
@@ -347,14 +346,16 @@ export default {
       })
     },
     tacheClick(name, title) {
-      console.log(name)
-      if (name) {
-        this.isShow = false
-        this.getFlowOrderLists()
-      } else {
-        this.isShow = true
-        this.getDeliverLists()
-      }
+      throttle(() => {
+        console.log(name)
+        if (name) {
+          this.isShow = false
+          this.getFlowOrderLists()
+        } else {
+          this.isShow = true
+          this.getDeliverLists()
+        }
+      }, 500)
     },
     openClick() {},
     closedClick() {},

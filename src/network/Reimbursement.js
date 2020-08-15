@@ -77,3 +77,10 @@ export function editReimbursement(data) {
     data: Qs.stringify(data),
   })
 }
+export function cancelToExamineReimbursement(data) {
+  return request({
+    url: '/Finance/cancelToExamineReimbursement',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

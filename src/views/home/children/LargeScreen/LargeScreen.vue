@@ -608,10 +608,8 @@ export default {
         this.Spage += 1
         this.allpage = this.Spage
         this.getlargeAcreenss()
-        this.$refs.scrollss.finishPullUp()
       } else {
         this.$toast('没有更多数据了')
-        this.$refs.scrollss.finishPullUp()
       }
     },
     loadMores() {
@@ -619,10 +617,8 @@ export default {
         this.Opage += 1
         this.allpage = this.Opage
         this.getlargeAcreen()
-        this.$refs.scrolls.finishPullUp()
       } else {
         this.$toast('没有更多数据了')
-        this.$refs.scrolls.finishPullUp()
       }
     },
     loadMore() {
@@ -630,10 +626,8 @@ export default {
         this.Tpage += 1
         this.allpage = this.Tpage
         this.getlargeAcreens()
-        this.$refs.scroll.finishPullUp()
       } else {
         this.$toast('没有更多数据了')
-        this.$refs.scroll.finishPullUp()
       }
     },
     pageHandleClick(data) {

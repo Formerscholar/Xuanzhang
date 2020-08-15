@@ -278,15 +278,13 @@ export default {
       switch (str) {
         case 'participate':
           this.$emit('loadMore', 'particiType')
-          this.$refs.scrollss.finishPullUp()
           break
         case 'success':
           this.$emit('loadMore', 'SuccessType')
-          this.$refs.scrolls.finishPullUp()
           break
         case 'list':
           this.$emit('loadMore', 'ListType')
-          this.$refs.scroll.finishPullUp()
+
           break
         default:
           break

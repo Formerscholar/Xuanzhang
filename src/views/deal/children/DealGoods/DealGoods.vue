@@ -85,12 +85,20 @@ export default {
     }
   },
   deactivated() {
+    this.timer = null
     this.goodsLists = []
     this.QuoteList = []
     this.pageIndex = 0
+    this.editData = {}
     this.allPage = 1
+    this.isShow = false
+    this.imgData = ''
     this.entire = 1
     this.Quote = 1
+    this.request = true
+    this.show = false
+    this.textContent = ''
+    this.print_html = ''
   },
   computed: {
     deleteContractOrderData() {
@@ -144,12 +152,14 @@ export default {
       this.show = false
     },
     selectIndex(i) {
-      this.pageIndex = i
-      if (this.pageIndex) {
-        this.getOrderList(0)
-      } else {
-        this.getOrderList(1)
-      }
+      throttle(() => {
+        this.pageIndex = i
+        if (this.pageIndex) {
+          this.getOrderList(0)
+        } else {
+          this.getOrderList(1)
+        }
+      }, 500)
     },
     loadMore() {
       console.log('loadMore', this.pageIndex)
@@ -173,7 +183,6 @@ export default {
         default:
           break
       }
-      this.$refs.scroll.finishPullUp()
     },
     getOrderData(id) {
       return {

@@ -134,6 +134,9 @@ const ScreenItem = () =>
 const outSearch = () => import('@/views/deal/children/outSearch/outSearch')
 const nameSearch = () => import('@/views/deal/children/Ship/nameSearch')
 const SelectProducts = () => import('@/views/deal/children/Ship/SelectProducts')
+
+const InventorySelectPd = () =>
+  import('@/views/InventoryPick/InventorySelectPd')
 const productNameSearch = () =>
   import('@/views/deal/children/Ship/productNameSearch')
 
@@ -525,6 +528,10 @@ const routes = [
     path: '/SelectProducts',
     name: 'data',
     component: SelectProducts,
+  },
+  {
+    path: '/InventorySelectPd',
+    component: InventorySelectPd,
   },
   {
     path: '/productNameSearch',

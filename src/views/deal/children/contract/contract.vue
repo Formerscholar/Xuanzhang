@@ -214,7 +214,6 @@ export default {
         this.FlowOrderList += 1
         this.getFlowOrderLists()
       }
-      this.$refs.scroll.finishPullUp()
     },
     toReceivables(item) {
       console.log('--------toReceivables------', item)
@@ -273,14 +272,16 @@ export default {
       })
     },
     tacheClick(name, title) {
-      console.log(name)
-      if (name) {
-        this.isShow = false
-        this.getFlowOrderLists()
-      } else {
-        this.isShow = true
-        this.getDeliverLists()
-      }
+      throttle(() => {
+        console.log(name)
+        if (name) {
+          this.isShow = false
+          this.getFlowOrderLists()
+        } else {
+          this.isShow = true
+          this.getDeliverLists()
+        }
+      }, 500)
     },
     openClick() {},
     closedClick() {},

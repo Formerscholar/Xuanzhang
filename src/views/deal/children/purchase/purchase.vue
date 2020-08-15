@@ -114,7 +114,7 @@ import {
 
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
-
+import { throttle } from '@/common/utils'
 export default {
   name: 'purchase',
   components: { myVqr },
@@ -142,10 +142,19 @@ export default {
     }
   },
   deactivated() {
-    this.distributor_id = null
+    console.log('清除')
+    this.Loop = null
+    this.active = 0
     this.outsourcingOrderList = []
     this.outsourcingOrderListed = []
+    this.indexTab = 0
+    this.indexPage = 1
+    this.listIsShow = false
+    this.isShow = false
     this.textContent = ''
+    this.show = false
+    this.item = {}
+    this.distributor_id = null
   },
   computed: {
     getOrderListData() {
@@ -226,16 +235,18 @@ export default {
       } else {
         this.getLiquidated()
       }
-      this.$refs.scroll.finishPullUp()
     },
     handleClick(tab, event) {
-      console.log(tab, event)
-      this.indexTab = tab
-      if (this.indexTab) {
-        this.getLiquidated()
-      } else {
-        this.getOrderList()
-      }
+      throttle(() => {
+        console.log(tab, event)
+        this.indexTab = tab
+
+        if (this.indexTab) {
+          this.getLiquidated()
+        } else {
+          this.getOrderList()
+        }
+      }, 500)
     },
     async getOrderList() {
       const { data } = await getUndischargedOemOrderList(this.getOrderListData)
