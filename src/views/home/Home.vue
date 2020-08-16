@@ -2,7 +2,7 @@
   <div id="home">
     <topbar @showCard="showCard" />
 
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div>
         <myHeader
           :isShow="isShow"

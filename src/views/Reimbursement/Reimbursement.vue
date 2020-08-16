@@ -29,7 +29,7 @@
     </div>
     <el-tabs v-model="state.activeName">
       <el-tab-pane label="我的报销" class="itembox" name="third">
-        <scroll class="scroll-wrapper">
+        <scroll class="scroll-wrapper" :probeType="3">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -89,7 +89,7 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="我的待审" class="itembox" name="three">
-        <scroll class="scroll-wrapper">
+        <scroll class="scroll-wrapper" :probeType="3">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -149,7 +149,7 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部待审" class="itembox" name="second">
-        <scroll class="scroll-wrapper">
+        <scroll class="scroll-wrapper" :probeType="3">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
               <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
@@ -216,7 +216,7 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部通过" class="itembox" name="first">
-        <scroll class="scroll-wrapper">
+        <scroll class="scroll-wrapper" :probeType="3">
           <div class="body_box">
             <div class="btn">
               <button>查看已完成的申请</button>
@@ -415,6 +415,8 @@ export default {
           message: msg,
           type: 'success',
         })
+        getMyToExamineReimbursement()
+        getReimburses()
       } else {
         root.$message({
           showClose: true,
@@ -471,13 +473,15 @@ export default {
       )
       console.log('cancelToExamineReimbursement', code, msg)
       if (code == 200) {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
+        getReimburses()
+        getReimburse()
       } else {
-        this.$message({
+        root.$message({
           showClose: true,
           message: msg,
           type: 'error',

@@ -172,7 +172,7 @@ export default {
   },
   filters: {
     setSalespersonName(value) {
-      return '负责人:' + value
+      return '操作:' + value
     },
     setCommitmentPeriode(value) {
       return '交期:' + value
@@ -240,10 +240,11 @@ export default {
       throttle(() => {
         console.log(tab, event)
         this.indexTab = tab
-
         if (this.indexTab) {
+          this.outsourcingOrderListed = []
           this.getLiquidated()
         } else {
+          this.outsourcingOrderList = []
           this.getOrderList()
         }
       }, 500)

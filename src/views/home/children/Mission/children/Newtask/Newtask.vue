@@ -9,7 +9,7 @@
       </div>
     </navbar>
 
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="box-card" body-style="padding: 0.357143rem ;">
         <div @click="SelectionClick" class="newStyle van-cell DeliveryDate">
           <span class="lable">任务类型</span>
@@ -20,7 +20,7 @@
           <span class="lable">任务属性</span>
           <span>{{propertiesData}}</span>
         </div>
-        
+
         <div class="newStyle DeliveryDate van-cell">
           <span class="lable">截止时间</span>
           <span class="time" @click="tiemrClick">{{end_time}}</span>
@@ -60,7 +60,7 @@
         <span>确 定</span>
       </span>
     </myBtns>
-    
+
     <SimpleCroppes :initParam="uploadParam" :successCallback="uploadHandle" ref="croppers" />
     <van-datetime-picker
       class="datetime"

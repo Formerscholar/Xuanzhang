@@ -5,27 +5,35 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>合同详情</span>
+        <span>销售合同</span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
-      <el-card class="content_wrap">
-        <div class="Company">{{contractOrder.platform | SetPlatform}}</div>
-        <div class="Company">
-          <span>{{contractOrder.distributor_name }}</span>
-          <span>{{contractOrder.order_number }}</span>
+    <scroll class="scroll-wrapper" :probeType="3">
+      <div class="content_wrap">
+        <div class="timers">
+          <div class="icons"></div>
+          <span>{{contractOrder.commitment_period | setTimerTypes}}</span>
         </div>
-        <div class="Company itembox">
-          <span>{{contractOrder.self_lxr | SetSelfLxr}}</span>
-          <span>{{contractOrder.self_lxr_tel}}</span>
+        <div class="seller">
+          <div class="lefttTitle">卖方</div>
+          <div class="rightbox">
+            <div class="name">{{contractOrder.self_lxr}}</div>
+            <div class="phonle">{{contractOrder.self_lxr_tel}}</div>
+          </div>
         </div>
-        <div class="itembox">
-          <span>{{contractOrder.kehu_lxr |SetKehuLxr}}</span>
-          <span>{{contractOrder.kehu_lxr_tel}}</span>
-        </div>
-      </el-card>
 
-      <el-card class="product_box">
+        <div class="buyer">
+          <div class="lefttTitle">买方</div>
+          <div class="rightbox">
+            <div class="name">{{contractOrder.kehu_lxr}}</div>
+            <div class="phonle">{{contractOrder.kehu_lxr_tel}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product_box">
+        <div class="product_title">产品信息</div>
+
         <div
           class="wrap_item"
           v-for="(item,index) in contractOrder.contractOrderProduct"
@@ -60,16 +68,50 @@
             </div>
           </div>
         </div>
-      </el-card>
-      <el-card class="content_wrap">
-        <div class="Company">{{contractOrder.pay_method_content | SetPayMethodContent}}</div>
-        <div class="Company">
-          <span>{{contractOrder.updated_at | SetUpdatedAt}}</span>
+
+        <div
+          class="product_price"
+          v-if="contractOrder.contract_amount != contractOrder.amount_of_discount"
+        >
+          <div class="total_price">
+            <div class="title">合计</div>
+            <span>￥{{contractOrder.contract_amount}}</span>
+          </div>
+          <div class="After_price">
+            <div class="title">折后</div>
+            <span>
+              ￥
+              <em>{{contractOrder.amount_of_discount.split('.')[0]}}</em>
+              .{{contractOrder.amount_of_discount.split('.')[1]}}
+            </span>
+          </div>
         </div>
-        <div class="itembox">
-          <span>{{contractOrder.remark | SetRemark}}</span>
+        <div class="product_price" v-else>
+          <div class="After_price">
+            <div class="title">合计</div>
+            <span>
+              ￥
+              <em>{{contractOrder.contract_amount.split('.')[0]}}</em>
+              .{{contractOrder.contract_amount.split('.')[1]}}
+            </span>
+          </div>
         </div>
-      </el-card>
+      </div>
+      <div class="content_wrap">
+        <div class="informations">合同信息</div>
+        <div class="informations_item">
+          <div class="title">付款方式</div>
+          <span>{{contractOrder.pay_method_content | SetPayMethodContent}}</span>
+        </div>
+        <div class="informations_item">
+          <div class="title">合同交期</div>
+          <span>{{contractOrder.updated_at }}</span>
+        </div>
+        <div class="informations_item">
+          <div class="title">其他要素</div>
+          <span>{{contractOrder.remark }}</span>
+        </div>
+      </div>
     </scroll>
 
     <div class="btns">
@@ -114,7 +156,7 @@ export default {
       return '￥:' + value + '*'
     },
     SetPayMethodContent(value) {
-      return '付款方式 ' + value
+      return ' ' + value
     },
     SetUpdatedAt(value) {
       return '交货日期 ' + value
@@ -200,48 +242,124 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden;
-    padding: 1.428571rem 0.714286rem;
+    padding: 0.714286rem 0.857143rem;
+    background-color: #f3f4f9;
+
     .content_wrap {
       padding: 0.714286rem 1.071429rem;
+      padding-bottom: 0;
       margin-top: 0.357143rem;
       margin-bottom: 0.357143rem;
-      .Company {
-        margin-bottom: 0.714286rem;
-        font-size: 1rem;
+      background-color: #fff;
+      .informations {
+        font-size: 1.142857rem;
+        color: #000;
+        border-bottom: 1px solid #d5d5d5;
+        padding-bottom: 0.714286rem;
+        margin-bottom: 0.428571rem;
+      }
+      .informations_item {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        em {
-          font-size: 0.714286rem;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 0.428571rem;
+        .title {
+          width: 4rem;
+          font-size: 1rem;
+          color: #acacac;
+          margin-right: 1rem;
+        }
+        span {
+          flex: 1;
+          font-size: 1rem;
+          font-family: 'Microsoft YaHei';
+          color: #000;
         }
       }
-      .Numbers {
-        margin-bottom: 0.357143rem;
-        font-size: 0.857143rem;
-        color: #5b534d;
-      }
-      .itembox {
-        font-size: 0.857143rem;
-        color: #5b534d;
+      .timers {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
+        border-bottom: 1px solid #d5d5d5;
+        padding-bottom: 0.714286rem;
+        .icons {
+          width: 1.285714rem;
+          height: 1.285714rem;
+          background-color: black;
+          margin-right: 0.714286rem;
+        }
         span {
+          font-size: 1.285714rem;
+          color: #666;
+        }
+      }
+      .seller,
+      .buyer {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top: 0.714286rem;
+        padding-bottom: 1.142857rem;
+        .lefttTitle {
+          width: 3.071429rem;
+          height: 1.571429rem;
+          line-height: 1.571429rem;
+          background-color: #4aa0ed;
+          color: #fff;
+          text-align: center;
+          font-size: 1.142857rem;
+          margin-right: 1.714286rem;
+          border-radius: 0.357143rem;
+        }
+        .rightbox {
+          flex: 1;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          border-bottom: 1px solid #d5d5d5;
+          padding-bottom: 1.142857rem;
+          .name {
+            font-size: 1.142857rem;
+            color: #000;
+            margin-right: 0.714286rem;
+          }
+          .phonle {
+            font-size: 1rem;
+            color: #666;
+          }
+        }
+      }
+      .buyer {
+        padding: 0;
+        .lefttTitle {
+          background-color: #f48a31;
+        }
+        .rightbox {
+          border: none;
         }
       }
     }
     .product_box {
+      background-color: #fff;
+      .product_title {
+        margin: 0 0.357143rem;
+        padding: 0.714286rem 0;
+        font-size: 1.142857rem;
+        color: #000;
+        border-bottom: 1px solid #ededed;
+      }
       .wrap_item {
-        padding: 0.357143rem;
-        border-bottom: 1px solid #f2f2f2;
+        padding: 0.357143rem 0.714286rem;
 
         .wrap_left {
           display: flex;
           justify-content: flex-start;
           align-items: center;
+          border-bottom: 1px solid #ededed;
+          padding-bottom: 0.357143rem;
           .img {
-            width: 5.928571rem;
-            height: 5.928571rem;
+            width: 6.785714rem;
+            height: 6.785714rem;
             background-color: #655d55;
             border-radius: 0.357143rem;
             margin-right: 0.714286rem;
@@ -280,13 +398,35 @@ export default {
           }
         }
       }
-      .wrap_money {
+      .product_price {
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
-        padding: 0.357143rem;
-        font-size: 1.142857rem;
-        color: #848484;
+        padding: 0.714286rem 1.285714rem;
+        .total_price {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          font-size: 1rem;
+          color: #000;
+        }
+        .After_price {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          margin-left: 1.857143rem;
+          .title {
+            font-size: 1rem;
+            color: #000;
+          }
+          span {
+            color: #f48a31;
+            margin-bottom: -0.214286rem;
+            em {
+              font-size: 1.571429rem;
+            }
+          }
+        }
       }
     }
   }

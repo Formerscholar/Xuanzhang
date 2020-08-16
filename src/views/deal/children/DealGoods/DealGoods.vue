@@ -11,27 +11,41 @@
         <DealGoodsItem
           slot="entire"
           :goodsLists="goodsLists"
-          @isMaskShow="isMaskShow"
-          @pushData="pushData"
+          @editlists="editlists"
+          @VoidList="VoidList"
+          @printList="printList"
         />
         <DealGoodsItem
           slot="Quote"
           :goodsLists="QuoteList"
-          @isMaskShow="isMaskShow"
-          @pushData="pushData"
+          @editlists="editlists"
+          @VoidList="VoidList"
+          @printList="printList"
+        />
+        <DealGoodsItem
+          slot="MyContract"
+          :goodsLists="contractOrderList"
+          @editlists="editlists"
+          @VoidList="VoidList"
+          @printList="printList"
+        />
+        <DealGoodsItem
+          slot="MyOffer"
+          :goodsLists="MyOfferList"
+          @editlists="editlists"
+          @VoidList="VoidList"
+          @printList="printList"
+        />
+        <DealGoodsItems
+          slot="DeliveryList"
+          :goodsLists="DeliveryList"
+          @editlists="editlists"
+          @VoidList="VoidList"
+          @printList="printList"
         />
       </Options>
     </scroll>
     <i class="el-icon-plus" @click="createContract"></i>
-    <van-overlay :show="show" @click="show = false" lock-scroll>
-      <div id="wrapper-click">
-        <div id="block">
-          <div class="propDivItem" @click="editlists">编辑</div>
-          <div class="propDivItem" @click="VoidList">作废</div>
-          <div class="propDivItem" @click="printList">打印</div>
-        </div>
-      </div>
-    </van-overlay>
     <van-overlay :show="isShow" @click="closeOverlay">
       <div class="wrapper-qrCode">
         <myVqr :Content="textContent"></myVqr>
@@ -41,14 +55,17 @@
 </template>
     
 <script>
-import DealGoodsItem from './DealGoodsItem.vue'
+import DealGoodsItem from './DealGoodsItem'
+import DealGoodsItems from './DealGoodsItems'
 import Options from '@/views/deal/children/Options/Options'
-import { throttle } from '@/common/utils.ts'
+import { throttle } from '@/common/utils'
 
 import {
   getContractOrderList,
   deleteContractOrder,
   getEditContractOrder,
+  getUserContractOrderList,
+  getDeliverGoodsList,
 } from '@/network/deal'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
@@ -59,6 +76,9 @@ export default {
       timer: null,
       goodsLists: [],
       QuoteList: [],
+      contractOrderList: [],
+      MyOfferList: [],
+      DeliveryList: [],
       pageIndex: 0,
       editData: {},
       allPage: 1,
@@ -66,6 +86,9 @@ export default {
       imgData: '',
       entire: 1,
       Quote: 1,
+      MyContract: 1,
+      MyOffer: 1,
+      Delivery: 1,
       request: true,
       show: false,
       textContent: '',
@@ -74,26 +97,39 @@ export default {
   },
   components: {
     DealGoodsItem,
+    DealGoodsItems,
     Options,
     myVqr,
   },
   activated() {
-    if (this.pageIndex) {
-      this.getOrderList(0)
-    } else {
+    if (this.pageIndex == 0) {
       this.getOrderList(1)
+    } else if (this.pageIndex == 1) {
+      this.getOrderList(0)
+    } else if (this.pageIndex == 2) {
+      this.getUserContractOrderss()
+    } else if (this.pageIndex == 3) {
+      this.getUserContractOrders()
+    } else if (this.pageIndex == 4) {
+      this.getDeliverGoodsLists()
     }
   },
   deactivated() {
     this.timer = null
     this.goodsLists = []
     this.QuoteList = []
+    this.contractOrderList = []
+    this.MyOfferList = []
+    this.DeliveryList = []
     this.pageIndex = 0
     this.editData = {}
     this.allPage = 1
     this.isShow = false
     this.imgData = ''
     this.entire = 1
+    this.MyContract = 1
+    this.MyOffer = 1
+    this.Delivery = 1
     this.Quote = 1
     this.request = true
     this.show = false
@@ -101,23 +137,131 @@ export default {
     this.print_html = ''
   },
   computed: {
-    deleteContractOrderData() {
-      const form = new FormData()
-      form.append('token', this.$store.state.tonken)
-      form.append('id', this.iid)
-      return form
+    getUserContractOrderListData() {
+      return {
+        token: this.$store.state.token,
+        page: this.allPage,
+        offset: 20,
+        distributor_id: null,
+        order_number: null,
+        is_contract: 1,
+        _: new Date().getTime(),
+      }
+    },
+    getUserContractOrderListDatas() {
+      return {
+        token: this.$store.state.token,
+        page: this.allPage,
+        offset: 20,
+        distributor_id: null,
+        order_number: null,
+        is_contract: 0,
+        _: new Date().getTime(),
+      }
+    },
+    getDeliverGoodsListData() {
+      return {
+        token: this.$store.state.token,
+        page: this.allPage,
+        offset: 20,
+        order_type: 'contract',
+        distributor_id: null,
+        _: new Date().getTime(),
+      }
     },
   },
   methods: {
-    printList() {
-      if (this.print_html != '') {
-        this.show = false
+    async getDeliverGoodsLists() {
+      const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
+      if (data.deliveryRecordList.length != 0) {
+        data.deliveryRecordList.forEach((item) => {
+          this.DeliveryList.push({
+            contract: item.order_number,
+            Amount: item.total_funds,
+            Company: item.name,
+            Delivery: item.apply_time,
+            name: item.operator_name,
+            distributor_id: item.distributor_id,
+            che_status: item.che_status,
+            business_status: item.business_status,
+          })
+        })
+      } else {
+        this.request = false
+      }
+    },
+    async getUserContractOrders() {
+      const { data } = await getUserContractOrderList(
+        this.getUserContractOrderListDatas
+      )
+      console.log('getUserContractOrderList', data)
+      if (data.contractOrderList.length != 0) {
+        data.contractOrderList.forEach((item) => {
+          this.MyOfferList.push({
+            isIndex: 1,
+            id: item.id,
+            contract: item.order_number,
+            Amount: item.amount_of_discount,
+            Company: item.name_alias,
+            Delivery: item.contract_date,
+            name: item.operator_name,
+            distributor_id: item.distributor_id,
+            che_status: item.che_status,
+            business_status: item.business_status,
+            schedule: {
+              Settlement: item.settlement_progress * 1,
+              Ship: item.delivery_schedule * 1,
+              invoice: item.invoice_progress * 1,
+            },
+          })
+        })
+      } else {
+        this.request = false
+      }
+    },
+    async getUserContractOrderss() {
+      const { data } = await getUserContractOrderList(
+        this.getUserContractOrderListData
+      )
+      console.log('getUserContractOrderList', data)
+      if (data.contractOrderList.length != 0) {
+        data.contractOrderList.forEach((item) => {
+          this.contractOrderList.push({
+            isIndex: 1,
+            id: item.id,
+            contract: item.order_number,
+            Amount: item.amount_of_discount,
+            Company: item.name_alias,
+            Delivery: item.contract_date,
+            name: item.operator_name,
+            distributor_id: item.distributor_id,
+            che_status: item.che_status,
+            business_status: item.business_status,
+            schedule: {
+              Settlement: item.settlement_progress * 1,
+              Ship: item.delivery_schedule * 1,
+              invoice: item.invoice_progress * 1,
+            },
+          })
+        })
+      } else {
+        this.request = false
+      }
+    },
+    async printList(datas) {
+      this.show = datas.showed
+      const { code, data, msg } = await getEditContractOrder({
+        id: datas.data.id,
+        token: this.$store.state.tonken,
+        _: new Date().getTime(),
+      })
+      if (code == 200) {
         this.isShow = true
-        this.textContent = this.print_html
+        this.textContent = data.contractOrder.print_html
       } else {
         this.$message({
           showClose: true,
-          message: '暂未生成',
+          message: msg,
           type: 'error',
         })
       }
@@ -125,39 +269,34 @@ export default {
     closeOverlay() {
       this.isShow = false
     },
-    async isMaskShow(datas) {
-      this.show = datas.showed
-      const { data } = await getEditContractOrder({
-        id: datas.data.id,
-        token: this.$store.state.tonken,
-        _: new Date().getTime(),
-      })
-      this.print_html = data.contractOrder.print_html
-    },
-    async VoidList() {
-      this.show = false
-      const { msg } = await deleteContractOrder(this.deleteContractOrderData)
+    async VoidList(datas) {
+      const form = new FormData()
+      form.append('token', this.$store.state.tonken)
+      form.append('id', datas.data.id)
+      const { msg } = await deleteContractOrder(form)
       this.$toast(msg)
     },
-    pushData(editData) {
-      this.editData = editData
-    },
-    editlists() {
+    editlists(datas) {
       this.$router.push({
         path: '/edit-contract',
         query: {
-          data: this.editData,
+          data: datas.data,
         },
       })
-      this.show = false
     },
     selectIndex(i) {
       throttle(() => {
         this.pageIndex = i
-        if (this.pageIndex) {
-          this.getOrderList(0)
-        } else {
+        if (this.pageIndex == 0) {
           this.getOrderList(1)
+        } else if (this.pageIndex == 1) {
+          this.getOrderList(0)
+        } else if (this.pageIndex == 2) {
+          this.getUserContractOrderss()
+        } else if (this.pageIndex == 3) {
+          this.getUserContractOrders()
+        } else if (this.pageIndex == 4) {
+          this.getDeliverGoodsLists()
         }
       }, 500)
     },
@@ -180,6 +319,30 @@ export default {
             this.$toast('没有更多数据了')
           }
           break
+        case 2:
+          if (this.request) {
+            this.allPage = ++this.MyContract
+            this.getUserContractOrderss()
+          } else {
+            this.$toast('没有更多数据了')
+          }
+          break
+        case 3:
+          if (this.request) {
+            this.allPage = ++this.MyOffer
+            this.getUserContractOrders()
+          } else {
+            this.$toast('没有更多数据了')
+          }
+          break
+        case 4:
+          if (this.request) {
+            this.allPage = ++this.Delivery
+            this.getDeliverGoodsLists()
+          } else {
+            this.$toast('没有更多数据了')
+          }
+          break
         default:
           break
       }
@@ -192,16 +355,17 @@ export default {
         distributor_id: '',
         order_number: '',
         is_contract: id,
+        salesperson_id: null,
         _: new Date().getTime(),
       }
     },
     async getOrderList(id) {
       const { data } = await getContractOrderList(this.getOrderData(id))
       console.log('getContractOrderList', data)
-      if (id == 1) {
+      if (id == 0) {
         if (data.contractOrderList.length != 0) {
           data.contractOrderList.forEach((item) => {
-            this.goodsLists.push({
+            this.QuoteList.push({
               isIndex: 1,
               id: item.id,
               contract: item.order_number,
@@ -222,15 +386,19 @@ export default {
         } else {
           this.request = false
         }
-      } else if (id == 0) {
+      } else if (id == 1) {
         data.contractOrderList.forEach((item) => {
-          this.QuoteList.push({
+          this.goodsLists.push({
+            isIndex: 1,
+            id: item.id,
             contract: item.order_number,
             Amount: item.amount_of_discount,
             Company: item.name_alias,
             Delivery: item.contract_date,
             name: item.operator_name,
-            id: item.distributor_id,
+            distributor_id: item.distributor_id,
+            che_status: item.che_status,
+            business_status: item.business_status,
             schedule: {
               Settlement: item.settlement_progress * 1,
               Ship: item.delivery_schedule * 1,

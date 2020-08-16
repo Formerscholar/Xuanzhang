@@ -9,7 +9,7 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="product_box">
         <div class="wrap_item" v-for="(item,index) in orderProducts" :key="index">
           <div class="wrap_left">

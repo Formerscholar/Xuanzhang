@@ -9,7 +9,7 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="BasicInfo">
         <div class="title">基本信息</div>
         <van-field

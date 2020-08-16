@@ -11,14 +11,10 @@
         <span></span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="content_wrap">
         <div class="Company">
           <span>{{deliveryRecordItem.name }}</span>
-          <span>
-            <em>￥</em>
-            {{deliveryRecordItem.total_money }}
-          </span>
         </div>
         <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
         <div class="itembox">
@@ -27,6 +23,8 @@
         </div>
       </el-card>
       <el-card class="product_box">
+        <div class="product_title">产品信息</div>
+
         <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
@@ -55,6 +53,33 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          class="product_price"
+          v-if="deliveryRecordItem.total_money != deliveryRecordItem.total_funds"
+        >
+          <div class="total_price">
+            <div class="title">合计</div>
+            <span>￥{{deliveryRecordItem.total_money}}</span>
+          </div>
+          <div class="After_price">
+            <div class="title">折后</div>
+            <span>
+              ￥
+              <em>{{deliveryRecordItem.total_funds.split('.')[0]}}</em>
+              .{{deliveryRecordItem.total_funds.split('.')[1]}}
+            </span>
+          </div>
+        </div>
+        <div class="product_price" v-else>
+          <div class="After_price">
+            <div class="title">合计</div>
+            <span>
+              ￥
+              <em>{{deliveryRecordItem.total_money.split('.')[0]}}</em>
+              .{{deliveryRecordItem.total_money.split('.')[1]}}
+            </span>
           </div>
         </div>
       </el-card>
@@ -264,17 +289,26 @@ export default {
       }
     }
     .product_box {
+      background-color: #fff;
+      .product_title {
+        margin: 0 0.357143rem;
+        padding: 0.714286rem 0;
+        font-size: 1.142857rem;
+        color: #000;
+        border-bottom: 1px solid #ededed;
+      }
       .wrap_item {
-        padding: 0.357143rem;
-        border-bottom: 1px solid #f2f2f2;
+        padding: 0.357143rem 0.714286rem;
 
         .wrap_left {
           display: flex;
           justify-content: flex-start;
           align-items: center;
+          border-bottom: 1px solid #ededed;
+          padding-bottom: 0.357143rem;
           .img {
-            width: 5.928571rem;
-            height: 5.928571rem;
+            width: 6.785714rem;
+            height: 6.785714rem;
             background-color: #655d55;
             border-radius: 0.357143rem;
             margin-right: 0.714286rem;
@@ -313,13 +347,35 @@ export default {
           }
         }
       }
-      .wrap_money {
+      .product_price {
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
-        padding: 0.357143rem;
-        font-size: 1.142857rem;
-        color: #848484;
+        padding: 0.714286rem 1.285714rem;
+        .total_price {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          font-size: 1rem;
+          color: #000;
+        }
+        .After_price {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          margin-left: 1.857143rem;
+          .title {
+            font-size: 1rem;
+            color: #000;
+          }
+          span {
+            color: #f48a31;
+            margin-bottom: -0.214286rem;
+            em {
+              font-size: 1.571429rem;
+            }
+          }
+        }
       }
     }
   }

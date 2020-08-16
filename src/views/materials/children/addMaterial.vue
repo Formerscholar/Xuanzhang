@@ -8,7 +8,7 @@
         <span>新建物料</span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="box-card">
         <div class="img_upload van-cell DeliveryDate">
           <span class="lable">上传图片</span>

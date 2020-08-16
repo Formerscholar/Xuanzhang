@@ -9,7 +9,7 @@
         <van-icon name="success" />
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="swiper">
         <img :src="img_URL" alt="logo" />
         <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
@@ -46,6 +46,7 @@
           @listhandleClick="listhandleClick"
         />
         <Lists name="基本单位" route="BasicUnit" :data="valuess" @listhandleClick="listhandleClick" />
+
         <Lists name="物料价格" route="MPrice" :data="MaterialPrice" @listhandleClick="listhandleClick" />
 
         <Lists name="入库价格" route="WPrice" :data="StoragePrices" @listhandleClick="listhandleClick" />
@@ -53,6 +54,7 @@
         <Lists name="bom价格" route="BOMPrice" :data="bomPrice" @listhandleClick="listhandleClick" />
 
         <Lists name="默认仓库" route="DWarehouse" :data="valuesss" @listhandleClick="listhandleClick" />
+
         <Lists name="库位号" route="WLNumber" :data="LocationNum" @listhandleClick="listhandleClick" />
         <div v-for="item in materielExtra" :key="item.id">
           <Lists

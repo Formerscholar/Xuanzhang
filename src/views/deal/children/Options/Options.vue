@@ -7,6 +7,15 @@
       <van-tab title="报价合同">
         <slot name="Quote"></slot>
       </van-tab>
+      <van-tab title="我的合同">
+        <slot name="MyContract"></slot>
+      </van-tab>
+      <van-tab title="我的报价">
+        <slot name="MyOffer"></slot>
+      </van-tab>
+      <van-tab title="发货列表">
+        <slot name="DeliveryList"></slot>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -17,14 +26,14 @@ export default {
   components: {},
   data() {
     return {
-      active: 0
+      active: 0,
     }
   },
   methods: {
     handleClick(tab, event) {
       this.$emit('selectIndex', tab)
-    }
-  }
+    },
+  },
 }
 </script>
     

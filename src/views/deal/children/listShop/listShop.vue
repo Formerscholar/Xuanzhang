@@ -11,7 +11,7 @@
         <span></span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <el-row class="customerName line">

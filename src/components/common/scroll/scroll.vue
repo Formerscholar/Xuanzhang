@@ -66,5 +66,6 @@ export default {
 
 <style scoped lang="scss">
 .content {
+  min-height: 100vh;
 }
 </style>

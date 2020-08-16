@@ -9,7 +9,7 @@
       </div>
       <div slot="right" class="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <van-field

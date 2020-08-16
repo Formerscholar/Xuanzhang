@@ -13,7 +13,7 @@
       </div>
     </navbar>
     <!-- body -->
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div>
         <!-- firm -->
         <el-card class="firm_box-card jl_box">
@@ -114,7 +114,7 @@ import {
   getEditSupplier,
   editSupplier,
   getEditDistributor,
-  getAddContractOrder
+  getAddContractOrder,
 } from '@/network/client'
 import { getAddOutsourcingOrder } from '@/network/deal'
 
@@ -150,7 +150,7 @@ export default {
         name: '',
         jobe: '',
         phone: '',
-        email: ''
+        email: '',
       },
       formLabelWidth: '80px',
       timer: null,
@@ -163,7 +163,7 @@ export default {
         phone: '',
         Bank: '',
         account: '',
-        legal: ''
+        legal: '',
       },
       tags: [],
       restaurants: [],
@@ -172,7 +172,7 @@ export default {
       title: '',
       typeIndex: false,
       iid: 0,
-      isQuire: false
+      isQuire: false,
     }
   },
   computed: {
@@ -204,12 +204,12 @@ export default {
         big_content: '',
         contacts: this.contacts,
         salesperson_ids: this.tasIDs,
-        contacts_address: this.Address
+        contacts_address: this.Address,
       }
     },
     addDistributorData() {
       let NewArr = []
-      this.tags.map(item => {
+      this.tags.map((item) => {
         NewArr.push(item.id)
       })
 
@@ -239,16 +239,16 @@ export default {
         big_content: '',
         contacts: this.contacts,
         salesperson_ids: NewArr,
-        contacts_address: this.Address
+        contacts_address: this.Address,
       }
     },
     getEditDistrData() {
       return {
         id: this.iid,
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   mounted() {
     this.restaurants = this.loadAll()
@@ -279,7 +279,7 @@ export default {
       }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
-      return state => {
+      return (state) => {
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         )
@@ -289,11 +289,11 @@ export default {
       console.log(item)
     },
     addSalesHeader() {
-      this.SalesOptions.map(item => {
+      this.SalesOptions.map((item) => {
         if (item.value == this.SalesHeader) {
           this.tags.push({
             name: item.value,
-            id: item.address
+            id: item.address,
           })
           this.tasIDs.push(item.address)
         }
@@ -304,14 +304,14 @@ export default {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'success'
+          type: 'success',
         })
         this.$router.go(-1)
       } else {
         this.$message({
           showClose: true,
           message: msg,
-          type: 'error'
+          type: 'error',
         })
       }
     },
@@ -319,9 +319,9 @@ export default {
       this.isQuire = false
       if (this.title == 'client') {
         const { data, code } = await getAddContractOrder({
-          token: this.$store.state.token
+          token: this.$store.state.token,
         })
-        data.distributors.map(item => {
+        data.distributors.map((item) => {
           if (item.name == this.companyName) {
             this.messageShow(400, '名称不能重复')
             this.isQuire = true
@@ -340,9 +340,9 @@ export default {
         }
       } else if (this.title == 'supplier') {
         const { data } = await getAddOutsourcingOrder({
-          token: this.$store.state.token
+          token: this.$store.state.token,
         })
-        data.suppliers.map(item => {
+        data.suppliers.map((item) => {
           if (item.name == this.companyName) {
             this.messageShow(400, '名称不能重复')
             this.isQuire = true
@@ -363,13 +363,13 @@ export default {
       const { data } = await getDistributorUser()
       console.log('getDistributorUser', data)
       this.id_number = data.userInfo[0].id_number
-      data.users.map(item => {
+      data.users.map((item) => {
         if ((item.id = data.userInfo[0].id)) {
           this.SalesHeader = item.name
         }
         this.SalesOptions.push({
           address: item.id,
-          value: item.name
+          value: item.name,
         })
       })
     },
@@ -391,7 +391,7 @@ export default {
     },
     showInput() {
       this.inputVisible = true
-      this.$nextTick(_ => {
+      this.$nextTick((_) => {
         this.$refs.saveTagInput.$refs.input.focus()
       })
     },
@@ -406,7 +406,7 @@ export default {
         name,
         jobe,
         phone,
-        email
+        email,
       })
       this.contacts.push([name, jobe, phone, email])
       this.ContactIsShow = false
@@ -427,24 +427,24 @@ export default {
       this.companyName = list.name
       this.Abbreviation = list.id_number
       this.Address = list.contacts_address
-      list.contacts.map(item => {
+      list.contacts.map((item) => {
         this.tableData.push({
           name: item.contacts,
           jobe: item.contacts_post,
           phone: item.contacts_tel,
-          email: item.contacts_email
+          email: item.contacts_email,
         })
         this.contacts.push([
           item.contacts,
           item.contacts_post,
           item.contacts_tel,
-          item.contacts_email
+          item.contacts_email,
         ])
       })
-      list.salesperson.map(item => {
+      list.salesperson.map((item) => {
         this.tags.push({
           address: item.user_id,
-          name: item.user_name
+          name: item.user_name,
         })
         this.tasIDs.push(item.user_id)
       })
@@ -456,25 +456,25 @@ export default {
       this.companyName = list.name
       this.Abbreviation = list.id_number
       this.Address = list.contacts_address
-      list.contacts.map(item => {
+      list.contacts.map((item) => {
         this.tableData.push({
           name: item.contacts,
           jobe: item.contacts_post,
           phone: item.contacts_tel,
-          email: item.contacts_email
+          email: item.contacts_email,
         })
         this.contacts.push([
           item.contacts,
           item.contacts_post,
           item.contacts_tel,
-          item.contacts_email
+          item.contacts_email,
         ])
       })
-      list.salesperson.map(item => {
+      list.salesperson.map((item) => {
         this.tagsName.push(item.user_name)
         this.tasIDs.push(item.user_id)
       })
-    }
+    },
   },
   activated() {
     this.title = this.$route.params.name
@@ -523,7 +523,7 @@ export default {
     this.SalesOptions = []
     this.tableData = []
     this.form = {}
-  }
+  },
 }
 </script>
 

@@ -11,7 +11,7 @@
         <span>收入￥{{allmonty.toFixed(2)}}</span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="content_box">
         <van-swipe-cell v-for="(item,index) in deliveryRecordList" :key="index">
           <div class="row">
@@ -88,7 +88,7 @@ export default {
       isShow: false,
       imgData: '',
       textContent: '',
-      deliveryRecordList: []
+      deliveryRecordList: [],
     }
   },
   components: { myVqr },
@@ -107,9 +107,9 @@ export default {
         offset: 20,
         order_type: 'contract',
         distributor_id: this.iid,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
-    }
+    },
   },
   methods: {
     blacknext() {
@@ -133,14 +133,14 @@ export default {
         this.$message({
           showClose: true,
           message: '暂未生成',
-          type: 'error'
+          type: 'error',
         })
       }
     },
     closeOverlay() {
       this.isShow = false
-    }
-  }
+    },
+  },
 }
 </script>
     

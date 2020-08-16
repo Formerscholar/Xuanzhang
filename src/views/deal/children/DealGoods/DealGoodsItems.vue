@@ -15,48 +15,7 @@
             <div class="Company">{{ item.Company }}</div>
           </div>
         </div>
-        <div class="itemDown">
-          <div class="Downitem">
-            <el-progress
-              :format="formatOne"
-              :text-inside="true"
-              :stroke-width="16"
-              :percentage="item.schedule.Settlement * 1"
-              :status="item.schedule.Settlement * 1 < 100 ? null : 'warning'"
-            ></el-progress>
-          </div>
-          <div class="Downitem">
-            <el-progress
-              :format="formatTwo"
-              :text-inside="true"
-              :stroke-width="16"
-              :percentage="item.schedule.Ship  * 1"
-              :status="item.schedule.Ship * 1 < 100 ? null : 'warning'"
-            ></el-progress>
-          </div>
-          <div class="Downitem">
-            <el-progress
-              :format="formatThree"
-              :text-inside="true"
-              :stroke-width="16"
-              :percentage="item.schedule.invoice * 1"
-              :status="item.schedule.invoice * 1 < 100 ? null : 'warning'"
-            ></el-progress>
-          </div>
-        </div>
         <div class="itemdondon">
-          <div class="tags">
-            <van-tag
-              plain
-              v-if="item.isIndex"
-              :type="item.business_status | tagsType"
-            >{{item.business_status | setbusiness_status}}</van-tag>
-            <van-tag
-              plain
-              v-if="item.isIndex"
-              :type="item.che_status  ? 'success' : 'warning'"
-            >{{item.che_status ? '整装待发' : '生产中'}}</van-tag>
-          </div>
           <div class="topLeft layout">
             <div class="Amount">
               <i>{{ item.Amount | SetAmount }}</i>
@@ -70,6 +29,7 @@
           </div>
         </div>
       </div>
+
       <template #right style="height:100%;">
         <van-button style="height:100%;" square type="warning" text="编辑" @click="editlists(item)" />
         <van-button style="height:100%;" square type="danger" text="作废" @click="VoidList(item)" />
@@ -150,16 +110,21 @@ export default {
   },
   methods: {
     editlists(item) {
+      console.log(item)
       this.$emit('editlists', {
         data: item,
       })
     },
     VoidList(item) {
+      console.log(item)
+
       this.$emit('VoidList', {
         data: item,
       })
     },
     printList(item) {
+      console.log(item)
+
       this.$emit('printList', {
         showed: this.show,
         data: item,

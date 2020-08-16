@@ -560,3 +560,10 @@ export function addMaterielReturn(data) {
     data: Qs.stringify(data),
   })
 }
+export function getUserContractOrderList(params) {
+  return request({
+    url: '/TradingCenter/getUserContractOrderList',
+    method: 'GET',
+    params,
+  })
+}

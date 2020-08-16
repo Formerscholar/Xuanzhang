@@ -9,7 +9,7 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <van-field v-model="state" label="供应商" @focus="focusClick" />

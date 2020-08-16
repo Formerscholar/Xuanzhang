@@ -350,13 +350,12 @@ export default {
       margin-bottom: 0.357143rem;
       padding: 0.357143rem 0.857143rem;
       .box-card {
-        // font-family: 'SimHei';
         .numstag {
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-size: 0.857143rem;
-          margin-bottom: 0.571429rem;
+          margin-bottom: 0.471429rem;
 
           .num {
             color: #ababab;
@@ -389,11 +388,11 @@ export default {
           justify-content: space-between;
           align-items: center;
           text-align: center;
-          margin-bottom: 0.571429rem;
+          margin-bottom: 0.271429rem;
           .left_box {
             flex: 1;
             .name {
-              font-size: 1.142857rem;
+              font-size: 1.071429rem;
             }
             .timers {
               font-size: 0.857143rem;
@@ -406,7 +405,7 @@ export default {
           .right_box {
             flex: 1;
             .name {
-              font-size: 1.142857rem;
+              font-size: 1.071429rem;
             }
             .timers {
               font-size: 0.857143rem;
@@ -414,7 +413,7 @@ export default {
           }
         }
         .MissionDetails {
-          font-size: 1.071429rem;
+          font-size: 1rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

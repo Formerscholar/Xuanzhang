@@ -9,7 +9,7 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">

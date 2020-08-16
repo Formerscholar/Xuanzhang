@@ -11,7 +11,7 @@
         <i class="el-icon-circle-check"></i>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="content_box">
         <div class="assetsInfo">
           <div class="card">

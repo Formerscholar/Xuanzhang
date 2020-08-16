@@ -11,7 +11,7 @@
         <span></span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <el-row class="customerName line">
@@ -90,7 +90,7 @@
 import {
   getAddSettlementRecordDistributors,
   addSettlementRecord,
-  getSettlementVariable
+  getSettlementVariable,
 } from '@/network/deal'
 export default {
   data() {
@@ -99,7 +99,7 @@ export default {
       restaurantss: [],
       restaurantsss: [
         { value: '现金余额', address: 0 },
-        { value: '银行账户', address: 1 }
+        { value: '银行账户', address: 1 },
       ],
       restaurantsssss: [],
       deliveryRecordItem: {},
@@ -110,17 +110,17 @@ export default {
       Settlementstate: '',
       Products: 0,
       timersList: {
-        DeliveryDate: new Date().getTime()
+        DeliveryDate: new Date().getTime(),
       },
       DeliveryNotes: '',
       settlement_type: '',
       variable_id: 0,
       distributor_id: '',
-      order_type: ''
+      order_type: '',
     }
   },
   components: {
-    timers
+    timers,
   },
   activated() {
     this.getAddSettlementRecord()
@@ -130,14 +130,14 @@ export default {
       distributor_id,
       distributor_name,
       order_number,
-      operator_name
+      operator_name,
     } = this.deliveryRecordItem
     this.state = distributor_name
     this.contractstate = order_number
     this.Settlementstate = operator_name
     this.distributor_id = distributor_id
 
-    document.querySelectorAll('input').forEach(item => {
+    document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
   },
@@ -145,21 +145,21 @@ export default {
   computed: {
     getAddSettlementData() {
       return {
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getSettlementVariableData() {
       return {
         settlement_type: 'user',
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     getSettlementVariableDatas() {
       return {
         settlement_type: 'bank',
         token: this.$store.state.token,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     addSettlementRecordData() {
@@ -174,7 +174,7 @@ export default {
       from.append('order_id', this.contractstate)
       from.append('remark', this.DeliveryNotes)
       return from
-    }
+    },
   },
   methods: {
     async getAddSettlementRecord() {
@@ -185,24 +185,24 @@ export default {
       let arr = [
         {
           value: data.companyOrderType.contract,
-          address: 'contract'
+          address: 'contract',
         },
         {
           value: data.companyOrderType.flow,
-          address: 'flow'
+          address: 'flow',
         },
         {
           value: data.companyOrderType.oem,
-          address: 'oem'
+          address: 'oem',
         },
         {
           value: data.companyOrderType.settlement,
-          address: 'settlement'
+          address: 'settlement',
         },
         {
           value: data.companyOrderType.standard,
-          address: 'standard'
-        }
+          address: 'standard',
+        },
       ]
       this.restaurants = arr
     },
@@ -288,10 +288,10 @@ export default {
           this.getSettlementVariableData
         )
         console.log('getSettlementVariable', data)
-        data.variable.map(item => {
+        data.variable.map((item) => {
           this.restaurantsssss.push({
             value: item.user_name,
-            address: item.user_id
+            address: item.user_id,
           })
         })
         this.variable_id = data.variable[0].user_id
@@ -307,8 +307,8 @@ export default {
       console.log(value)
 
       this.variable_id = value.address * 1
-    }
-  }
+    },
+  },
 }
 </script>
     

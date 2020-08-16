@@ -11,7 +11,7 @@
         <van-icon @click="newAccount" name="orders-o" />
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="coutent">
         <div class="card topcard">
           <el-card class="box-card">
@@ -60,7 +60,6 @@
             </div>
           </div>
         </el-card>
-
       </div>
     </scroll>
   </div>

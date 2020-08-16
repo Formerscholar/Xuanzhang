@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="box-card">
         <div class="topbox">
           <div class="name">

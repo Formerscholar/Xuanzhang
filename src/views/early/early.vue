@@ -10,7 +10,7 @@
       <div class="right" slot="right"></div>
     </navbar>
 
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="content">
         <el-card class="box-card" v-for="(item,index) in listItem " :key="index">
           <div class="box-content">
@@ -43,45 +43,45 @@ export default {
           title: '仓库预警',
           logo: 'storeWarn.png',
           right_text: '预警信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '买价上浮',
           logo: 'buyPriceAdd.png',
           right_text: '未读信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '付款超标',
           logo: 'payOver.png',
           right_text: '超标信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '备用金',
           logo: 'standbyMoney.png',
           right_text: '溢出信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '超额发货',
           logo: 'overDeliver.png',
           right_text: '超额信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '提前支取',
           logo: 'aheadDraw.png',
           right_text: '超额信息',
-          right_content: 0
+          right_content: 0,
         },
         {
           title: '任务超时',
           logo: 'taskOvertime.png',
           right_text: '超时信息',
-          right_content: 0
-        }
-      ]
+          right_content: 0,
+        },
+      ],
     }
   },
 
@@ -92,8 +92,8 @@ export default {
   methods: {
     blackhome() {
       this.$router.go(-1)
-    }
-  }
+    },
+  },
 }
 </script>
     

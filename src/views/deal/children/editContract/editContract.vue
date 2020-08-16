@@ -11,7 +11,7 @@
         <van-icon name="plus" style="margin-left: 0.714286rem;" @click="addNewCustomers" />
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
           <el-row class="customerName line">
@@ -296,11 +296,8 @@ export default {
       iid: '',
     }
   },
-  components: { timers },
-  created() {
-    this.getAddContract()
-  },
   activated() {
+    this.getAddContract()
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })

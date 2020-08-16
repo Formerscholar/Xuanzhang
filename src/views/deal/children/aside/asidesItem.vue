@@ -11,7 +11,7 @@
         <span></span>
       </div>
     </navbar>
-    <scroll class="scroll-wrapper">
+    <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="content_wrap">
         <div class="Company">
           <span>{{deliveryRecordItem.name }}</span>
