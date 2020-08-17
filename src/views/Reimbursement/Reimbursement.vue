@@ -23,6 +23,9 @@
             <div class="firm">
               <span>{{state.titleName.compserName}}</span>
             </div>
+            <div class="firm">
+              <span>{{state.titleName.phone}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -33,7 +36,7 @@
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
-                <el-card class="box-card">
+                <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
@@ -57,7 +60,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>{{item.category_name}}</span>
+                      <span>【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -74,7 +77,7 @@
                       </span>
                     </div>
                   </el-row>
-                </el-card>
+                </div>
               </div>
 
               <template #right>
@@ -93,7 +96,7 @@
           <div class="body_box">
             <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
-                <el-card class="box-card">
+                <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
@@ -117,7 +120,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>{{item.category_name}}</span>
+                      <span>【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -134,7 +137,7 @@
                       </span>
                     </div>
                   </el-row>
-                </el-card>
+                </div>
               </div>
 
               <template #right>
@@ -153,7 +156,7 @@
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
               <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
-                <el-card class="box-card">
+                <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
@@ -177,7 +180,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>{{item.category_name}}</span>
+                      <span>【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -194,7 +197,7 @@
                       </span>
                     </div>
                   </el-row>
-                </el-card>
+                </div>
               </div>
 
               <template #right>
@@ -203,7 +206,7 @@
                   square
                   type="primary"
                   @click="cancel_enabled(item.id)"
-                  text="取消待审"
+                  text="取消审核"
                 />
                 <van-button v-else square type="primary" @click="audit_enabled(item.id)" text="审核" />
               </template>
@@ -237,7 +240,7 @@
             </div>
             <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
               <div class="cardban" @click="reimburClicks(item.id)">
-                <el-card class="box-card">
+                <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
@@ -261,7 +264,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>{{item.category_name}}</span>
+                      <span>【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -278,10 +281,10 @@
                       </span>
                     </div>
                   </el-row>
-                </el-card>
+                </div>
               </div>
               <template #right>
-                <van-button square type="primary" @click="cancel_enabled(item.id)" text="取消待审" />
+                <van-button square type="primary" @click="cancel_enabled(item.id)" text="取消审核" />
               </template>
             </van-swipe-cell>
 
@@ -444,6 +447,7 @@ export default {
         name: data.userInfo[0].name || '姓名',
         compserName: data.userInfo[0].user_compser_name || '公司全称',
         roleName: data.userInfo[0].role.display_name,
+        phone: data.userInfo[0].username,
       }
     }
     async function getReimburses() {
@@ -569,7 +573,6 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          margin-bottom: 0.714286rem;
           span {
             margin-right: 0.714286rem;
             font-size: 1.142857rem;
@@ -625,8 +628,8 @@ export default {
       }
 
       .body_box {
-        padding: 0.357143rem 0.714286rem;
-        background-color: #f3f3f3;
+        padding: 0.571429rem 0.714286rem;
+        background-color: #f3f4f9;
         min-height: calc(100vh - 14rem);
         .boxbtn {
           display: flex;
@@ -695,6 +698,7 @@ export default {
         .card {
           margin-bottom: 0.714286rem;
           .box-card {
+            background-color: #fff;
             ul {
               display: flex;
               width: 100%;
@@ -723,6 +727,8 @@ export default {
           margin-bottom: 1.071429rem;
           position: relative;
           .box-card {
+            background-color: #fff;
+            padding: 0.714286rem;
             .item1 {
               display: flex;
               justify-content: space-between;
@@ -787,7 +793,11 @@ export default {
           }
         }
         .cardmoney {
-          margin-bottom: 1.428571rem;
+          margin-bottom: 0.571429rem;
+          .box-card {
+            background-color: #fff;
+            padding: 0.714286rem;
+          }
 
           .item1 {
             display: flex;

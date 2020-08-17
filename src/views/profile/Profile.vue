@@ -7,6 +7,7 @@
         :jobName="jobName"
         :phone="phone"
         :name="name"
+        :company="company"
         @toProfileInfo="toProfileInfo"
       />
       <pOptions />
@@ -32,6 +33,7 @@ export default {
       jobName: '',
       phone: '',
       name: '',
+      company: '',
     }
   },
   components: {
@@ -80,6 +82,7 @@ export default {
         this.jobName = this.dataInfo.role.display_name
         this.phone = this.formatPhone(this.dataInfo.username)
         this.name = this.dataInfo.name
+        this.company = this.dataInfo.user_compser_name
       }
     },
     formatPhone(phone) {

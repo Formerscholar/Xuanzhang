@@ -7,10 +7,9 @@
         <div class="info">
           <div class="name">
             {{name || '姓名'}}
-            <div style="padding-right:.714286rem;">
-              <span>{{jobName || '职位'}}</span>
-            </div>
+            <span>{{jobName || '职位'}}</span>
           </div>
+          <div class="companys">{{company}}</div>
           <div class="phone">{{phone}}</div>
         </div>
       </div>
@@ -41,11 +40,14 @@ export default {
       type: String,
       default: '',
     },
+    company: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     toProfileInfo() {
       this.$emit('toProfileInfo')
-   
     },
   },
 }
@@ -86,10 +88,18 @@ export default {
         font-size: 1rem;
         .name {
           width: 100%;
-          padding-bottom: 0.714286rem;
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-start;
           align-items: flex-end;
+          font-size: 1.285714rem;
+          span {
+            margin-left: 1.428571rem;
+            font-size: 0.857143rem;
+          }
+        }
+        .companys,
+        .phone {
+          font-size: 0.857143rem;
         }
       }
     }

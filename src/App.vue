@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div id="app">
     <transition :name="transitionName">
       <keep-alive>
@@ -10,15 +10,21 @@
 
 <script >
 import { getlogin, getIndex } from '@/network/login'
+import { updateURL } from '@/network/baseURL'
 
 export default {
   data() {
     return {
       transitionName: '',
+      edition: '2020081601',
+      path: '',
     }
   },
   created() {
     this.getlogin()
+    // document.addEventListener('plusready', () => {
+    //   this.getNativeVersion()
+    // })
   },
   watch: {
     $route(to, from) {
@@ -35,7 +41,6 @@ export default {
           toDepths === '/client' ||
           toDepths === '/profile')
       ) {
-        console.log('tabbar跳转 渐隐渐现')
         this.transitionName = 'slide'
       } else if (
         toDepths === '/home' ||
@@ -43,7 +48,6 @@ export default {
         toDepths === '/client' ||
         toDepths === '/profile'
       ) {
-        console.log('从左往右退')
         this.transitionName = 'quit'
       } else if (
         fromDepths === '/home' ||
@@ -51,15 +55,49 @@ export default {
         fromDepths === '/client' ||
         fromDepths === '/profile'
       ) {
-        console.log('从右往左进')
         this.transitionName = 'entry'
       } else {
-        console.log('其他情况')
         this.transitionName = 'slide'
       }
     },
   },
   methods: {
+    getNativeVersion() {
+      let ServerVersion = '2020081701' // axios 获取版本号
+      if (this.edition !== ServerVersion) {
+        this.$dialog
+          .confirm({
+            title: '更新提示',
+            message: '有新版本，是否启动后台下载?',
+          })
+          .then(() => {
+            this.downloadApk(updateURL + ServerVersion + '.apk')
+          })
+      }
+    },
+    downloadApk(url) {
+      plus.downloader
+        .createDownload(url, {}, (d, status) => {
+          if (status == 200) {
+            this.installApk(d.filename)
+          } else {
+            alert('Download failed: ' + status)
+          }
+        })
+        .start()
+    },
+    installApk(path) {
+      plus.runtime.install(
+        path,
+        {},
+        () => {
+          plus.runtime.restart()
+        },
+        (e) => {
+          alert('安装更新失败！')
+        }
+      )
+    },
     async getlogin() {
       var storage = window.localStorage
       const res = await getlogin({
@@ -107,14 +145,8 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  // font-family: 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
-  //   '\5b8b\4f53', sans-serif, Avenir, Helvetica;
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
-
   max-width: 73.142857rem;
 
-  // 同级跳转
   .slide-enter,
   .slide-enter-active,
   .slide-enter-to,

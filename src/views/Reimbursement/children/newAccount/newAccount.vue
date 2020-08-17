@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>费用报销</span>
+        <span>报销申请</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -188,7 +188,21 @@ export default {
       }
     },
     blacknext() {
-      this.$router.go(-1)
+      this.NewCost = []
+      this.Reasons = ''
+      this.Remarks = ''
+      this.options = []
+      this.apply = 0
+      this.columns = []
+      this.ispicker = false
+      this.picker = ''
+      this.applyName = ''
+      this.pickerID = 0
+      this.type = []
+      this.reimbursement_detail = []
+      this.user_id = 0
+      this.token = ''
+      this.$router.replace('/reimbursement')
     },
     gotoDetails() {
       this.$router.push('/add-details')
@@ -210,33 +224,26 @@ export default {
       })
     },
     async goBtnClick() {
-      const { code, data, msg } = await addReimbursement(
-        this.getReimbursementData
-      )
-      if (code == 200) {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
-        this.NewCost = []
-        this.Reasons = ''
-        this.Remarks = ''
-        this.options = []
-        this.apply = 0
-        this.applyName = ''
-        this.value = ''
-        this.type = []
-        this.reimbursement_detail = []
-        this.user_id = 0
-        this.token = ''
-        this.$router.replace('/reimbursement')
+      if (this.picker != '') {
+        const { code, data, msg } = await addReimbursement(
+          this.getReimbursementData
+        )
+        if (code == 200) {
+          this.$message({
+            showClose: true,
+            message: msg,
+            type: 'success',
+          })
+          this.blacknext()
+        } else {
+          this.$message({
+            showClose: true,
+            message: msg,
+            type: 'error',
+          })
+        }
       } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
+        this.$toast('请填写报销类别')
       }
     },
   },
@@ -455,6 +462,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 2;
   }
   .item4 {
     position: fixed;
