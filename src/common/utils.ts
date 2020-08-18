@@ -36,7 +36,7 @@ export function TotalPriceCalc(
   if (pCost != '') {
     adderssnum += processCost
   }
-  adderssnum -= quantity
+  adderssnum *= quantity
   let adders: string = adderssnum.toFixed(2)
   return adders
 }

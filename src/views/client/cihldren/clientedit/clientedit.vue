@@ -1,110 +1,89 @@
 <template>
   <div id="clientedit">
-    <!-- header -->
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="callbackbtn">
-        <i class="el-icon-back"></i>
+        <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
         <span>{{titleText}}</span>
       </div>
-      <div slot="right" class="right" @click="comitBlack">
-        <span>保存</span>
-      </div>
+      <div slot="right"></div>
     </navbar>
-    <!-- body -->
     <scroll class="scroll-wrapper" :probeType="3">
-      <div>
-        <!-- firm -->
-        <el-card class="firm_box-card jl_box">
-          <van-field v-model="companyName" label="姓名" />
-          <van-field v-model="Abbreviation" label="身份证号" />
-          <el-row class="country content d-flex van-cell">
-            国家
-            <el-cascader
-              class="item2"
-              size="large"
-              :options="options"
-              v-model="countryOptions"
-              @change="handleChange"
-              style="margin-left:5px;"
-            ></el-cascader>
-          </el-row>
-          <van-field v-model="Address" label="详细地址" />
-          <el-row class="marketer content van-cell">
-            <div>
-              销售负责人
-              <div>
-                <van-tag
-                  v-for=" (item,index) in tagsName"
-                  :key="index"
-                  v-show="tagsName"
-                  size="medium"
-                  type="primary"
-                  style="margin-right:.714286rem;"
-                  @close="closes(index)"
-                >{{item}}</van-tag>
-              </div>
-              <div>
-                <van-tag
-                  v-for="(tag,index) in tags "
-                  v-show="tags"
-                  :key="index"
-                  style="margin-right:.714286rem;"
-                  size="medium"
-                  type="primary"
-                  @click="close(index)"
-                >{{tag.name}}</van-tag>
-              </div>
+      <div class="firm_box-card jl_box">
+        <van-field class="newStyle" v-model="companyName" label="姓名" />
+        <van-field class="newStyle" v-model="Abbreviation" label="身份证号" />
+        <van-field class="newStyle" v-model="Address" label="详细地址" />
+        <van-field
+          class="newStyle"
+          readonly
+          v-model="Director"
+          label="负责人"
+          right-icon="close"
+          @click-input="SalesDirectorClick"
+          @click-right-icon="SalesDirectorClear"
+        />
+      </div>
+      <div class="firm_box-card jl_box">
+        <van-swipe-cell v-for="(item,index) in tableData" :key="index">
+          <div class="contacts">
+            <div class="namejob">
+              <div class="name">{{item.name}}</div>
+              <div class="job">{{item.jobe}}</div>
             </div>
-            <div class="d-flex" style="justify-content: space-between;align-items: flex-end;">
-              <el-autocomplete
-                v-model="SalesHeader"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
-              <van-button type="primary" @click="addSalesHeader">添加</van-button>
+            <div class="telemail">
+              <div class="phone">{{item.phone}}</div>
+              <div class="email">{{item.email}}</div>
             </div>
-          </el-row>
-        </el-card>
-        <el-card class="phone_card jl_box">
-          <van-button class="addContact" type="info" @click="addContactClick">添加联系方式</van-button>
-          <el-table :data="tableData" border style="width: 100%">
-            <el-table-column fixed prop="name" label="联系人" width="60"></el-table-column>
-            <el-table-column prop="jobe" label="职务" width="60"></el-table-column>
-            <el-table-column prop="phone" label="电话" width="100"></el-table-column>
-            <el-table-column prop="email" label="邮箱" width="170"></el-table-column>
-          </el-table>
-        </el-card>
-        <el-card class="phone_card jl_box" v-show="ContactIsShow">
-          <van-form @submit="closeDrawer">
-            <van-field id="A1" v-model="form.name" label="联系人" />
-            <van-field v-model="form.jobe" label="职务" />
-            <van-field
-              v-model="form.phone"
-              :rules="[{ required: true, pattern:/^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-7|9])|(?:5[0-3|5-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1|8|9]))\d{8}$/, message: '请填写正确电话' }]"
-              type="tel"
-              label="电话"
+          </div>
+          <template #right>
+            <van-button
+              @click="delecTable(index)"
+              square
+              type="danger"
+              style="height:100%;"
+              text="删除"
             />
-            <van-field
-              v-model="form.email"
-              :rules="[{ required: true,pattern:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, message: '请填写正确邮箱' }]"
-              label="邮箱"
-            />
-            <div class="demo-drawer__footer">
-              <el-button @click="cancelForm">取 消</el-button>
-              <van-button type="primary" native-type="submit">'确 定</van-button>
-            </div>
-          </van-form>
-        </el-card>
+          </template>
+        </van-swipe-cell>
+        <div class="addusersClick" @click="popupshow = true">添加联系方式</div>
       </div>
     </scroll>
+    <myBtns :commitFun="comitBlack" :cancelFun="callbackbtn">
+      <span slot="cancel-btn">取消</span>
+      <span slot="commit-btn">
+        <span>提交</span>
+      </span>
+    </myBtns>
+
+    <van-picker
+      class="valuepicker"
+      v-if="ISSalesDirector"
+      title="销售负责人"
+      show-toolbar
+      :columns="SalesOptions"
+      @confirm="SalesDirectorConfirm"
+      @cancel="ISSalesDirector = false"
+    />
+
+    <van-popup
+      class="popup"
+      v-model="popupshow"
+      position="bottom"
+      :style="{ height: '30%' }"
+      @close="popupClose"
+    >
+      <van-field v-model="form.name" label="联系人" />
+      <van-field v-model="form.jobe" label="职务" />
+      <van-field v-model="form.phone" label="电话" />
+      <van-field v-model="form.email" label="邮箱" />
+    </van-popup>
   </div>
 </template>
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getDistributorUser,
@@ -115,12 +94,17 @@ import {
   editSupplier,
   getEditDistributor,
   getAddContractOrder,
+  addPersonDistributor,
+  editPersonDistributor,
+  editPersonSupplier,
+  addPersonSupplier,
 } from '@/network/client'
 import { getAddOutsourcingOrder } from '@/network/deal'
 
 export default {
-  name: 'clientedit',
-
+  components: {
+    myBtns,
+  },
   data() {
     return {
       tagsName: [],
@@ -129,11 +113,15 @@ export default {
       Abbreviation: '',
       countryOptions: '',
       tariff: '',
+      ISSalesDirector: false,
+      popupshow: false,
       Address: '',
       SalesHeader: '',
       ContactIsShow: false,
       gokhlist: [],
+      user: [],
       enterprise: '',
+      Director: '',
       cutting: '',
       options: regionData,
       selectedOptions: [],
@@ -152,7 +140,6 @@ export default {
         phone: '',
         email: '',
       },
-      formLabelWidth: '80px',
       timer: null,
       table: false,
       loading: false,
@@ -179,67 +166,32 @@ export default {
     addDistributorDatas() {
       return {
         id: this.iid,
+        token: this.$store.state.token,
         name: this.companyName,
-        status: 2,
         id_number: this.Abbreviation,
-        name_alias: '',
-        country_id: '1', //国编号
-        province_id: '33', //省编号
-        city_id: '947', //市编号
-        county_id: '', //区编号
-        region: this.Address,
-        consignee: '',
-        consignee_tel: '',
-        consignee_address: '',
-        invoice_name: '',
-        invoice_tax_number: '',
-        invoice_tax_rate: '',
-        invoice_tel: '',
-        invoice_address: '',
-        invoice_opening_bank: '',
-        invoice_account: '',
-        invoice_legal_person: '',
-        big_tax_rate: '',
-        big_type: '',
-        big_content: '',
+        country_id: '1',
+        province_id: '33',
+        city_id: '947',
+        county_id: null,
+        contacts_address: this.Address,
         contacts: this.contacts,
         salesperson_ids: this.tasIDs,
-        contacts_address: this.Address,
+        payment_method: [],
       }
     },
     addDistributorData() {
-      let NewArr = []
-      this.tags.map((item) => {
-        NewArr.push(item.id)
-      })
-
       return {
+        token: this.$store.state.token,
         name: this.companyName,
-        status: 2,
         id_number: this.Abbreviation,
-        name_alias: '',
-        country_id: '1', //国编号
-        province_id: '33', //省编号
-        city_id: '947', //市编号
-        county_id: '', //区编号
-        region: this.Address,
-        consignee: '',
-        consignee_tel: '',
-        consignee_address: '',
-        invoice_name: '',
-        invoice_tax_number: '',
-        invoice_tax_rate: '',
-        invoice_tel: '',
-        invoice_address: '',
-        invoice_opening_bank: '',
-        invoice_account: '',
-        invoice_legal_person: '',
-        big_tax_rate: '',
-        big_type: '',
-        big_content: '',
-        contacts: this.contacts,
-        salesperson_ids: NewArr,
+        country_id: '1',
+        province_id: '33',
+        city_id: '947',
+        county_id: null,
         contacts_address: this.Address,
+        contacts: this.contacts,
+        salesperson_ids: this.tasIDs,
+        payment_method: [],
       }
     },
     getEditDistrData() {
@@ -250,10 +202,35 @@ export default {
       }
     },
   },
-  mounted() {
-    this.restaurants = this.loadAll()
-  },
   methods: {
+    delecTable(i) {
+      this.tableData.splice(i, 1)
+      this.contacts.splice(i, 1)
+    },
+    popupClose() {
+      const { name, jobe, phone, email } = this.form
+      this.tableData.push({
+        name,
+        jobe,
+        phone,
+        email,
+      })
+      this.contacts.push([name, jobe, phone, email])
+      this.form = {}
+    },
+    SalesDirectorClear() {
+      this.Director = ''
+      this.tasIDs = []
+      this.ISSalesDirector = false
+    },
+    SalesDirectorConfirm(value, index) {
+      this.Director += value + ','
+      this.tasIDs.push(this.user[index].id)
+      this.ISSalesDirector = false
+    },
+    SalesDirectorClick() {
+      this.ISSalesDirector = true
+    },
     onSubmit(values) {
       console.log('submit', values)
     },
@@ -318,42 +295,48 @@ export default {
     async comitBlack() {
       this.isQuire = false
       if (this.title == 'client') {
-        const { data, code } = await getAddContractOrder({
-          token: this.$store.state.token,
-        })
-        data.distributors.map((item) => {
-          if (item.name == this.companyName) {
-            this.messageShow(400, '名称不能重复')
-            this.isQuire = true
-          }
-        })
-        if (!this.isQuire) {
-          if (this.typeIndex) {
-            const { code, msg } = await editDistributor(
-              this.addDistributorDatas
+        if (this.typeIndex) {
+          const { code, msg } = await editPersonDistributor(
+            this.addDistributorDatas
+          )
+          this.messageShow(code, msg)
+        } else {
+          const { data, code } = await getAddContractOrder({
+            token: this.$store.state.token,
+          })
+          data.distributors.map((item) => {
+            if (item.name == this.companyName) {
+              this.messageShow(400, '名称不能重复')
+              this.isQuire = true
+            }
+          })
+          if (!this.isQuire) {
+            const { code, msg } = await addPersonDistributor(
+              this.addDistributorData
             )
-            this.messageShow(code, msg)
-          } else {
-            const { code, msg } = await addDistributor(this.addDistributorData)
             this.messageShow(code, msg)
           }
         }
       } else if (this.title == 'supplier') {
-        const { data } = await getAddOutsourcingOrder({
-          token: this.$store.state.token,
-        })
-        data.suppliers.map((item) => {
-          if (item.name == this.companyName) {
-            this.messageShow(400, '名称不能重复')
-            this.isQuire = true
-          }
-        })
-        if (!this.isQuire) {
-          if (this.typeIndex) {
-            const { code, msg } = await editSupplier(this.addDistributorDatas)
-            this.messageShow(code, msg)
-          } else {
-            const { code, msg } = await addSupplier(this.addDistributorData)
+        if (this.typeIndex) {
+          const { code, msg } = await editPersonSupplier(
+            this.addDistributorDatas
+          )
+          this.messageShow(code, msg)
+        } else {
+          const { data } = await getAddOutsourcingOrder({
+            token: this.$store.state.token,
+          })
+          data.suppliers.map((item) => {
+            if (item.name == this.companyName) {
+              this.messageShow(400, '名称不能重复')
+              this.isQuire = true
+            }
+          })
+          if (!this.isQuire) {
+            const { code, msg } = await addPersonSupplier(
+              this.addDistributorData
+            )
             this.messageShow(code, msg)
           }
         }
@@ -363,14 +346,12 @@ export default {
       const { data } = await getDistributorUser()
       console.log('getDistributorUser', data)
       this.id_number = data.userInfo[0].id_number
+      this.user = data.users
       data.users.map((item) => {
         if ((item.id = data.userInfo[0].id)) {
           this.SalesHeader = item.name
         }
-        this.SalesOptions.push({
-          address: item.id,
-          value: item.name,
-        })
+        this.SalesOptions.push(item.name)
       })
     },
     addContactClick() {
@@ -506,23 +487,44 @@ export default {
       this.gokhlist.county
   },
   deactivated() {
-    this.isQuire = false
-    this.contacts = []
     this.tagsName = []
-    this.tasIDs = []
-    this.iid = 0
-    this.titleText = '个人客户'
-    this.typeIndex = false
     this.companyName = ''
     this.Abbreviation = ''
     this.countryOptions = ''
     this.tariff = ''
+    this.ISSalesDirector = false
+    this.popupshow = false
     this.Address = ''
     this.SalesHeader = ''
-    this.tags = []
+    this.ContactIsShow = false
+    this.gokhlist = []
+    this.user = []
+    this.enterprise = ''
+    this.Director = ''
+    this.cutting = ''
+    this.selectedOptions = []
     this.SalesOptions = []
+    this.contacts = []
+    this.id_number = ''
+    this.tax = 0
+    this.dynamicTags = []
+    this.inputVisible = false
+    this.inputValue = ''
+    this.drawer = false
     this.tableData = []
     this.form = {}
+    this.timer = null
+    this.table = false
+    this.loading = false
+    this.Billing = {}
+    this.tags = []
+    this.restaurants = []
+    this.tasIDs = []
+    this.timeout = null
+    this.title = ''
+    this.typeIndex = false
+    this.iid = 0
+    this.isQuire = false
   },
 }
 </script>
@@ -530,186 +532,64 @@ export default {
     
 <style scoped lang="scss">
 #clientedit {
-  padding-top: 5.428571rem;
-  height: calc(100vh - 8.214285rem);
+  .p_root_box {
+    color: #747474;
+    background-color: #fff;
+    border: none;
+    box-shadow: none;
 
-  .jl_box {
-    margin: 0.714286rem 1.071429rem;
+    .left {
+      margin-left: 1.071429rem;
+    }
+    .center {
+      margin-left: -1.071429rem;
+      font-size: 1.285714rem;
+      font-weight: 700;
+      color: #030303;
+    }
   }
   .scroll-wrapper {
+    background-color: #f3f4f5;
+    padding: 0.571429rem;
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 4.214286rem;
     width: 100%;
     overflow: hidden;
-  }
-  .p_root_box {
-    .left {
-      padding-left: 1.071429rem;
-      .el-icon-back {
+    .firm_box-card {
+      background-color: #fff;
+      padding: 0.571429rem;
+      margin-bottom: 0.357143rem;
+      .addusersClick {
+        border-top: 0.357143rem solid #f3f4f5;
+        margin-top: 0.357143rem;
+        text-align: center;
+        font-size: 1.142857rem;
+        color: black;
+        height: 2.785714rem;
+        line-height: 2.785714rem;
       }
-    }
-    .center {
-      span {
-        font-size: 1.571429rem;
-      }
-    }
-    .right {
-      margin-right: 0.357143rem;
-      span {
-        font-size: 1.285714rem;
-      }
-    }
-  }
-
-  .firm_box-card {
-    .content {
-      .item1 {
-        margin-right: 1.071429rem;
-      }
-      .item2 {
-        flex: 1;
-      }
-    }
-
-    .enterpriseName {
-      justify-content: space-between;
-      .el-tag {
-        width: 3rem;
-      }
-      .el-input {
-      }
-    }
-    .cuttingName {
-      justify-content: space-between;
-      .el-tag {
-        width: 3rem;
-      }
-      .el-input {
-      }
-    }
-    .country {
-      .el-tag {
-        width: 3rem;
-      }
-      .el-cascader {
-      }
-    }
-    .tax {
-      .el-tag {
-        width: 3rem;
-      }
-      .el-input {
-        width: 8rem;
-      }
-    }
-    .marketer {
-      margin: 0;
-      flex-direction: column;
-      .el-tag + .el-tag {
-        margin-left: 0.714286rem;
-      }
-      .button-new-tag {
-        margin-left: 0.714286rem;
-        height: 2.285714rem;
-        line-height: 2.142857rem;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      .input-new-tag {
-        width: 6.428571rem;
-        margin-left: 0.714286rem;
-        vertical-align: bottom;
-      }
-      .item2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-
-  .phone_card {
-    .addContact {
-      margin-bottom: 1.071429rem;
-    }
-  }
-
-  .Billing_card {
-    .el-collapse {
-      .el-collapse-item {
-        .content {
-          margin-bottom: 1.071429rem;
-        }
-        .itemtext {
-          width: 80px;
-        }
-        .Billingname {
+      .contacts {
+        .namejob,
+        .telemail {
           display: flex;
-
-          span {
-          }
-          .el-input {
-          }
-        }
-        .Billingtaxnum {
-          span {
-          }
-          .el-input {
-          }
-        }
-        .Billingaddress {
-          span {
-          }
-          .el-input {
-          }
-        }
-        .Billingphone {
-          span {
-          }
-          .el-input {
-          }
-        }
-        .BillingBank {
-          span {
-          }
-          .el-input {
-          }
-        }
-        .Billingaccount {
-          span {
-          }
-          .el-input {
-          }
-        }
-        .Billinglegal {
-          span {
-          }
-          .el-input {
-          }
+          justify-content: space-between;
+          align-items: center;
+          font-size: 1rem;
         }
       }
     }
   }
-
-  .bto_box {
+  .valuepicker {
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 99;
-    border-top: 1px solid #ccc;
     right: 0;
-    height: 39px;
-    background-color: #fff;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    z-index: 2;
   }
-
-  .demo-drawer__footer {
-    display: flex;
-    justify-content: flex-end;
+  .popup {
+    padding: 0.357143rem;
   }
 }
 </style>

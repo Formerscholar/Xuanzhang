@@ -71,3 +71,17 @@ export function changeProductStatus(params) {
     params,
   })
 }
+export function deleteDesignatedTasks(data) {
+  return request({
+    url: '/DesignatedTasks/deleteDesignatedTasks',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function getEditDesignatedTasks(params) {
+  return request({
+    url: '/DesignatedTasks/getEditDesignatedTasks',
+    method: 'GET',
+    params,
+  })
+}

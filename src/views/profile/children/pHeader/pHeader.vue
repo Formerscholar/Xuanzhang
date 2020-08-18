@@ -91,9 +91,9 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          font-size: 1.285714rem;
+          font-size: 1.142857rem;
           span {
-            margin-left: 1.428571rem;
+            margin-left: 0.571429rem;
             font-size: 0.857143rem;
           }
         }

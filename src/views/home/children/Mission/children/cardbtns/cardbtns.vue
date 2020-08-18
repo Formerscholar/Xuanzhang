@@ -14,67 +14,76 @@
           :pull-up-load="true"
           @pullingUp="loadMore('participate')"
         >
-          <div class="cardList" v-for="(item,index) in designatedTasksList" :key="index">
-            <div class="listcontent" @click="goDetails(item.id)">
-              <el-card class="box-card">
-                <div class="numstag">
-                  <div class="num">
-                    <span class="title">任务编号:</span>
-                    <span class="content">{{item.task_id}}</span>
-                  </div>
-                  <div class="tags">
-                    <el-tag
-                      style="margin-right:.428571rem;"
-                      effect="plain"
-                      :type="setTextStatus('type',item.status,item.user_status)"
-                    >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                    <el-tag
-                      style="margin-left:.428571rem;"
-                      effect="plain"
-                      :type="setTypes('type',item.attribute)"
-                    >{{setTypes('text',item.attribute)}}</el-tag>
-                  </div>
+          <div v-for="(item,index) in designatedTasksList" :key="index">
+            <van-swipe-cell v-if="item.operator_id == $store.state.userInfo[0].id">
+              <div class="cardList">
+                <div class="listcontent" @click="goDetails(item.id)">
+                  <el-card class="box-card">
+                    <div class="numstag">
+                      <div class="num">
+                        <span class="title">任务编号:</span>
+                        <span class="content">{{item.task_id}}</span>
+                      </div>
+                      <div class="tags">
+                        <el-tag
+                          style="margin-right:.428571rem;"
+                          effect="plain"
+                          :type="setTextStatus('type',item.status,item.user_status)"
+                        >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
+                        <el-tag
+                          style="margin-left:.428571rem;"
+                          effect="plain"
+                          :type="setTypes('type',item.attribute)"
+                        >{{setTypes('text',item.attribute)}}</el-tag>
+                      </div>
+                    </div>
+                    <div class="charactimer">
+                      <div class="left_box">
+                        <div class="name">{{item.operator_name}}</div>
+                        <div class="timers">{{item.created_at | setTimerType}}</div>
+                      </div>
+                      <div class="center_box">
+                        <img src="@/assets/image/rw_bg.png" />
+                      </div>
+                      <div class="right_box">
+                        <div class="name">{{item.user_name}}</div>
+                        <div class="timers">{{item.end_time}}</div>
+                      </div>
+                    </div>
+                    <div class="MissionDetails">
+                      <span>【{{item.name}}】</span>
+                      {{item.title}}
+                    </div>
+                  </el-card>
                 </div>
-                <div class="charactimer">
-                  <div class="left_box">
-                    <div class="name">{{item.operator_name}}</div>
-                    <div class="timers">{{item.created_at | setTimerType}}</div>
-                  </div>
-                  <div class="center_box">
-                    <img src="@/assets/image/rw_bg.png" />
-                  </div>
-                  <div class="right_box">
-                    <div class="name">{{item.user_name}}</div>
-                    <div class="timers">{{item.end_time}}</div>
-                  </div>
-                </div>
-                <div class="MissionDetails">
-                  <span>【{{item.name}}】</span>
-                  {{item.title}}
-                </div>
-              </el-card>
-            </div>
+              </div>
 
-            <!-- <div class="listcontent" @click="goDetails(item.id)">
-              <el-card class="box-card">
-                <div class="top_box">
-                  <img src="@/assets/image/rw_logo.png" style="margin-right:.357143rem;" />
-                  <span>
-                    ID:
-                    <em>{{item.task_id}}</em>
-                  </span>
-                  <span class="title">
-                    【{{item.name}}】
-                    {{item.title}}
-                  </span>
-                </div>
-                <div class="bot_box">
-                  <div class="left_box">
-                    <span class="name">{{item.operator_name}}</span>
-                    <span class="jobName">董事长</span>
-                  </div>
-                  <div class="certent_box">
-                    <div class="status_box">
+              <template #right>
+                <van-button
+                  square
+                  type="primary"
+                  @click="editTasks(item.id)"
+                  style="height:100%;"
+                  text="编辑"
+                />
+                <van-button
+                  @click="deletTasks(item.id)"
+                  style="height:100%;"
+                  square
+                  type="danger"
+                  text="删除"
+                />
+              </template>
+            </van-swipe-cell>
+            <div class="cardList" v-else>
+              <div class="listcontent" @click="goDetails(item.id)">
+                <el-card class="box-card">
+                  <div class="numstag">
+                    <div class="num">
+                      <span class="title">任务编号:</span>
+                      <span class="content">{{item.task_id}}</span>
+                    </div>
+                    <div class="tags">
                       <el-tag
                         style="margin-right:.428571rem;"
                         effect="plain"
@@ -86,49 +95,27 @@
                         :type="setTypes('type',item.attribute)"
                       >{{setTypes('text',item.attribute)}}</el-tag>
                     </div>
-                    <div class="timers_box">{{item.end_time}}</div>
                   </div>
-                  <div class="right_box">
-                    <span class="name">{{item.user_name}}</span>
-                    <span class="jobName">董事长</span>
+                  <div class="charactimer">
+                    <div class="left_box">
+                      <div class="name">{{item.operator_name}}</div>
+                      <div class="timers">{{item.created_at | setTimerType}}</div>
+                    </div>
+                    <div class="center_box">
+                      <img src="@/assets/image/rw_bg.png" />
+                    </div>
+                    <div class="right_box">
+                      <div class="name">{{item.user_name}}</div>
+                      <div class="timers">{{item.end_time}}</div>
+                    </div>
                   </div>
-                </div>
-              </el-card>
-            </div>-->
-
-            <!-- <div class="listcontent" @click="goDetails(item.id)">
-              <el-card class="box-card">
-                <div class="botbox">
-                  <span>
-                    【{{item.name}}】
+                  <div class="MissionDetails">
+                    <span>【{{item.name}}】</span>
                     {{item.title}}
-                  </span>
-                </div>
-                <div class="topbox">
-                  <div class="leftbox">
-                    <div class="left_id">
-                      <el-tag
-                        :type="setTextStatus('type',item.status,item.user_status)"
-                      >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                    </div>
-                    <div class="left_xj">
-                      <span>
-                        ID:
-                        <em>{{item.id}}</em>
-                      </span>
-                    </div>
-                    <div class="left_jj">
-                      <el-tag
-                        :type="setTypes('type',item.attribute)"
-                      >{{setTypes('text',item.attribute)}}</el-tag>
-                    </div>
                   </div>
-                  <div class="rightbox">
-                    <el-tag type="danger">{{item.end_time}}</el-tag>
-                  </div>
-                </div>
-              </el-card>
-            </div>-->
+                </el-card>
+              </div>
+            </div>
           </div>
         </scroll>
       </el-tab-pane>
@@ -274,6 +261,12 @@ export default {
     },
   },
   methods: {
+    editTasks(iid) {
+      this.$router.push(`/edittask/${iid}`)
+    },
+    deletTasks(iid) {
+      this.$emit('deletTasks', iid)
+    },
     loadMore(str) {
       switch (str) {
         case 'participate':

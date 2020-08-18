@@ -35,7 +35,7 @@
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />
-                  <div v-else class="left_card"></div>
+                  <img v-else class="left_card" src="@/assets/image/Default.png" alt="defaultLogo" />
                   <div class="right_card">
                     <span class="right_card_name">{{item.name}}</span>
                     <span class="right_card_model">{{item.specification}}</span>
@@ -85,7 +85,7 @@
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />
-                  <div v-else class="left_card"></div>
+                  <img v-else class="left_card" src="@/assets/image/Default.png" alt="defaultLogo" />
                   <div class="right_card">
                     <span class="right_card_name">{{item.name}}</span>
                     <span class="right_card_model">{{item.specification}}</span>

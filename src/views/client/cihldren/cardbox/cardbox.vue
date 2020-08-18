@@ -45,8 +45,6 @@
 import { deleteDistributor, deleteSupplier } from '@/network/client'
 
 export default {
-  name: 'cardbox',
-  components: {},
   props: {
     titlename: {
       type: String,

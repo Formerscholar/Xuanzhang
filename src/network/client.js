@@ -91,3 +91,64 @@ export function getEditSupplier(params) {
     params,
   })
 }
+export function addPersonDistributor(data) {
+  return request({
+    url: '/CustomerMarketing/addPersonDistributor',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function editPersonDistributor(data) {
+  return request({
+    url: '/CustomerMarketing/editPersonDistributor',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function editPersonSupplier(data) {
+  return request({
+    url: '/CustomerMarketing/editPersonSupplier',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function addPersonSupplier(data) {
+  return request({
+    url: '/CustomerMarketing/addPersonSupplier',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function addCompanySupplier(data) {
+  // addCompanySupplier 新增 供应商 公司
+  return request({
+    url: '/CustomerMarketing/addCompanySupplier',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function editCompanySupplier(data) {
+  // editCompanySupplier 编辑 供应商 公司
+  return request({
+    url: '/CustomerMarketing/editCompanySupplier',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function editCompanyDistributor(data) {
+  // editCompanyDistributor 编辑 客户 公司
+  return request({
+    url: '/CustomerMarketing/editCompanyDistributor',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function addCompanyDistributor(data) {
+  // addCompanyDistributor 新增 客户 公司
+  return request({
+    url: '/CustomerMarketing/addCompanyDistributor',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

@@ -5,7 +5,6 @@
       <div class="title text-black" slot="center">
         <span>客户</span>
       </div>
-      <i slot="right" class="el-icon-circle-plus-outline" @click="btnsclickadd"></i>
     </navbar>
     <van-search v-model="searchValue" show-action @focus="focusClick" @cancel="onCancel" />
     <scroll
@@ -40,6 +39,7 @@
       :actions="actions"
       cancel-text="取消"
     />
+    <i class="el-icon-plus" @click="btnsclickadd"></i>
     <MainTabBar />
   </div>
 </template>
@@ -148,9 +148,11 @@ export default {
       this.supplier = data
     },
     refreshList() {
+      this.distributor = []
       this.getDistri()
     },
     refreshLists() {
+      this.supplier = []
       this.getSupplier()
     },
     gokhlist(item) {
@@ -264,7 +266,6 @@ export default {
     this.isOneNetwork = true
     this.isTwoNetwork = true
     this.searchValue = ''
-    this.isSearch = false
     this.searchID = 0
     this.optionss = []
     this.show = false
@@ -297,7 +298,17 @@ export default {
       color: #fff;
     }
   }
-
+  .el-icon-plus {
+    position: fixed;
+    bottom: 7.142857rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: #2a7bd0;
+    color: #fff;
+    border-radius: 50%;
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;

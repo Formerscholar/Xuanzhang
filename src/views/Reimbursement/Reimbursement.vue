@@ -574,7 +574,7 @@ export default {
           justify-content: flex-start;
           align-items: flex-end;
           span {
-            margin-right: 0.714286rem;
+            margin-right: 0.571429rem;
             font-size: 1.142857rem;
           }
           .bordertext {

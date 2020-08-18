@@ -46,7 +46,7 @@
 import {
   getDesignatedTasksDetail,
   checkDesignatedTasksStatus,
-  checkDesignatedTasksUserStatus
+  checkDesignatedTasksUserStatus,
 } from '@/network/deal'
 export default {
   data() {
@@ -61,14 +61,14 @@ export default {
       cancelVisible: false,
       canceltext: '',
       completeVisible: false,
-      completetext: ''
+      completetext: '',
     }
   },
   props: {
     iid: {
       type: String,
-      default: '0'
-    }
+      default: '0',
+    },
   },
   activated() {
     this.getdealitem()
@@ -81,7 +81,7 @@ export default {
       return {
         token: this.$store.state.token,
         id: this.iid * 1,
-        _: new Date().getTime()
+        _: new Date().getTime(),
       }
     },
     checkDesignatedTasksStatusData() {
@@ -153,7 +153,7 @@ export default {
       )
       from.append('operation_remark', this.completetext)
       return from
-    }
+    },
   },
   methods: {
     setDataTrueO() {
@@ -345,8 +345,8 @@ export default {
     clierbtn() {
       document.querySelector('#confirm').innerHTML = ''
       document.querySelector('#reject').innerHTML = ''
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -5,9 +5,6 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center"></div>
-      <div slot="right" class="right" @click="submitClick">
-        <van-icon name="success" />
-      </div>
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="swiper">
@@ -38,52 +35,123 @@
         </div>
       </div>
       <div class="listItems">
-        <Lists name="物料属性" route="Mproperties" :data="value" @listhandleClick="listhandleClick" />
-        <Lists
-          name="物料分类"
-          route="Mclassification"
-          :data="values"
-          @listhandleClick="listhandleClick"
-        />
-        <Lists name="基本单位" route="BasicUnit" :data="valuess" @listhandleClick="listhandleClick" />
+        <div class="morebox" @click="valueClick">
+          <span class="name">物料属性</span>
+          <div class="contents">
+            <span>{{value}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
 
-        <Lists name="物料价格" route="MPrice" :data="MaterialPrice" @listhandleClick="listhandleClick" />
+        <div class="morebox" @click="valuesClick">
+          <span class="name">物料分类</span>
+          <div class="contents">
+            <span>{{values}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
 
-        <Lists name="入库价格" route="WPrice" :data="StoragePrices" @listhandleClick="listhandleClick" />
-        <Lists name="出库价格" route="DPrice" :data="OutboundPrice" @listhandleClick="listhandleClick" />
-        <Lists name="bom价格" route="BOMPrice" :data="bomPrice" @listhandleClick="listhandleClick" />
+        <div class="morebox" @click="valuessClick">
+          <span class="name">基本单位</span>
+          <div class="contents">
+            <span>{{valuess}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="morebox" @click="valuesssClick">
+          <span class="name">默认仓库</span>
+          <div class="contents">
+            <span>{{valuesss}}</span>
+            <van-icon name="arrow" />
+          </div>
+        </div>
 
-        <Lists name="默认仓库" route="DWarehouse" :data="valuesss" @listhandleClick="listhandleClick" />
+        <van-field class="newStyle" v-model="LocationNum" placeholder="请输入库位号" label="库位编号" />
 
-        <Lists name="库位号" route="WLNumber" :data="LocationNum" @listhandleClick="listhandleClick" />
         <div v-for="item in materielExtra" :key="item.id">
-          <Lists
+          <!-- <Lists
             :name="item.field_name"
             route="WLNumber"
             :data="item.field_content"
             @listhandleClick="listhandleClick"
+          />-->
+          <van-field
+            class="newStyle"
+            v-model="item.field_content"
+            placeholder="请输入内容"
+            :label="item.field_name"
           />
         </div>
       </div>
     </scroll>
+    <myBtns :commitFun="submitClick" :cancelFun="clearData">
+      <span slot="cancel-btn">取消</span>
+      <span slot="commit-btn">
+        <span>提交</span>
+      </span>
+    </myBtns>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+
+    <van-picker
+      class="valuepicker"
+      v-if="valuepicker"
+      title="物料属性"
+      show-toolbar
+      :columns="valuecolumns"
+      @confirm="valueConfirm"
+      @cancel="valuepicker = false"
+    />
+    <van-picker
+      class="valuepicker"
+      v-if="valuespicker"
+      title="物料分类"
+      show-toolbar
+      :columns="optionss"
+      @confirm="valuesConfirm"
+      @cancel="valuespicker = false"
+    />
+    <van-picker
+      class="valuepicker"
+      v-if="valuesspicker"
+      title="基本单位"
+      show-toolbar
+      :columns="optionsss"
+      @confirm="valuessConfirm"
+      @cancel="valuesspicker = false"
+    />
+    <van-picker
+      class="valuepicker"
+      v-if="valuessspicker"
+      title="基本单位"
+      show-toolbar
+      :columns="optionssss"
+      @confirm="valuesssConfirm"
+      @cancel="valuessspicker = false"
+    />
   </div>
 </template>
     
 <script>
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
-import Lists from './lists'
 import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
+import myBtns from '@/components/common/my_btns/my_btns'
+
 export default {
   name: 'addMaterial',
   data() {
     return {
-      // fileList: [],
+      valuepicker: false,
+      valuespicker: false,
+      valuesspicker: false,
+      valuessspicker: false,
       itemData: {},
       fileLists: [],
       fileListss: [],
       fileListsss: [],
+      materielCategory: [],
+      materielUnit: [],
+      materielWarehouse: [],
       iid: 0,
       type: false,
       activeNames: [],
@@ -103,11 +171,8 @@ export default {
       optionssss: [],
       valuesss: '',
       MaterialName: '',
+      valuecolumns: ['产品', '零件'],
       specification: '',
-      MaterialCode: '自动生成',
-      StoragePrices: '自动生成',
-      OutboundPrice: '自动生成',
-      bomPrice: '自动生成',
       MaterialPrice: '',
       LocationNum: '',
       MaximumInventory: 0,
@@ -126,17 +191,14 @@ export default {
       attributes: 0,
     }
   },
-  components: { SimpleCropper, Lists },
+  components: {
+    SimpleCropper,
+    myBtns,
+  },
   activated() {
-    console.log('activated')
-    if (!this.isWrite) {
-      this.iid = this.$route.params.id
-      this.type = this.$route.params.type == '1' ? true : false
-      this.getEditMater()
-    }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
+    this.iid = this.$route.params.id
+    this.type = this.$route.params.type == '1' ? true : false
+    this.getEditMater()
   },
   computed: {
     addMaterielData() {
@@ -181,24 +243,67 @@ export default {
     },
   },
   methods: {
+    valueClick() {
+      this.valuepicker = true
+    },
+    valueConfirm(value, index) {
+      this.value = value
+      this.attribute = index ? 'spare_parts' : 'product'
+      console.log(value, index, this.attribute)
+      this.valuepicker = false
+    },
+    valuesClick() {
+      this.valuespicker = true
+    },
+    valuesConfirm(value, index) {
+      this.values = value
+      this.materielCategory.forEach((item, index1) => {
+        if (index1 == index) {
+          this.category_id = item.id
+        }
+      })
+      console.log(value, index, this.category_id)
+      this.valuespicker = false
+    },
+    valuessClick() {
+      this.valuesspicker = true
+    },
+    valuessConfirm(value, index) {
+      this.valuess = value
+      this.materielUnit.forEach((item, index1) => {
+        if (index1 == index) {
+          this.unit_id = item.id
+        }
+      })
+      console.log(value, index, this.unit_id)
+      this.valuesspicker = false
+    },
+    valuesssClick() {
+      this.valuessspicker = true
+    },
+    valuesssConfirm(value, index) {
+      this.valuesss = value
+      this.materielWarehouse.forEach((item, index1) => {
+        if (index1 == index) {
+          this.warehouse_id = item.id
+        }
+      })
+      console.log(value, index, this.warehouse_id)
+      this.valuessspicker = false
+    },
     submitClick() {
-      if (this.isWrite) {
-        this.isWrite = false
-        this.$dialog
-          .confirm({
-            title: '提示',
-            message: '确认是否修改内容?',
-          })
-          .then(() => {
-            this.onsubmit()
-          })
-          .catch(() => {
-            this.isWrite = true
-          })
-      } else {
-        this.isWrite = false
-        this.$dialog({ message: '请修改后保存,否则请退出!' })
-      }
+      this.isWrite = false
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '确认是否修改内容?',
+        })
+        .then(() => {
+          this.onsubmit()
+        })
+        .catch(() => {
+          this.isWrite = true
+        })
     },
     listhandleClick(data) {
       console.log('跳转数据处理页面 $bus返回处理后数据', data.route)
@@ -316,26 +421,18 @@ export default {
       this.materielExtra = data.materielExtra
       this.materielField = data.materielField
       this.itemData = { ...data.materiel[0] }
+      this.materielCategory = data.materielCategory
       data.materielCategory.forEach((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.category_name,
-        }
-        this.optionss.push(obj)
+        this.optionss.push(item.category_name)
       })
+      this.materielUnit = data.materielUnit
       data.materielUnit.forEach((item) => {
-        let obj = {
-          value: item.id,
-          label: item.unit_name,
-        }
-        this.optionsss.push(obj)
+        this.optionsss.push(item.unit_name)
       })
+      this.materielWarehouse = data.materielWarehouse
+
       data.materielWarehouse.forEach((item) => {
-        let obj = {
-          value: item.id,
-          label: item.warehouse_name,
-        }
-        this.optionssss.push(obj)
+        this.optionssss.push(item.warehouse_name)
       })
       data.materiel.forEach((item) => {
         this.attribute = item.attribute == 'product' ? 1 : 2
@@ -493,8 +590,7 @@ export default {
     left: 0;
     right: 0;
     top: 0;
-    // top: 5.142857rem;
-    bottom: 0;
+    bottom: 4.214286rem;
     overflow: hidden;
     .box-card {
       margin-bottom: 0.571429rem;
@@ -599,6 +695,40 @@ export default {
   .listItems {
     padding: 0.357143rem 1.714286rem;
     border-bottom: 0.428571rem solid #f5f5f5;
+    .morebox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 3rem;
+      border-bottom: 1px solid #e7e7e7;
+      .name {
+        font-size: 1.142857rem;
+        color: black;
+        padding-right: 0.714286rem;
+        border-right: 1px solid #e7e7e7;
+      }
+      .contents {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 1.142857rem;
+        span {
+          color: #3a3a3a;
+        }
+        .van-icon {
+          margin-left: 2rem;
+          color: #e1e1e1;
+        }
+      }
+    }
+  }
+  .valuepicker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
   }
 }
 </style>

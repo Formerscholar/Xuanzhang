@@ -4,7 +4,8 @@ const homeManu = () => import('@/views/homeManu/homeManu')
 const Mission = () => import('../views/home/children/Mission/Mission')
 const Newtask = () =>
   import('../views/home/children/Mission/children/Newtask/Newtask')
-
+const edittask = () =>
+  import('../views/home/children/Mission/children/edittask/edittask')
 const Details = () => import('../views/home/children/Details/Details')
 
 const Client = () => import('../views/client/Client')
@@ -273,6 +274,10 @@ const routes = [
   {
     path: '/newtask',
     component: Newtask,
+  },
+  {
+    path: '/edittask/:id',
+    component: edittask,
   },
   {
     path: '/details',

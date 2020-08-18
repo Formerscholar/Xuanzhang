@@ -11,6 +11,7 @@
       :DesignatedCount="DesignatedCount"
       @goDetails="goDetails"
       @loadMore="loadMore"
+      @deletTasks="deletTasks"
     />
     <i class="el-icon-plus" @click="tike"></i>
   </div>
@@ -24,6 +25,7 @@ import {
   getUserDesignatedTasks,
   getDesignatedTasks,
   getCompleteDesignatedTasks,
+  deleteDesignatedTasks,
 } from '@/network/home'
 export default {
   name: 'Mission',
@@ -45,7 +47,6 @@ export default {
       DesignatedCount: 0,
     }
   },
-  created() {},
   computed: {
     getUserDesignatedTasksData() {
       return {
@@ -73,6 +74,27 @@ export default {
     this.getUserDesignatedTasksData = {}
   },
   methods: {
+    async deletTasks(iid) {
+      const { code, msg } = await deleteDesignatedTasks({
+        token: this.$store.state.token,
+        id: iid,
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.designatedTasksList = []
+        this.getUserDesignat()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
     loadMore(str) {
       console.log('加载更多', str)
       switch (str) {
