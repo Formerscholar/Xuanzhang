@@ -12,24 +12,20 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="customerName line">
-            <em>客户名称</em>
-            <div>
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </div>
-          </el-row>
-          <timers
-            class="SigningDate line"
-            type="SigningDate"
-            title="承诺交期"
-            :valueData="timersList.SigningDate"
+          <van-field
+            v-model="state"
+            label="客户名称"
+            @focus="focusClick"
+            class="newStyle"
+            @click-right-icon="focusClick"
+            placeholder="点击检索客户名称"
+            right-icon="arrow"
           />
-          <el-row class="customerName line">
+          <el-row class="DeliveryDate van-cell">
+            <span class="lable">承诺交期</span>
+            <span class="time" @click="tiemrClick">{{timersList.SigningDate}}</span>
+          </el-row>
+          <!-- <el-row class="customerName line">
             <em>负责人</em>
             <div>
               <el-autocomplete
@@ -39,91 +35,109 @@
                 @select="handleSelectss"
               ></el-autocomplete>
             </div>
-          </el-row>
+          </el-row>-->
+          <van-field
+            v-model="states"
+            label="负责人"
+            @focus="focusClick"
+            class="newStyle"
+            @click-right-icon="focusClick"
+            placeholder="点击选择负责人"
+            right-icon="arrow"
+          />
+          <van-field v-model="states" label="合同编号" class="newStyle" />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line">
-            <el-table :data="tableData" style="width: 100%; font-size: .714286rem;">
-              <el-table-column prop="goods" label="品名"></el-table-column>
-              <el-table-column prop="model" label="型号"></el-table-column>
-              <el-table-column prop="nums" label="数量"></el-table-column>
-              <el-table-column prop="price" label="单价"></el-table-column>
-              <el-table-column prop="totalPrice" label="总价"></el-table-column>
-            </el-table>
+          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
+            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+              <van-swipe-cell>
+                <div class="wrap_item">
+                  <div class="wrap_left">
+                    <img
+                      v-if="item.product_img && item.product_img != 0 "
+                      class="img"
+                      :src="item.product_img | getUrl"
+                    />
+                    <img src="@/assets/image/Default.png" class="img" v-else />
+                    <div class="text">
+                      <div class="title">
+                        <p>{{item.goods}}</p>
+                      </div>
+                      <p class="model">{{item.model}}</p>
+                      <div class="wrap_right">
+                        <span
+                          class="wrap_right_text"
+                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="funds_box">
+                          <span>￥</span>
+                          <span class="funds">{{item.totalPrice}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <template #right>
+                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                </template>
+              </van-swipe-cell>
+            </div>
           </el-row>
+
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
-              <i class="el-icon-box"></i>
-              <em>添加产品</em>
+              <i class="iconfont icon-copy"></i>
+              <em>选择产品</em>
             </div>
           </el-row>
-          <div class="box-card item1" v-show="isShowed">
-            <van-field v-model="productName" label="名称" />
-            <van-field v-model="Products" label="型号" />
-            <van-field
-              v-model="FlowingProducts[index+1]"
-              v-for="(item,index) in isFlowingShow"
-              :key="index"
-              :data-id="index+1"
-              label="单号"
-            />
-            <van-field v-model="productPrice" type="number" label="价格" />
-            <van-field v-model="quantity" v-if="isWeightShow" type="number" label="针数(千针)" />
-            <van-field v-model="productNum" type="number" label="数量" />
-            <van-field @focus="calcPrice" v-model="productSubtotal" type="number" label="小计" />
-            <van-field v-model="ProductNotes" label="备注" />
-            <div class="btns">
-              <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-              <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-            </div>
-          </div>
-          <van-field v-model="contractAmount" type="number" label="加工费" />
-          <van-field v-model="DiscountedAmount" type="number" label="折后加工费" />
-        </el-card>
-        <el-card class="box-card item1">
-          <div class="address" @click="addressClick">
-            <div class="lefticon">
-              <van-icon name="location" />
-            </div>
-            <div class="cententbox">
-              <div class="nametell">
-                <span>{{addressData.name}}</span>
-                <em>{{addressData.tel}}</em>
-              </div>
-              <div class="NEWSaddress">
-                <span>{{addressData.address}}</span>
-              </div>
-            </div>
-            <div class="righticon">
-              <van-icon name="arrow" />
-            </div>
-          </div>
+
+          <van-field v-model="states" label="加工费" class="newStyle" />
+          <van-field v-model="states" label="折后加工" class="newStyle" />
         </el-card>
       </div>
     </scroll>
-    <div class="footer">
-      <el-button type="primary" @click="quoteclick" plain>提交</el-button>
-      <el-button type="primary" @click="quxiaoClick" plain>取消</el-button>
-    </div>
+    <myBtns :commitFun="quoteclick" :cancelFun="quxiaoClick">
+      <span slot="cancel-btn">取消</span>
+      <span slot="commit-btn">
+        <span>提交</span>
+      </span>
+    </myBtns>
+    <van-overlay :show="isShow" @click="closeOverlay">
+      <div class="wrapper-qrCode">
+        <myVqr :Content="textContent"></myVqr>
+      </div>
+    </van-overlay>
+
+    <van-datetime-picker
+      class="datetime"
+      v-if="isDatetime"
+      v-model="currentDate"
+      type="date"
+      title="选择年月日"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="confirms"
+      @cancel="cancel"
+    />
   </div>
 </template>
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
+import { setTimerType } from '@/common/filter'
 
+import myBtns from '@/components/common/my_btns/my_btns'
 import {
   getAddOemOrder,
   getReceivingInformationList,
   addOemOrder,
 } from '@/network/deal'
 export default {
-  name: 'OEM',
   data() {
     return {
       state: '',
       timersList: {
-        SigningDate: new Date().getTime(),
-        ContractField: new Date().getTime(),
+        SigningDate: setTimerType(new Date().getTime()),
+        ContractField: setTimerType(new Date().getTime()),
       },
       tableData: [],
       isShowed: false,
@@ -209,15 +223,11 @@ export default {
       number: 0,
     }
   },
-
+  components: {
+    myBtns,
+  },
   activated() {
     this.getAddOemOrders()
-    if (this.$store.state.timers.timers.SigningDate != '') {
-      this.timersList.SigningDate = this.$store.state.timers.timers.SigningDate
-    }
-    if (this.$store.state.timers.timers.ContractField != '') {
-      this.timersList.ContractField = this.$store.state.timers.timers.ContractField
-    }
     if (this.$store.state.Address.id != undefined) {
       this.addressData.name = this.$store.state.Address.name
       this.addressData.tel = this.$store.state.Address.tel
@@ -225,10 +235,6 @@ export default {
       this.addressData.id = this.$store.state.Address.id
       this.$store.commit('setAddress', {})
     }
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
-    document.querySelector('textarea').style.border = 'none'
   },
   deactivated() {
     this.restaurant = []
@@ -504,8 +510,16 @@ export default {
 <style lang="scss" scoped>
 #OEM {
   padding-top: 5.428571rem;
-  padding-bottom: 2.785714rem;
+  padding-bottom: 3.785714rem;
   min-height: 100vh;
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    top: 5.428571rem;
+    bottom: 2.785714rem;
+    width: 100%;
+    overflow: hidden;
+  }
   .drawer_my {
     .demo-drawer__content {
       max-width: 1024px;
@@ -539,138 +553,145 @@ export default {
       margin-left: 1.071429rem;
     }
     .center {
-      margin-left: -3.071429rem;
       font-size: 1.285714rem;
-      font-weight: 700;
+      margin-left: -0.571429rem;
       color: #030303;
     }
   }
-  .scroll-wrapper {
-    position: absolute;
-    left: 0;
-    top: 5.428571rem;
-    bottom: 2.785714rem;
-    width: 100%;
-    overflow: hidden;
-    .body {
-      padding: 1.428571rem 1.071429rem;
-      background-color: #f8f7f5;
-      min-height: calc(100vh - 5.428571rem);
+  .body {
+    background-color: #f8f7f5;
+    min-height: calc(100vh - 5.428571rem);
 
-      .item1 {
-        margin-bottom: 0.714286rem;
-        .btns {
-          display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-          .van-button {
-            margin-right: 0.714286rem;
-          }
+    .item1 {
+      margin-bottom: 0.714286rem;
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lable {
+          width: 4.928571rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          padding-right: 0.714286rem;
+          border-right: 1px solid #e7e7e7;
         }
-        .address {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.642857rem 1.142857rem;
-          .lefticon {
-            width: 1.714286rem;
-            height: 1.714286rem;
-            border-radius: 50%;
-            background-color: #ff4400;
+        .time {
+          flex: 1;
+          text-align: right;
+          padding: 0 1rem;
+        }
+      }
+      .btns {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        .van-button {
+          margin-right: 0.714286rem;
+        }
+      }
+      .line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f8f7f5;
+        padding: 0.714286rem 1.142857rem;
+        .delect {
+          height: 100%;
+          line-height: 6.571429rem;
+        }
+        .product_box {
+          .wrap_item {
+            padding: 0.357143rem;
+
+            .wrap_left {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .img {
+                width: 5.928571rem;
+                height: 5.928571rem;
+                background-color: #655d55;
+                border-radius: 0.357143rem;
+                margin-right: 0.714286rem;
+              }
+              .text {
+                flex: 1;
+                font-size: 1rem;
+                color: #000;
+                overflow: hidden;
+                .title {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  font-size: 1rem;
+                }
+                .model {
+                  color: #ccc;
+                }
+                p {
+                  margin-bottom: 0.357143rem;
+                }
+                .wrap_right {
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-end;
+                  color: #ccc;
+                  .wrap_right_text {
+                    font-size: 0.857143rem;
+                  }
+                  .funds_box {
+                    font-size: 1.142857rem;
+                    color: black;
+                  }
+                }
+              }
+            }
+          }
+          .wrap_money {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            .van-icon {
-              color: #fff;
-              font-size: 0.857143rem;
-            }
-          }
-          .cententbox {
-            text-align: left;
-            margin: 0 0.714286rem;
-            flex: 1;
-            .nametell {
-              span {
-                font-size: 0.857143rem;
-                color: #333333;
-              }
-              em {
-                font-size: 0.571429rem;
-                color: #999;
-                margin-left: 0.357143rem;
-              }
-            }
-            .NEWSaddress {
-              margin: 0.607143rem 0;
-              span {
-                font-size: 0.642857rem;
-                color: #333333;
-              }
-            }
-            .title {
-              span {
-                font-size: 0.642857rem;
-                color: #d85c26;
-              }
-            }
-          }
-          .righticon {
-            .van-icon {
-              color: #ccc;
-            }
-          }
-        }
-        .customerName {
-          padding: 0.714286rem 1.142857rem;
-        }
-        .line {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #f8f7f5;
-
-          em {
-            display: block;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 0.357143rem;
             font-size: 1.142857rem;
-            color: #585858;
-            font-weight: 700;
-            width: 6.357143rem;
-            text-align: left;
-          }
-          div {
-            display: block;
-            font-size: 1.142857rem;
-            font-weight: 700;
-            text-align: left;
-            flex: 1;
+            color: #848484;
           }
         }
-        .AddProduct {
+        em {
+          display: block;
+          font-size: 1.142857rem;
+          color: #585858;
+          width: 6.357143rem;
+          text-align: left;
+        }
+        div {
+          display: block;
+          font-size: 1.142857rem;
+          text-align: left;
+          flex: 1;
+        }
+      }
+      .AddProduct {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .coutent {
           display: flex;
           justify-content: center;
           align-items: center;
-          .coutent {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            em {
-              text-align: center;
-            }
+          em {
+            text-align: center;
           }
         }
       }
     }
   }
-  .footer {
-    height: 2.785714rem;
-    display: flex;
-    justify-content: flex-end;
+  .datetime {
     position: fixed;
     bottom: 0;
-    width: 100%;
     left: 0;
     right: 0;
-    background-color: #fff;
   }
 }
 </style>

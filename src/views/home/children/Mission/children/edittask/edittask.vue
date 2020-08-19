@@ -117,6 +117,7 @@ import {
   addDesignatedTasks,
   getAddDesignatedTasks,
   getEditDesignatedTasks,
+  editDesignatedTasks,
 } from '@/network/home'
 import { setTimerType } from '@/common/filter'
 import SimpleCroppes from '@/components/common/SimpleCroppes/SimpleCroppes'
@@ -193,6 +194,7 @@ export default {
         user_id: this.Assign,
         details: this.imgUrlAdd + this.textarea,
         users_cc: [...this.Ccpeople],
+        id: this.$route.params.id,
       }
     },
   },
@@ -207,10 +209,29 @@ export default {
       this.designatedTasksType = data.designatedTasksType
       data.designatedTasksType.map((item) => {
         this.selectionArr.push(item.name)
+        if (data.designatedTasks.type == item.id) {
+          this.SelectionData = item.name
+          this.value = item.id
+        }
       })
       this.users = data.users
+      this.Assign = data.designatedTasks.user_id
       data.users.map((item) => {
         this.AssignArr.push(item.name)
+      })
+      this.end_time = data.designatedTasks.end_time
+      this.title = data.designatedTasks.title
+      this.textarea = data.designatedTasks.details.replace(/<.*?>/gi, '')
+      this.AobjectsData = data.designatedTasks.user_name
+      this.propertieValue = data.designatedTasks.attribute
+      if (data.designatedTasks.attribute == 1) {
+        this.propertiesData = this.styleValue[0]
+      } else {
+        this.propertiesData = this.styleValue[1]
+      }
+      data.usersCcs.forEach((item, index) => {
+        this.ccpepolData.push(item[1])
+        this.Ccpeople.push(item[0])
       })
     },
     clearcpepol() {
@@ -295,7 +316,7 @@ export default {
       this.$refs['croppers'].upload()
     },
     async addDesignatedTask() {
-      const { code, msg } = await addDesignatedTasks(
+      const { code, msg } = await editDesignatedTasks(
         this.addDesignatedTasksData
       )
       if (code == 200) {
@@ -372,7 +393,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 3.5rem;
     width: 100%;
     overflow: hidden;
     .box-card {

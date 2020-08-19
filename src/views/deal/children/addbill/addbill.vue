@@ -109,8 +109,6 @@
 </template>
     
 <script>
-import { regionData, CodeToText } from 'element-china-area-data'
-
 import {
   getAddFlowOrder,
   getMaterielList,

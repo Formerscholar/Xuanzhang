@@ -85,3 +85,10 @@ export function getEditDesignatedTasks(params) {
     params,
   })
 }
+export function editDesignatedTasks(data) {
+  return request({
+    url: '/DesignatedTasks/editDesignatedTasks',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

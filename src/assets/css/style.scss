@@ -132,7 +132,8 @@ i {
 #Inventory,
 #MaterialReturn,
 #ContractDetails,
-#clientedit {
+#clientedit,
+#OEM {
 
   .van-cell:not(:last-child)::after {
     border: none;
@@ -213,6 +214,13 @@ i {
       border-radius: .357143rem;
       overflow: hidden;
     }
+  }
+}
+
+
+#Newtask {
+  textarea {
+    text-align: left;
   }
 }
 
