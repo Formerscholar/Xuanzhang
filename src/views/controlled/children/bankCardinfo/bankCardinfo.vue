@@ -15,20 +15,20 @@ export default {
   components: {},
   components: {
     banktitle,
-    bankCard
+    bankCard,
   },
   data() {
     return {
-      cardinfo: {}
+      cardinfo: {},
     }
   },
   mounted() {
     this.cardinfo = this.$store.state.bankCardSinfo
-  }
+  },
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .bankCardinfo {
   padding: 0.714286rem;
 }

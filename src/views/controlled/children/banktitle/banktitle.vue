@@ -21,11 +21,11 @@
 <script>
 export default {
   name: 'banktitle',
-  components: {}
+  components: {},
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .top_title {
   justify-content: space-between;
   align-items: center;

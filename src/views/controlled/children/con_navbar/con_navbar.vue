@@ -9,19 +9,17 @@
 </template>
     
 <script>
- 
-
 export default {
   name: 'con_navbar',
   methods: {
     callBack() {
       this.$router.go(-1)
-    }
-  }
+    },
+  },
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .Controlled_root {
   font-size: 1.285714rem;
   background-color: #fff;

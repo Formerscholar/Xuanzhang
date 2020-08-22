@@ -23,30 +23,31 @@ export default {
   props: {
     cardinfo: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   filters: {
     Balance(value) {
       return `余额:${value}元`
-    }
-  }
+    },
+  },
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .bankCard {
   justify-content: center;
   align-items: center;
-  text-shadow: 3px 2px 5px #45444f;
+  text-shadow: 0.214286rem 0.142857rem 0.357143rem #45444f;
   .bankCardItem {
-    width: 394px;
+    width: 28.142857rem;
     height: 13.285714rem;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 0.714286rem;
+    border-radius: 0.714286rem;
     color: #e1e1e7;
-    box-shadow: 3px 2px 5px #76748a;
+    box-shadow: 0.214286rem 0.142857rem 0.357143rem #76748a;
     background: linear-gradient(to right, #76748a, #d9daec);
+
     flex-direction: column;
     justify-content: space-between;
     font-weight: 700;
@@ -54,28 +55,34 @@ export default {
     .title_text {
       justify-content: space-between;
       align-items: flex-end;
-      height: 32px;
-      font-size: 18px;
-      padding: 0 10px;
+      flex-direction: column;
+      height: 2.285714rem;
+      font-size: 1.285714rem;
+      padding: 0 0.714286rem;
+      .bankName {
+        width: 100%;
+        text-align: left;
+        padding-bottom: 0.357143rem;
+      }
     }
 
     .botn_text {
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-end;
-      padding: 0 10px;
-      padding-bottom: 5px;
-      height: 45px;
+      padding: 0 0.714286rem;
+      padding-bottom: 0.357143rem;
+      height: 3.214286rem;
       .couten_box {
         width: 100%;
-        height: 4px;
+        height: 0.285714rem;
         background: linear-gradient(to right, #e6d7f1, #e7d8f2);
-        box-shadow: 3px 2px 5px #45444f;
+        box-shadow: 0.214286rem 0.142857rem 0.357143rem #45444f;
       }
       .Balance {
-        font-size: 14px;
+        font-size: 1rem;
         span {
-          padding-left: 5px;
+          padding-left: 0.357143rem;
         }
       }
     }
