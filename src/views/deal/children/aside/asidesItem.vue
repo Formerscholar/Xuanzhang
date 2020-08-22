@@ -52,7 +52,14 @@
               </div>
               <p class="model">{{item.materiel_model}}</p>
               <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <span v-if="item.weight || item.process_cost">
+                  ({{item.unit_price}}
+                  <span v-if="item.weight">×{{item.weight}}</span>
+                  <span v-if="item.process_cost">+{{item.process_cost}}</span>
+                  )
+                </span>
+                <span v-else>{{item.unit_price}}</span>
+                ×{{item.number}}
               </div>
             </div>
           </div>

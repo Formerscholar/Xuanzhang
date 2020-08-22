@@ -9,22 +9,22 @@
 </template>
 
 <script >
-import { getlogin, getIndex } from '@/network/login'
+import { getlogin, getIndex, getAppVersion } from '@/network/login'
 import { updateURL } from '@/network/baseURL'
 
 export default {
   data() {
     return {
       transitionName: '',
-      edition: '2020081601',
+      edition: '2020082201',
       path: '',
     }
   },
   created() {
     this.getlogin()
-    // document.addEventListener('plusready', () => {
-    //   this.getNativeVersion()
-    // })
+    document.addEventListener('plusready', () => {
+      this.getNativeVersion()
+    })
   },
   watch: {
     $route(to, from) {
@@ -62,17 +62,25 @@ export default {
     },
   },
   methods: {
-    getNativeVersion() {
-      let ServerVersion = '2020081701' // axios 获取版本号
-      if (this.edition !== ServerVersion) {
-        this.$dialog
-          .confirm({
-            title: '更新提示',
-            message: '有新版本，是否启动后台下载?',
-          })
-          .then(() => {
-            this.downloadApk(updateURL + ServerVersion + '.apk')
-          })
+    async getNativeVersion() {
+      const { code, data, msg } = await getAppVersion()
+      if (code == 200) {
+        if (this.edition !== data.version) {
+          this.$dialog
+            .confirm({
+              title: '自动更新提示',
+              message: '有新版本，是否启动后台下载?',
+            })
+            .then(() => {
+              this.downloadApk(data.url)
+            })
+        }
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
       }
     },
     downloadApk(url) {

@@ -567,3 +567,35 @@ export function getUserContractOrderList(params) {
     params,
   })
 }
+
+export function toExamineDeliveryRecord(data) {
+  return request({
+    url: '/DeliverGoods/toExamineDeliveryRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExamineDeliveryRecord(data) {
+  return request({
+    url: '/DeliverGoods/cancelToExamineDeliveryRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function toExamineContractOrder(data) {
+  return request({
+    url: '/TradingCenter/toExamineContractOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExamineContractOrder(data) {
+  return request({
+    url: '/TradingCenter/cancelToExamineContractOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

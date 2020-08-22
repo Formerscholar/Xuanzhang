@@ -18,10 +18,10 @@
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.min.css'
 import { uploadImg } from '@/network/materials'
+import { throttle } from '@/common/utils'
 export default {
   name: 'v-simple-cropper',
   props: {
-    initParam: Number,
     successCallback: {
       type: Function,
       default: () => {},
@@ -33,7 +33,7 @@ export default {
       filename: '',
     }
   },
-  mounted() {
+  activated() {
     this.init()
   },
   methods: {
@@ -45,7 +45,9 @@ export default {
       })
     },
     upload() {
-      this.$refs['file'].click()
+      throttle(() => {
+        this.$refs['file'].click()
+      }, 300)
     },
     uploadChange(e) {
       let file = e.target.files[0]

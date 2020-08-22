@@ -25,27 +25,17 @@
             <span class="lable">承诺交期</span>
             <span class="time" @click="tiemrClick">{{timersList.SigningDate}}</span>
           </el-row>
-          <!-- <el-row class="customerName line">
-            <em>负责人</em>
-            <div>
-              <el-autocomplete
-                v-model="states"
-                :fetch-suggestions="querySearchAsyncs"
-                placeholder="请输入内容"
-                @select="handleSelectss"
-              ></el-autocomplete>
-            </div>
-          </el-row>-->
           <van-field
             v-model="states"
             label="负责人"
-            @focus="focusClick"
+            readonly
+            @click-input="arrowheadradiatorClick"
             class="newStyle"
-            @click-right-icon="focusClick"
+            @click-right-icon="arrowheadradiatorClick"
             placeholder="点击选择负责人"
             right-icon="arrow"
           />
-          <van-field v-model="states" label="合同编号" class="newStyle" />
+          <van-field v-model="knowingly" label="合同编号" class="newStyle" />
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
@@ -90,8 +80,8 @@
             </div>
           </el-row>
 
-          <van-field v-model="states" label="加工费" class="newStyle" />
-          <van-field v-model="states" label="折后加工" class="newStyle" />
+          <van-field v-model="contractAmount" label="加工费" class="newStyle" />
+          <van-field v-model="DiscountedAmount" label="折后加工" class="newStyle" />
         </el-card>
       </div>
     </scroll>
@@ -118,31 +108,51 @@
       @confirm="confirms"
       @cancel="cancel"
     />
+
+    <van-picker
+      class="datetime"
+      v-if="isarrowhead"
+      title="负责人"
+      show-toolbar
+      :columns="restaurant"
+      @confirm="arrowheadConfirm"
+      @cancel="isarrowhead = false"
+    />
   </div>
 </template>
     
 <script>
-import { regionData, CodeToText } from 'element-china-area-data'
 import { setTimerType } from '@/common/filter'
+import { TotalPriceCalc } from '@/common/utils'
+import { bestURL, crosURl } from '@/network/baseURL'
 
 import myBtns from '@/components/common/my_btns/my_btns'
 import {
   getAddOemOrder,
   getReceivingInformationList,
   addOemOrder,
+  getMateriel,
 } from '@/network/deal'
 export default {
   data() {
     return {
+      isDatetime: false,
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
       state: '',
       timersList: {
         SigningDate: setTimerType(new Date().getTime()),
         ContractField: setTimerType(new Date().getTime()),
       },
       tableData: [],
+      arrowheadcolumns: [],
       isShowed: false,
+      productWeight: '',
+      isarrowhead: false,
       Products: '',
       productName: '',
+      isShow: false,
       FlowingProducts: [null],
       isFlowingShow: [],
       productNum: '',
@@ -168,6 +178,7 @@ export default {
       userId: '',
       distributors: [],
       CustomerNumber: '',
+      knowingly: '',
       TermsPaymentInput: '',
       TransportationAssume: '',
       WarrantyTime: '',
@@ -186,11 +197,14 @@ export default {
         note: '',
       },
       states: '',
+      processCost: '',
       radio: '0',
       table: false,
       dialog: false,
       Addresslog: false,
+      textContent: '',
       productlog: false,
+      product_img: '',
       loading: false,
       form: {
         companyName: '',
@@ -218,7 +232,6 @@ export default {
         specifications: '',
         price: '',
       },
-      options: regionData,
       address: [],
       number: 0,
     }
@@ -228,17 +241,6 @@ export default {
   },
   activated() {
     this.getAddOemOrders()
-    if (this.$store.state.Address.id != undefined) {
-      this.addressData.name = this.$store.state.Address.name
-      this.addressData.tel = this.$store.state.Address.tel
-      this.addressData.address = this.$store.state.Address.address
-      this.addressData.id = this.$store.state.Address.id
-      this.$store.commit('setAddress', {})
-    }
-  },
-  deactivated() {
-    this.restaurant = []
-    this.restaurants = []
   },
   computed: {
     addContractOrderData() {
@@ -255,6 +257,7 @@ export default {
         commitment_period: this.timersList.SigningDate,
         remark: null,
         receiving_id: this.addressData.id,
+        other_order_number: this.knowingly,
       }
     },
     getAddOemOrderData() {
@@ -271,8 +274,86 @@ export default {
         _: new Date().getTime(),
       }
     },
+    getMaterieldata() {
+      return {
+        token: this.$store.state.token,
+        product_name: this.productName,
+        product_model: this.Products,
+        _: new Date().getTime(),
+      }
+    },
+  },
+  filters: {
+    getUrl(value) {
+      return bestURL + value
+    },
   },
   methods: {
+    tableClick(index) {
+      console.log(index)
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否删除产品?',
+        })
+        .then(() => {
+          if (this.tableData.length == 1) {
+            this.tableData = []
+            this.shippingData = []
+          } else {
+            this.tableData = this.tableData.splice(index - 1, 1)
+            this.shippingData = this.shippingData.splice(index - 1, 1)
+          }
+          let allmonpement = 0
+          this.tableData.forEach((item) => {
+            allmonpement += parseFloat(item.totalPrice)
+          })
+          this.Shipment = allmonpement
+          this.Amounts = allmonpement
+          console.log(index, this.tableData, this.shippingData)
+        })
+    },
+    arrowheadConfirm(value, index) {
+      this.states = value
+      this.userId = this.usersList[index].id
+      this.isarrowhead = false
+    },
+    arrowheadradiatorClick() {
+      this.isarrowhead = true
+      console.log('arrowheadradiatorClick')
+    },
+    cancel() {
+      this.isDatetime = false
+    },
+    confirms(value) {
+      this.timersList.SigningDate = setTimerType(value)
+      this.isDatetime = false
+    },
+    closeOverlay() {
+      this.isShow = false
+      this.blacknext()
+    },
+    tiemrClick() {
+      this.isDatetime = true
+    },
+    focusClick() {
+      this.$router.push({
+        path: '/nameSearch',
+        query: {
+          data: { ...this.distributors },
+        },
+      })
+      this.$bus.$off('nameSupplier')
+      this.$bus.$on('nameSupplier', (item) => {
+        console.log(item)
+        if (typeof item == 'string') {
+          this.state = item
+        } else {
+          this.state = item.name
+          this.selectedID = item.id
+        }
+      })
+    },
     async quoteclick() {
       const { code } = await addOemOrder(this.addContractOrderData)
       if (code == 200) {
@@ -314,13 +395,13 @@ export default {
       const { data } = await getAddOemOrder(this.getAddOemOrderData)
       console.log('getAddOemOrder', data)
       this.distributors = data.distributors
-      this.distributors.forEach((item, index) => {
-        let obj = {
-          value: item.name,
-          address: item.id,
-        }
-        this.restaurants.push(obj)
-      })
+      // this.distributors.forEach((item, index) => {
+      //   let obj = {
+      //     value: item.name,
+      //     address: item.id,
+      //   }
+      //   this.restaurants.push(obj)
+      // })
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -329,11 +410,7 @@ export default {
       this.isFlowingShow = data.customerProductExtraField
       this.usersList = data.users
       this.usersList.forEach((item, index) => {
-        let obj = {
-          value: item.name,
-          address: item.id,
-        }
-        this.restaurant.push(obj)
+        this.restaurant.push(item.name)
       })
     },
     handleChange() {
@@ -347,30 +424,136 @@ export default {
       this.fileList = fileList.slice(-3)
     },
     addNewProduct() {
-      this.isShowed = true
+      this.$router.push({
+        path: '/SelectProducts',
+        query: {
+          data: {
+            isFlowingShow: this.isFlowingShow,
+          },
+        },
+      })
+      this.$bus.$off('SelectProducts')
+      this.$bus.$on('SelectProducts', (item) => {
+        console.log(item)
+        this.productName = item.selectData.productName
+        this.Products = item.selectData.productModel
+        this.productPrice = item.selectData.productPrice
+        this.quantity = item.selectData.quantity
+        this.ProductNotes = item.selectData.ProductNotes
+        this.productWeight = item.selectData.productWeight
+        this.FlowingProducts = item.selectData.FlowingProducts
+        this.product_img = item.selectData.img_url
+        this.processCost = item.selectData.processCost
+        this.AddClick()
+      })
     },
-    AddClick() {
-      let adderssnum = this.productPrice * this.quantity
-      let addproductdata = {
-        goods: this.productName,
-        model: this.Products,
-        nums: this.quantity,
-        price: this.productPrice,
-        totalPrice: adderssnum,
+    async AddClick() {
+      const { data } = await getMateriel(this.getMaterieldata)
+      if (data.isExistence == 0) {
+        this.$dialog
+          .confirm({
+            title: '提示',
+            message: '是否加入临时物料库？',
+          })
+          .then(() => {
+            this.isTemporary = '1'
+          })
+          .catch(() => {
+            this.isTemporary = '0'
+            this.tableData.pop()
+          })
+          .finally(() => {
+            let totalPrice = TotalPriceCalc(
+              this.productPrice,
+              this.productWeight,
+              this.processCost,
+              this.quantity
+            )
+
+            let addproductdata = {
+              goods: this.productName,
+              model: this.Products,
+              nums: this.quantity,
+              price: this.productPrice,
+              totalPrice,
+              weight: this.productWeight,
+              process_cost: this.processCost,
+              product_img: this.product_img,
+            }
+            this.tableData.push(addproductdata)
+
+            let newArr = []
+            newArr.push(this.productName)
+            newArr.push(this.Products)
+            newArr.push(this.quantity)
+            newArr.push(this.productPrice)
+            newArr.push(this.ProductNotes)
+            newArr.push(this.productWeight)
+            newArr.push([null, 1])
+            this.shippingData.push(newArr)
+            console.log(this.shippingData)
+            let allmonpement = 0
+            this.tableData.forEach((item) => {
+              allmonpement += parseFloat(item.totalPrice)
+            })
+            this.contractAmount = allmonpement
+            this.DiscountedAmount = allmonpement
+
+            this.Products = ''
+            this.productPrice = ''
+            this.productWeight = ''
+            this.FlowingProducts = ''
+            this.quantity = ''
+            this.ProductSubtotal = ''
+            this.ProductNotes = ''
+            this.isShowed = false
+          })
+      } else {
+        let totalPrice = TotalPriceCalc(
+          this.productPrice,
+          this.productWeight,
+          this.processCost,
+          this.quantity
+        )
+
+        let addproductdata = {
+          goods: this.productName,
+          model: this.Products,
+          nums: this.quantity,
+          price: this.productPrice,
+          totalPrice,
+          weight: this.productWeight,
+          process_cost: this.processCost,
+          product_img: this.product_img,
+        }
+        this.tableData.push(addproductdata)
+
+        let newArr = []
+        newArr.push(this.productName)
+        newArr.push(this.Products)
+        newArr.push(this.quantity)
+        newArr.push(this.productPrice)
+        newArr.push(this.ProductNotes)
+        newArr.push(this.productWeight)
+        newArr.push([null, 1])
+        this.shippingData.push(newArr)
+        console.log(this.shippingData)
+        let allmonpement = 0
+        this.tableData.forEach((item) => {
+          allmonpement += parseFloat(item.totalPrice)
+        })
+        this.contractAmount = allmonpement
+        this.DiscountedAmount = allmonpement
+
+        this.Products = ''
+        this.productPrice = ''
+        this.productWeight = ''
+        this.FlowingProducts = ''
+        this.quantity = ''
+        this.ProductSubtotal = ''
+        this.ProductNotes = ''
+        this.isShowed = false
       }
-      this.contractAmount += adderssnum
-      this.DiscountedAmount += adderssnum
-      this.tableData.push(addproductdata)
-      let newArr = []
-      newArr.push(this.productName)
-      newArr.push(this.Products)
-      newArr.push(this.productNum)
-      newArr.push(this.productPrice)
-      newArr.push(this.ProductNotes)
-      newArr.push(this.quantity)
-      newArr.push(this.FlowingProducts)
-      this.shippingData.push(newArr)
-      this.cancelClick()
     },
     calcPrice() {
       if (this.productPrice != '' && this.productNum != '') {

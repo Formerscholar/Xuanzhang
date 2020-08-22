@@ -14,6 +14,7 @@
           @editlists="editlists"
           @VoidList="VoidList"
           @printList="printList"
+          @ControlledDelay="ControlledDelay"
         />
         <DealGoodsItem
           slot="Quote"
@@ -21,6 +22,7 @@
           @editlists="editlists"
           @VoidList="VoidList"
           @printList="printList"
+          @ControlledDelay="ControlledDelay"
         />
         <DealGoodsItem
           slot="MyContract"
@@ -28,6 +30,7 @@
           @editlists="editlists"
           @VoidList="VoidList"
           @printList="printList"
+          @ControlledDelay="ControlledDelay"
         />
         <DealGoodsItem
           slot="MyOffer"
@@ -35,6 +38,7 @@
           @editlists="editlists"
           @VoidList="VoidList"
           @printList="printList"
+          @ControlledDelay="ControlledDelay"
         />
         <DealGoodsItems
           slot="DeliveryList"
@@ -42,6 +46,7 @@
           @editlists="editlists"
           @VoidList="VoidList"
           @printList="printList"
+          @ControlledDelay="ControlledDelay"
         />
       </Options>
     </scroll>
@@ -171,6 +176,24 @@ export default {
     },
   },
   methods: {
+    ControlledDelay() {
+      if (this.pageIndex == 0) {
+        this.goodsLists = []
+        this.getOrderList(1)
+      } else if (this.pageIndex == 1) {
+        this.QuoteList = []
+        this.getOrderList(0)
+      } else if (this.pageIndex == 2) {
+        this.contractOrderList = []
+        this.getUserContractOrderss()
+      } else if (this.pageIndex == 3) {
+        this.MyOfferList = []
+        this.getUserContractOrders()
+      } else if (this.pageIndex == 4) {
+        this.DeliveryList = []
+        this.getDeliverGoodsLists()
+      }
+    },
     async getDeliverGoodsLists() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
       if (data.deliveryRecordList.length != 0) {
@@ -184,6 +207,8 @@ export default {
             distributor_id: item.distributor_id,
             che_status: item.che_status,
             business_status: item.business_status,
+            to_examine: item.to_examine,
+            auditRecord: item.auditRecord,
           })
         })
       } else {
@@ -213,6 +238,8 @@ export default {
               Ship: item.delivery_schedule * 1,
               invoice: item.invoice_progress * 1,
             },
+            to_examine: item.to_examine,
+            auditRecord: item.auditRecord,
           })
         })
       } else {
@@ -242,6 +269,8 @@ export default {
               Ship: item.delivery_schedule * 1,
               invoice: item.invoice_progress * 1,
             },
+            to_examine: item.to_examine,
+            auditRecord: item.auditRecord,
           })
         })
       } else {
@@ -288,14 +317,19 @@ export default {
       throttle(() => {
         this.pageIndex = i
         if (this.pageIndex == 0) {
+          this.goodsLists = []
           this.getOrderList(1)
         } else if (this.pageIndex == 1) {
+          this.QuoteList = []
           this.getOrderList(0)
         } else if (this.pageIndex == 2) {
+          this.contractOrderList = []
           this.getUserContractOrderss()
         } else if (this.pageIndex == 3) {
+          this.MyOfferList = []
           this.getUserContractOrders()
         } else if (this.pageIndex == 4) {
+          this.DeliveryList = []
           this.getDeliverGoodsLists()
         }
       }, 500)
@@ -381,6 +415,8 @@ export default {
                 Ship: item.delivery_schedule * 1,
                 invoice: item.invoice_progress * 1,
               },
+              to_examine: item.to_examine,
+              auditRecord: item.auditRecord,
             })
           })
         } else {
@@ -404,6 +440,8 @@ export default {
               Ship: item.delivery_schedule * 1,
               invoice: item.invoice_progress * 1,
             },
+            to_examine: item.to_examine,
+            auditRecord: item.auditRecord,
           })
         })
       }

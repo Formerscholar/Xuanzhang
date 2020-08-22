@@ -7,9 +7,9 @@
       <div class="center" slot="center"></div>
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
-      <div class="swiper">
+      <div class="swiper" @click="imgClick">
         <img :src="img_URL" alt="logo" />
-        <i class="iconfont icon-pic img_btn" @click="imgClick"></i>
+        <i class="iconfont icon-pic img_btn"></i>
       </div>
       <div class="compitem">
         <div class="content_nums">
@@ -90,7 +90,8 @@
         <span>提交</span>
       </span>
     </myBtns>
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+
+    <SimpleCropper :successCallback="uploadHandle" ref="croppers" />
 
     <van-picker
       class="valuepicker"
@@ -380,8 +381,7 @@ export default {
       }
     },
     imgClick() {
-      this.isWrite = true
-      this.$refs['cropper'].upload()
+      this.$refs.croppers.upload()
     },
     async afterReads(file) {
       console.log(file)
@@ -610,6 +610,7 @@ export default {
       bottom: 1.071429rem;
       right: 1.071429rem;
       color: #fff;
+      z-index: 2;
       text-align: center;
       border-radius: 50%;
       width: 2.857143rem;

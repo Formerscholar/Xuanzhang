@@ -177,7 +177,7 @@ export default {
       clearInterval(this.Loop)
       this.Loop = setTimeout(() => {
         this.touch = true
-      }, 800)
+      }, 300)
     },
     cleartime(materiel_id) {
       clearInterval(this.Loop)

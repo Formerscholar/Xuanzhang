@@ -9,49 +9,129 @@
     >
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="发货清单" class="Delivery">
-          <el-card class="box-card" v-for="(item, index) in deliveryRecordList" :key="index">
-            <div
-              @click="gocontractList(deliveryRecordList[index])"
-              :class="item.deleted_at && 'color_break ' "
-            >
-              <div class="title">
-                <div class="title_text">
+          <div v-for="(item, index) in deliveryRecordList" :key="item.id">
+            <van-swipe-cell v-if="item.to_examine != undefined ">
+              <el-card class="box-card">
+                <div
+                  @click="gocontractList(deliveryRecordList[index])"
+                  :class="item.deleted_at && 'color_break ' "
+                >
+                  <div class="title">
+                    <div class="title_text">
+                      <span
+                        :class="item.deleted_at ? 'color_break model' :' model'"
+                      >{{ item.order_number }}</span>
+                      <span
+                        :class="item.deleted_at ? 'color_break name' :' name'"
+                        @click.stop="gotodetails(item.distributor_id)"
+                      >{{item.name}}</span>
+                    </div>
+
+                    <div class="ControlledDelaybox">
+                      <span
+                        v-for="(item,index) in item.auditRecord"
+                        :key="index"
+                        :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                      ></span>
+                    </div>
+                  </div>
+                  <div class="itemlist" v-if="item.detail.length">
+                    <div class="items">
+                      <selection :selectionList="item.detail" />
+                    </div>
+                    <div class="right_box">
+                      <em :class="item.deleted_at && 'color_break ' ">共</em>
+                      <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                      <em :class="item.deleted_at && 'color_break ' ">种</em>
+                    </div>
+                  </div>
+                  <div class="time_box">
+                    <span
+                      :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                    >{{item.created_at | setCommitmentPeriod}}</span>
+                    <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                      <el-tag
+                        :class="item.deleted_at ? 'color_break ' :' '"
+                        :type="item.type == 0 ? '' : 'danger'"
+                        effect="plain"
+                      >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                      <em
+                        :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
+                      >￥{{item.total_funds}}</em>
+                    </span>
+                  </div>
+                </div>
+              </el-card>
+              <template #right>
+                <van-button
+                  v-if="!item.to_examine"
+                  square
+                  type="primary"
+                  style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                  text="受控"
+                  @click.stop="ControlledDelay(item.id)"
+                />
+                <van-button
+                  v-else
+                  style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                  square
+                  type="danger"
+                  text="解锁"
+                  @click.stop="unlockyoursidekick(item.id)"
+                />
+              </template>
+            </van-swipe-cell>
+            <el-card class="box-card" v-else>
+              <div
+                @click="gocontractList(deliveryRecordList[index])"
+                :class="item.deleted_at && 'color_break ' "
+              >
+                <div class="title">
+                  <div class="title_text">
+                    <span
+                      :class="item.deleted_at ? 'color_break model' :' model'"
+                    >{{ item.order_number }}</span>
+                    <span
+                      :class="item.deleted_at ? 'color_break name' :' name'"
+                      @click.stop="gotodetails(item.distributor_id)"
+                    >{{item.name}}</span>
+                  </div>
+                  <div class="ControlledDelaybox">
+                    <span
+                      v-for="(item,index) in item.auditRecord"
+                      :key="index"
+                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    ></span>
+                  </div>
+                </div>
+                <div class="itemlist" v-if="item.detail.length">
+                  <div class="items">
+                    <selection :selectionList="item.detail" />
+                  </div>
+                  <div class="right_box">
+                    <em :class="item.deleted_at && 'color_break ' ">共</em>
+                    <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                    <em :class="item.deleted_at && 'color_break ' ">种</em>
+                  </div>
+                </div>
+                <div class="time_box">
                   <span
-                    :class="item.deleted_at ? 'color_break model' :' model'"
-                  >{{ item.order_number }}</span>
-                  <span
-                    :class="item.deleted_at ? 'color_break name' :' name'"
-                    @click.stop="gotodetails(item.distributor_id)"
-                  >{{item.name}}</span>
+                    :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                  >{{item.created_at | setCommitmentPeriod}}</span>
+                  <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                    <el-tag
+                      :class="item.deleted_at ? 'color_break ' :' '"
+                      :type="item.type == 0 ? '' : 'danger'"
+                      effect="plain"
+                    >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                    <em
+                      :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
+                    >￥{{item.total_funds}}</em>
+                  </span>
                 </div>
               </div>
-              <div class="itemlist" v-if="item.detail.length">
-                <div class="items">
-                  <selection :selectionList="item.detail" />
-                </div>
-                <div class="right_box">
-                  <em :class="item.deleted_at && 'color_break ' ">共</em>
-                  <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                  <em :class="item.deleted_at && 'color_break ' ">种</em>
-                </div>
-              </div>
-              <div class="time_box">
-                <span
-                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >{{item.created_at | setCommitmentPeriod}}</span>
-                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                  <el-tag
-                    :class="item.deleted_at ? 'color_break ' :' '"
-                    :type="item.type == 0 ? '' : 'danger'"
-                    effect="plain"
-                  >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
-                  <em
-                    :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                  >￥{{item.total_funds}}</em>
-                </span>
-              </div>
-            </div>
-          </el-card>
+            </el-card>
+          </div>
         </van-tab>
         <van-tab title="订单列表" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
@@ -80,21 +160,25 @@
                   </div>
                 </div>
               </div>
-              <template #right>
-                <van-button
-                  square
-                  text="作废"
-                  type="danger"
-                  class="delete-button"
-                  @click="goDetailItem(item.id)"
-                />
-                <van-button
-                  square
-                  text="收款"
-                  type="warning"
-                  class="delete-button"
-                  @click="toReceivables(item)"
-                />
+              <template #right style=" display: flex;">
+                <div style=" display: flex;height:100%;">
+                  <van-button
+                    square
+                    text="作废"
+                    style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                    type="danger"
+                    class="delete-button"
+                    @click="goDetailItem(item.id)"
+                  />
+                  <van-button
+                    square
+                    style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                    text="收款"
+                    type="warning"
+                    class="delete-button"
+                    @click="toReceivables(item)"
+                  />
+                </div>
               </template>
             </van-swipe-cell>
           </el-card>
@@ -123,6 +207,8 @@ import {
   getDeliverGoodsList,
   getFlowOrderList,
   deleteFlowOrderProduct,
+  toExamineDeliveryRecord,
+  cancelToExamineDeliveryRecord,
 } from '@/network/deal'
 
 import { throttle } from '@/common/utils.ts'
@@ -201,6 +287,48 @@ export default {
     this.FlowOrderList = 1
   },
   methods: {
+    async unlockyoursidekick(iid) {
+      const { code, msg } = await cancelToExamineDeliveryRecord({
+        id: [iid],
+        token: this.$store.state.token,
+        order_type: 'flow',
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.getDeliverLists()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
+    async ControlledDelay(iid) {
+      const { code, msg } = await toExamineDeliveryRecord({
+        id: [iid],
+        token: this.$store.state.token,
+        order_type: 'flow',
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.getDeliverLists()
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
     RetrieveData(id) {
       this.distributor_id = id
       this.flowOrderList = []
@@ -257,9 +385,7 @@ export default {
     async getDeliverLists() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
       console.log('getDeliverGoodsList', data)
-      data.deliveryRecordList.map((item) => {
-        this.deliveryRecordList.push(item)
-      })
+      this.deliveryRecordList = data.deliveryRecordList
     },
     createAddbill() {
       this.$router.push('/addbill')
@@ -313,20 +439,10 @@ export default {
         }
         .title {
           display: flex;
-          justify-content: flex-start;
+          justify-content: space-between;
           align-items: center;
           margin-bottom: 0.357143rem;
-          .img_box {
-            width: 1.857143rem;
-            height: 1.857143rem;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 1.142857rem;
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
+
           .title_text {
             display: flex;
             font-size: 1rem;
@@ -335,6 +451,20 @@ export default {
               margin-right: 0.714286rem;
             }
             .name {
+            }
+          }
+          .ControlledDelaybox {
+            display: flex;
+            .glyphicon {
+              width: 0.857143rem;
+              height: 0.857143rem;
+              margin-right: 0.357143rem;
+            }
+            .pramary {
+              background-color: #e3e3e3;
+            }
+            .info {
+              background-color: #3568d9;
             }
           }
         }
@@ -390,49 +520,6 @@ export default {
           }
         }
       }
-
-      // .box-card {
-      //   margin-bottom: 0.571429rem;
-      //   .topbox {
-      //     display: flex;
-      //     justify-content: space-between;
-      //     align-items: flex-end;
-      //     span {
-      //       font-size: 0.857143rem;
-      //       color: #ff9d17;
-      //       font-weight: 700;
-      //       em {
-      //         color: #acacac;
-      //         padding-left: 0.571429rem;
-      //         font-weight: normal;
-      //       }
-      //     }
-      //     i {
-      //       font-size: 1rem;
-      //       font-weight: 700;
-      //       color: #000;
-      //     }
-      //   }
-      //   .botbox {
-      //     display: flex;
-      //     justify-content: space-between;
-      //     align-items: flex-end;
-      //     font-size: 0.857143rem;
-      //     margin-top: 0.714286rem;
-      //     span {
-      //       font-weight: 700;
-      //     }
-      //     .black {
-      //       color: #000000;
-      //     }
-      //     .red {
-      //       color: red;
-      //     }
-      //     em {
-      //       color: #acacac;
-      //     }
-      //   }
-      // }
     }
 
     .Detailed {

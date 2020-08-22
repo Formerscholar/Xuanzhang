@@ -9,6 +9,11 @@
               <span style="margin-left:.714286rem;">
                 <i>{{ item.name }}</i>
               </span>
+              <span
+                v-for="(item1,index1) in item.auditRecord"
+                :key="index1"
+                :class="item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+              ></span>
             </div>
           </div>
           <div class="topRight layout" @click.stop="CompanyBtn(item.distributor_id)">
@@ -70,17 +75,55 @@
           </div>
         </div>
       </div>
-      <template #right style="height:100%;">
-        <van-button style="height:100%;" square type="warning" text="编辑" @click="editlists(item)" />
-        <van-button style="height:100%;" square type="danger" text="作废" @click="VoidList(item)" />
-        <van-button style="height:100%;" square type="primary" text="打印" @click="printList(item)" />
+      <template #right>
+        <van-button
+          style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+          square
+          type="warning"
+          text="编辑"
+          @click="editlists(item)"
+        />
+        <van-button
+          style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+          square
+          type="danger"
+          text="作废"
+          @click="VoidList(item)"
+        />
+        <van-button
+          style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+          square
+          type="primary"
+          text="打印"
+          @click="printList(item)"
+        />
+        <van-button
+          v-if="item.to_examine != undefined  && item.to_examine == 0"
+          style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+          square
+          type="info"
+          text="受控"
+          @click="ControlledDelay(item.id)"
+        />
+        <van-button
+          v-if="item.to_examine != undefined && item.to_examine == 1"
+          style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+          square
+          type="danger"
+          text="解锁"
+          @click="PREUNLOCK(item.id)"
+        />
       </template>
     </van-swipe-cell>
   </div>
 </template>
 
 <script>
-import { getEditContractOrder } from '@/network/deal'
+import {
+  getEditContractOrder,
+  toExamineContractOrder,
+  cancelToExamineContractOrder,
+} from '@/network/deal'
 
 export default {
   name: 'DealGoodsItem',
@@ -149,6 +192,46 @@ export default {
     },
   },
   methods: {
+    async PREUNLOCK(iid) {
+      const { code, msg } = await cancelToExamineContractOrder({
+        id: [iid],
+        token: this.$store.state.token,
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.$emit('ControlledDelay')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
+    async ControlledDelay(iid) {
+      const { code, msg } = await toExamineContractOrder({
+        id: [iid],
+        token: this.$store.state.token,
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        this.$emit('ControlledDelay')
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
     editlists(item) {
       this.$emit('editlists', {
         data: item,
@@ -237,6 +320,20 @@ export default {
       .contract {
         font-size: 0.857143rem;
         color: #5c5c5c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .glyphicon {
+          width: 0.857143rem;
+          height: 0.857143rem;
+          margin-left: 0.357143rem;
+        }
+        .pramary {
+          background-color: #e3e3e3;
+        }
+        .info {
+          background-color: #3568d9;
+        }
         em {
           font-weight: 700;
         }
@@ -244,13 +341,8 @@ export default {
           color: #858585;
         }
       }
-      .Amount {
-        font-size: 0.571429rem;
-        i {
-          padding-left: 0.357143rem;
-        }
-      }
     }
+
     .topRight {
       text-align: right;
       .Company {

@@ -48,13 +48,13 @@
               <div class="article">
                 <div class="leftitem">{{item.product_name}}</div>
                 <div class="rightitem">
-                  ￥{{item.unit_price}}
-                  <em>×{{item.weight}}×{{item.number}}</em>
+                  <!-- ￥{{item.unit_price}}
+                  <em>×{{item.weight}}×{{item.number}}</em>-->
                 </div>
               </div>
               <div class="literature">
                 <div class="leftitem">{{item.product_model}}</div>
-                <div class="rightitem">￥{{item.total_funds}}</div>
+                <div class="rightitem">￥{{item.total_price}}</div>
               </div>
             </div>
           </div>

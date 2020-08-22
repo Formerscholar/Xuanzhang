@@ -47,3 +47,9 @@ export function addUser(data) {
     data,
   })
 }
+export function getAppVersion(params) {
+  return request({
+    url: '/Customer/getAppVersion',
+    params,
+  })
+}
