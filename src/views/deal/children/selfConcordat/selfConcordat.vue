@@ -38,70 +38,118 @@
           </div>
         </div>
         <div class="cards">
-          <div class="goodsListItem" v-for="(item,index) in orderList" :key="index">
-            <div class="itemTop">
-              <div class="topLeft layout">
-                <div class="contract">
-                  <em style="color:#E6A23C;">{{item.order_number}}</em>
-                  <span style="margin-left:5px;">
-                    销售员:
-                    <i>{{item.operator_name}}</i>
-                  </span>
+          <van-swipe-cell v-for="(item, index) in orderList" :key="index">
+            <div class="goodsListItem" @click.stop="listClick(item)">
+              <div class="itemTop">
+                <div class="topLeft layout">
+                  <div class="contract">
+                    <em style="color:#E6A23C;">{{ item.contract }}</em>
+                    <span style="margin-left:.714286rem;">
+                      <i>{{ item.name }}</i>
+                    </span>
+                  </div>
+                </div>
+                <div class="topRight layout">
+                  <div
+                    v-for="(item1,index1) in item.auditRecord"
+                    :key="index1"
+                    :class="item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                  ></div>
                 </div>
               </div>
-              <div class="topRight layout">
-                <div class="Company">{{item.name_alias}}</div>
-              </div>
-            </div>
-            <div class="itemDown">
-              <div class="Downitem">
-                <el-progress
-                  :format="formatOne"
-                  :status="item.settlement_progress < 100 ?null: 'warning'"
-                  :text-inside="true"
-                  :show-text="item.settlement_progress<50?false:true"
-                  :stroke-width="16"
-                  :percentage="item.settlement_progress * 1"
-                ></el-progress>
-              </div>
-              <div class="Downitem">
-                <el-progress
-                  :format="formatTwo"
-                  :status="item.delivery_schedule < 100 ?null: 'warning'"
-                  :text-inside="true"
-                  :show-text="item.delivery_schedule<50?false:true"
-                  :stroke-width="16"
-                  :percentage="item.delivery_schedule * 1"
-                ></el-progress>
-              </div>
-              <div class="Downitem">
-                <el-progress
-                  :format="formatThree"
-                  :status="item.invoice_progress < 100 ?null: 'warning'"
-                  :text-inside="true"
-                  :show-text="item.invoice_progress<50?false:true"
-                  :stroke-width="16"
-                  :percentage="item.invoice_progress * 1"
-                ></el-progress>
-              </div>
-            </div>
-            <div class="itemdondon">
-              <div class="topLeft layout">
-                <div class="Amount">
-                  总额:
-                  <i>{{item.contract_amount}}</i>
-                  元
+              <div class="itemDown">
+                <div class="Downitem">
+                  <el-progress
+                    :format="formatOne"
+                    :text-inside="true"
+                    :stroke-width="16"
+                    :percentage="item.settlement_progress * 1"
+                    :status="item.settlement_progress * 1 < 100 ? null : 'warning'"
+                  ></el-progress>
+                </div>
+                <div class="Downitem">
+                  <el-progress
+                    :format="formatTwo"
+                    :text-inside="true"
+                    :stroke-width="16"
+                    :percentage="item.delivery_schedule  * 1"
+                    :status="item.delivery_schedule * 1 < 100 ? null : 'warning'"
+                  ></el-progress>
+                </div>
+                <div class="Downitem">
+                  <el-progress
+                    :format="formatThree"
+                    :text-inside="true"
+                    :stroke-width="16"
+                    :percentage="item.invoice_progress * 1"
+                    :status="item.invoice_progress * 1 < 100 ? null : 'warning'"
+                  ></el-progress>
                 </div>
               </div>
-              <div class="topRight layout"></div>
-              <div class="topRight layout">
-                <div class="Delivery">
-                  交期：
-                  <i>{{item.commitment_period}}</i>
+              <div class="itemdondon">
+                <div class="tags">
+                  <van-tag
+                    plain
+                    :type="item.business_status | tagsType"
+                  >{{item.business_status | setbusiness_status}}</van-tag>
+                  <van-tag
+                    plain
+                    :type="item.che_status  ? 'success' : 'warning'"
+                  >{{item.che_status ? '整装待发' : '生产中'}}</van-tag>
+                </div>
+                <div class="topLeft layout">
+                  <div class="Amount">
+                    <i>{{ item.amount_of_discount | SetAmount }}</i>
+                  </div>
+                </div>
+                <div class="topRight layout"></div>
+                <div class="topRight layout">
+                  <div class="Delivery">
+                    <i>{{ item.commitment_period | SetDelivery }}</i>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <template #right>
+              <van-button
+                style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                square
+                type="warning"
+                text="编辑"
+                @click="editlists(item)"
+              />
+              <van-button
+                style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                square
+                type="danger"
+                text="作废"
+                @click="VoidList(item)"
+              />
+              <van-button
+                style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                square
+                type="primary"
+                text="打印"
+                @click="printList(item)"
+              />
+              <van-button
+                v-if="item.to_examine != undefined  && item.to_examine == 0"
+                style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                square
+                type="info"
+                text="受控"
+                @click="ControlledDelay(item.id)"
+              />
+              <van-button
+                v-if="item.to_examine != undefined && item.to_examine == 1"
+                style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
+                square
+                type="danger"
+                text="解锁"
+                @click="PREUNLOCK(item.id)"
+              />
+            </template>
+          </van-swipe-cell>
         </div>
       </div>
     </scroll>
@@ -112,7 +160,6 @@
 import { getDistributorDetail } from '@/network/deal'
 
 export default {
-  name: 'selfConcordat',
   data() {
     return {
       iid: 0,
@@ -120,13 +167,10 @@ export default {
       orderList: [],
     }
   },
-
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
-  deactivated() {},
-
   computed: {
     getDistributorDate() {
       return {
@@ -141,7 +185,45 @@ export default {
       }
     },
   },
+  filters: {
+    SetName(value) {
+      return '销售:' + value
+    },
+    SetAmount(value) {
+      return '￥' + value
+    },
+    SetDelivery(value) {
+      return '交期:' + value
+    },
+    setbusiness_status(value) {
+      if (value == 0) {
+        return '洽谈中'
+      } else if (value == 1) {
+        return '启动生产'
+      } else if (value == 2) {
+        return '准许发货'
+      } else if (value == 3) {
+        return '无状态'
+      }
+    },
+    tagsType(value) {
+      if (value == 0) {
+        return 'danger'
+      } else if (value == 1) {
+        return 'warning'
+      } else if (value == 2) {
+        return 'success'
+      } else if (value == 3) {
+        return 'primary'
+      }
+    },
+  },
   methods: {
+    listClick(item) {
+      this.iid = item.id
+      this.listIsShow = false
+      this.$router.push(`/contractdetails/${this.iid}`)
+    },
     formatOne(percentage) {
       return `结算 ${percentage}%`
     },
@@ -244,14 +326,20 @@ export default {
         overflow: hidden;
         .goodsListItem {
           background-color: #fff;
-          border-radius: 5px;
+          border-radius: 0.357143rem;
           padding: 0 0.714286rem;
-          padding-top: 0.571429rem;
-          padding-bottom: 1.142857rem;
+          padding-bottom: 0.571429rem;
           margin: 0.714286rem 0;
+          .scroll-wrapper {
+            position: absolute;
+            left: 0;
+            top: 5.428571rem;
+            bottom: 4.214286rem;
+            width: 100%;
+            overflow: hidden;
+          }
           .layout {
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
             padding: 0.571429rem 0;
           }
@@ -269,6 +357,7 @@ export default {
               .contract {
                 font-size: 0.857143rem;
                 color: #5c5c5c;
+
                 em {
                   font-weight: 700;
                 }
@@ -276,18 +365,19 @@ export default {
                   color: #858585;
                 }
               }
-              .Amount {
-                font-size: 0.571429rem;
-                i {
-                  padding-left: 0.357143rem;
-                }
-              }
             }
+
             .topRight {
-              text-align: right;
-              .Company {
-                font-size: 1rem;
-                font-weight: 700;
+              .glyphicon {
+                width: 0.857143rem;
+                height: 0.857143rem;
+                margin-right: 0.357143rem;
+              }
+              .pramary {
+                background-color: #e3e3e3;
+              }
+              .info {
+                background-color: #3568d9;
               }
             }
           }
@@ -301,7 +391,7 @@ export default {
               flex-direction: column;
               justify-content: center;
               position: relative;
-              .el-progress-bar__innerText {
+              /deep/.el-progress-bar__innerText {
                 font-size: 0.714286rem;
               }
               &:first-child {
@@ -313,24 +403,11 @@ export default {
               &:last-child {
                 padding-right: 0;
               }
-              .el-progress {
-                .el-progress-bar {
-                }
-                .el-progress-bar__outer {
+              /deep/.el-progress-bar__outer {
+                border-radius: 3px;
+                /deep/.el-progress-bar__inner {
                   border-radius: 3px;
-                  .el-progress-bar__inner {
-                    border-radius: 3px;
-                  }
                 }
-              }
-              span {
-                text-align: center;
-                position: absolute;
-                color: #fff;
-                z-index: 999;
-                left: 0.685714rem;
-                top: -0.142857rem;
-                font-size: 0.642857rem;
               }
             }
           }
@@ -344,6 +421,13 @@ export default {
             .topLeft,
             .topRight {
               padding: 0;
+            }
+            .tags {
+              .van-tag {
+                height: 1rem;
+                font-size: 0.857143rem;
+                margin-right: 0.214286rem;
+              }
             }
           }
         }

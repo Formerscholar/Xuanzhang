@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       transitionName: '',
-      edition: '2020082202',
+      edition: '20200823',
       path: '',
     }
   },

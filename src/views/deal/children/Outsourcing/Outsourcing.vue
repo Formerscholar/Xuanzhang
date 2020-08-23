@@ -17,7 +17,14 @@
                     {{item.order_number}}
                     <em>{{item.salesperson_name | setSalespersonName}}</em>
                   </span>
-                  <i @click="Retrieve(item.supplier_id)">{{item.name}}</i>
+                  <div class="ControlledDelaybox">
+                    <span
+                      v-for="(item,index) in item.auditRecord"
+                      :key="index"
+                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                    ></span>
+                    <i @click="Retrieve(item.supplier_id)">{{item.name}}</i>
+                  </div>
                 </div>
                 <el-row class="schedule">
                   <div class="item">
@@ -68,7 +75,15 @@
                 {{item.order_number}}
                 <em>{{item.salesperson_name | setSalespersonName}}</em>
               </span>
-              <i>{{item.name}}</i>
+
+              <div class="ControlledDelaybox">
+                <span
+                  v-for="(item,index) in item.auditRecord"
+                  :key="index"
+                  :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                ></span>
+                <i>{{item.name}}</i>
+              </div>
             </div>
             <el-row class="schedule">
               <div class="item">
@@ -342,6 +357,22 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
+          .ControlledDelaybox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .glyphicon {
+              width: 0.857143rem;
+              height: 0.857143rem;
+              margin-right: 0.357143rem;
+            }
+            .pramary {
+              background-color: #e3e3e3;
+            }
+            .infos {
+              background-color: #3568d9;
+            }
+          }
           span {
             font-size: 1rem;
             color: #cc9933;

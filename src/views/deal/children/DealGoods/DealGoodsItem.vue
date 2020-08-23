@@ -285,7 +285,7 @@ export default {
 
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .goodsListItem {
   background-color: #fff;
   border-radius: 5px;
@@ -361,7 +361,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       position: relative;
-      .el-progress-bar__innerText {
+      /deep/.el-progress-bar__innerText {
         font-size: 0.714286rem;
       }
       &:first-child {
@@ -373,14 +373,10 @@ export default {
       &:last-child {
         padding-right: 0;
       }
-      .el-progress {
-        .el-progress-bar {
-        }
-        .el-progress-bar__outer {
+      /deep/.el-progress-bar__outer {
+        border-radius: 3px;
+        /deep/.el-progress-bar__inner {
           border-radius: 3px;
-          .el-progress-bar__inner {
-            border-radius: 3px;
-          }
         }
       }
     }

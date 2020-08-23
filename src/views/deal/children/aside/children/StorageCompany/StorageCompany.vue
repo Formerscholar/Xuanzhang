@@ -35,30 +35,123 @@
             </ul>
           </el-card>
         </div>
-        <el-card class="box-card items" v-for="(item,index) in orderList" :key="index">
-          <div class="coutent">
-            <div class="leftbox">
-              <img src="@/assets/image/Default.png" />
-            </div>
-            <div class="rightbox">
-              <div class="timer">
-                <div class="leftitem">{{item.order_number}}</div>
-                <div class="rightitem">{{item.apply_time}}</div>
-              </div>
-              <div class="article">
-                <div class="leftitem">{{item.product_name}}</div>
-                <div class="rightitem">
-                  <!-- ￥{{item.unit_price}}
-                  <em>×{{item.weight}}×{{item.number}}</em>-->
+        <div v-for="(item, index) in orderList" :key="item.id" class="Delivery">
+          <van-swipe-cell v-if="item.to_examine != undefined ">
+            <el-card class="box-card">
+              <div
+                @click="gocontractList(orderList[index])"
+                :class="item.deleted_at && 'color_break ' "
+              >
+                <div class="title">
+                  <div class="title_text">
+                    <span
+                      :class="item.deleted_at ? 'color_break model' :' model'"
+                    >{{ item.order_number }}</span>
+                    <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+                  </div>
+
+                  <div class="ControlledDelaybox">
+                    <span
+                      v-for="(item,index) in item.auditRecord"
+                      :key="index"
+                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    ></span>
+                  </div>
+                </div>
+                <!-- <div class="itemlist" v-if="item.detail.length">
+                  <div class="items">
+                    <selection :selectionList="item.detail" />
+                  </div>
+                  <div class="right_box">
+                    <em :class="item.deleted_at && 'color_break ' ">共</em>
+                    <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                    <em :class="item.deleted_at && 'color_break ' ">种</em>
+                  </div>
+                </div>-->
+                <div class="time_box">
+                  <span
+                    :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                  >{{item.created_at | setCommitmentPeriod}}</span>
+                  <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                    <el-tag
+                      :class="item.deleted_at ? 'color_break ' :' '"
+                      :type="item.type == 0 ? '' : 'danger'"
+                      effect="plain"
+                    >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                    <em
+                      :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
+                    >￥{{item.total_price}}</em>
+                  </span>
                 </div>
               </div>
-              <div class="literature">
-                <div class="leftitem">{{item.product_model}}</div>
-                <div class="rightitem">￥{{item.total_price}}</div>
+            </el-card>
+            <template #right>
+              <van-button
+                v-if="!item.to_examine"
+                square
+                type="primary"
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                text="受控"
+                @click.stop="ControlledDelay(item.id)"
+              />
+              <van-button
+                v-else
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                square
+                type="danger"
+                text="解锁"
+                @click.stop="unlockyoursidekick(item.id)"
+              />
+            </template>
+          </van-swipe-cell>
+          <el-card class="box-card" v-else>
+            <div
+              @click="gocontractList(orderList[index])"
+              :class="item.deleted_at && 'color_break ' "
+            >
+              <div class="title">
+                <div class="title_text">
+                  <span
+                    :class="item.deleted_at ? 'color_break model' :' model'"
+                  >{{ item.order_number }}</span>
+                  <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+                </div>
+                <div class="ControlledDelaybox">
+                  <span
+                    v-for="(item,index) in item.auditRecord"
+                    :key="index"
+                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                  ></span>
+                </div>
+              </div>
+              <!-- <div class="itemlist" v-if="item.detail.length">
+                <div class="items">
+                  <selection :selectionList="item.detail" />
+                </div>
+                <div class="right_box">
+                  <em :class="item.deleted_at && 'color_break ' ">共</em>
+                  <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
+                  <em :class="item.deleted_at && 'color_break ' ">种</em>
+                </div>
+              </div>-->
+              <div class="time_box">
+                <span
+                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
+                >{{item.created_at | setCommitmentPeriod}}</span>
+                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                  <el-tag
+                    :class="item.deleted_at ? 'color_break ' :' '"
+                    :type="item.type == 0 ? '' : 'danger'"
+                    effect="plain"
+                  >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                  <em
+                    :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
+                  >￥{{item.total_price}}</em>
+                </span>
               </div>
             </div>
-          </div>
-        </el-card>
+          </el-card>
+        </div>
       </div>
     </scroll>
   </div>
@@ -76,7 +169,6 @@ export default {
       orderList: [],
     }
   },
-
   activated() {
     this.iid = this.$route.params.id
     this.getDistributor()
@@ -95,7 +187,28 @@ export default {
       }
     },
   },
+  filters: {
+    setOperatorName(value) {
+      return '操作:' + value
+    },
+    setApplyTime(value) {
+      return '发货时间:' + value
+    },
+    setCommitmentPeriod(value) {
+      return '创建:' + value
+    },
+    setApply(value) {
+      return '交期:' + value
+    },
+    setNumber(value) {
+      return '×' + value
+    },
+  },
   methods: {
+    gocontractList(deliveryRecordList) {
+      console.log(deliveryRecordList)
+      this.$router.push(`/asidesItem/${deliveryRecordList.id}`)
+    },
     blackhome() {
       this.$router.go(-1)
     },
@@ -171,66 +284,96 @@ export default {
         }
       }
     }
-    .items {
-      margin-bottom: 0.571429rem;
-      .coutent {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .leftbox {
-        width: 5.928571rem;
-        border-radius: 5px;
-        overflow: hidden;
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 5px;
+    .Delivery {
+      .box-card {
+        margin-bottom: 0.571429rem;
+        padding: 0.571429rem 1rem;
+
+        .color_break {
+          color: #ccc !important;
+          border-color: #ccc !important;
+          filter: grayscale(100%);
         }
-      }
-      .rightbox {
-        flex: 1;
-        margin-left: 1rem;
-        .timer {
+        .title {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
-          font-size: 1rem;
-          .leftitem {
-            color: #2a88ff;
-            font-weight: 700;
-          }
-          .rightitem {
-          }
-        }
-        .article {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          margin: 1.057143rem 0;
-          .leftitem {
-            font-weight: 700;
+          align-items: center;
+          margin-bottom: 0.357143rem;
+
+          .title_text {
+            display: flex;
             font-size: 1rem;
-            color: #9a9a9a;
+            .model {
+              color: #2a88ff;
+              margin-right: 0.714286rem;
+            }
+            .name {
+            }
           }
-          .rightitem {
-            font-size: 1rem;
-            em {
-              font-size: 0.571429rem;
+          .ControlledDelaybox {
+            display: flex;
+            .glyphicon {
+              width: 0.857143rem;
+              height: 0.857143rem;
+              margin-right: 0.357143rem;
+            }
+            .pramary {
+              background-color: #e3e3e3;
+            }
+            .info {
+              background-color: #3568d9;
             }
           }
         }
-        .literature {
+        .itemlist {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
-          .leftitem {
-            font-size: 1rem;
-            color: #aeaeae;
+          align-items: flex-start;
+          margin-bottom: 0.357143rem;
+          white-space: nowrap;
+          position: relative;
+          .items {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
           }
-          .rightitem {
-            font-size: 1.142857rem;
-            font-weight: 700;
+          .right_box {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #818181;
+            background-color: rgba(255, 255, 255, 0.6);
+          }
+        }
+        .time_box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.857143rem;
+          color: #818181;
+          .timer_text {
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          .time_pircle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .black {
+              color: #000000;
+            }
+            .red {
+              color: red;
+            }
+            em {
+              color: #acacac;
+            }
           }
         }
       }

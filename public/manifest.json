@@ -1,20 +1,20 @@
 {
-    "@platforms" : [ "android", "iPhone", "iPad" ],
-    "id" : "H5E0B181A", /*应用的标识*/
+    "@platforms" : [ "android", "iPhone" ],
+    "id" : "plus.H5E0B181A", /*应用的标识*/
     "name" : "唐玄账", /*应用名称，程序桌面图标名称*/
     "version" : {
         "name" : "1.0", /*应用版本名称*/
         "code" : "100"
     },
-    "description" : "", /*应用描述信息*/
+    "description" : "企业管控生态", /*应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },
     "launch_path" : "index.html", /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer" : {
-        "name" : "", /*开发者名称*/
-        "email" : "", /*开发者邮箱地址*/
-        "url" : "" /*开发者个人主页地址*/
+        "name" : "chad", /*开发者名称*/
+        "email" : "2319315514@qq.com", /*开发者邮箱地址*/
+        "url" : "github.com/Formerscholar" /*开发者个人主页地址*/
     },
     "permissions" : {
         "Accelerometer" : {
@@ -120,7 +120,8 @@
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>"
                 ],
-                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
+                "abiFilters" : [ "armeabi-v7a" ],
+                "autoSdkPermissions" : true
             },
             /*使用Native.js调用原生安卓API需要使用到的系统权限*/
             "orientation" : [ "portrait-primary" ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/

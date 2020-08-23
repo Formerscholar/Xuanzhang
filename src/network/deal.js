@@ -599,3 +599,35 @@ export function cancelToExamineContractOrder(data) {
     data: Qs.stringify(data),
   })
 }
+
+export function toExamineWarehouseRecord(data) {
+  return request({
+    url: '/Warehouse/toExamineWarehouseRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExamineWarehouseRecord(data) {
+  return request({
+    url: '/Warehouse/cancelToExamineWarehouseRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+export function toExamineOemOrder(data) {
+  return request({
+    url: '/OemOrder/toExamineOemOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExamineOemOrder(data) {
+  return request({
+    url: '/OemOrder/cancelToExamineOemOrder',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+// OutsourcingOrder/toExamineOutsourcingOrder

@@ -208,10 +208,21 @@ export default {
       this.$router.go(-1)
     },
     async getEditContractOrders() {
-      const { data } = await getEditContractOrder(this.getEditContractOrderData)
-      console.log('getEditContractOrder', data)
-      this.editData = data
-      this.contractOrder = data.contractOrder
+      const { code, data, msg } = await getEditContractOrder(
+        this.getEditContractOrderData
+      )
+      if (code == 200) {
+        console.log('getEditContractOrder', data)
+        this.editData = data
+        this.contractOrder = data.contractOrder
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+        this.blacknext()
+      }
     },
   },
 }

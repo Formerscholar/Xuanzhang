@@ -9,95 +9,167 @@
     >
       <van-tabs v-model="active" @click="handleClick">
         <van-tab title="进行中" class="first">
-          <el-card class="box-card" v-for="(item,index) in outsourcingOrderList" :key="index">
-            <div
-              class="info"
-              @click.stop="listClick(item)"
-              @touchstart.prevent="touchin"
-              @touchend.prevent="cleartime"
-            >
-              <span>
-                {{item.order_number}}
-                <em>{{item.salesperson_name | setSalespersonName}}</em>
-              </span>
-              <i @click="Retrieves(item.distributor_id)">{{item.distributor_name}}</i>
-            </div>
-            <div class="schedule">
-              <div class="item">
-                <el-progress
-                  :format="formatOne"
-                  :status="item.warehousing_progress<100?null:'warning'"
-                  :text-inside="true"
-                  :stroke-width="16"
-                  :show-text="item.warehousing_progress<30?false:true"
-                  :percentage="item.warehousing_progress *1"
-                ></el-progress>
+          <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
+            <el-card class="box-card">
+              <div class="info">
+                <span>
+                  {{item.order_number}}
+                  <em>{{item.salesperson_name | setSalespersonName}}</em>
+                </span>
+
+                <div class="ControlledDelaybox">
+                  <span
+                    v-for="(item,index) in item.auditRecord"
+                    :key="index"
+                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                  ></span>
+                  <i @click="Retrieves(item.distributor_id)">{{item.distributor_name}}</i>
+                </div>
               </div>
-              <div class="item">
-                <el-progress
-                  :format="formatTwo"
-                  :status="item.delivery_schedule<100?null:'warning'"
-                  :text-inside="true"
-                  :show-text="item.delivery_schedule<30?false:true"
-                  :stroke-width="16"
-                  :percentage="item.delivery_schedule*1"
-                ></el-progress>
+              <div class="schedule">
+                <div class="item">
+                  <el-progress
+                    :format="formatOne"
+                    :status="item.warehousing_progress<100?null:'warning'"
+                    :text-inside="true"
+                    :stroke-width="16"
+                    :show-text="item.warehousing_progress<30?false:true"
+                    :percentage="item.warehousing_progress *1"
+                  ></el-progress>
+                </div>
+                <div class="item">
+                  <el-progress
+                    :format="formatTwo"
+                    :status="item.delivery_schedule<100?null:'warning'"
+                    :text-inside="true"
+                    :show-text="item.delivery_schedule<30?false:true"
+                    :stroke-width="16"
+                    :percentage="item.delivery_schedule*1"
+                  ></el-progress>
+                </div>
               </div>
-            </div>
-            <el-row class="timer">
-              <div class="Delivery">{{item.amount_of_discount | setAmountOfDiscount}}</div>
-              <div class="Settlement">{{item.commitment_period | setCommitmentPeriode}}</div>
-            </el-row>
-          </el-card>
+              <el-row class="timer">
+                <div class="Delivery">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+                <div class="Settlement">{{item.commitment_period | setCommitmentPeriode}}</div>
+              </el-row>
+            </el-card>
+            <template #right>
+              <van-button
+                style="height: 100%;margin: 0px auto;width: 2.785714rem;line-height: 1.71429rem;"
+                square
+                type="primary"
+                text="发货"
+                @click="toShipPages(item)"
+              />
+              <van-button
+                style="height: 100%;margin: 0px auto;width: 2.785714rem;line-height: 1.71429rem;"
+                square
+                type="info"
+                text="打印"
+                @click="printClick(item.id)"
+              />
+              <van-button
+                v-if="item.to_examine == 0"
+                square
+                type="primary"
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                text="受控"
+                @click.stop="ControlledDelay(item.id)"
+              />
+              <van-button
+                v-if="item.to_examine == 1"
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                square
+                type="danger"
+                text="解锁"
+                @click.stop="unlockyoursidekick(item.id)"
+              />
+            </template>
+          </van-swipe-cell>
         </van-tab>
         <van-tab title="已完工" class="second">
-          <el-card class="box-card" v-for="(item,index) in outsourcingOrderListed" :key="index">
-            <div class="info">
-              <span>
-                {{item.order_number}}
-                <em>{{item.salesperson_name | setSalespersonName}}</em>
-              </span>
-              <i>{{item.distributor_name}}</i>
-            </div>
-            <el-row class="schedule">
-              <div class="item">
-                <el-progress
-                  :format="formatOne"
-                  :status="item.warehousing_progress<100?null:'warning'"
-                  :text-inside="true"
-                  :show-text="item.warehousing_progress<30?false:true"
-                  :stroke-width="16"
-                  :percentage="item.warehousing_progress*1"
-                ></el-progress>
+          <van-swipe-cell v-for="(item,index) in outsourcingOrderListed" :key="index">
+            <el-card class="box-card">
+              <div class="info">
+                <span>
+                  {{item.order_number}}
+                  <em>{{item.salesperson_name | setSalespersonName}}</em>
+                </span>
+
+                <div class="ControlledDelaybox">
+                  <span
+                    v-for="(item,index) in item.auditRecord"
+                    :key="index"
+                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                  ></span>
+                  <i @click="Retrieves(item.distributor_id)">{{item.distributor_name}}</i>
+                </div>
               </div>
-              <div class="item">
-                <el-progress
-                  :format="formatTwo"
-                  :show-text="item.delivery_schedule<30?false:true"
-                  :status="item.delivery_schedule<100?null:'warning'"
-                  :text-inside="true"
-                  :stroke-width="16"
-                  :percentage="item.delivery_schedule*1"
-                ></el-progress>
+              <div class="schedule">
+                <div class="item">
+                  <el-progress
+                    :format="formatOne"
+                    :status="item.warehousing_progress<100?null:'warning'"
+                    :text-inside="true"
+                    :stroke-width="16"
+                    :show-text="item.warehousing_progress<30?false:true"
+                    :percentage="item.warehousing_progress *1"
+                  ></el-progress>
+                </div>
+                <div class="item">
+                  <el-progress
+                    :format="formatTwo"
+                    :status="item.delivery_schedule<100?null:'warning'"
+                    :text-inside="true"
+                    :show-text="item.delivery_schedule<30?false:true"
+                    :stroke-width="16"
+                    :percentage="item.delivery_schedule*1"
+                  ></el-progress>
+                </div>
               </div>
-            </el-row>
-            <el-row class="timer">
-              <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
-              <div class="Settlement">{{item.amount_of_discount | setAmountInDiscount}}</div>
-            </el-row>
-          </el-card>
+              <el-row class="timer">
+                <div class="Delivery">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+                <div class="Settlement">{{item.commitment_period | setCommitmentPeriode}}</div>
+              </el-row>
+            </el-card>
+            <template #right>
+              <van-button
+                style="height: 100%;margin: 0px auto;width: 2.785714rem;line-height: 1.71429rem;"
+                square
+                type="primary"
+                text="发货"
+                @click="toShipPages(item)"
+              />
+              <van-button
+                style="height: 100%;margin: 0px auto;width: 2.785714rem;line-height: 1.71429rem;"
+                square
+                type="info"
+                text="打印"
+                @click="printClick(item.id)"
+              />
+              <van-button
+                v-if="item.to_examine == 0"
+                square
+                type="primary"
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                text="受控"
+                @click.stop="ControlledDelay(item.id)"
+              />
+              <van-button
+                v-if="item.to_examine == 1"
+                style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+                square
+                type="danger"
+                text="解锁"
+                @click.stop="unlockyoursidekick(item.id)"
+              />
+            </template>
+          </van-swipe-cell>
         </van-tab>
       </van-tabs>
     </scroll>
     <i class="el-icon-plus" @click="toOme"></i>
-    <van-overlay :show="show" @click="show = false" lock-scroll>
-      <div id="wrapper-click">
-        <div id="block">
-          <div class="propDivItem" @click="toShipPages">发货</div>
-          <div class="propDivItem" @click="printClick">打印</div>
-        </div>
-      </div>
-    </van-overlay>
+
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
         <myVqr :Content="textContent"></myVqr>
@@ -110,6 +182,8 @@
 import {
   getUndischargedOemOrderList,
   getLiquidatedOemOrderList,
+  toExamineOemOrder,
+  cancelToExamineOemOrder,
 } from '@/network/deal'
 
 import myVqr from '@/components/common/my_vqr/myVqr'
@@ -185,10 +259,59 @@ export default {
     },
   },
   methods: {
-    printClick() {
-      this.show = false
+    async unlockyoursidekick(iid) {
+      const { code, msg } = await cancelToExamineOemOrder({
+        id: [iid],
+        token: this.$store.state.token,
+        order_type: 'flow',
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        if (this.indexTab) {
+          this.getLiquidated()
+        } else {
+          this.getOrderList()
+        }
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
+    async ControlledDelay(iid) {
+      const { code, msg } = await toExamineOemOrder({
+        id: [iid],
+        token: this.$store.state.token,
+        order_type: 'flow',
+      })
+      if (code == 200) {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'success',
+        })
+        if (this.indexTab) {
+          this.getLiquidated()
+        } else {
+          this.getOrderList()
+        }
+      } else {
+        this.$message({
+          showClose: true,
+          message: msg,
+          type: 'error',
+        })
+      }
+    },
+    printClick(iid) {
       this.isShow = true
-      this.textContent = `${bestURL}/Vt/view?id=${this.item.id}&order_type=oem`
+      this.textContent = `${bestURL}/Vt/view?id=${iid}&order_type=oem`
     },
     Retrieves(id) {
       this.indexPage = 1
@@ -196,31 +319,13 @@ export default {
       this.outsourcingOrderList = []
       this.getOrderList()
     },
-    toShipPages() {
+    toShipPages(item) {
       this.$router.push({
         path: '/IncomDelivery/oem',
         query: {
-          data: this.item,
+          data: item,
         },
       })
-    },
-    touchin() {
-      clearInterval(this.Loop)
-      this.Loop = setTimeout(() => {
-        this.listIsShow = true
-      }, 500)
-    },
-    cleartime() {
-      clearInterval(this.Loop)
-    },
-    listClick(item) {
-      this.item = item
-      if (!this.listIsShow) {
-        this.listIsShow = false
-      } else {
-        this.listIsShow = false
-        this.show = true
-      }
     },
     formatOne(percentage) {
       return `入库 ${percentage}%`
@@ -251,15 +356,11 @@ export default {
     },
     async getOrderList() {
       const { data } = await getUndischargedOemOrderList(this.getOrderListData)
-      data.oemOrderList.map((item) => {
-        this.outsourcingOrderList.push(item)
-      })
+      this.outsourcingOrderList = data.oemOrderList
     },
     async getLiquidated() {
       const { data } = await getLiquidatedOemOrderList(this.getOrderListData)
-      data.oemOrderList.map((item) => {
-        this.outsourcingOrderListed.push(item)
-      })
+      this.outsourcingOrderListed = data.oemOrderList
     },
     toOme() {
       this.indexPage = 1
@@ -308,6 +409,22 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
+          .ControlledDelaybox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .glyphicon {
+              width: 0.857143rem;
+              height: 0.857143rem;
+              margin-right: 0.357143rem;
+            }
+            .pramary {
+              background-color: #e3e3e3;
+            }
+            .infos {
+              background-color: #3568d9;
+            }
+          }
           span {
             color: #cc9933;
             font-weight: 700;
