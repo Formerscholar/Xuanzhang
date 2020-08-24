@@ -10,7 +10,7 @@
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="入库清单" class="Delivery">
           <div v-for="(item, index) in warehouseAccessList" :key="item.id">
-            <van-swipe-cell v-if="item.to_examine != undefined ">
+            <van-swipe-cell v-if="item.to_examine != undefined && item.type == 0">
               <el-card class="box-card">
                 <div
                   @click="gocontractList(warehouseAccessList[index])"
@@ -64,7 +64,7 @@
               </el-card>
               <template #right>
                 <van-button
-                  v-if="!item.to_examine"
+                  v-if="item.to_examine == 0 "
                   square
                   type="primary"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
@@ -72,7 +72,7 @@
                   @click.stop="ControlledDelay(item.id)"
                 />
                 <van-button
-                  v-else
+                  v-if="item.to_examine == 1 "
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
                   square
                   type="danger"
@@ -370,7 +370,7 @@ export default {
       if (this.isShow) {
         this.Library += 1
         this.allIndex = this.Library
-        this.getDeliverLists()
+        this.getDeliverListssss()
       } else {
         this.detail += 1
         this.allIndex = this.detail
@@ -390,6 +390,13 @@ export default {
     },
     gotodetails(id) {
       this.$router.push(`/storageCom/${id}`)
+    },
+    async getDeliverListssss() {
+      const { data } = await getWarehouseLists(this.getDeliverGoodsListData)
+      console.log('getWarehouseLists', data)
+      data.warehouseAccessList.map((item) => {
+        this.warehouseAccessList.push(item)
+      })
     },
     async getDeliverLists() {
       const { data } = await getWarehouseLists(this.getDeliverGoodsListData)
@@ -412,9 +419,13 @@ export default {
       throttle(() => {
         console.log(name)
         if (name) {
+          this.detail = 1
+          this.allIndex = this.detail
           this.isShow = false
           this.getFlowOrderLists()
         } else {
+          this.Library = 1
+          this.allIndex = this.Library
           this.isShow = true
           this.getDeliverLists()
         }

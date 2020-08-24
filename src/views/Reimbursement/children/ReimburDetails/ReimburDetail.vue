@@ -9,74 +9,72 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <div class="body">
-      <div class="logo">
-        <div class="leftbox">
-          <div class="picter">
-            <img v-if="userInfo.img_url" :src="userInfo.img_url.substr(1)" alt="logo" />
-            <img v-else src="@/assets/image/dpng.png" />
-          </div>
-          <div class="text">
-            <em>{{userInfo.name}}</em>
-            <p>{{userInfo.department_name}}-{{userInfo.display_name}}</p>
-          </div>
-        </div>
-      </div>
-      <el-card class="box-card Cause">
-        <div class="title">
-          <span>报销事由</span>
-          <em style="text-align: right; color:#000;">{{reimbursement.category_name}}</em>
-        </div>
-        <div class="content">
-          <div class="item">
-            <h4>{{reimbursement.reason}}</h4>
-          </div>
-        </div>
-        <div class="title">
-          <em>创建日期</em>
-          <em style="text-align: right;">{{reimbursement.created_at}}</em>
-        </div>
-      </el-card>
-      <div class="Details">
-        <div class="title">报销明细</div>
-        <el-card class="box-card detail" v-for="(item,index) in reimbursementDetail" :key="index">
-          <div class="newDail">
-            <div class="left_box">
-              <div>{{item.reason_time}}</div>
-              <div class="CNY">CNY</div>
+
+    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
+      <div class="body">
+        <div class="logo">
+          <div class="leftbox">
+            <div class="picter">
+              <img v-if="userInfo.img_url" :src="userInfo.img_url.substr(1)" alt="logo" />
+              <img v-else src="@/assets/image/dpng.png" />
             </div>
-            <div class="right_box">
-              <div>{{item.reason}}</div>
-              <div class="money">
-                <i>{{item.money.split('.')[0]}}</i>
-                .{{item.money.split('.')[1]}}
+            <div class="text">
+              <em>{{userInfo.name}}</em>
+              <p>{{userInfo.department_name}}-{{userInfo.display_name}}</p>
+            </div>
+          </div>
+        </div>
+        <el-card class="box-card Cause">
+          <div class="title">
+            <span>报销事由</span>
+            <em style="text-align: right; color:#000;">{{reimbursement.category_name}}</em>
+          </div>
+          <div class="content">
+            <div class="item">
+              <h4>{{reimbursement.reason}}</h4>
+            </div>
+          </div>
+          <div class="title">
+            <em>创建日期</em>
+            <em style="text-align: right;">{{reimbursement.created_at}}</em>
+          </div>
+        </el-card>
+        <div class="Details">
+          <div class="title">报销明细</div>
+          <el-card class="box-card detail" v-for="(item,index) in reimbursementDetail" :key="index">
+            <div class="newDail">
+              <div class="left_box">
+                <div>{{item.reason_time}}</div>
+                <div class="CNY">CNY</div>
+              </div>
+              <div class="right_box">
+                <div>{{item.reason}}</div>
+                <div class="money">{{item.money }}</div>
               </div>
             </div>
-          </div>
-        </el-card>
+          </el-card>
 
-        <el-card class="box-card detail">
-          <div class="item rent">
-            <span></span>
-            <em>CNY</em>
-          </div>
-          <div class="item timer">
-            <span class="moneny">累计报销金额</span>
-            <em>
-              <i>{{reimbursement.money.split('.')[0]}}</i>
-              .{{reimbursement.money.split('.')[1]}}
-            </em>
-          </div>
-        </el-card>
+          <el-card class="box-card detail">
+            <div class="item rent">
+              <span></span>
+              <em>CNY</em>
+            </div>
+            <div class="item timer">
+              <span class="moneny">累计报销金额</span>
+              <em>{{reimbursement.money }}</em>
+            </div>
+          </el-card>
 
-        <el-card class="box-card detail">
-          <div class="item date Reimburser">
-            <span>报销人</span>
-            <em>{{reimbursement.reimburser_name}}</em>
-          </div>
-        </el-card>
+          <el-card class="box-card detail">
+            <div class="item date Reimburser">
+              <span>报销人</span>
+              <em>{{reimbursement.reimburser_name}}</em>
+            </div>
+          </el-card>
+        </div>
       </div>
-    </div>
+    </scroll>
+
     <div class="btns">
       <div class="deleteDeliver"></div>
       <div class="deleteDelivers"></div>
@@ -101,7 +99,6 @@ import {
 import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
-  name: 'ReimburDetails',
   data() {
     return {
       iid: 0,
@@ -182,7 +179,6 @@ export default {
 <style scoped lang="scss">
 #ReimburDetails {
   padding-top: 5.428571rem;
-  min-height: 100vh;
   .p_root_box {
     color: #747474;
     background-color: #fff;
@@ -196,10 +192,19 @@ export default {
       font-size: 1.285714rem;
     }
   }
+
+  .scroll-wrapper {
+    position: absolute;
+    left: 0;
+    top: 5.428571rem;
+    bottom: 4.928571rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
   .body {
     background-color: #f2f2f2;
     padding: 0 1.285714rem;
-    min-height: calc(100vh - 5.428571rem);
     .logo {
       display: flex;
       justify-content: space-between;

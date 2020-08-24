@@ -279,7 +279,7 @@ export default {
       } else {
         this.Completed += 1
         this.allPage = this.Completed
-        this.getOrderList()
+        this.getLiquidated()
       }
     },
     handleClick(tab, event) {
@@ -288,9 +288,13 @@ export default {
         this.indexTab = tab
         if (this.indexTab) {
           this.outsourcingOrderListed = []
+          this.Completed = 1
+          this.allPage = this.Completed
           this.getLiquidated()
         } else {
           this.outsourcingOrderList = []
+          this.processing = 1
+          this.allPage = this.processing
           this.getOrderList()
         }
       }, 500)

@@ -17,16 +17,22 @@
         <div class="seller">
           <div class="lefttTitle">卖方</div>
           <div class="rightbox">
-            <div class="name">{{contractOrder.self_lxr}}</div>
-            <div class="phonle">{{contractOrder.self_lxr_tel}}</div>
+            <div class="Companies">{{$store.state.userInfo[0].user_compser_name}}</div>
+            <div class="infos">
+              <div class="name">{{contractOrder.self_lxr}}</div>
+              <div class="phonle">{{contractOrder.self_lxr_tel}}</div>
+            </div>
           </div>
         </div>
 
         <div class="buyer">
           <div class="lefttTitle">买方</div>
           <div class="rightbox">
-            <div class="name">{{contractOrder.kehu_lxr}}</div>
-            <div class="phonle">{{contractOrder.kehu_lxr_tel}}</div>
+            <div class="Companies">{{contractOrder.distributor_name}}</div>
+            <div class="infos">
+              <div class="name">{{contractOrder.kehu_lxr}}</div>
+              <div class="phonle">{{contractOrder.kehu_lxr_tel}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -293,6 +299,7 @@ export default {
         align-items: center;
         border-bottom: 1px solid #d5d5d5;
         padding-bottom: 0.714286rem;
+        margin-bottom: 0;
         .icons {
           width: 1.285714rem;
           height: 1.285714rem;
@@ -308,9 +315,7 @@ export default {
       .buyer {
         display: flex;
         justify-content: flex-start;
-        align-items: flex-start;
-        padding-top: 0.714286rem;
-        padding-bottom: 1.142857rem;
+        align-items: center;
         .lefttTitle {
           width: 3.071429rem;
           height: 1.571429rem;
@@ -324,19 +329,24 @@ export default {
         }
         .rightbox {
           flex: 1;
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-end;
-          border-bottom: 1px solid #d5d5d5;
-          padding-bottom: 1.142857rem;
-          .name {
-            font-size: 1.142857rem;
-            color: #000;
-            margin-right: 0.714286rem;
-          }
-          .phonle {
+          padding: 0.714286rem 0;
+          .Companies {
             font-size: 1rem;
-            color: #666;
+            color: #000;
+          }
+          .infos {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            .name {
+              font-size: 1.142857rem;
+              color: #000;
+              margin-right: 0.714286rem;
+            }
+            .phonle {
+              font-size: 1rem;
+              color: #666;
+            }
           }
         }
       }
@@ -346,7 +356,11 @@ export default {
           background-color: #f48a31;
         }
         .rightbox {
-          border: none;
+        }
+      }
+      .seller {
+        .rightbox {
+          border-bottom: 1px solid #d5d5d5;
         }
       }
     }

@@ -1,7 +1,6 @@
 <template>
   <div id="Client">
     <navbar class="Controlled_root">
-      <i slot="left"></i>
       <div class="title text-black" slot="center">
         <span>客户</span>
       </div>
@@ -49,7 +48,7 @@ import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
 
 import clientheader from '@/views/client/cihldren/clientheader/clientheader'
 import borderCard from '@/views/client/cihldren/borderCard/borderCard'
-
+import { getlogin, getIndex } from '@/network/login'
 import cardbox from '@/views/client/cihldren/cardbox/cardbox'
 import {
   getDistributors,
@@ -59,7 +58,6 @@ import {
 import { getAddOutsourcingOrder } from '@/network/deal'
 
 export default {
-  name: 'Client',
   components: {
     clientheader,
     borderCard,
@@ -104,6 +102,44 @@ export default {
     },
   },
   methods: {
+    async getlogin() {
+      var storage = window.localStorage
+      const res = await getlogin({
+        username: storage.getItem('username'),
+        password: storage.getItem('password'),
+      })
+      if (res.code == 200) {
+        this.$store.commit('setLoginDate', JSON.parse(JSON.stringify(res.data)))
+        this.gettime()
+      }
+    },
+    async gettime() {
+      var storage = window.localStorage
+      var form = new FormData()
+      form.append('username', storage.getItem('username'))
+      form.append('password', storage.getItem('password'))
+      form.append('company_id', storage.getItem('ChooseCompany'))
+      const res = await getIndex(form)
+      if (res.code == 200) {
+        console.log('登录次数+1')
+        this.$store.commit(
+          'setUserInfo',
+          JSON.parse(JSON.stringify(res.data.userInfo))
+        )
+        this.$store.commit('setToken', res.data.token)
+        if (!window.localStorage) {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        } else {
+          storage.setItem('token', JSON.stringify(this.$store.state.token))
+        }
+        this.dataInfo = res.data.userInfo[0]
+        this.imgUrl = this.dataInfo.img_url.substr(1)
+        this.jobName = this.dataInfo.role.display_name
+        this.phone = this.formatPhone(this.dataInfo.username)
+        this.name = this.dataInfo.name
+        this.company = this.dataInfo.user_compser_name
+      }
+    },
     onCancel() {
       console.log('onCancel')
       this.isSearch = false
@@ -250,6 +286,7 @@ export default {
     },
   },
   activated() {
+    this.getlogin()
     this.show = false
     if (!this.isSearch) {
       this.getDistri()
@@ -282,19 +319,8 @@ export default {
     box-shadow: 0 0 15px 3px #fff;
     border: none;
     font-weight: 700;
-    .el-icon-arrow-left {
-      color: #fff;
-      display: block;
-      font-size: 1.714286rem;
-      margin-left: 1.714286rem;
-    }
+
     .title {
-      margin-left: 3.285714rem;
-      color: #fff;
-    }
-    .el-icon-circle-plus-outline {
-      font-size: 1.714286rem;
-      margin-right: 0.714286rem;
       color: #fff;
     }
   }

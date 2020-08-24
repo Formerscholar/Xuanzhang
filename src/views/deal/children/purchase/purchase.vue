@@ -338,13 +338,14 @@ export default {
       if (!this.indexTab) {
         this.getOrderList()
       } else {
-        this.getLiquidated()
+        this.getLiquidateds()
       }
     },
     handleClick(tab, event) {
       throttle(() => {
         console.log(tab, event)
         this.indexTab = tab
+        this.indexPage = 1
         if (this.indexTab) {
           this.outsourcingOrderListed = []
           this.getLiquidated()
@@ -356,7 +357,15 @@ export default {
     },
     async getOrderList() {
       const { data } = await getUndischargedOemOrderList(this.getOrderListData)
-      this.outsourcingOrderList = data.oemOrderList
+      data.oemOrderList.forEach((item) => {
+        this.outsourcingOrderList.push(item)
+      })
+    },
+    async getLiquidateds() {
+      const { data } = await getLiquidatedOemOrderList(this.getOrderListData)
+      data.oemOrderList.forEach((item) => {
+        this.outsourcingOrderListed.push(item)
+      })
     },
     async getLiquidated() {
       const { data } = await getLiquidatedOemOrderList(this.getOrderListData)

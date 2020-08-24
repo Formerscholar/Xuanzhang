@@ -10,7 +10,7 @@
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="发货清单" class="Delivery">
           <div v-for="(item, index) in deliveryRecordList" :key="item.id">
-            <van-swipe-cell v-if="item.to_examine != undefined ">
+            <van-swipe-cell v-if="item.to_examine != undefined  && item.type == 0">
               <el-card class="box-card">
                 <div
                   @click="gocontractList(deliveryRecordList[index])"
@@ -64,7 +64,7 @@
               </el-card>
               <template #right>
                 <van-button
-                  v-if="!item.to_examine"
+                  v-if="item.to_examine == 0 "
                   square
                   type="primary"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
@@ -72,7 +72,7 @@
                   @click.stop="ControlledDelay(item.id)"
                 />
                 <van-button
-                  v-else
+                  v-if="item.to_examine == 1 "
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
                   square
                   type="danger"
@@ -274,7 +274,7 @@ export default {
   },
   activated() {
     if (this.isShow) {
-      this.getDeliverLists()
+      this.getDeliverListss()
     } else {
       this.getFlowOrderLists()
     }
@@ -299,7 +299,7 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.getDeliverLists()
+        this.getDeliverListss()
       } else {
         this.$message({
           showClose: true,
@@ -320,7 +320,7 @@ export default {
           message: msg,
           type: 'success',
         })
-        this.getDeliverLists()
+        this.getDeliverListss()
       } else {
         this.$message({
           showClose: true,
@@ -337,14 +337,13 @@ export default {
     loadMore() {
       if (this.isShow) {
         this.DeliverList += 1
-        this.getDeliverLists()
+        this.getDeliverListss()
       } else {
         this.FlowOrderList += 1
         this.getFlowOrderLists()
       }
     },
     toReceivables(item) {
-      console.log('--------toReceivables------', item)
       this.$router.push({
         path: '/Receivable',
         query: {
@@ -353,7 +352,6 @@ export default {
       })
     },
     async goDetailItem(id) {
-      console.log('-----------作废-----------', id)
       let from = new FormData()
       from.append('token', this.$store.state.token)
       from.append('id', id)
@@ -382,10 +380,12 @@ export default {
     gotodetails(id) {
       this.$router.push(`/turnover/${id}`)
     },
-    async getDeliverLists() {
+
+    async getDeliverListss() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
-      console.log('getDeliverGoodsList', data)
-      this.deliveryRecordList = data.deliveryRecordList
+      data.deliveryRecordList.map((item) => {
+        this.deliveryRecordList.push(item)
+      })
     },
     createAddbill() {
       this.$router.push('/addbill')
@@ -402,10 +402,14 @@ export default {
         console.log(name)
         if (name) {
           this.isShow = false
+          this.flowOrderList = []
+          this.FlowOrderList = 1
           this.getFlowOrderLists()
         } else {
           this.isShow = true
-          this.getDeliverLists()
+          this.deliveryRecordList = []
+          this.DeliverList = 1
+          this.getDeliverListss()
         }
       }, 500)
     },

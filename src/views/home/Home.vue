@@ -60,9 +60,9 @@ export default {
     }
   },
   activated() {
+    this.getlogin()
     clearInterval(this.Interval)
     this.Interval = setInterval(this.getlogin, 600000)
-    console.log(this.Interval)
     this.getUserDesignat()
   },
   deactivated() {

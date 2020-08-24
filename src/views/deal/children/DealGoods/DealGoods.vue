@@ -316,6 +316,7 @@ export default {
     selectIndex(i) {
       throttle(() => {
         this.pageIndex = i
+        this.allPage = 1
         if (this.pageIndex == 0) {
           this.goodsLists = []
           this.getOrderList(1)

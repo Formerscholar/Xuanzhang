@@ -394,7 +394,8 @@ i {
 
 #contract,
 #aside,
-#StorageCompany {
+#StorageCompany,
+#turnover {
   .van-swipe-cell__right {
     display: flex;
     flex-direction: column;
@@ -402,7 +403,7 @@ i {
 
   .el-tag {
     height: 1rem;
-    font-size: .571429rem;
+    font-size: 0.642857rem;
     padding: 0 .214286rem;
     line-height: .785714rem;
     border-radius: .142857rem;

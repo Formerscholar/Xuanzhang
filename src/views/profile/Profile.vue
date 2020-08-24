@@ -45,7 +45,6 @@ export default {
   activated() {
     this.getlogin()
   },
-  created() {},
   methods: {
     async getlogin() {
       var storage = window.localStorage
@@ -92,7 +91,7 @@ export default {
       this.$router.push('/fileInfo')
     },
     onRefresh() {
-      location.reload()
+      this.getlogin()
       this.isLoading = false
     },
   },
