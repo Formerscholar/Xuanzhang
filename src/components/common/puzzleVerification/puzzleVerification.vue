@@ -67,12 +67,12 @@ export default {
       puzzleSize: null, // 滑块的大小
       deviationValue: null,
       radius: null,
-      padding: null
+      padding: null,
     }
   },
   model: {
     prop: 'verificationShow',
-    event: 'setVisible'
+    event: 'setVisible',
   },
   watch: {
     isVerificationShow(val) {
@@ -80,17 +80,17 @@ export default {
     },
     verificationShow(val) {
       this.isVerificationShow = val
-    }
+    },
   },
   props: {
     // 画布图片的尺寸
     width: {
       type: [String, Number],
-      default: 260
+      default: 260,
     },
     height: {
       type: [String, Number],
-      default: 120
+      default: 120,
     },
     // 图集
     puzzleImgList: {
@@ -98,50 +98,50 @@ export default {
       default: () => [
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591781429895&di=9fe848f511557c73be86a4dd941b494f&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fa2cc7cd98d1001e9b0d7d104ba0e7bec55e797d6.jpg',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591781429895&di=b0b08fd0794f577c44900630a4b8ff6d&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Ffc1f4134970a304eb048b46ad1c8a786c9175c33.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591781429894&di=97516c05ec443bed6cf3db39f07c0924&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201303%2F13%2F174429b5wzavjztjr9tntt.jpg'
-      ]
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591781429894&di=97516c05ec443bed6cf3db39f07c0924&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201303%2F13%2F174429b5wzavjztjr9tntt.jpg',
+      ],
     },
     // 滑块的大小
     blockSize: {
       type: [String, Number],
-      default: 40
+      default: 40,
     },
     // 误差
     deviation: {
       type: [String, Number],
-      default: 4
+      default: 4,
     },
     // 滑块的圆角大小
     blockRadius: {
       type: [String, Number],
-      default: 4
+      default: 4,
     },
     // 滑块随机出现的范围
     wraperPadding: {
       type: [String, Number],
-      default: 20
+      default: 20,
     },
     // 滑块形状 square  puzzle
     blockType: {
       type: String,
-      default: 'square'
+      default: 'square',
     },
     // 成功的回调
     onSuccess: {
       type: Function,
-      default: () => {}
+      default: () => {},
     },
     // 失败的回调
     onError: {
       type: Function,
       default: () => {
         console.log('失败')
-      }
+      },
     },
     verificationShow: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -259,7 +259,7 @@ export default {
       let img = new Image()
       img.src = this.imgRandom
 
-      img.onload = function() {
+      img.onload = function () {
         ctx_l.drawImage(img, 0, 0, w, h)
       }
       ctx_l.beginPath()
@@ -416,7 +416,7 @@ export default {
         if (Max_left > moveEnd_X && moveEnd_X > Min_left) {
           self.displayTips = true
           self.verification = true
-          setTimeout(function() {
+          setTimeout(function () {
             self.displayTips = false
             self.initCanvas()
             /* 成功的回调函数 */
@@ -425,7 +425,7 @@ export default {
         } else {
           self.displayTips = true
           self.verification = false
-          setTimeout(function() {
+          setTimeout(function () {
             self.displayTips = false
             self.initCanvas()
             /* 失败的回调函数 */
@@ -438,7 +438,7 @@ export default {
         typeof self.$refs.puzzleLost !== 'undefined' &&
         typeof self.$refs.puzzleShadow !== 'undefined'
       ) {
-        setTimeout(function() {
+        setTimeout(function () {
           self.$refs.sliderBtn.style.left = 0
           self.$refs.sliderBtn.style.transition = 'left 0.5s'
           self.$refs.puzzleLost.style.left = 0
@@ -463,8 +463,8 @@ export default {
         document.removeEventListener('mouseup', self.moveEnd)
         document.removeEventListener('touchend', self.moveEnd)
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

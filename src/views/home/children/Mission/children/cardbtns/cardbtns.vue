@@ -334,7 +334,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    bottom: 0;
+    bottom: 3.5rem;
     width: 100%;
     overflow: hidden;
   }

@@ -21,8 +21,8 @@ export default {
   methods: {
     goControlled() {
       this.$router.push('/controlled')
-    }
-  }
+    },
+  },
 }
 </script>
     

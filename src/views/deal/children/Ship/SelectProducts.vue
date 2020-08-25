@@ -328,7 +328,7 @@ export default {
     left: 0;
     right: 0;
     top: 5.142857rem;
-    bottom: 0;
+    bottom: 4.442857rem;
     overflow: hidden;
   }
   .item1 {

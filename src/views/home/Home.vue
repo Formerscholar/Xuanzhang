@@ -153,7 +153,6 @@ export default {
 <style lang="scss" scoped>
 #home {
   background-color: #f5f5f5;
-  height: calc(100vh - 9.642857rem);
   .scroll-wrapper {
     position: absolute;
     left: 0;
@@ -163,7 +162,6 @@ export default {
     overflow: hidden;
   }
   .wrappers {
-    height: 100%;
     .block {
       width: 10.714286rem;
       border-radius: 5px;

@@ -78,7 +78,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
                     <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
@@ -170,7 +170,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
                     <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="content_child">
                   <div class="left_box">
-                    <!-- <img src="@/assets/image/dpng.png" alt="logo" /> -->
+                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
                     <div class="img"></div>
                     <div class="left_box_content">
                       <span>{{item.product_name}}</span>

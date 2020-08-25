@@ -65,7 +65,6 @@
 
 <script>
 import { getlogin, getIndex } from '@/network/login.js'
-
 import PuzzleVerification from '@/components/common/puzzleVerification/puzzleVerification'
 
 export default {

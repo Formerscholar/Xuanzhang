@@ -22,14 +22,14 @@ export default {
   props: {
     PropsImg: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   methods: {
     goIndexInfo() {
       this.$router.push('/avatarInfo')
-    }
-  }
+    },
+  },
 }
 </script>
     

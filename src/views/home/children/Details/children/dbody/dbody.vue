@@ -153,19 +153,19 @@ export default {
       this.designatedTasksType = data.designatedTasksType
       let str = this.designatedTasks.details
       console.log('str', str)
-      for (let i = 0; i <= str.split('<img src="/view').length - 1; i++) {
+      for (let i = 0; i <= str.split('<img  src="/view').length - 1; i++) {
         str = str.replace(
-          /(<img src="\/view)/,
+          /(<img  src="\/view)/,
           `
-        <br /><img preview="2" preview-text="图片详情" style="width:100%;" src="${bestURL}/view
+        <br /><img  preview="2" preview-text="图片详情" style="width:100%;" src="${bestURL}/view
         `
         )
       }
-      for (let i = 0; i <= str.split('<img src="/uploads').length - 1; i++) {
+      for (let i = 0; i <= str.split('<img  src="/uploads').length - 1; i++) {
         str = str.replace(
-          /(<img src="\/uploads)/,
+          /(<img  src="\/uploads)/,
           `
-        <br /><img preview="2" preview-text="图片详情" style="width:100%;" src="${bestURL}/uploads
+        <br /><img  preview="2" preview-text="图片详情" style="width:100%;" src="${bestURL}/uploads
         `
         )
       }

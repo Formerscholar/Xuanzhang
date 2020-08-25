@@ -108,14 +108,19 @@ export default {
   },
   activated() {
     if (this.pageIndex == 0) {
+      this.goodsLists = []
       this.getOrderList(1)
     } else if (this.pageIndex == 1) {
+      this.QuoteList = []
       this.getOrderList(0)
     } else if (this.pageIndex == 2) {
+      this.contractOrderList = []
       this.getUserContractOrderss()
     } else if (this.pageIndex == 3) {
+      this.MyOfferList = []
       this.getUserContractOrders()
     } else if (this.pageIndex == 4) {
+      this.DeliveryList = []
       this.getDeliverGoodsLists()
     }
   },
@@ -126,7 +131,6 @@ export default {
     this.contractOrderList = []
     this.MyOfferList = []
     this.DeliveryList = []
-    this.pageIndex = 0
     this.editData = {}
     this.allPage = 1
     this.isShow = false
@@ -278,6 +282,7 @@ export default {
       }
     },
     async printList(datas) {
+      console.log('dealgoods')
       this.show = datas.showed
       const { code, data, msg } = await getEditContractOrder({
         id: datas.data.id,
@@ -456,7 +461,6 @@ export default {
     
 <style lang="scss" scoped>
 .goodslist {
-  min-height: calc(100vh - 9.642857rem);
   #wrapper-click {
     display: flex;
     justify-content: center;

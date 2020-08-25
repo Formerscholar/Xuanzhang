@@ -175,6 +175,8 @@ const Inventory = () => import('@/views/InventoryPick/Inventory')
 const MaterialReturn = () => import('@/views/InventoryPick/MaterialReturn')
 const picking = () => import('@/views/InventoryPick/picking')
 
+const Setup = () => import('@/views/profile/children/Setup/Setup')
+
 const routes = [
   {
     path: '/',
@@ -618,6 +620,10 @@ const routes = [
   {
     path: '/picking',
     component: picking,
+  },
+  {
+    path: '/Setup',
+    component: Setup,
   },
 ]
 

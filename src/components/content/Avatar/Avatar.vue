@@ -17,17 +17,17 @@ export default {
   data() {
     return {
       uploadParam: 4, // 相对手机屏幕放大的倍数: 4倍
-      userImg: ''
+      userImg: '',
     }
   },
   components: {
-    SimpleCropper
+    SimpleCropper,
   },
   props: {
     PropsImg: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
     // 上传头像
@@ -38,8 +38,8 @@ export default {
     uploadHandle(data) {
       this.userImg = data.substr(1)
       this.$emit('ObtainUrl', data.substr(1))
-    }
-  }
+    },
+  },
 }
 </script>
     

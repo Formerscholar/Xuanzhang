@@ -282,7 +282,7 @@ export default {
     },
     uploadHandle(data) {
       this.userImg = data
-      this.imgUrlAdd = `<img src="${data.split(bestURL)[1]}" />`
+      this.imgUrlAdd = `<img  src="${data.split(bestURL)[1]}" />`
     },
     httpRequest() {
       this.$refs['croppers'].upload()
@@ -365,7 +365,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 4.428571rem;
     width: 100%;
     overflow: hidden;
     .box-card {

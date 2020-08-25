@@ -115,9 +115,7 @@ export default {
       itemList: {},
     }
   },
-  components: {
-    timers,
-  },
+
   computed: {
     getAddDeliverGoodData() {
       return {

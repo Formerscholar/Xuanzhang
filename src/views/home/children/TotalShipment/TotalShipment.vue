@@ -108,9 +108,7 @@ export default {
       pageType: '',
     }
   },
-  components: {
-    timers,
-  },
+
   computed: {
     getAddDeliverGoodData() {
       return {

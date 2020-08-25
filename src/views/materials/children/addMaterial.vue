@@ -457,7 +457,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 4.428571rem;
     width: 100%;
     overflow: hidden;
     .box-card {

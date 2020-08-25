@@ -21,8 +21,8 @@ export default {
   methods: {
     goHrman() {
       this.$router.push('/manboard')
-    }
-  }
+    },
+  },
 }
 </script>
     

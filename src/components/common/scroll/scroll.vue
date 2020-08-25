@@ -26,28 +26,33 @@ export default {
       scroll: null,
     }
   },
-  activated() {
-    this.scroll = new BScroll(this.$refs.wrapper, {
-      click: true,
-      probeType: this.probeType,
-      pullUpLoad: this.pullUpLoad,
-    })
-    if (this.probeType === 2 || this.probeType === 3) {
-      this.scroll.on('scroll', (position) => {
-        if (position.y > 50) {
-          throttle(() => {
-            this.$emit('scroll', position)
-          }, 300)
-        }
-      })
-    }
-    if (this.pullUpLoad) {
-      this.scroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
-    }
+  mounted() {
+    this.newScroll()
   },
   methods: {
+    newScroll() {
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        click: true,
+        probeType: this.probeType,
+        pullUpLoad: this.pullUpLoad,
+      })
+      if (this.probeType === 2 || this.probeType === 3) {
+        this.scroll.on('scroll', (position) => {
+          if (position.y > 50) {
+            throttle(() => {
+              this.$emit('scroll', position)
+              this.scroll.refresh()
+            }, 300)
+          }
+        })
+      }
+      if (this.pullUpLoad) {
+        this.scroll.on('pullingUp', () => {
+          this.$emit('pullingUp')
+          this.scroll.finishPullUp()
+        })
+      }
+    },
     scrollTo(x, y, time = 500) {
       this.scroll && this.scroll.scrollTo(x, y, time)
     },
@@ -65,7 +70,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.content {
-  min-height: 100vh;
-}
 </style>

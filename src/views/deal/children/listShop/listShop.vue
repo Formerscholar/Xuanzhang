@@ -113,7 +113,6 @@ export default {
       distributor_id: '',
     }
   },
-  components: { timers },
   activated() {
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
@@ -296,8 +295,6 @@ export default {
   }
   .body {
     background-color: #f8f7f5;
-    min-height: calc(100vh - 5.428571rem);
-    overflow: hidden;
 
     .item1 {
       margin-bottom: 0.714286rem;

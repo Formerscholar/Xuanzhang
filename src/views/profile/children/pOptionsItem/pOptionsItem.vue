@@ -18,7 +18,6 @@
 export default {
   name: 'pOptionsItem',
   components: {},
-  
 }
 </script>
     

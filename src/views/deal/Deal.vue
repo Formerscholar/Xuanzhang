@@ -66,6 +66,9 @@ export default {
     },
   },
   methods: {
+    formatPhone(phone) {
+      return phone.substr(0, 3) + '****' + phone.substr(7, 11)
+    },
     async getlogin() {
       var storage = window.localStorage
       const res = await getlogin({

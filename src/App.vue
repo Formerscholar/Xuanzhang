@@ -9,22 +9,17 @@
 </template>
 
 <script >
-import { getlogin, getIndex, getAppVersion } from '@/network/login'
-import { updateURL } from '@/network/baseURL'
+import { getlogin, getIndex } from '@/network/login'
 
 export default {
   data() {
     return {
       transitionName: '',
-      edition: '20200824',
       path: '',
     }
   },
   created() {
     this.getlogin()
-    document.addEventListener('plusready', () => {
-      this.getNativeVersion()
-    })
   },
   watch: {
     $route(to, from) {
@@ -62,50 +57,6 @@ export default {
     },
   },
   methods: {
-    async getNativeVersion() {
-      const { code, data, msg } = await getAppVersion()
-      if (code == 200) {
-        if (this.edition !== data.version) {
-          this.$dialog
-            .confirm({
-              title: '自动更新提示',
-              message: '有新版本，是否启动后台下载?',
-            })
-            .then(() => {
-              this.downloadApk(data.url)
-            })
-        }
-      } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
-      }
-    },
-    downloadApk(url) {
-      plus.downloader
-        .createDownload(url, {}, (d, status) => {
-          if (status == 200) {
-            this.installApk(d.filename)
-          } else {
-            alert('Download failed: ' + status)
-          }
-        })
-        .start()
-    },
-    installApk(path) {
-      plus.runtime.install(
-        path,
-        {},
-        () => {
-          plus.runtime.restart()
-        },
-        (e) => {
-          alert('安装更新失败！')
-        }
-      )
-    },
     async getlogin() {
       var storage = window.localStorage
       const res = await getlogin({

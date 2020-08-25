@@ -129,12 +129,11 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 2.785714rem;
+    bottom: 4.428571rem;
     width: 100%;
     overflow: hidden;
     .body {
       background-color: #f8f7f5;
-      min-height: calc(100vh - 5.428571rem);
 
       .item1 {
         margin-bottom: 0.714286rem;

@@ -140,6 +140,9 @@ export default {
         this.company = this.dataInfo.user_compser_name
       }
     },
+    formatPhone(phone) {
+      return phone.substr(0, 3) + '****' + phone.substr(7, 11)
+    },
     onCancel() {
       console.log('onCancel')
       this.isSearch = false

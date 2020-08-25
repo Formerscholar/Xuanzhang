@@ -87,7 +87,7 @@ export default {
       },
     }
   },
-  components: { timers },
+
   activated() {
     if (this.$store.state.timers.timers.CreditDate != '') {
       this.timersList.CreditDate = this.$store.state.timers.timers.CreditDate

@@ -590,7 +590,7 @@ export default {
     left: 0;
     right: 0;
     top: 0;
-    bottom: 4.214286rem;
+    bottom: 4.424286rem;
     overflow: hidden;
     .box-card {
       margin-bottom: 0.571429rem;

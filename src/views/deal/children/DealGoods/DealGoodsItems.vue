@@ -105,7 +105,7 @@ export default {
   },
   activated() {
     this.show = false
-    this.getEditContractOrders()
+    // this.getEditContractOrders()
   },
   computed: {
     getEditContractOrderData() {
@@ -212,6 +212,7 @@ export default {
       })
     },
     async getEditContractOrders() {
+      console.log('dealgoodsitems')
       const { data } = await getEditContractOrder(this.getEditContractOrderData)
       this.editData = data
       this.contractOrder = data.contractOrder

@@ -804,8 +804,7 @@ export default {
       margin: 0 auto;
       margin-top: 1.714286rem;
       padding: 0.357143rem;
-      max-height: calc(100vh - 5.428571rem);
-      height: calc(100vh - 5.428571rem);
+
       .demo-drawer__header {
       }
       .demo-drawer__footer {
@@ -858,7 +857,6 @@ export default {
   }
   .body {
     background-color: #f8f7f5;
-    min-height: calc(100vh - 5.428571rem);
     overflow: hidden;
 
     .item1 {

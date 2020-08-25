@@ -648,15 +648,13 @@ export default {
 #OEM {
   padding-top: 5.428571rem;
   padding-bottom: 2.785714rem;
-  min-height: 100vh;
   .drawer_my {
     .demo-drawer__content {
       max-width: 1024px;
       margin: 0 auto;
       margin-top: 1.714286rem;
       padding: 0.357143rem;
-      max-height: calc(100vh - 5.428571rem);
-      height: calc(100vh - 5.428571rem);
+
       .demo-drawer__header {
       }
       .demo-drawer__footer {
@@ -692,13 +690,12 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 2.785714rem;
+    bottom: 4.428571rem;
     width: 100%;
     overflow: hidden;
     .body {
       padding: 1.071429rem 0;
       background-color: #f8f7f5;
-      min-height: calc(100vh - 5.428571rem);
 
       .item1 {
         margin-bottom: 0.714286rem;

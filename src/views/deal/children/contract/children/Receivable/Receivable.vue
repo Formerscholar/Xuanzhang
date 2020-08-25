@@ -119,9 +119,6 @@ export default {
       order_type: '',
     }
   },
-  components: {
-    timers,
-  },
   activated() {
     this.getAddSettlementRecord()
     this.deliveryRecordItem = this.$route.query.data

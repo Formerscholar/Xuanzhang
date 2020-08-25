@@ -235,7 +235,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 3.428571rem;
     width: 100%;
     overflow: hidden;
     padding: 1.428571rem 0.714286rem;

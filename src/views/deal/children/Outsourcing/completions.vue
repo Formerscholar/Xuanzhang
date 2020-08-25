@@ -220,7 +220,7 @@ export default {
     position: absolute;
     left: 0;
     top: 5.428571rem;
-    bottom: 2.785714rem;
+    bottom: 4.428571rem;
     width: 100%;
     overflow: hidden;
     .product_box {

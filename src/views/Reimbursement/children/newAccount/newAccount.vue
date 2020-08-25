@@ -282,7 +282,7 @@ export default {
     left: 0;
     right: 0;
     top: 5.428571rem;
-    bottom: 0;
+    bottom: 4.428571rem;
     overflow: hidden;
   }
 
