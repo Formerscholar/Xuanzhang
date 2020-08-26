@@ -6,14 +6,14 @@
         <img src="../../../../assets/image/dpng.png" v-else alt="logo" />
         <div class="info">
           <div class="name">
-            {{name || '姓名'}}
-            <span>{{jobName || '职位'}}</span>
+            <div>{{name || '姓名'}}</div>
+            <div class="span">{{jobName || '职位'}}</div>
+            <div class="phone">{{phone}}</div>
           </div>
           <div class="companys">{{company}}</div>
-          <div class="phone">{{phone}}</div>
         </div>
       </div>
-      <div class="icon" @click="toProfileInfo">
+      <div class="icons" @click="toProfileInfo">
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -55,7 +55,7 @@ export default {
     
 <style lang="scss" scoped>
 #pHeader {
-  padding: 0 0.642857rem;
+  padding: 0 1rem;
   height: 5.328571rem;
   .topbox {
     justify-content: space-between;
@@ -91,19 +91,26 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          font-size: 1.142857rem;
-          span {
+          margin-bottom: 0.714286rem;
+
+          .phone {
             margin-left: 0.571429rem;
             font-size: 0.857143rem;
+            margin-bottom: 0.035714rem;
+          }
+          .span {
+            margin-left: 0.571429rem;
+            font-size: 0.857143rem;
+            margin-bottom: 0.035714rem;
           }
         }
-        .companys,
-        .phone {
-          font-size: 0.857143rem;
+
+        .companys {
+          font-size: 1.071429rem;
         }
       }
     }
-    .icon {
+    .icons {
       font-size: 1.571429rem;
       margin-right: 0.714286rem;
     }

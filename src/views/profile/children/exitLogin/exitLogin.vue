@@ -62,7 +62,7 @@ export default {
       display: flex;
       align-items: center;
       span {
-        font-size: 1.428571rem;
+        font-size: 1.285714rem;
       }
     }
     .icon_options {
@@ -71,7 +71,7 @@ export default {
       align-items: center;
       color: #9e9e9e;
       span {
-        font-size: 1.142857rem;
+        font-size: 1rem;
       }
       i {
         font-size: 1.285714rem;

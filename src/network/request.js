@@ -33,7 +33,7 @@ export function request(config) {
 
   instance.interceptors.request.use(
     (config) => {
-      startLoading()
+      // startLoading()
       return config
     },
     (err) => {
@@ -43,12 +43,12 @@ export function request(config) {
 
   instance.interceptors.response.use(
     (res) => {
-      endLoading()
+      // endLoading()
       console.log(res.data.code)
       return res.data
     },
     (err) => {
-      endLoading()
+      // endLoading()
       console.log(err)
     }
   )

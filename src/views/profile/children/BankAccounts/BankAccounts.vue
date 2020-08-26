@@ -7,7 +7,7 @@
     </div>
     <div class="right_box d-flex">
       <div class="title_options">
-        <span>银行账户</span>
+        <span>银行</span>
       </div>
       <div class="icon_options" @click="goControlled">
         <i class="el-icon-arrow-right"></i>
@@ -55,7 +55,7 @@ export default {
       display: flex;
       align-items: center;
       span {
-        font-size: 1.428571rem;
+        font-size: 1.285714rem;
       }
     }
     .icon_options {
