@@ -7,7 +7,7 @@ import routes from './router'
 import storeConfig from './store'
 
 Vue.config.productionTip = false
-
+import '@/assets/icon-font/iconfont'
 import './assets/css/style.scss'
 import './assets/icon-font/iconfont.css'
 

@@ -176,6 +176,8 @@ const MaterialReturn = () => import('@/views/InventoryPick/MaterialReturn')
 const picking = () => import('@/views/InventoryPick/picking')
 
 const Setup = () => import('@/views/profile/children/Setup/Setup')
+const Recordlist = () =>
+  import('@/views/profile/children/Runrecord/children/Recordlist/Recordlist')
 
 const routes = [
   {
@@ -624,6 +626,10 @@ const routes = [
   {
     path: '/Setup',
     component: Setup,
+  },
+  {
+    path: '/Recordlist',
+    component: Recordlist,
   },
 ]
 

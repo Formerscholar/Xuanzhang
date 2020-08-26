@@ -38,6 +38,7 @@ body {
   user-select: none;
 }
 
+
 li {
   list-style-type: none;
 }
@@ -46,6 +47,13 @@ a {
   text-decoration: none;
 }
 
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 
 
 

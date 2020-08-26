@@ -2,29 +2,54 @@
   <div class="options_profile_item d-flex">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
-        <use xlink:href="#icon-tuanduiguanli" />
+        <use xlink:href="#icon-zhihuigongdixitong" />
       </svg>
     </div>
     <div class="right_box d-flex">
       <div class="title_options">
-        <span>我的位置</span>
+        <span>版本号</span>
       </div>
-      <div class="icon_options" @click="goControlled">
+      <div class="icon_options" @click="goSetup">
+        <span>{{state.version}}</span>
         <i class="el-icon-arrow-right"></i>
+        <div class="redicon" v-if="state.isShow"></div>
       </div>
     </div>
   </div>
 </template>
     
 <script>
-import { computed } from '@vue/composition-api'
+import { reactive, onActivated } from '@vue/composition-api'
+import { getAppVersion } from '@/network/login'
+import { version } from '@/AppConfig'
+
 export default {
   setup(props, { root }) {
-    function goControlled() {
-      root.$router.push('/minimap')
+    const state = reactive({
+      version,
+      isShow: false,
+    })
+    onActivated(() => {
+      getNativeVersion()
+    })
+
+    async function getNativeVersion() {
+      const { code, data, msg } = await getAppVersion()
+      if (code == 200) {
+        if (state.version !== data.version) {
+          state.isShow = true
+        } else {
+          state.isShow = false
+        }
+      }
+    }
+
+    function goSetup() {
+      root.$router.push('/Setup')
     }
     return {
-      goControlled,
+      state,
+      goSetup,
     }
   },
 }
@@ -33,7 +58,7 @@ export default {
 <style  lang="scss" scoped>
 .options_profile_item {
   height: 3.285714rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 0.357143rem 0;
   padding: 0.357143rem 1.428571rem;
@@ -64,6 +89,15 @@ export default {
       display: flex;
       align-items: center;
       color: #9e9e9e;
+      .redicon {
+        position: absolute;
+        right: 1.857143rem;
+        top: 0;
+        width: 0.571429rem;
+        height: 0.571429rem;
+        border-radius: 50%;
+        background-color: red;
+      }
       span {
         font-size: 1.142857rem;
       }

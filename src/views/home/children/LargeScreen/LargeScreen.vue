@@ -749,7 +749,6 @@ export default {
     }
   }
   .content {
-    height: calc(100vh - 5.428571rem);
     .scroll_wrapper {
       position: absolute;
       left: 0;

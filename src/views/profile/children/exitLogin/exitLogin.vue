@@ -2,14 +2,14 @@
   <div class="options_profile_item d-flex">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
-        <use xlink:href="#icon-tuanduiguanli" />
+        <use xlink:href="#icon-changyongmoban" />
       </svg>
     </div>
     <div class="right_box d-flex">
       <div class="title_options">
-        <span>我的位置</span>
+        <span>退出登录</span>
       </div>
-      <div class="icon_options" @click="goControlled">
+      <div class="icon_options" @click="exitLogin">
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -17,15 +17,21 @@
 </template>
     
 <script>
-import { computed } from '@vue/composition-api'
+import { logout } from '@/network/login'
 export default {
-  setup(props, { root }) {
-    function goControlled() {
-      root.$router.push('/minimap')
-    }
-    return {
-      goControlled,
-    }
+  methods: {
+    async exitLogin() {
+      const { code } = await logout()
+      if (code == 200) {
+        localStorage.removeItem('token')
+        this.$store.commit('setBankCardSinfo', {})
+        this.$store.commit('setLoginDate', {})
+        this.$store.commit('setUserInfo', [])
+        this.$store.commit('setDetailsData', {})
+        this.$store.commit('setToken', '')
+        this.$router.replace('/')
+      }
+    },
   },
 }
 </script>

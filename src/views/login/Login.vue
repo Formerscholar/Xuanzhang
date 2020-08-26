@@ -66,6 +66,7 @@
 <script>
 import { getlogin, getIndex } from '@/network/login.js'
 import PuzzleVerification from '@/components/common/puzzleVerification/puzzleVerification'
+import { ruleForm } from '@/AppConfig'
 
 export default {
   name: 'Login',
@@ -80,20 +81,7 @@ export default {
         require('../../assets/image/thumbnail-img03.jpg'),
       ],
       text: '',
-      ruleForm: {
-        name: '',
-        pass: '',
-        // name: '18012333330',
-        // pass: '123456',
-        // name: '18012148888',
-        // pass: '234567',
-        // name: '18083795906',
-        // pass: '123456',
-        // name: '13338149978',
-        // pass: '123456',
-        // name: '18061166850',
-        // pass: '123456',
-      },
+      ruleForm,
       rules: {
         name: [
           { required: true, message: '请输入你的手机号', trigger: 'blur' },

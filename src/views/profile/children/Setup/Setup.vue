@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>设置</span>
+        <span>版本</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
@@ -29,18 +29,6 @@
             <span>已是最新版</span>
           </div>
         </div>
-        <div class="update" @click="gobaseLogin">
-          <div class="label">切换公司</div>
-          <div class="status">
-            <van-icon name="arrow" />
-          </div>
-        </div>
-        <div class="update" @click="exitLogin">
-          <div class="label">退出登录</div>
-          <div class="status">
-            <van-icon name="arrow" />
-          </div>
-        </div>
       </div>
     </scroll>
   </div>
@@ -48,33 +36,18 @@
     
 <script>
 import { reactive } from '@vue/composition-api'
-import { logout, getAppVersion } from '@/network/login'
+import { getAppVersion } from '@/network/login'
+import { version } from '@/AppConfig'
+
 export default {
   setup(props, { root }) {
     const state = reactive({
-      version: '20200825',
+      version,
       isNews: true,
     })
 
     function goBack() {
       this.$router.go(-1)
-    }
-
-    function gobaseLogin() {
-      this.$router.push('/businessLogin')
-    }
-
-    async function exitLogin() {
-      const { code } = await logout()
-      if (code == 200) {
-        localStorage.removeItem('token')
-        root.$store.commit('setBankCardSinfo', {})
-        root.$store.commit('setLoginDate', {})
-        root.$store.commit('setUserInfo', [])
-        root.$store.commit('setDetailsData', {})
-        root.$store.commit('setToken', '')
-        root.$router.replace('/')
-      }
     }
 
     function getUpdate() {
@@ -130,8 +103,6 @@ export default {
     return {
       state,
       goBack,
-      gobaseLogin,
-      exitLogin,
       getUpdate,
     }
   },

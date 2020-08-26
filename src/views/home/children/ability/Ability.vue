@@ -3,7 +3,9 @@
     <ul class="ability_item">
       <li v-for="(item,index) in abilityList" :key="index">
         <div @click="jumpPage(item.path)" class="ability_item_list">
-          <i :class="`icons iconfont ${item.icon_Url}`" :style="{color:item.color}"></i>
+          <svg class="icon icons" aria-hidden="true">
+            <use :xlink:href="item.icon_Url" />
+          </svg>
           <span>{{item.title}}</span>
         </div>
       </li>
@@ -18,9 +20,8 @@ export default {
     return {
       abilityList: [
         {
-          icon_Url: 'icon-ziyuan174',
+          icon_Url: '#icon-8shipinhuiyi',
           title: '委外入库',
-          color: '#038900',
           path: '/deal/outsourcing',
         },
         {
@@ -73,25 +74,21 @@ export default {
         {
           icon_Url: 'icon-ziyuan140',
           title: '盘库',
-          color: '#ff7f12',
           path: '/Inventory',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '领料',
-          color: '#ff7f12',
           path: '/MaterialReturn',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '退料',
-          color: '#ff7f12',
           path: '/picking',
         },
         {
           icon_Url: 'icon-ziyuan140',
           title: '任务管理',
-          color: '#ff7f12',
         },
         // {
         //   icon_Url: 'icon-shujuxiazai-01',
@@ -112,7 +109,6 @@ export default {
         // {
         //   icon_Url: 'icon-zhaogongshichang',
         //   title: '计件考核',
-        //   color: '#ff7f12',
         // },
         // {
         //   icon_Url: 'icon-tuikuanshouhou',
@@ -121,7 +117,6 @@ export default {
         // {
         //   icon_Url: 'icon-ziyuan142',
         //   title: '检验考核',
-        //   color: '#ff5b2b',
         // },
         // {
         //   icon_Url: 'icon-daifahuo',
@@ -130,12 +125,10 @@ export default {
         // {
         //   icon_Url: 'icon-lvyoumenpiao',
         //   title: '开据发票',
-        //   color: '#ff7f12',
         // },
         {
           icon_Url: 'icon-tixing',
           title: '全部',
-          color: '#b2bec3',
           path: '/homeManu',
         },
       ],
@@ -177,11 +170,8 @@ export default {
 
       .icons {
         font-size: 2rem;
-        color: #2a88ff;
         height: 3rem;
         width: 3rem;
-        line-height: 3rem;
-        text-align: center;
       }
       span {
         margin-top: 0.428571rem;

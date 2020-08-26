@@ -11,7 +11,7 @@
           @ReimbursementClick="ReimbursementClick"
           @goEarly="goEarly"
         />
-        <Ability />
+        <!-- <Ability /> -->
         <!-- <reminder /> -->
         <myEcharts />
       </div>

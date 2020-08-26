@@ -2,14 +2,15 @@
   <div class="options_profile_item d-flex">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
-        <use xlink:href="#icon-tuanduiguanli" />
+        <use xlink:href="#icon-zichanyijiaoguanlixitong" />
       </svg>
     </div>
     <div class="right_box d-flex">
       <div class="title_options">
-        <span>我的位置</span>
+        <span>可用余额</span>
       </div>
-      <div class="icon_options" @click="goControlled">
+      <div class="icon_options">
+        <span>{{state.balance}}元</span>
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -17,14 +18,32 @@
 </template>
     
 <script>
-import { computed } from '@vue/composition-api'
+import { reactive, computed, onActivated } from '@vue/composition-api'
+import { getUserIndex } from '@/network/home'
 export default {
   setup(props, { root }) {
-    function goControlled() {
-      root.$router.push('/minimap')
+    const state = reactive({
+      balance: '0.00',
+    })
+
+    onActivated(() => {
+      getUserIndexNews()
+    })
+
+    const IndexNewsData = computed(() => {
+      return {
+        token: root.$store.state.token,
+        _: new Date().getTime(),
+      }
+    })
+
+    async function getUserIndexNews() {
+      const { data } = await getUserIndex(IndexNewsData.value)
+      state.balance = data.userNews.balance
     }
+
     return {
-      goControlled,
+      state,
     }
   },
 }
@@ -33,7 +52,7 @@ export default {
 <style  lang="scss" scoped>
 .options_profile_item {
   height: 3.285714rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 0.357143rem 0;
   padding: 0.357143rem 1.428571rem;

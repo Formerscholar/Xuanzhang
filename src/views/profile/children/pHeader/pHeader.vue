@@ -53,10 +53,10 @@ export default {
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 #pHeader {
-  padding: 0.357143rem 0.642857rem;
-  height: 5.928571rem;
+  padding: 0 0.642857rem;
+  height: 5.328571rem;
   .topbox {
     justify-content: space-between;
     align-items: center;

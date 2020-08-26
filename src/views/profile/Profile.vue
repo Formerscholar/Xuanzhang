@@ -1,7 +1,14 @@
 <template>
   <div id="Profile">
     <pNavBar />
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+
+    <scroll
+      class="scroll_wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @scroll="onRefresh"
+    >
       <pHeader
         :imgUrl="imgUrl"
         :jobName="jobName"
@@ -11,7 +18,8 @@
         @toProfileInfo="toProfileInfo"
       />
       <pOptions />
-    </van-pull-refresh>
+    </scroll>
+
     <MainTabBar />
   </div>
 </template>
@@ -101,7 +109,17 @@ export default {
 <style scoped lang="scss" >
 #Profile {
   padding-top: 5.428571rem;
-  .van-pull-refresh {
+  .scroll_wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5.428571rem;
+    bottom: 4.214286rem;
+    width: 100%;
+    overflow: hidden;
+    /deep/.content {
+      min-height: calc(100vh - 9.571429rem);
+    }
   }
 }
 </style>

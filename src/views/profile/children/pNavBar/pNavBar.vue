@@ -18,7 +18,7 @@ import { reactive } from '@vue/composition-api'
 export default {
   setup(props, { root }) {
     function goSetup() {
-      root.$router.push('/Setup')
+      console.log('---')
     }
 
     return {

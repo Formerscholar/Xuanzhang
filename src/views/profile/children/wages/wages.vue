@@ -2,14 +2,14 @@
   <div class="options_profile_item d-flex">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
-        <use xlink:href="#icon-tuanduiguanli" />
+        <use xlink:href="#icon-baogao" />
       </svg>
     </div>
     <div class="right_box d-flex">
       <div class="title_options">
-        <span>我的位置</span>
+        <span>工资信息</span>
       </div>
-      <div class="icon_options" @click="goControlled">
+      <div class="icon_options">
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -17,14 +17,14 @@
 </template>
     
 <script>
-import { computed } from '@vue/composition-api'
+import { reactive } from '@vue/composition-api'
+
 export default {
   setup(props, { root }) {
-    function goControlled() {
-      root.$router.push('/minimap')
-    }
+    const state = reactive({})
+
     return {
-      goControlled,
+      state,
     }
   },
 }
@@ -33,10 +33,11 @@ export default {
 <style  lang="scss" scoped>
 .options_profile_item {
   height: 3.285714rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 0.357143rem 0;
   padding: 0.357143rem 1.428571rem;
+
   .image_options {
     width: 2.142857rem;
     margin-right: 1.428571rem;
