@@ -99,12 +99,7 @@ import {
   deleteReimbursement,
 } from '@/network/Reimbursement.js'
 import myVqr from '@/components/common/my_vqr/myVqr'
-import {
-  reactive,
-  computed,
-  onActivated,
-  onDeactivated,
-} from '@vue/composition-api'
+import { reactive, computed, onUnmounted } from '@vue/composition-api'
 export default {
   components: {
     myVqr,
@@ -118,11 +113,8 @@ export default {
       textContent: '',
       isShow: false,
     })
-    onActivated(() => {
-      state.iid = root.$route.params.id
-      getreimbursementDetail()
-    })
-    onDeactivated(() => {
+
+    onUnmounted(() => {
       state.iid = 0
       state.reimbursement = {}
       state.reimbursementDetail = []
@@ -176,7 +168,8 @@ export default {
       state.userInfo = data.reimburser[0]
       console.log('reimbursementDetail', data)
     }
-
+    state.iid = root.$route.params.id
+    getreimbursementDetail()
     return {
       state,
       blacknext,

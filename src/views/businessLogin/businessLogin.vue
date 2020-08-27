@@ -48,10 +48,10 @@ export default {
       this.$router.replace('/')
     },
   },
-  activated() {
+  created() {
     this.companyList = this.$store.state.loginDate.customers
   },
-  deactivated() {},
+  destroyed() {},
 }
 </script>
     

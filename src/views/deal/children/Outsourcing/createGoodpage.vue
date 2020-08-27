@@ -58,7 +58,7 @@ export default {
     timers,
     myBtns,
   },
-  activated() {
+  created() {
     this.getAddDeliverGood()
     this.source = { ...this.$route.query.data }
     console.log(this.source)

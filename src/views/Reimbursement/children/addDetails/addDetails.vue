@@ -84,7 +84,7 @@ export default {
       description: '',
     }
   },
-  activated() {
+  created() {
     this.getAddReimbursementData()
   },
   methods: {

@@ -161,7 +161,7 @@ export default {
     }
   },
 
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.distributor_id = this.iid
     this.getEditWarehouse()
@@ -174,7 +174,7 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {
+  destroyed() {
     this.iid = 0
     this.state = ''
     this.DeliveryNotes = ''

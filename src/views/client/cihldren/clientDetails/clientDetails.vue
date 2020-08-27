@@ -66,11 +66,10 @@ export default {
       phone: '',
       Bank: '',
       account: '',
-      representative: ''
+      representative: '',
     }
   },
-  components: {
-  },
+  components: {},
   filters: {
     SetClientName(value) {
       return '个人名称:' + value
@@ -104,9 +103,9 @@ export default {
     },
     SetRepresentativet(value) {
       return '法人代表:' + value
-    }
+    },
   },
-  activated() {
+  created() {
     this.paramsData = this.$route.query.data
     if (this.paramsData.status == 2) {
       this.typeShow = false
@@ -117,7 +116,7 @@ export default {
       this.dataOfSupplier()
     }
   },
-  deactivated() {
+  destroyed() {
     this.paramsData = {}
     this.typeShow = false
     this.clientName = ''
@@ -150,12 +149,12 @@ export default {
         this.paramsData.contacts_address
 
       this.clientSales = this.paramsData.uname
-      this.paramsData.contacts.map(item => {
+      this.paramsData.contacts.map((item) => {
         this.tableData.push({
           date: item.contacts,
           job: item.contacts_post,
           phone: item.contacts_tel,
-          email: item.contacts_email
+          email: item.contacts_email,
         })
       })
     },
@@ -167,8 +166,8 @@ export default {
       this.Bank = this.paramsData.invoice_opening_bank
       this.account = this.paramsData.invoice_account
       this.representative = this.paramsData.invoice_legal_person
-    }
-  }
+    },
+  },
 }
 </script>
     

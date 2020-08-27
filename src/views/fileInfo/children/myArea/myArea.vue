@@ -31,14 +31,13 @@
 
     
 <script>
- 
 import { editUser } from '@/network/home'
 
 export default {
   data() {
     return {
       userInfo: {},
-      email: ''
+      email: '',
     }
   },
   methods: {
@@ -54,13 +53,12 @@ export default {
     },
     activeInfo() {
       this.userInfo = this.$store.state.userInfo[0]
-    }
+    },
   },
-  activated() {
+  created() {
     this.activeInfo()
   },
-  deactivated() {
-  },
+  destroyed() {},
   computed: {
     editUserData() {
       let from = new FormData()
@@ -79,8 +77,8 @@ export default {
       from.append('logo_url', '')
       from.append('department_head', 0)
       return from
-    }
-  }
+    },
+  },
 }
 </script>
     

@@ -113,7 +113,7 @@ export default {
       distributor_id: '',
     }
   },
-  activated() {
+  created() {
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
@@ -138,7 +138,7 @@ export default {
     })
     this.getAddDeliverGoodsDistributor()
   },
-  deactivated() {
+  destroyed() {
     this.paramsData = {}
     this.state = ''
     this.PartyContract = ''

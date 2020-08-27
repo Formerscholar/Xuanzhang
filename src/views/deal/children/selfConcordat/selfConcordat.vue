@@ -167,7 +167,7 @@ export default {
       orderList: [],
     }
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
@@ -377,7 +377,7 @@ export default {
                 background-color: #e3e3e3;
               }
               .info {
-                background-color: #3568d9;
+                background-color: rgb(66, 147, 200);
               }
             }
           }

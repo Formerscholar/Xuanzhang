@@ -3,7 +3,7 @@
 </template>
     
 <script>
-import { reactive, onActivated, computed } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 import { getUserIndex } from '@/network/home'
 
 export default {
@@ -68,10 +68,6 @@ export default {
       },
     })
 
-    onActivated(() => {
-      getechIndex()
-    })
-
     const getUserIndexData = computed(() => {
       return {
         token: root.$store.state.token,
@@ -93,6 +89,7 @@ export default {
       state.options.xAxis.categories = month
       Highcharts.chart('container', state.options)
     }
+    getechIndex()
 
     return {
       state,

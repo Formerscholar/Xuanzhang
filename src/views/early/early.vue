@@ -85,10 +85,10 @@ export default {
     }
   },
 
-  activated() {
+  created() {
     this.bestURL = bestURL
   },
-  deactivated() {},
+  destroyed() {},
   methods: {
     blackhome() {
       this.$router.go(-1)

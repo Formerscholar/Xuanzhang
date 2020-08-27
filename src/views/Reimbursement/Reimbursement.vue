@@ -314,7 +314,7 @@ import {
 } from '@/network/Reimbursement'
 import myVqr from '@/components/common/my_vqr/myVqr'
 
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 
 export default {
   components: {
@@ -332,13 +332,6 @@ export default {
       textContent: '',
       img_url: '',
       StateList: [],
-    })
-
-    onActivated(() => {
-      getReimburse()
-      getReimburses()
-      getUserReimbursement()
-      getMyToExamineReimbursement()
     })
 
     const getReimbursementListsState = computed(() => {
@@ -501,7 +494,10 @@ export default {
         reimburClick(iid)
       }
     }
-
+    getReimburse()
+    getReimburses()
+    getUserReimbursement()
+    getMyToExamineReimbursement()
     return {
       state,
       blackhome,
@@ -535,7 +531,7 @@ export default {
     }
   }
   .titlebox {
-    background-color: #2a88ff;
+    background-color: rgb(66, 147, 200);
 
     color: #fff;
     .topbox {
@@ -754,7 +750,7 @@ export default {
                     background-color: #ccc;
                   }
                   .examines-bg-info {
-                    background-color: #3568d9;
+                    background-color: rgb(66, 147, 200);
                   }
                 }
               }
@@ -821,7 +817,7 @@ export default {
                   background-color: #ccc;
                 }
                 .examines-bg-info {
-                  background-color: #3568d9;
+                  background-color: rgb(66, 147, 200);
                 }
               }
             }
@@ -837,7 +833,7 @@ export default {
                 }
                 .el-tag {
                   margin: 0 0.714286rem;
-                  color: #3568d9;
+                  color: rgb(66, 147, 200);
                 }
                 i {
                 }
@@ -898,7 +894,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

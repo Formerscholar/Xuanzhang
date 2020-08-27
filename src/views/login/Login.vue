@@ -158,7 +158,7 @@ export default {
       document.querySelector('#Login .tips').style.display = 'block'
     },
   },
-  activated() {
+  created() {
     const h = document.body.scrollHeight
     window.onresize = function () {
       if (document.body.scrollHeight < h) {

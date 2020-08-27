@@ -40,8 +40,7 @@
     
 <script>
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       active: 0,
@@ -49,15 +48,15 @@ export default {
       currentRate: 0,
       gradientColor: {
         '0%': '#3fecff',
-        '100%': '#6149f6'
-      }
+        '100%': '#6149f6',
+      },
     }
   },
-  activated() {
+  created() {
     this.active = this.$route.query.active
     this.itemData = this.$route.query.data
   },
-  deactivated() {
+  destroyed() {
     this.active = 0
     this.config.value = [0]
     this.itemData = {}
@@ -68,8 +67,8 @@ export default {
     },
     progressnum(percentage) {
       return `发货进度 ${percentage}%`
-    }
-  }
+    },
+  },
 }
 </script>
     
@@ -123,7 +122,7 @@ export default {
         margin-bottom: 0.428571rem;
 
         .timers {
-          color: #1989fa;
+          color: rgb(66, 147, 200);
           font-size: 1.142857rem;
         }
       }

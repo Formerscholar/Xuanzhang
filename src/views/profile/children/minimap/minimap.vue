@@ -5,15 +5,12 @@
 </template>
     
 <script>
-import { reactive, onActivated } from '@vue/composition-api'
+import { reactive } from '@vue/composition-api'
 export default {
   setup(props, { root }) {
     const state = reactive({
       map: null,
       center: [119.417964, 32.386693],
-    })
-    onActivated(() => {
-      init()
     })
 
     function init() {
@@ -23,6 +20,8 @@ export default {
         center: state.center,
       })
     }
+
+    init()
   },
 }
 </script>

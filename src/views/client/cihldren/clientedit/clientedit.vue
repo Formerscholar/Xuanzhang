@@ -457,7 +457,7 @@ export default {
       })
     },
   },
-  activated() {
+  created() {
     this.title = this.$route.params.name
     if (this.$route.params.id != 0) {
       if (this.$route.params.name == 'client') {
@@ -486,7 +486,7 @@ export default {
       this.gokhlist.contacts_address +
       this.gokhlist.county
   },
-  deactivated() {
+  destroyed() {
     this.tagsName = []
     this.companyName = ''
     this.Abbreviation = ''

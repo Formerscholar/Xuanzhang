@@ -46,7 +46,7 @@ export default {
       state: false,
     }
   },
-  activated() {
+  created() {
     this.data = this.$route.query.data.data
     this.name = this.$route.query.data.name
     this.route = this.$route.query.data.route
@@ -57,7 +57,7 @@ export default {
       this.value = '2'
     }
   },
-  deactivated() {
+  destroyed() {
     let data = {
       data: this.data,
       name: this.name,

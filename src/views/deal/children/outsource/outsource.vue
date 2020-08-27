@@ -222,7 +222,7 @@ export default {
     }
   },
 
-  activated() {
+  created() {
     this.getAddOemOrders()
 
     if (this.$store.state.timers.timers.SigningDate != '') {

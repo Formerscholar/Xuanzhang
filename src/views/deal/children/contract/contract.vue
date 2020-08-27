@@ -8,7 +8,7 @@
       @pullingUp="loadMore"
     >
       <van-tabs v-model="active" animated @click="tacheClick">
-        <van-tab title="发货清单" class="Delivery">
+        <van-tab title="发货清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in deliveryRecordList" :key="item.id">
             <van-swipe-cell v-if="item.to_examine != undefined  && item.type == 0">
               <el-card class="box-card">
@@ -190,6 +190,7 @@
       @click-overlay="closedClick"
       @cancel="closedClick"
       :close-on-click-action="true"
+      :round="false"
       :close-on-popstate="true"
       @select="onSelect"
       @open="openClick"
@@ -197,8 +198,8 @@
       cancel-text="取消"
       safe-area-inset-bottom
     />
-    <i class="el-icon-plus" @click="show = !show" v-if="isShow" slot="reference"></i>
-    <i class="el-icon-plus" @click="createAddbill" v-else></i>
+    <i class="el-icon-plus" @click="show = !show" v-if="isShow && isNewlyBuild" slot="reference"></i>
+    <i class="el-icon-plus" @click="createAddbill" v-else-if="isNewOrder"></i>
   </div>
 </template>
 
@@ -209,6 +210,7 @@ import {
   deleteFlowOrderProduct,
   toExamineDeliveryRecord,
   cancelToExamineDeliveryRecord,
+  getleft,
 } from '@/network/deal'
 
 import { throttle } from '@/common/utils.ts'
@@ -223,10 +225,11 @@ export default {
       isShow: true,
       visible: false,
       show: false,
-      actions: [{ name: '发货' }, { name: '退货' }],
+      actions: [],
       DeliverList: 1,
       FlowOrderList: 1,
       distributor_id: null,
+      leftBtn: [],
       selectionList: [{ id: 0 }],
     }
   },
@@ -254,6 +257,57 @@ export default {
         _: new Date().getTime(),
       }
     },
+    isDelivery: {
+      get() {
+        return (
+          this.leftBtn.findIndex((value) => {
+            return value.id == '78'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
+    isDetailed: {
+      get() {
+        return (
+          this.leftBtn.findIndex((value) => {
+            return value.id == '81'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
+    isNewOrder: {
+      get() {
+        return (
+          this.leftBtn.findIndex((value) => {
+            return value.id == '82'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
+    isNewlyBuild: {
+      get() {
+        return (
+          this.leftBtn.findIndex((value) => {
+            return value.id == '79'
+          }) +
+          this.leftBtn.findIndex((value) => {
+            return value.id == '80'
+          })
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
   },
   filters: {
     setOperatorName(value) {
@@ -272,14 +326,15 @@ export default {
       return '×' + value
     },
   },
-  activated() {
+  created() {
+    this.getlefts()
     if (this.isShow) {
       this.getDeliverListss()
     } else {
       this.getFlowOrderLists()
     }
   },
-  deactivated() {
+  destroyed() {
     this.deliveryRecordList = []
     this.DeliverList = 1
     this.flowOrderList = []
@@ -287,6 +342,27 @@ export default {
     this.FlowOrderList = 1
   },
   methods: {
+    async getlefts() {
+      const { data } = await getleft({
+        token: this.$store.state.token,
+        left: 28,
+      })
+      this.leftBtn = data
+      console.log('getleft', this.leftBtn)
+      this.leftBtn.map((item) => {
+        if (item.id == '79') {
+          this.actions.push({
+            name: item.title,
+          })
+        }
+        if (item.id == '80') {
+          this.actions.push({
+            name: item.title,
+          })
+        }
+      })
+      //
+    },
     async unlockyoursidekick(iid) {
       const { code, msg } = await cancelToExamineDeliveryRecord({
         id: [iid],
@@ -369,9 +445,9 @@ export default {
     onSelect(item) {
       this.show = false
       setTimeout(() => {
-        if (item.name == '发货') {
+        if (item.name == '新建发货') {
           this.$router.push('/Ship')
-        } else if (item.name == '退货') {
+        } else if (item.name == '新建退货') {
           this.$router.push('/returnedPurchase')
         }
       }, 10)
@@ -451,7 +527,7 @@ export default {
             display: flex;
             font-size: 1rem;
             .model {
-              color: #2a88ff;
+              color: rgb(66, 147, 200);
               margin-right: 0.714286rem;
             }
             .name {
@@ -468,7 +544,7 @@ export default {
               background-color: #e3e3e3;
             }
             .info {
-              background-color: #3568d9;
+              background-color: rgb(66, 147, 200);
             }
           }
         }
@@ -512,6 +588,9 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+            /deep/.el-tag--plain {
+              color: rgb(66, 147, 200);
+            }
             .black {
               color: #000000;
             }
@@ -590,7 +669,7 @@ export default {
             align-items: flex-end;
 
             .leftitem {
-              color: #2a88ff;
+              color: rgb(66, 147, 200);
               font-weight: 700;
             }
             .rightitem {
@@ -640,7 +719,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

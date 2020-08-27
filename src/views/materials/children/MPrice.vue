@@ -29,14 +29,14 @@ export default {
       input: '',
     }
   },
-  activated() {
+  created() {
     this.data = this.$route.query.data.data
     this.name = this.$route.query.data.name
     this.route = this.$route.query.data.route
     this.input = this.data
     console.log(this.data, this.name, this.route)
   },
-  deactivated() {
+  destroyed() {
     let data = {
       data: this.data,
       name: this.name,

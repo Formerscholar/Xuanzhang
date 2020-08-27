@@ -9,8 +9,8 @@
       <div class="title_options">
         <span>我的任务</span>
       </div>
-      <div class="icon_options">
-        <span>3条待办</span>
+      <div class="icon_options" @click="gomission">
+        <span>{{state.doQuantity}}条待办</span>
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -18,14 +18,36 @@
 </template>
     
 <script>
-import { reactive } from '@vue/composition-api'
-
+import { reactive, computed } from '@vue/composition-api'
+import { getUserDesignatedTasks } from '@/network/home'
 export default {
   setup(props, { root }) {
-    const state = reactive({})
+    const state = reactive({
+      doQuantity: 0,
+    })
+
+    const getUserDesignatedData = computed(() => {
+      return {
+        token: root.$store.state.token,
+        page: 1,
+        offset: 20,
+        _: new Date().getTime(),
+      }
+    })
+
+    async function getUserDesignated() {
+      const { data } = await getUserDesignatedTasks(getUserDesignatedData.value)
+      state.doQuantity = data.designatedTasksList.length
+    }
+
+    function gomission() {
+      root.$router.push('/mission')
+    }
+    getUserDesignated()
 
     return {
       state,
+      gomission,
     }
   },
 }

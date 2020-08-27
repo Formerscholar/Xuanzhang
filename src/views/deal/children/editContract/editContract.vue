@@ -289,7 +289,7 @@ export default {
   components: {
     myBtns,
   },
-  activated() {
+  created() {
     this.getAddContract()
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
@@ -352,7 +352,7 @@ export default {
     this.ContractField1Input = contractOrderExtra
     this.listData = receivingList
   },
-  deactivated() {
+  destroyed() {
     this.paramsData = {}
     this.selectedID = ''
     this.state = ''

@@ -88,7 +88,7 @@ export default {
     }
   },
 
-  activated() {
+  created() {
     if (this.$store.state.timers.timers.CreditDate != '') {
       this.timersList.CreditDate = this.$store.state.timers.timers.CreditDate
     }
@@ -98,7 +98,7 @@ export default {
     this.paramsData = this.$route.query.data
     console.log('this.paramsData', this.paramsData)
   },
-  deactivated() {
+  destroyed() {
     this.paramsData = {}
   },
   methods: {

@@ -29,7 +29,7 @@ export default {
       currentIndex: 0,
     }
   },
-  mounted() {
+  created() {
     this.$nextTick(() => {
       this._initPics()
     })

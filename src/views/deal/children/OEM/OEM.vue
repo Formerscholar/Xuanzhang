@@ -239,7 +239,7 @@ export default {
   components: {
     myBtns,
   },
-  activated() {
+  created() {
     this.getAddOemOrders()
   },
   computed: {

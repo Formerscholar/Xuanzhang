@@ -108,7 +108,7 @@ export default {
       token: '',
     }
   },
-  activated() {
+  created() {
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })

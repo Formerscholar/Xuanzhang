@@ -57,7 +57,7 @@ export default {
       }
     },
   },
-  activated() {
+  created() {
     this.succpages = 1
     this.itempages = 1
     this.allpage = 1
@@ -65,7 +65,7 @@ export default {
     this.getDesignated()
     this.getUserDesignat()
   },
-  deactivated() {
+  destroyed() {
     this.designatedTasksList = []
     this.UserDesignatedTasksData = []
     this.Designated = []
@@ -163,7 +163,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

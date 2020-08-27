@@ -33,11 +33,11 @@ export default {
     }
   },
   components: {},
-  activated() {
+  created() {
     this.type = this.$route.params.type
     console.log(this.type)
   },
-  deactivated() {},
+  destroyed() {},
   methods: {
     blacknext() {
       this.$router.go(-1)

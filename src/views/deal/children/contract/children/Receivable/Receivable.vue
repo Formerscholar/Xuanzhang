@@ -119,7 +119,7 @@ export default {
       order_type: '',
     }
   },
-  activated() {
+  created() {
     this.getAddSettlementRecord()
     this.deliveryRecordItem = this.$route.query.data
     console.log(this.deliveryRecordItem)
@@ -138,7 +138,7 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {},
+  destroyed() {},
   computed: {
     getAddSettlementData() {
       return {

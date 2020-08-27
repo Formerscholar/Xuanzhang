@@ -163,7 +163,7 @@ export default {
       supplier_id: null,
     }
   },
-  activated() {
+  created() {
     this.indexTab = 0
     this.allPage = 1
     this.processing = 1
@@ -174,7 +174,7 @@ export default {
       this.getOrderList()
     }
   },
-  deactivated() {
+  destroyed() {
     this.Loop = null
     this.active = 0
     this.outsourcingOrderList = []
@@ -374,7 +374,7 @@ export default {
               background-color: #e3e3e3;
             }
             .infos {
-              background-color: #3568d9;
+              background-color: rgb(66, 147, 200);
             }
           }
           span {
@@ -453,7 +453,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

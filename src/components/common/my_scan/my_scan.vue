@@ -21,7 +21,10 @@ export default {
   data() {
     return {
       codeUrl: '',
-      styles: { frameColor: '#2a88ff', scanbarColor: '#2a88ff' },
+      styles: {
+        frameColor: 'rgb(66, 147, 200)',
+        scanbarColor: 'rgb(66, 147, 200)',
+      },
       filter: [
         plus.barcode.QR,
         plus.barcode.EAN13,
@@ -43,13 +46,13 @@ export default {
       scan: null,
     }
   },
-  activated() {
+  created() {
     setTimeout(() => {
       this.startRecognize()
       this.startScan()
     }, 500)
   },
-  deactivated() {
+  destroyed() {
     this.closeScan()
   },
   methods: {

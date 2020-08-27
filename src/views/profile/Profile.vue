@@ -50,7 +50,7 @@ export default {
     pOptions,
     MainTabBar,
   },
-  activated() {
+  created() {
     this.getlogin()
   },
   methods: {

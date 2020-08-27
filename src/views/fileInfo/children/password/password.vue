@@ -67,10 +67,10 @@ export default {
       this.userInfo = this.$store.state.userInfo[0]
     },
   },
-  activated() {
+  created() {
     this.activeInfo()
   },
-  deactivated() {
+  destroyed() {
     this.userInfo = {}
     this.email = ''
   },

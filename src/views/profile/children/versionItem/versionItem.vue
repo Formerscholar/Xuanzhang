@@ -19,7 +19,7 @@
 </template>
     
 <script>
-import { reactive, onActivated } from '@vue/composition-api'
+import { reactive } from '@vue/composition-api'
 import { getAppVersion } from '@/network/login'
 import { version } from '@/AppConfig'
 
@@ -28,9 +28,6 @@ export default {
     const state = reactive({
       version,
       isShow: false,
-    })
-    onActivated(() => {
-      getNativeVersion()
     })
 
     async function getNativeVersion() {
@@ -47,6 +44,9 @@ export default {
     function goSetup() {
       root.$router.push('/Setup')
     }
+
+    getNativeVersion()
+
     return {
       state,
       goSetup,

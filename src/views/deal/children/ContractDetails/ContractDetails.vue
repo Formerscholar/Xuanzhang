@@ -144,7 +144,7 @@ export default {
       imgData: '',
     }
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getEditContractOrders()
   },

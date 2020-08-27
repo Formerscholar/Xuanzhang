@@ -196,7 +196,7 @@ export default {
     SimpleCropper,
     myBtns,
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false
     this.getEditMater()

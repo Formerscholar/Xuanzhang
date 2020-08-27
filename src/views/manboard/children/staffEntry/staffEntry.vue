@@ -128,7 +128,7 @@ export default {
     }
   },
   components: { Avatars },
-  activated() {
+  created() {
     this.getDepartment()
     this.getRolesList()
   },

@@ -113,13 +113,14 @@ export default {
       token: '',
     }
   },
-  activated() {
+  created() {
     document.querySelectorAll('input').forEach((item) => {
       item.style.border = 'none'
     })
     this.getAddReimbursementData()
     this.setNewCost()
   },
+
   filters: {
     setTwo(value) {
       return value.toFixed(2)

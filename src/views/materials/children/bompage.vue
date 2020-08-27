@@ -55,7 +55,7 @@ export default {
       tableData: [],
     }
   },
-  activated() {
+  created() {
     this.getAddSpare()
     this.iid = this.$route.params.id
     this.getMaterielbom()
@@ -63,7 +63,7 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {
+  destroyed() {
     this.iid = 0
     this.digitnum = 0
     this.inputvalue = ''

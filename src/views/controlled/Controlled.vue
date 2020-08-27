@@ -52,8 +52,7 @@ export default {
       console.log(data)
     },
   },
-  activated() {},
-  deactivated() {},
+
 }
 </script>
     

@@ -102,7 +102,7 @@ export default {
   components: {
     myVqr,
   },
-  deactivated() {
+  destroyed() {
     this.deliveryRecordItem = {}
     this.iid = 0
     this.isShow = false
@@ -111,7 +111,7 @@ export default {
     this.textContent = ''
     this.deliverGoodsDetail = []
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getFlowDeliverD()
   },
@@ -178,7 +178,7 @@ export default {
       console.log(this.deliveryRecordItem)
 
       // data.deliver
-      this.$once('hook:deactivated', () => {
+      this.$once('hook:destroyed', () => {
         this.iid = 0
         this.deliverGoodsDetail = []
       })

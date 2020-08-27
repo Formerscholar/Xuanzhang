@@ -57,7 +57,7 @@
 </template>
     
 <script>
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 import { getMyMoneyLogLists } from '@/network/Profile'
 export default {
   setup(props, { root }) {
@@ -76,10 +76,6 @@ export default {
       ],
       userMoneyLogLists: [],
       types: {},
-    })
-
-    onActivated(() => {
-      getMyMoneyList()
     })
 
     const getMyMoneyLogListData = computed(() => {
@@ -106,7 +102,7 @@ export default {
     function goBack() {
       this.$router.go(-1)
     }
-
+    getMyMoneyList()
     return {
       state,
       goBack,

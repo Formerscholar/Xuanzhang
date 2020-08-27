@@ -141,12 +141,12 @@ export default {
       isTwo: true,
     }
   },
-  activated() {
+  created() {
     this.bestURL = bestURL
     this.getMaterie()
     this.getTemporary()
   },
-  deactivated() {
+  destroyed() {
     this.allPage = 1
     this.onePage = 1
     this.twoPage = 1
@@ -501,7 +501,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

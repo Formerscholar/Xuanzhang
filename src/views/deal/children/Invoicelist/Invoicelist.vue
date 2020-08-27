@@ -89,11 +89,11 @@ export default {
     }
   },
   components: { myVqr },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getDeliverGoodsLists()
   },
-  deactivated() {
+  destroyed() {
     this.allmonty = 0
   },
   computed: {

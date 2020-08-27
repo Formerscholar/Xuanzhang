@@ -39,11 +39,11 @@ export default {
       ImageUrlData: '',
     }
   },
-  activated() {
+  created() {
     this.userInfo = this.$store.state.userInfo[0]
     console.log(this.userInfo)
   },
-  deactivated() {},
+  destroyed() {},
   computed: {
     PropsImg() {
       return this.userInfo.img_url

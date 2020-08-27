@@ -18,15 +18,15 @@ export default {
   props: {
     sex: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     getsex() {
       return this.sex == 1 ? '男' : '女'
-    }
+    },
   },
-  activated() {}
+  created() {},
 }
 </script>
     

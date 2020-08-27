@@ -364,7 +364,7 @@ export default {
       ],
     }
   },
-  activated() {
+  created() {
     this.ProductList = []
     this.getlargeAcreen()
     this.ProductLists = []

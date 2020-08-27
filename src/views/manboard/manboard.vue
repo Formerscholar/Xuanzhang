@@ -176,7 +176,7 @@ export default {
           this.$toast('没有更多数据了')
         }
       }
-      this.$once('hook:deactivated', () => {
+      this.$once('hook:destroyed', () => {
         this.OPage = 1
         this.TPage = 1
         this.OllPage = 1
@@ -219,7 +219,7 @@ export default {
         this.isONetwork = false
       }
 
-      this.$once('hook:deactivated', () => {
+      this.$once('hook:destroyed', () => {
         this.userLists = []
         this.useroption = []
       })
@@ -238,7 +238,7 @@ export default {
       } else {
         this.isTNetwork = false
       }
-      this.$once('hook:deactivated', () => {
+      this.$once('hook:destroyed', () => {
         this.Resignation = []
         this.Resigoption = []
       })
@@ -259,7 +259,7 @@ export default {
       })
     },
   },
-  activated() {
+  created() {
     this.getUserLists()
     this.getResignation()
     this.restaurants = this.loadAll()

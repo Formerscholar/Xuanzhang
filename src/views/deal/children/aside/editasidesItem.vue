@@ -235,7 +235,7 @@ export default {
       return bestURL + value
     },
   },
-  activated() {
+  created() {
     // 进入只执行一次
     if (this.isEdit) {
       // this.getAddDeliverGood()

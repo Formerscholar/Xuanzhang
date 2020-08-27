@@ -18,13 +18,11 @@ export default {
   props: {
     getsex: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  computed: {
-    
-  },
-  activated() {}
+  computed: {},
+  created() {},
 }
 </script>
     

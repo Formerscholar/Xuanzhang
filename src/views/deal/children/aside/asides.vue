@@ -265,7 +265,7 @@ export default {
       return '×' + value
     },
   },
-  activated() {
+  created() {
     this.allIndex = 1
     this.Library = 1
     this.detail = 1
@@ -275,7 +275,7 @@ export default {
       this.getFlowOrderLists()
     }
   },
-  deactivated() {
+  destroyed() {
     this.warehouseAccessList = []
     this.flowOrderList = []
     this.iid = 0
@@ -487,7 +487,7 @@ export default {
             display: flex;
             font-size: 1rem;
             .model {
-              color: #2a88ff;
+              color: rgb(66, 147, 200);
               margin-right: 0.714286rem;
             }
             .name {
@@ -504,7 +504,7 @@ export default {
               background-color: #e3e3e3;
             }
             .info {
-              background-color: #3568d9;
+              background-color: rgb(66, 147, 200);
             }
           }
         }
@@ -625,7 +625,7 @@ export default {
             justify-content: space-between;
             align-items: flex-end;
             .leftitem {
-              color: #2a88ff;
+              color: rgb(66, 147, 200);
               font-weight: 700;
             }
             .rightitem {
@@ -666,7 +666,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

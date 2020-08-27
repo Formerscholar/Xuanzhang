@@ -38,7 +38,7 @@
 </template>
     
 <script>
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from  '@vue/composition-api'
 import {
   getReceivingInformationList,
   deleteReceivingInformation,
@@ -50,11 +50,6 @@ export default {
       iid: 0,
       searchResult: [],
       receivingInformationList: [],
-    })
-
-    onActivated(() => {
-      state.iid = root.$route.params.id
-      getReceiving()
     })
 
     function waitNoChange(item) {
@@ -122,6 +117,9 @@ export default {
     function editAddress(iid) {
       root.$router.push(`/editAddress/${iid}`)
     }
+
+    state.iid = root.$route.params.id
+    getReceiving()
     return {
       state,
       blacknext,

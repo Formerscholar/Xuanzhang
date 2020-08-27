@@ -182,10 +182,10 @@ export default {
       this.$router.replace('/home')
     },
   },
-  activated() {
+  created() {
     this.getDeliverGoods()
   },
-  deactivated() {
+  destroyed() {
     this.deliveryRecordList = []
     this.pages = 1
     this.textContent = ''
@@ -219,7 +219,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

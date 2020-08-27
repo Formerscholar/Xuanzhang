@@ -166,10 +166,10 @@ export default {
     SimpleCroppes,
     myBtns,
   },
-  activated() {
+  created() {
     this.getEditDesignated()
   },
-  deactivated() {
+  destroyed() {
     this.userImg = ''
   },
   computed: {

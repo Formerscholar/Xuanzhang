@@ -70,10 +70,10 @@ export default {
       default: '0',
     },
   },
-  activated() {
+  created() {
     this.getdealitem()
   },
-  deactivated() {
+  destroyed() {
     this.clierbtn()
   },
   computed: {
@@ -246,7 +246,7 @@ export default {
         }
       }
 
-      this.$once('hook:deactivated', () => {
+      this.$once('hook:destroyed', () => {
         document
           .querySelector('#confirm')
           .removeEventListener('click', this.setDataTrueFI)

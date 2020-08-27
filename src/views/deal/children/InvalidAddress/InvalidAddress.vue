@@ -18,7 +18,7 @@
 </template>
     
 <script>
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 import { addReceivingInformation } from '@/network/deal'
 export default {
   setup(props, { root }) {
@@ -28,9 +28,7 @@ export default {
       tel: '',
       addressDetail: '',
     })
-    onActivated(() => {
-      state.iid = root.$route.params.id
-    })
+    state.iid = root.$route.params.id
 
     async function onSave() {
       const addReceivingInformationData = computed(() => {

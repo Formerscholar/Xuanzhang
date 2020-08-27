@@ -104,7 +104,7 @@ export default {
       default: '0',
     },
   },
-  mounted() {
+  created() {
     this.$preview.on('imageLoadComplete', (e, item) => {
       let preview = this.$preview.self
       let lookUrl = window.location.href + '&look'
@@ -122,7 +122,7 @@ export default {
       }
     })
   },
-  activated() {
+  created() {
     document
       .querySelectorAll('.content .Process .el-timeline-item__timestamp')
       .forEach((item) => {
@@ -130,7 +130,7 @@ export default {
       })
     this.getdealitem()
   },
-  deactivated() {
+  destroyed() {
     this.imgSrc = ''
   },
   computed: {

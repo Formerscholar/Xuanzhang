@@ -13,7 +13,11 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <borderCard @tabListTach="tabListTach">
+      <borderCard
+        @tabListTach="tabListTach"
+        :allArrearsCount="allArrearsCount"
+        :allArrearsCounts="allArrearsCounts"
+      >
         <cardbox
           :distributor="distributor"
           @gokhlist="gokhlist"
@@ -70,6 +74,8 @@ export default {
       distributor: [],
       supplier: [],
       options: [],
+      allArrearsCount: '',
+      allArrearsCounts: '',
       allPage: 1,
       onePage: 1,
       twoPage: 1,
@@ -256,6 +262,7 @@ export default {
     },
     async getDistri() {
       const { data } = await getDistributors(this.getDistributorsData)
+      this.allArrearsCount = data.allArrearsCount
       if (data.distributor.length) {
         data.distributor.forEach((item) => {
           this.distributor.push(item)
@@ -267,7 +274,7 @@ export default {
     },
     async getSupplier() {
       const { data } = await getSuppliers(this.getDistributorsData)
-
+      this.allArrearsCounts = data.allArrearsCount
       if (data.supplier.length) {
         data.supplier.forEach((item) => {
           this.supplier.push(item)
@@ -288,7 +295,7 @@ export default {
       }
     },
   },
-  activated() {
+  created() {
     this.getlogin()
     this.show = false
     if (!this.isSearch) {
@@ -296,7 +303,7 @@ export default {
       this.getSupplier()
     }
   },
-  deactivated() {
+  destroyed() {
     this.distributor = []
     this.supplier = []
     this.options = []
@@ -334,7 +341,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

@@ -35,10 +35,10 @@ export default {
       PropsImg: '',
     }
   },
-  activated() {
+  created() {
     this.activeInfo()
   },
-  deactivated() {
+  destroyed() {
     this.userInfo = {}
     this.PropsImg = ''
   },

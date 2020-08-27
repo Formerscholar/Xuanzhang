@@ -237,7 +237,7 @@ export default {
       })
     },
   },
-  activated() {
+  created() {
     if (this.$store.state.timers.timers.Shipdata != '') {
       this.timersList.Shipdata = this.$store.state.timers.timers.Shipdata
     }
@@ -256,7 +256,7 @@ export default {
       item.style.border = 'none'
     })
   },
-  deactivated() {
+  destroyed() {
     this.pageType = ''
     this.restaurants = []
     this.Contractoptions = []

@@ -59,13 +59,13 @@ export default {
       overlayshow: false,
     }
   },
-  activated() {
+  created() {
     this.getlogin()
     clearInterval(this.Interval)
     this.Interval = setInterval(this.getlogin, 600000)
     this.getUserDesignat()
   },
-  deactivated() {
+  destroyed() {
     this.isShow = 0
   },
   computed: {

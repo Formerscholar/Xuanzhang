@@ -209,7 +209,7 @@ export default {
     myVqr,
     myBtns,
   },
-  activated() {
+  created() {
     this.getAddDeliverGood()
   },
   filters: {

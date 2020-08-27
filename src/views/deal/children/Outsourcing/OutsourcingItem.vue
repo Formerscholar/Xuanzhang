@@ -245,7 +245,7 @@ export default {
       }
     },
   },
-  activated() {
+  created() {
     if (this.isEdit) {
       this.iid = this.$route.params.id
       this.getEditOutsourcingOrders()

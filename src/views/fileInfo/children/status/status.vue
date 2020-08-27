@@ -18,15 +18,15 @@ export default {
   props: {
     status: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     getsex() {
       return this.status == 'active' ? '正常' : '已离职'
-    }
+    },
   },
-  activated() {}
+  created() {},
 }
 </script>
     

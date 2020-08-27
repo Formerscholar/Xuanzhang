@@ -154,13 +154,7 @@ import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
 import myBtns from '@/components/common/my_btns/my_btns'
 
-import {
-  reactive,
-  onActivated,
-  onDeactivated,
-  computed,
-  ref,
-} from '@vue/composition-api'
+import { reactive, onUnmounted, computed, ref } from '@vue/composition-api'
 
 export default {
   components: {
@@ -217,11 +211,8 @@ export default {
       materielUnit: [],
       materielWarehouse: [],
     })
-    onActivated(() => {
-      getAddMater()
-    })
 
-    onDeactivated(() => {
+    onUnmounted(() => {
       state.fileList = []
       state.activeNames = []
       state.SetMaterialFlags = []
@@ -411,6 +402,8 @@ export default {
     function DeWarehouseClick() {
       state.isDeWarehouse = true
     }
+    getAddMater()
+
     return {
       state,
       cropper,

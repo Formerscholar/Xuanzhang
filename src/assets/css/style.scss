@@ -100,7 +100,7 @@ i {
   }
 
   .van-tabs--line .van-tabs__wrap {
-    height: 3.571429rem !important;
+    height: 4.571429rem !important;
   }
 
 
@@ -349,8 +349,8 @@ i {
   .van-address-list__add,
   .van-button--round {
 
-    border-color: #2a88ff;
-    background-color: #2a88ff;
+    border-color: rgb(66, 147, 200);
+    background-color: rgb(66, 147, 200);
   }
 
   .van-button--round {
@@ -383,8 +383,8 @@ i {
 #addressEdit {
   .van-button--round {
     color: #fff;
-    border-color: #2a88ff;
-    background-color: #2a88ff;
+    border-color: rgb(66, 147, 200);
+    background-color: rgb(66, 147, 200);
   }
 
   .van-address-list__bottom {
@@ -414,7 +414,7 @@ i {
     font-size: 0.642857rem;
     padding: 0 .214286rem;
     line-height: .785714rem;
-    border-radius: .142857rem;
+    border-radius: 0.214286rem;
     margin-right: 0.214286rem;
   }
 }
@@ -445,6 +445,9 @@ i {
 }
 
 
+.van-tag--primary.van-tag--plain {
+  color: #4293c8 !important;
+}
 
 #selfConcordat,
 #Outsourcing,
@@ -463,7 +466,7 @@ i {
 #manboard,
 #LargeScreen {
   .van-tabs__line {
-    background-color: #2a88ff;
+    background-color: rgb(66, 147, 200);
   }
 }
 
@@ -608,7 +611,7 @@ i {
 
 //bg text color
 
-$color: ('primary': #2a88ff,
+$color: ('primary': rgb(66, 147, 200),
   'black': black,
   'white': white,
   'gray1': #fafafa,

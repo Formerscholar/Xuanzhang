@@ -106,7 +106,7 @@ export default {
     Options,
     myVqr,
   },
-  activated() {
+  created() {
     if (this.pageIndex == 0) {
       this.goodsLists = []
       this.getOrderList(1)
@@ -124,7 +124,7 @@ export default {
       this.getDeliverGoodsLists()
     }
   },
-  deactivated() {
+  destroyed() {
     this.timer = null
     this.goodsLists = []
     this.QuoteList = []
@@ -495,7 +495,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

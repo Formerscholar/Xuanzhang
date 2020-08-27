@@ -8,7 +8,7 @@
       @pullingUp="loadMore"
     >
       <van-tabs v-model="active" @click="handleClick">
-        <van-tab title="进行中" class="first">
+        <van-tab title="进行中" class="first" v-if="isOngoing">
           <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
             <el-card class="box-card">
               <div class="info">
@@ -87,7 +87,7 @@
             </template>
           </van-swipe-cell>
         </van-tab>
-        <van-tab title="已完工" class="second">
+        <van-tab title="已完工" class="second" v-if="isCompleted">
           <van-swipe-cell v-for="(item,index) in outsourcingOrderListed" :key="index">
             <el-card class="box-card">
               <div class="info">
@@ -168,7 +168,8 @@
         </van-tab>
       </van-tabs>
     </scroll>
-    <i class="el-icon-plus" @click="toOme"></i>
+
+    <i class="el-icon-plus" @click="toOme" v-if="isInitiateOEM"></i>
 
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
@@ -184,6 +185,7 @@ import {
   getLiquidatedOemOrderList,
   toExamineOemOrder,
   cancelToExamineOemOrder,
+  getleft,
 } from '@/network/deal'
 
 import myVqr from '@/components/common/my_vqr/myVqr'
@@ -205,17 +207,19 @@ export default {
       textContent: '',
       show: false,
       item: {},
+      OEMAuthority: [],
       distributor_id: null,
     }
   },
-  activated() {
+  created() {
+    this.getlefts()
     if (this.indexTab) {
       this.getLiquidated()
     } else {
       this.getOrderList()
     }
   },
-  deactivated() {
+  destroyed() {
     console.log('清除')
     this.Loop = null
     this.active = 0
@@ -243,6 +247,42 @@ export default {
         _: new Date().getTime(),
       }
     },
+    isOngoing: {
+      get() {
+        return (
+          this.OEMAuthority.findIndex((value) => {
+            return value.id == '84'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
+    isCompleted: {
+      get() {
+        return (
+          this.OEMAuthority.findIndex((value) => {
+            return value.id == '85'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
+    isInitiateOEM: {
+      get() {
+        return (
+          this.OEMAuthority.findIndex((value) => {
+            return value.id == '86'
+          }) + 1
+        )
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
   },
   filters: {
     setSalespersonName(value) {
@@ -259,6 +299,13 @@ export default {
     },
   },
   methods: {
+    async getlefts() {
+      const { data } = await getleft({
+        token: this.$store.state.token,
+        left: 32,
+      })
+      this.OEMAuthority = data
+    },
     async unlockyoursidekick(iid) {
       const { code, msg } = await cancelToExamineOemOrder({
         id: [iid],
@@ -431,7 +478,7 @@ export default {
               background-color: #e3e3e3;
             }
             .infos {
-              background-color: #3568d9;
+              background-color: rgb(66, 147, 200);
             }
           }
           span {
@@ -505,7 +552,7 @@ export default {
     padding: 0.571429rem;
     z-index: 999;
     font-size: 2.714286rem;
-    background-color: #2a7bd0;
+    background-color: rgb(66, 147, 200);
     color: #fff;
     border-radius: 50%;
   }

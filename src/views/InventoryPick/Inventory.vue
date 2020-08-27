@@ -96,7 +96,7 @@ export default {
       }
     },
   },
-  activated() {
+  created() {
     this.getMaterielLists()
   },
   methods: {

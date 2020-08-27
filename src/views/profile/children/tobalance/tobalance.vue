@@ -18,16 +18,12 @@
 </template>
     
 <script>
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 import { getUserIndex } from '@/network/home'
 export default {
   setup(props, { root }) {
     const state = reactive({
       balance: '0.00',
-    })
-
-    onActivated(() => {
-      getUserIndexNews()
     })
 
     const IndexNewsData = computed(() => {
@@ -41,7 +37,7 @@ export default {
       const { data } = await getUserIndex(IndexNewsData.value)
       state.balance = data.userNews.balance
     }
-
+    getUserIndexNews()
     return {
       state,
     }

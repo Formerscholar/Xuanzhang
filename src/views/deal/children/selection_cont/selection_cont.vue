@@ -29,7 +29,7 @@ export default {
     },
   },
   components: { BScroll },
-  mounted() {
+  created() {
     this.$nextTick(() => {
       this._initPics()
     })

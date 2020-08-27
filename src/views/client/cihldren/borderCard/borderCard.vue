@@ -4,8 +4,11 @@
       <van-tab>
         <template #title>
           <div class="icon_wrap">
-            <p class="tab_icon tabs_icon"></p>
-            <span>客户</span>
+            <div class="icon_item_warp">
+              <p class="tab_icon tabs_icon"></p>
+              <span class="name">客户</span>
+            </div>
+            <div class="totol_price">￥{{allArrearsCount}}</div>
           </div>
         </template>
         <div class="bg"></div>
@@ -14,8 +17,11 @@
       <van-tab>
         <template #title>
           <div class="icon_wrap">
-            <p class="tab_icon tabs_icons"></p>
-            <span>供应商</span>
+            <div class="icon_item_warp">
+              <p class="tab_icon tabs_icons"></p>
+              <span class="name">供应商</span>
+            </div>
+            <div class="totol_price">￥{{allArrearsCounts}}</div>
           </div>
         </template>
         <div class="bg"></div>
@@ -29,6 +35,16 @@
 export default {
   name: 'borderCard',
   components: {},
+  props: {
+    allArrearsCount: {
+      type: String,
+      default: '0',
+    },
+    allArrearsCounts: {
+      type: String,
+      default: '0',
+    },
+  },
   data() {
     return {
       active: 0,
@@ -48,30 +64,38 @@ export default {
   .van-tabs {
     .icon_wrap {
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
       width: 100%;
-
-      span {
-        font-size: 1rem;
-        padding-bottom: 0.857143rem;
-        font-weight: 700;
+      .icon_item_warp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .name {
+          font-size: 1rem;
+          font-weight: 700;
+        }
+        .tab_icon {
+          width: 2.428571rem;
+          height: 2.428571rem;
+          background-image: url('../../../../assets/image/staff.png');
+          background-repeat: no-repeat;
+          background-size: 7.857143rem 10.142857rem;
+          margin-bottom: 0;
+          margin-right: 0.357143rem;
+        }
+        .tabs_icon {
+          background-position: -4.642857rem -7rem;
+        }
+        .tabs_icons {
+          background-position: 0 -7rem;
+        }
       }
-      .tab_icon {
-        width: 3.928571rem;
-        height: 3.928571rem;
-        background-image: url('../../../../assets/image/staff.png');
-        background-repeat: no-repeat;
-        background-size: 8.571429rem 11.071429rem;
-        margin-bottom: 0;
-        margin-right: 0.357143rem;
-      }
-      .tabs_icon {
-        background-position: -4.642857rem -7rem;
-      }
-      .tabs_icons {
-        background-position: 0 -7rem;
-      }
+    }
+    .totol_price {
+      font-size: 1rem;
+      color: #ccc;
     }
     .bg {
       height: 1.071429rem;

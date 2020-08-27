@@ -12,31 +12,21 @@ import dbody from '@/views/home/children/Details/children/dbody/dbody'
 import dsubmit from '@/views/home/children/Details/children/dsubmit/dsubmit'
 
 export default {
-  name: 'Details',
   components: {
     dpageheader,
     dbody,
-    dsubmit
+    dsubmit,
   },
-  data() {
-    return {}
-  },
-  created() {},
   computed: {
     setdata() {
       return this.$store.state.detailsdata
-    }
+    },
   },
-  activated() {
-  },
-  deactivated() {
-  },
-  methods: {},
   data() {
     return {
-      activeName: '1'
+      activeName: '1',
     }
-  }
+  },
 }
 </script>
     

@@ -18,7 +18,7 @@
 </template>
     
 <script>
-import { reactive, computed, onActivated } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 import {
   getEditReceivingInformation,
   editReceivingInformation,
@@ -31,10 +31,7 @@ export default {
       tel: '',
       addressDetail: '',
     })
-    onActivated(() => {
-      state.iid = root.$route.params.id
-      getEditReceiving()
-    })
+
     const getEditReceivingInformationData = computed(() => {
       return {
         token: root.$store.state.token,
@@ -87,6 +84,9 @@ export default {
       state.addressDetail = ''
       root.$router.go(-1)
     }
+
+    state.iid = root.$route.params.id
+    getEditReceiving()
 
     return {
       state,

@@ -22,7 +22,7 @@ export default {
   name: 'reminder',
   components: {},
   methods: {},
-  // activated() {
+  // created() {
   //   this.$bus.$on('Assembly', data => {
   //     console.log(data)
   //   })

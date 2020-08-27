@@ -32,7 +32,7 @@ export default {
       itemData: {},
     }
   },
-  activated() {
+  created() {
     this.listItem = { ...this.$route.query.data }
     console.log(this.listItem)
     filterList(
@@ -40,7 +40,7 @@ export default {
       document.getElementById('demo-list')
     )
   },
-  deactivated() {
+  destroyed() {
     this.listItem = []
     this.value = ''
     this.itemData = {}

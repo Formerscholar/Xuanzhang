@@ -161,7 +161,7 @@ export default {
     SimpleCroppes,
     myBtns,
   },
-  async activated() {
+  async created() {
     const { data } = await getAddDesignatedTasks({
       token: this.$store.state.token,
       _: new Date().getTime(),
@@ -176,7 +176,7 @@ export default {
       this.AssignArr.push(item.name)
     })
   },
-  deactivated() {
+  destroyed() {
     this.$refs.upload.clearFiles()
     this.userImg = ''
   },

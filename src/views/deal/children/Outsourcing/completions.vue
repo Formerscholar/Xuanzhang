@@ -86,7 +86,7 @@ export default {
       }
     },
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getChangeOutsourc()
   },

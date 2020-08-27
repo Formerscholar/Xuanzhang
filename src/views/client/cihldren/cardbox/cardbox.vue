@@ -155,7 +155,7 @@ export default {
         justify-content: flex-start;
         align-items: flex-end;
         font-size: 0.857143rem;
-        color: #89c2ec;
+        color: rgb(66, 147, 200);
         i {
           margin-right: 0.714286rem;
         }

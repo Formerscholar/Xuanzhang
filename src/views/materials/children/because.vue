@@ -77,11 +77,11 @@ export default {
       UnitComponent: '',
     }
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.iid
     this.getEditMateriel()
   },
-  deactivated() {
+  destroyed() {
     this.submit()
     this.iid = 0
     this.materialName = ''

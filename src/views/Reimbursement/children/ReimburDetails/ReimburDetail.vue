@@ -112,11 +112,11 @@ export default {
   components: {
     myVqr,
   },
-  activated() {
+  created() {
     this.iid = this.$route.params.id
     this.getreimbursementDetail()
   },
-  deactivated() {
+  destroyed() {
     this.iid = 0
     this.reimbursement = {}
     this.reimbursementDetail = []

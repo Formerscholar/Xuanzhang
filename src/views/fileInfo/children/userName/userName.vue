@@ -20,10 +20,10 @@ export default {
   props: {
     getName: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  activated() {}
+  created() {},
 }
 </script>
     
