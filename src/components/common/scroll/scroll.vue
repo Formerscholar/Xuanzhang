@@ -26,7 +26,7 @@ export default {
       scroll: null,
     }
   },
-  mounted() {
+  activated() {
     this.newScroll()
   },
   methods: {
@@ -70,4 +70,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.content {
+  min-height: calc(100vh + 1px);
+}
 </style>

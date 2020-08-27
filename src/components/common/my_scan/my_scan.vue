@@ -46,13 +46,13 @@ export default {
       scan: null,
     }
   },
-  created() {
+  activated() {
     setTimeout(() => {
       this.startRecognize()
       this.startScan()
     }, 500)
   },
-  destroyed() {
+  deactivated() {
     this.closeScan()
   },
   methods: {

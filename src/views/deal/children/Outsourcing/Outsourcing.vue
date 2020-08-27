@@ -7,7 +7,7 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <van-tabs v-model="active" @click="handleClick">
+      <van-tabs v-model="active">
         <van-tab class="first" title="进行中">
           <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
             <el-card class="box-card">
@@ -32,7 +32,7 @@
                       :format="formatTwo"
                       :status="item.delivery_schedule<100?null:'warning'"
                       :text-inside="true"
-                      :stroke-width="20"
+                      :stroke-width="16"
                       :show-text="item.delivery_schedule<30?false:true"
                       :percentage="item.delivery_schedule * 1"
                     ></el-progress>
@@ -42,7 +42,7 @@
                       :format="formatOne"
                       :status="item.warehousing_progress<100?null:'warning'"
                       :text-inside="true"
-                      :stroke-width="20"
+                      :stroke-width="16"
                       :show-text="item.warehousing_progress<30?false:true"
                       :percentage="item.warehousing_progress * 1"
                     ></el-progress>
@@ -92,7 +92,7 @@
                   :status="item.delivery_schedule<100?null:'warning'"
                   :text-inside="true"
                   :show-text="item.delivery_schedule<30?false:true"
-                  :stroke-width="20"
+                  :stroke-width="16"
                   :percentage="item.delivery_schedule * 1"
                 ></el-progress>
               </div>
@@ -101,7 +101,7 @@
                   :format="formatOne"
                   :status="item.warehousing_progress<100?null:'warning'"
                   :text-inside="true"
-                  :stroke-width="20"
+                  :stroke-width="16"
                   :show-text="item.warehousing_progress<30?false:true"
                   :percentage="item.warehousing_progress * 1"
                 ></el-progress>
@@ -168,11 +168,8 @@ export default {
     this.allPage = 1
     this.processing = 1
     this.Completed = 1
-    if (this.indexTab) {
-      this.getLiquidated()
-    } else {
-      this.getOrderList()
-    }
+    this.getLiquidated()
+    this.getOrderList()
   },
   destroyed() {
     this.Loop = null
@@ -378,9 +375,9 @@ export default {
             }
           }
           span {
-            font-size: 1rem;
             color: #cc9933;
             font-weight: 700;
+            font-size: 0.857143rem;
             em {
               font-size: 0.857143rem;
               color: #666666;
@@ -395,7 +392,7 @@ export default {
         }
         .schedule {
           display: flex;
-          margin-top: 0.142857rem;
+          margin-top: 0.452857rem;
           .item {
             flex: 1;
             padding: 0 0.857143rem;
@@ -404,7 +401,7 @@ export default {
               position: relative;
               z-index: 99;
               left: 1rem;
-              top: 1.235714rem;
+              top: 1.085714rem;
               color: #fff;
               font-size: 0.857143rem;
             }
@@ -432,11 +429,6 @@ export default {
       }
     }
     .first {
-      .btns {
-        .van-button {
-          height: 5.714286rem;
-        }
-      }
     }
     .second {
       .timer {

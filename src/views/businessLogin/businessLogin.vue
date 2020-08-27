@@ -46,12 +46,13 @@ export default {
         }
       }
       this.$router.replace('/')
+      this.$vnode.parent.componentInstance.cache = {}
+      this.$vnode.parent.componentInstance.keys = []
     },
   },
   created() {
     this.companyList = this.$store.state.loginDate.customers
   },
-  destroyed() {},
 }
 </script>
     

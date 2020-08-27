@@ -7,7 +7,7 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <van-tabs v-model="active" animated @click="tacheClick">
+      <van-tabs v-model="active" animated>
         <van-tab title="入库清单" class="Delivery">
           <div v-for="(item, index) in warehouseAccessList" :key="item.id">
             <van-swipe-cell v-if="item.to_examine != undefined && item.type == 0">
@@ -269,11 +269,8 @@ export default {
     this.allIndex = 1
     this.Library = 1
     this.detail = 1
-    if (this.isShow) {
-      this.getDeliverLists()
-    } else {
-      this.getFlowOrderLists()
-    }
+    this.getDeliverLists()
+    this.getFlowOrderLists()
   },
   destroyed() {
     this.warehouseAccessList = []

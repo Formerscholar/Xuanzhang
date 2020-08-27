@@ -19,10 +19,6 @@ ul {
   user-select: none;
 
   font-family: 'Droid sans fallback';
-  /*
-  , 'Source Han Sans CN', tahoma, arial, 'Hiragino Sans GB',
-    '\5b8b\4f53', sans-serif, Avenir, Helvetica
-  */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -451,7 +447,8 @@ i {
 
 #selfConcordat,
 #Outsourcing,
-#purchase {
+#purchase,
+#Outsourcing {
   .el-progress-bar__outer {
     border-radius: 3px;
 

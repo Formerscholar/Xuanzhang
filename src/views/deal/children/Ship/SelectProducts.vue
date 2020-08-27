@@ -284,10 +284,10 @@ export default {
       this.$router.go(-1)
     },
   },
-  created() {
+  activated() {
     this.getMaterielLists()
   },
-  destroyed() {
+  deactivated() {
     this.state = ''
     this.Products = ''
     this.img_URL = ''

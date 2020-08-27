@@ -141,6 +141,8 @@ export default {
                 }
               }
               this.$router.replace('/')
+              this.$vnode.parent.componentInstance.cache = {}
+              this.$vnode.parent.componentInstance.keys = []
             }
           } else {
             this.$message.error('账号或密码错误!')

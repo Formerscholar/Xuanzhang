@@ -39,7 +39,7 @@ export default {
       inputID: 0,
     }
   },
-  created() {
+  activated() {
     this.iid = this.$route.query.searchID
     console.log(this.iid, this.listItem)
     if (!this.iid) {
@@ -52,7 +52,7 @@ export default {
       document.getElementById('demo-list')
     )
   },
-  destroyed() {
+  deactivated() {
     this.listItem = []
     this.value = ''
     this.itemData = {}

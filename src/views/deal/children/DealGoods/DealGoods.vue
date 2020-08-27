@@ -6,6 +6,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickscroll"
     >
       <Options @selectIndex="selectIndex">
         <DealGoodsItem
@@ -107,22 +108,16 @@ export default {
     myVqr,
   },
   created() {
-    if (this.pageIndex == 0) {
-      this.goodsLists = []
-      this.getOrderList(1)
-    } else if (this.pageIndex == 1) {
-      this.QuoteList = []
-      this.getOrderList(0)
-    } else if (this.pageIndex == 2) {
-      this.contractOrderList = []
-      this.getUserContractOrderss()
-    } else if (this.pageIndex == 3) {
-      this.MyOfferList = []
-      this.getUserContractOrders()
-    } else if (this.pageIndex == 4) {
-      this.DeliveryList = []
-      this.getDeliverGoodsLists()
-    }
+    this.goodsLists = []
+    this.getOrderList(1)
+    this.QuoteList = []
+    this.getOrderList(0)
+    this.contractOrderList = []
+    this.getUserContractOrderss()
+    this.MyOfferList = []
+    this.getUserContractOrders()
+    this.DeliveryList = []
+    this.getDeliverGoodsLists()
   },
   destroyed() {
     this.timer = null
@@ -180,6 +175,26 @@ export default {
     },
   },
   methods: {
+    clickscroll() {
+      throttle(() => {
+        if (this.pageIndex == 0) {
+          this.goodsLists = []
+          this.getOrderList(1)
+        } else if (this.pageIndex == 1) {
+          this.QuoteList = []
+          this.getOrderList(0)
+        } else if (this.pageIndex == 2) {
+          this.contractOrderList = []
+          this.getUserContractOrderss()
+        } else if (this.pageIndex == 3) {
+          this.MyOfferList = []
+          this.getUserContractOrders()
+        } else if (this.pageIndex == 4) {
+          this.DeliveryList = []
+          this.getDeliverGoodsLists()
+        }
+      }, 500)
+    },
     ControlledDelay() {
       if (this.pageIndex == 0) {
         this.goodsLists = []
@@ -322,22 +337,6 @@ export default {
       throttle(() => {
         this.pageIndex = i
         this.allPage = 1
-        if (this.pageIndex == 0) {
-          this.goodsLists = []
-          this.getOrderList(1)
-        } else if (this.pageIndex == 1) {
-          this.QuoteList = []
-          this.getOrderList(0)
-        } else if (this.pageIndex == 2) {
-          this.contractOrderList = []
-          this.getUserContractOrderss()
-        } else if (this.pageIndex == 3) {
-          this.MyOfferList = []
-          this.getUserContractOrders()
-        } else if (this.pageIndex == 4) {
-          this.DeliveryList = []
-          this.getDeliverGoodsLists()
-        }
       }, 500)
     },
     loadMore() {

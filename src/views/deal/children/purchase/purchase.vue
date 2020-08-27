@@ -7,14 +7,14 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <van-tabs v-model="active" @click="handleClick">
+      <van-tabs v-model="active">
         <van-tab title="进行中" class="first" v-if="isOngoing">
           <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
             <el-card class="box-card">
               <div class="info">
                 <span>
                   {{item.order_number}}
-                  <em>{{item.salesperson_name | setSalespersonName}}</em>
+                  <em>{{item.operator_name | setSalespersonName}}</em>
                 </span>
 
                 <div class="ControlledDelaybox">
@@ -93,7 +93,7 @@
               <div class="info">
                 <span>
                   {{item.order_number}}
-                  <em>{{item.salesperson_name | setSalespersonName}}</em>
+                  <em>{{item.operator_name | setSalespersonName}}</em>
                 </span>
 
                 <div class="ControlledDelaybox">
@@ -213,11 +213,8 @@ export default {
   },
   created() {
     this.getlefts()
-    if (this.indexTab) {
-      this.getLiquidated()
-    } else {
-      this.getOrderList()
-    }
+    this.getLiquidated()
+    this.getOrderList()
   },
   destroyed() {
     console.log('清除')

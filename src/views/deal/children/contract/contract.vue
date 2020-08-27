@@ -7,7 +7,7 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <van-tabs v-model="active" animated @click="tacheClick">
+      <van-tabs v-model="active" animated>
         <van-tab title="发货清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in deliveryRecordList" :key="item.id">
             <van-swipe-cell v-if="item.to_examine != undefined  && item.type == 0">
@@ -328,11 +328,8 @@ export default {
   },
   created() {
     this.getlefts()
-    if (this.isShow) {
-      this.getDeliverListss()
-    } else {
-      this.getFlowOrderLists()
-    }
+    this.getDeliverListss()
+    this.getFlowOrderLists()
   },
   destroyed() {
     this.deliveryRecordList = []
@@ -590,6 +587,9 @@ export default {
             align-items: center;
             /deep/.el-tag--plain {
               color: rgb(66, 147, 200);
+            }
+            /deep/.el-tag--danger {
+              color: #f56c6c;
             }
             .black {
               color: #000000;

@@ -23,6 +23,7 @@ export default {
   methods: {
     gobaseLogin() {
       this.$router.push('/businessLogin')
+      
     },
   },
 }

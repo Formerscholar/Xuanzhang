@@ -321,7 +321,7 @@ export default {
   components: {
     myBtns,
   },
-  created() {
+  activated() {
     this.getAddContract()
   },
   computed: {
