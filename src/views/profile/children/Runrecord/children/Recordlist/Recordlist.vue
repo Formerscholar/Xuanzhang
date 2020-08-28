@@ -8,7 +8,13 @@
         <span>账单</span>
       </div>
     </navbar>
-    <scroll class="scroll_wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+    <scroll
+      class="scroll_wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @scroll="clickscroll"
+    >
       <div class="ScreenClassification">
         <div class="leftbox">
           <van-dropdown-menu>
@@ -45,7 +51,7 @@
               <div
                 class="Amount"
                 :style="item.sign == '+' ? {color:'green'} : {color:'red'}"
-              >{{item.sign}}{{item.money}}</div>
+              >{{item.sign}}{{ fmoney(item.money,2) }}</div>
             </div>
             <div class="CategoryReason">{{item.remark}}</div>
             <div class="timers">{{item.created_at}}</div>
@@ -59,6 +65,8 @@
 <script>
 import { reactive, computed } from '@vue/composition-api'
 import { getMyMoneyLogLists } from '@/network/Profile'
+import { fmoney } from '@/common/utils'
+
 export default {
   setup(props, { root }) {
     const state = reactive({
@@ -102,10 +110,17 @@ export default {
     function goBack() {
       this.$router.go(-1)
     }
+
+    function clickscroll() {
+      getMyMoneyList()
+    }
+
     getMyMoneyList()
     return {
       state,
       goBack,
+      fmoney,
+      clickscroll,
     }
   },
 }
@@ -144,17 +159,21 @@ export default {
       border-bottom: 1px solid #eee;
       .leftbox {
         /deep/.van-dropdown-menu__bar {
+          height: 2.714286rem;
           box-shadow: none;
           .van-dropdown-menu__item {
             &:last-child {
               margin-left: 2rem;
+            }
+            .van-ellipsis {
+              font-size: 0.928571rem;
             }
           }
         }
       }
       .rightbox {
         margin-right: 0.571429rem;
-        font-size: 1.142857rem;
+        font-size: 0.928571rem;
         span {
           border-left: 1px solid #eee;
           padding-left: 1rem;
@@ -165,7 +184,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.714286rem;
+      padding: 0.357143rem 0.714286rem;
       background-color: #f5f5f5;
       border-bottom: 1px solid #eee;
       .screen {
@@ -174,6 +193,7 @@ export default {
         padding-right: 0.714286rem;
         border-radius: 1.071429rem;
         background-color: #fff;
+        font-size: 0.857143rem;
         overflow: hidden;
         display: flex;
         justify-content: center;
@@ -196,6 +216,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         color: #a7a7a7;
+        font-size: 0.857143rem;
         .price {
           display: flex;
           flex-direction: column;
@@ -212,6 +233,7 @@ export default {
       padding: 0.714286rem 0;
       .contentitem {
         display: flex;
+
         justify-content: flex-start;
         align-items: flex-start;
         padding: 0 1.285714rem;
@@ -219,8 +241,8 @@ export default {
         .leftimage {
           margin-right: 0.928571rem;
           .icons {
-            width: 2.857143rem;
-            height: 2.857143rem;
+            width: 2.285714rem;
+            height: 2.285714rem;
             border-radius: 50%;
             overflow: hidden;
           }
@@ -228,24 +250,23 @@ export default {
         .right_box {
           flex: 1;
           border-bottom: 1px solid #f9f9f9;
-          padding: 0 1.214286rem 0.571429rem 0.214286rem;
+          padding: 0 1.214286rem 1rem 0.214286rem;
           .TypeAmount {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             .type {
-              font-size: 1.214286rem;
+              font-size: 1.142857rem;
             }
             .Amount {
-              font-size: 1.214286rem;
+              font-size: 1.285714rem;
             }
           }
           .CategoryReason {
-            font-size: 1rem;
-            color: #9e9e9e;
+            font-size: 0.857143rem;
           }
           .timers {
-            font-size: 1rem;
+            font-size: 0.857143rem;
             color: #9e9e9e;
           }
         }

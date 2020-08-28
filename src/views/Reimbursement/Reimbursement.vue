@@ -9,7 +9,21 @@
       </div>
     </navbar>
     <div class="titlebox">
-      <div class="topbox">
+      <div class="topbox d-flex">
+        <div class="logo d-flex">
+          <img v-if="state.img_url" :src="state.img_url" alt="logo" />
+          <img src="@/assets/image/dpng.png" v-else alt="logo" />
+          <div class="info">
+            <div class="name">
+              <div>{{state.titleName.name}}</div>
+              <div class="span">{{state.titleName.roleName}}</div>
+              <div class="phone">{{state.titleName.phone}}</div>
+            </div>
+            <div class="companys">{{state.titleName.compserName}}</div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="topbox">
         <div class="leftbox">
           <img v-if="state.img_url" :src="state.img_url" alt="logo" />
           <img v-else src="@/assets/image/dpng.png" alt="logo" />
@@ -28,11 +42,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
     <el-tabs v-model="state.activeName">
       <el-tab-pane label="我的报销" class="itembox" name="third">
-        <scroll class="scroll-wrapper" :probeType="3">
+        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscroll">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -60,7 +74,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -92,7 +106,7 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="我的待审" class="itembox" name="three">
-        <scroll class="scroll-wrapper" :probeType="3">
+        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrolls">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -120,7 +134,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -152,7 +166,7 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部待审" class="itembox" name="second">
-        <scroll class="scroll-wrapper" :probeType="3">
+        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrollss">
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
               <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
@@ -180,7 +194,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -219,9 +233,9 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部通过" class="itembox" name="first">
-        <scroll class="scroll-wrapper" :probeType="3">
+        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrollsss">
           <div class="body_box">
-            <div class="btn">
+            <!-- <div class="btn">
               <button>查看已完成的申请</button>
             </div>
             <div class="card">
@@ -237,9 +251,9 @@
                   </li>
                 </ul>
               </el-card>
-            </div>
+            </div>-->
             <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
-              <div class="cardban" @click="reimburClicks(item.id)">
+              <div class="cardmoney" @click="reimburClicks(item.id)">
                 <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
@@ -264,7 +278,7 @@
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span>【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -494,6 +508,22 @@ export default {
         reimburClick(iid)
       }
     }
+
+    function clickscroll() {
+      getUserReimbursement()
+    }
+
+    function clickscrolls() {
+      getMyToExamineReimbursement()
+    }
+
+    function clickscrollss() {
+      getReimburses()
+    }
+    function clickscrollsss() {
+      getReimburse()
+    }
+
     getReimburse()
     getReimburses()
     getUserReimbursement()
@@ -508,6 +538,10 @@ export default {
       newAccount,
       cancel_enabled,
       JudgmentReview,
+      clickscroll,
+      clickscrolls,
+      clickscrollss,
+      clickscrollsss,
     }
   },
 }
@@ -532,70 +566,65 @@ export default {
   }
   .titlebox {
     background-color: rgb(66, 147, 200);
-
+    padding: 0.357143rem 1rem;
     color: #fff;
     .topbox {
-      height: 5.571429rem;
-      display: flex;
-      justify-content: flex-start;
+      height: 100%;
+      justify-content: space-between;
       align-items: center;
-      padding: 0 1.071429rem 0.357143rem 1.071429rem;
-      .leftbox {
-        width: 4.642857rem;
-        height: 4.642857rem;
+      .logo {
+        flex: 1;
+        width: 100%;
+        align-items: center;
+        position: relative;
         img {
-          width: 100%;
-          height: 100%;
-          background-color: #fff;
+          width: 4.285714rem;
+          height: 4.285714rem;
           border: 0.214286rem solid #67a6d9;
         }
-      }
-      .flex_box {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        flex: 1;
-        margin-left: 0.714286rem;
-        width: 100%;
-        padding: 0 0.357143rem;
-      }
-      .centerbox {
-        font-size: 1.571429rem;
-        height: 70%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .namebox {
+        .el-icon-help {
+          font-size: 1.571429rem;
+          background-color: #a590c6;
+          color: #fff;
+          position: absolute;
+          top: 3.214286rem;
+          left: 3.214286rem;
+        }
+        .info {
+          flex: 1;
+          margin-left: 1.071429rem;
           display: flex;
-          justify-content: flex-start;
-          align-items: flex-end;
-          span {
-            margin-right: 0.571429rem;
-            font-size: 1.142857rem;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          font-size: 1rem;
+          .name {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            margin-bottom: 0.714286rem;
+
+            .phone {
+              margin-left: 0.571429rem;
+              font-size: 0.857143rem;
+              margin-bottom: 0.035714rem;
+            }
+            .span {
+              margin-left: 0.571429rem;
+              font-size: 0.857143rem;
+              margin-bottom: 0.035714rem;
+            }
           }
-          .bordertext {
-            position: relative;
-            top: -0.142857rem;
-            font-size: 0.857143rem;
-            padding: 0 0.714286rem;
-          }
-        }
-        .firm {
-          font-size: 0.857143rem;
-          span {
+
+          .companys {
+            font-size: 1.071429rem;
           }
         }
       }
-      .rightbox {
-        width: 4.642857rem;
-        height: 4.642857rem;
-        i {
-          position: relative;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 2rem;
-        }
+      .icons {
+        font-size: 1.571429rem;
+        margin-right: 0.714286rem;
       }
     }
     .btnbox {
@@ -801,6 +830,7 @@ export default {
             align-items: center;
             .leftbox {
               width: 50%;
+              margin-left: -1px;
               font-size: 1.028571rem;
               display: flex;
               justify-content: flex-start;

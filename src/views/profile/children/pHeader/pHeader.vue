@@ -56,8 +56,8 @@ export default {
 <style lang="scss" scoped>
 #pHeader {
   padding: 0 1rem;
-  height: 5.328571rem;
   .topbox {
+    height: 100%;
     justify-content: space-between;
     align-items: center;
     .logo {

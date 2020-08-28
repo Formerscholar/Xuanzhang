@@ -47,17 +47,18 @@ export default {
     
 <style  lang="scss" scoped>
 .options_profile_item {
-  height: 3.285714rem;
+  height: 3.357143rem;
   justify-content: space-between;
   align-items: center;
-  margin: 0.357143rem 0;
-  padding: 0.357143rem 1.428571rem;
+  padding: 0 1.428571rem;
   .image_options {
-    width: 2.142857rem;
     margin-right: 1.428571rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .icons {
-      width: 1.785714rem;
-      height: 1.785714rem;
+      width: 1.571429rem;
+      height: 1.571429rem;
     }
   }
   .right_box {
@@ -71,7 +72,7 @@ export default {
       display: flex;
       align-items: center;
       span {
-        font-size: 1.285714rem;
+        font-size: 1.214286rem;
       }
     }
     .icon_options {
@@ -80,11 +81,10 @@ export default {
       align-items: center;
       color: #9e9e9e;
       span {
-        font-size: 1rem;
+        font-size: 0.928571rem;
       }
       i {
-        font-size: 1.285714rem;
-        width: 2.142857rem;
+        font-size: 1.214286rem;
         margin-left: 0.357143rem;
       }
     }

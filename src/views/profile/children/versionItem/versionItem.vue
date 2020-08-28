@@ -1,5 +1,5 @@
 <template>
-  <div class="options_profile_item d-flex">
+  <div class="options_profile_item d-flex" @click="goSetup">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
         <use xlink:href="#icon-zhihuigongdixitong" />
@@ -9,7 +9,7 @@
       <div class="title_options">
         <span>版本号</span>
       </div>
-      <div class="icon_options" @click="goSetup">
+      <div class="icon_options">
         <span>{{state.version}}</span>
         <i class="el-icon-arrow-right"></i>
         <div class="redicon" v-if="state.isShow"></div>
@@ -57,17 +57,18 @@ export default {
     
 <style  lang="scss" scoped>
 .options_profile_item {
-  height: 3.285714rem;
+  height: 3.357143rem;
   justify-content: space-between;
   align-items: center;
-  margin: 0.357143rem 0;
-  padding: 0.357143rem 1.428571rem;
+  padding: 0 1.428571rem;
   .image_options {
-    width: 2.142857rem;
     margin-right: 1.428571rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .icons {
-      width: 1.785714rem;
-      height: 1.785714rem;
+      width: 1.571429rem;
+      height: 1.571429rem;
     }
   }
   .right_box {
@@ -81,7 +82,7 @@ export default {
       display: flex;
       align-items: center;
       span {
-        font-size: 1.285714rem;
+        font-size: 1.214286rem;
       }
     }
     .icon_options {
@@ -91,7 +92,7 @@ export default {
       color: #9e9e9e;
       .redicon {
         position: absolute;
-        right: 1.857143rem;
+        right: 0.857143rem;
         top: 0;
         width: 0.571429rem;
         height: 0.571429rem;
@@ -99,11 +100,10 @@ export default {
         background-color: red;
       }
       span {
-        font-size: 1rem;
+        font-size: 0.928571rem;
       }
       i {
-        font-size: 1.285714rem;
-        width: 2.142857rem;
+        font-size: 1.214286rem;
         margin-left: 0.357143rem;
       }
     }

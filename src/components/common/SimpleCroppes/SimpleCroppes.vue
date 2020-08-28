@@ -33,7 +33,7 @@ export default {
       filename: '',
     }
   },
-  created() {
+  activated() {
     this.init()
   },
   methods: {

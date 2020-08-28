@@ -8,6 +8,7 @@ export function setTimerType(timer: any): string {
   ConvertedDate = ConvertedDate.length < 2 ? '0' + ConvertedDate : ConvertedDate
   return `${ConvertedYear}-${ConvertedMonth}-${ConvertedDate}`
 }
+
 export function setTimerTypes(timer: any): string {
   let d: any = new Date(timer)
   let ConvertedYear: string = d.getFullYear().toString()

@@ -113,14 +113,10 @@ export default {
       token: '',
     }
   },
-  created() {
-    document.querySelectorAll('input').forEach((item) => {
-      item.style.border = 'none'
-    })
+  activated() {
     this.getAddReimbursementData()
     this.setNewCost()
   },
-
   filters: {
     setTwo(value) {
       return value.toFixed(2)
@@ -128,6 +124,7 @@ export default {
   },
   methods: {
     deleteChargeDetail(index) {
+      this.apply = this.apply - this.NewCost[index].Whole
       this.NewCost.splice(index, 1)
       this.reimbursement_detail.splice(index, 1)
     },

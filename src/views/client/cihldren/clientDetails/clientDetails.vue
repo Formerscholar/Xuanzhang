@@ -105,7 +105,7 @@ export default {
       return '法人代表:' + value
     },
   },
-  created() {
+  activated() {
     this.paramsData = this.$route.query.data
     if (this.paramsData.status == 2) {
       this.typeShow = false
@@ -116,7 +116,7 @@ export default {
       this.dataOfSupplier()
     }
   },
-  destroyed() {
+  deactivated() {
     this.paramsData = {}
     this.typeShow = false
     this.clientName = ''

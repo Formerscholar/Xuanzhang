@@ -29,7 +29,7 @@ export default {
     selection,
     MainTabBar,
   },
-  created() {
+  activated() {
     this.getlogin()
     this.getleftlist()
   },
@@ -54,7 +54,7 @@ export default {
       this.isRelocation = false
     }
   },
-  destroyed() {
+  deactivated() {
     this.selectionList = []
   },
   computed: {

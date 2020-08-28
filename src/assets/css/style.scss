@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  color: #000;
 }
 
 ul {
@@ -458,15 +459,9 @@ i {
   }
 }
 
-#deal,
-#Client,
-#manboard,
-#LargeScreen {
-  .van-tabs__line {
-    background-color: rgb(66, 147, 200);
-  }
+.van-tabs__line {
+  background-color: rgb(66, 147, 200);
 }
-
 
 
 .el-upload--picture-card {
@@ -560,8 +555,6 @@ i {
   height: 5.428571rem;
   padding-top: 1.571429rem;
   overflow: hidden;
-  box-shadow: 0 0 15px 3px rgba(42, 136, 255, 0.28);
-  border: 4px solid rgba(42, 136, 255, 0.19);
 }
 
 .my_package {

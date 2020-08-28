@@ -6,6 +6,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickScroll"
     >
       <van-tabs v-model="active">
         <van-tab class="first" title="进行中">
@@ -211,6 +212,19 @@ export default {
     },
   },
   methods: {
+    clickScroll() {
+      if (!this.active) {
+        this.outsourcingOrderList = []
+        this.processing = 1
+        this.allPage = this.processing
+        this.getOrderList()
+      } else {
+        this.outsourcingOrderListed = []
+        this.Completed = 1
+        this.allPage = this.Completed
+        this.getLiquidated()
+      }
+    },
     createGoods(item) {
       this.$router.push({
         path: '/createGoodpage',

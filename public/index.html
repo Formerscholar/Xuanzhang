@@ -43,6 +43,21 @@
   <script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
   <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=c80df2583ec25b5ae75075323071ad4f"></script>
   <script>
+    // window.onload = function () {
+    //   document.onkeydown = function () {
+    //     let e = window.event || arguments[0];
+    //     if (e.keyCode == 123) {
+    //       return false;
+    //     } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+    //       return false;
+    //     } else if ((e.shiftKey) && (e.keyCode == 121)) {
+    //       return false;
+    //     }
+    //   };
+    //   document.oncontextmenu = function () {
+    //     return false;
+    //   }
+    // }
     window.ontouchstart = function (e) {
       e.preventDefault()
     };

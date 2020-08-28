@@ -51,12 +51,9 @@ export default {
     }
 
     function getUpdate() {
-      root.$dialog.alert({
-        message: '功能暂未放出',
+      document.addEventListener('plusready', () => {
+        getNativeVersion()
       })
-      // document.addEventListener('plusready', () => {
-      //   getNativeVersion()
-      // })
     }
 
     async function getNativeVersion() {

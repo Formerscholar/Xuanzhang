@@ -6,6 +6,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickScroll"
     >
       <van-tabs v-model="active">
         <van-tab title="进行中" class="first" v-if="isOngoing">
@@ -216,8 +217,8 @@ export default {
     this.getLiquidated()
     this.getOrderList()
   },
+  deactivated() {},
   destroyed() {
-    console.log('清除')
     this.Loop = null
     this.active = 0
     this.outsourcingOrderList = []
@@ -296,6 +297,16 @@ export default {
     },
   },
   methods: {
+    clickScroll() {
+      this.distributor_id = null
+      if (!this.active) {
+        this.outsourcingOrderList = []
+        this.getOrderList()
+      } else {
+        this.outsourcingOrderListed = []
+        this.getLiquidated()
+      }
+    },
     async getlefts() {
       const { data } = await getleft({
         token: this.$store.state.token,
@@ -358,10 +369,12 @@ export default {
       this.textContent = `${bestURL}/Vt/view?id=${iid}&order_type=oem`
     },
     Retrieves(id) {
-      this.indexPage = 1
-      this.distributor_id = id
-      this.outsourcingOrderList = []
-      this.getOrderList()
+      throttle(() => {
+        this.indexPage = 1
+        this.distributor_id = id
+        this.outsourcingOrderList = []
+        this.getOrderList()
+      }, 300)
     },
     toShipPages(item) {
       this.$router.push({

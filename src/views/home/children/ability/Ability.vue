@@ -20,114 +20,69 @@ export default {
     return {
       abilityList: [
         {
-          icon_Url: '#icon-8shipinhuiyi',
-          title: '委外入库',
-          path: '/deal/outsourcing',
-        },
-        {
-          icon_Url: 'icon-daishouhuo',
-          title: '代工发货',
-          path: '/oem',
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
+          icon_Url: '#icon-Glink',
           title: '流水发货',
           path: '/Ship',
         },
-
         {
-          icon_Url: 'icon-ziyuan138',
-          title: '新增流水',
-          path: '/addbill',
-        },
-
-        {
-          icon_Url: 'icon-ziyuan138',
+          icon_Url: '#icon-wodeshenpi',
           title: '新建合同',
           path: '/create-contract',
         },
         {
-          icon_Url: 'icon-ziyuan138',
+          icon_Url: '#icon-jinrongleiicontubiao-29',
           title: '发起委外',
           path: '/outsource',
         },
         {
-          icon_Url: 'icon-ziyuan140',
+          icon_Url: '#icon-appointment',
           title: '合同发货',
           path: '/ContractDelivery',
         },
         {
-          icon_Url: 'icon-ziyuan140',
-          title: '来料发货',
-          path: '/IncomingDelivery',
-        },
-        {
-          icon_Url: 'icon-shujuxiazai-01',
-          title: '委外收货',
-          path: '/outsource',
-        },
-        {
-          icon_Url: 'icon-ziyuan138',
-          title: '生产任务',
-          path: '/LargeScreen',
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '盘库',
-          path: '/Inventory',
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '领料',
-          path: '/MaterialReturn',
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
-          title: '退料',
-          path: '/picking',
-        },
-        {
-          icon_Url: 'icon-ziyuan140',
+          icon_Url: '#icon-renlikaoqin',
           title: '任务管理',
         },
-        // {
-        //   icon_Url: 'icon-shujuxiazai-01',
-        //   title: '合同收货',
-        // },
-        // {
-        //   icon_Url: 'icon-zonghebaobiao-01',
-        //   title: '流水计划',
-        // },
-        // {
-        //   icon_Url: 'icon-ziyuan146',
-        //   title: '统计报表',
-        // },
-        // {
-        //   icon_Url: 'icon-kefu',
-        //   title: '售后',
-        // },
-        // {
-        //   icon_Url: 'icon-zhaogongshichang',
-        //   title: '计件考核',
-        // },
-        // {
-        //   icon_Url: 'icon-tuikuanshouhou',
-        //   title: '提现操作',
-        // },
-        // {
-        //   icon_Url: 'icon-ziyuan142',
-        //   title: '检验考核',
-        // },
-        // {
-        //   icon_Url: 'icon-daifahuo',
-        //   title: '收货质检',
-        // },
-        // {
-        //   icon_Url: 'icon-lvyoumenpiao',
-        //   title: '开据发票',
-        // },
         {
-          icon_Url: 'icon-tixing',
+          icon_Url: '#icon-jinrongleiicontubiao-25',
+          title: '合同收货',
+        },
+        {
+          icon_Url: '#icon-baogao',
+          title: '流水计划',
+          path: '/addbill',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '统计报表',
+        },
+        {
+          icon_Url: '#icon-jiadaxiuguanlixitong',
+          title: '售后',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-16',
+          title: '提现操作',
+        },
+
+        {
+          icon_Url: '#icon-gongchengjiansheanquanpaicha',
+          title: '盘库',
+        },
+        {
+          icon_Url: '#icon-xiangmurenwu',
+          title: '领料',
+        },
+        {
+          icon_Url: '#icon-renlikaoqin',
+          title: '退料',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-17',
+          title: '报销',
+        },
+        {
+          icon_Url: '#icon-product-cate',
           title: '全部',
           path: '/homeManu',
         },
@@ -165,16 +120,16 @@ export default {
       align-items: center;
       flex: 1;
       width: 20%;
-      margin-bottom: 0.357143rem;
+      margin-bottom: 0.714286rem;
       overflow: hidden;
 
       .icons {
         font-size: 2rem;
-        height: 3rem;
-        width: 3rem;
+        height: 2.5rem;
+        width: 2.5rem;
       }
       span {
-        margin-top: 0.428571rem;
+        margin-top: 0.142857rem;
         font-size: 0.857143rem;
       }
     }

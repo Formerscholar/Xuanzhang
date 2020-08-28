@@ -112,7 +112,7 @@ export default {
   components: {
     myVqr,
   },
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.getreimbursementDetail()
   },

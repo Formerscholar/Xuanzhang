@@ -9,29 +9,26 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="swiper" @click="imgClick">
         <img :src="img_URL" alt="logo" />
-        <i class="iconfont icon-pic img_btn"></i>
+        <i class="iconfont icon-jpg img_btn"></i>
       </div>
-      <div class="compitem">
-        <div class="content_nums">
-          <div class="left">
-            <span class="stock">库存</span>
-            <span class="stocknums">{{stock}}件</span>
-          </div>
-          <div class="right">
+      <div class="titleItem">
+        <div class="models_box">
+          <div class="left_box">
             <span>
-              编码:
-              <em>{{MaterialCode}}</em>
+              库存:
+              <em>{{stock}}</em> 件
             </span>
           </div>
-        </div>
-        <div class="content_name">
-          <div class="left_box">
-            <span class="left_name">{{MaterialName}}</span>
-            <span class="left_number">{{specification}}</span>
-          </div>
           <div class="right_box">
-            <span>库存不足</span>
+            <div class="codings">编码:{{MaterialCode}}</div>
+            <div class="reload-inventorys">
+              <span>库存不足</span>
+            </div>
           </div>
+        </div>
+        <div class="names_box">
+          <div class="name_box">{{MaterialName}}</div>
+          <div class="model_box">{{specification}}</div>
         </div>
       </div>
       <div class="listItems">
@@ -171,6 +168,7 @@ export default {
       valuess: '',
       optionssss: [],
       valuesss: '',
+      MaterialCode: '自动生成',
       MaterialName: '',
       valuecolumns: ['产品', '零件'],
       specification: '',
@@ -196,7 +194,7 @@ export default {
     SimpleCropper,
     myBtns,
   },
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false
     this.getEditMater()
@@ -624,71 +622,55 @@ export default {
       width: 100%;
     }
   }
-  .compitem {
-    padding: 0 1.714286rem;
-    margin-top: 1.285714rem;
-    border-bottom: 0.428571rem solid #f5f5f5;
-    .content_nums {
-      border-bottom: 1px solid #e6e6e6;
+  .titleItem {
+    border-bottom: 1.142857rem solid #f5f5f5;
+    .models_box {
+      position: relative;
+      top: -0.714286rem;
+      height: 5.714286rem;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      padding-bottom: 0.357143rem;
-      .left {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        .stock {
-          font-size: 0.857143rem;
-          color: #0c0c0c;
-        }
-        .stocknums {
-          font-size: 1.571429rem;
-          color: #e8956b;
-        }
-      }
-      .right {
-        font-size: 1.142857rem;
-        color: #969696;
-      }
-    }
-    .content_name {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-top: 1.571429rem;
+      align-items: center;
+      background: url('../../../assets/image/Bg_detail.png') no-repeat;
+      background-size: 100% 100%;
       .left_box {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        margin-bottom: 1.571429rem;
-        white-space: nowrap;
-        overflow: hidden;
-        .left_name {
-          font-size: 1.285714rem;
-          margin-bottom: 1.142857rem;
-          color: #000;
-        }
-        .left_number {
-          font-size: 1rem;
-          color: #a4a4a4;
-        }
+        font-size: 2.142857rem;
+        color: #fff;
+        margin-left: 3.142857rem;
+        margin-bottom: -0.714286rem;
       }
       .right_box {
-        width: 5.5rem;
-
-        span {
-          height: 1.571429rem;
-          width: 5.5rem;
-          background-color: #f80002;
+        margin-right: 1.571429rem;
+        .codings {
           font-size: 1.142857rem;
-          color: #fff;
-          border-radius: 0.357143rem;
-          padding: 0.357143rem;
+          color: #2d668c;
+          margin-bottom: 0.357143rem;
         }
+        .reload-inventorys {
+          font-size: 1.285714rem;
+          color: #fff;
+          background-color: #4692c4;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 0.357143rem;
+        }
+      }
+    }
+    .names_box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 2.571429rem;
+      padding-bottom: 15px;
+      .name_box {
+        font-size: 2.142857rem;
+        color: #000;
+      }
+      .model_box {
+        font-size: 1.428571rem;
+        color: #ccc;
       }
     }
   }

@@ -33,7 +33,7 @@ export default {
       filename: '',
     }
   },
-  mounted() {
+  activated() {
     this.init()
   },
   methods: {

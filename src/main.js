@@ -8,7 +8,6 @@ import storeConfig from './store'
 
 Vue.config.productionTip = false
 import '@/assets/icon-font/iconfont'
-import './assets/css/style.scss'
 import './assets/icon-font/iconfont.css'
 
 import navbar from '@/components/common/navbar/NavBar'
@@ -64,6 +63,8 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes,
 })
+
+import './assets/css/style.scss'
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {

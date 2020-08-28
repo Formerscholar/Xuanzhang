@@ -27,14 +27,14 @@ export default {
   name: 'myHeader',
   data() {
     return {
-      input: ''
+      input: '',
     }
   },
   props: {
     isShow: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   methods: {
     materialClick() {
@@ -48,8 +48,8 @@ export default {
     },
     goEarly() {
       this.$emit('goEarly')
-    }
-  }
+    },
+  },
 }
 </script>
     

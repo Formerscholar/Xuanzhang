@@ -40,8 +40,8 @@ export default {
   .left_btn {
     height: 2.785714rem;
     line-height: 2.785714rem;
-    color: #eb5e31;
-    border: 1px solid #eb5e31;
+    color: #4692c4;
+    border: 1px solid #4692c4;
     background-color: #fff;
     flex: 3;
     margin-right: 0.428571rem;
@@ -59,9 +59,10 @@ export default {
     border-top-right-radius: 0.571429rem;
     border-bottom-right-radius: 0.571429rem;
     overflow: hidden;
-    background: url('../../../assets/image/right_btns.jpg') no-repeat;
-    background-size: 100% 100%;
-    background-position: 0 0;
+    background-color: #4692c4;
+    // background: url('../../../assets/image/right_btns.jpg') no-repeat;
+    // background-size: 100% 100%;
+    // background-position: 0 0;
   }
 }
 </style>

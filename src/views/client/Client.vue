@@ -12,6 +12,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickScroll"
     >
       <borderCard
         @tabListTach="tabListTach"
@@ -108,6 +109,15 @@ export default {
     },
   },
   methods: {
+    clickScroll() {
+      if (!this.searchID) {
+        this.distributor = []
+        this.getDistri()
+      } else {
+        this.supplier = []
+        this.getSupplier()
+      }
+    },
     async getlogin() {
       var storage = window.localStorage
       const res = await getlogin({

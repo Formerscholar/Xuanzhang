@@ -6,8 +6,9 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickscroll"
     >
-      <van-tabs v-model="active" animated>
+      <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="发货清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in deliveryRecordList" :key="item.id">
             <van-swipe-cell v-if="item.to_examine != undefined  && item.type == 0">
@@ -339,6 +340,15 @@ export default {
     this.FlowOrderList = 1
   },
   methods: {
+    clickscroll() {
+      if (!this.active) {
+        this.deliveryRecordList = []
+        this.getDeliverListss()
+      } else {
+        this.flowOrderList = []
+        this.getFlowOrderLists()
+      }
+    },
     async getlefts() {
       const { data } = await getleft({
         token: this.$store.state.token,
@@ -372,6 +382,7 @@ export default {
           message: msg,
           type: 'success',
         })
+        this.deliveryRecordList = []
         this.getDeliverListss()
       } else {
         this.$message({
@@ -393,6 +404,7 @@ export default {
           message: msg,
           type: 'success',
         })
+        this.deliveryRecordList = []
         this.getDeliverListss()
       } else {
         this.$message({
@@ -471,20 +483,11 @@ export default {
       })
     },
     tacheClick(name, title) {
-      throttle(() => {
-        console.log(name)
-        if (name) {
-          this.isShow = false
-          this.flowOrderList = []
-          this.FlowOrderList = 1
-          this.getFlowOrderLists()
-        } else {
-          this.isShow = true
-          this.deliveryRecordList = []
-          this.DeliverList = 1
-          this.getDeliverListss()
-        }
-      }, 500)
+      if (name) {
+        this.isShow = false
+      } else {
+        this.isShow = true
+      }
     },
     openClick() {},
     closedClick() {},

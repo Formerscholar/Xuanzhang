@@ -357,13 +357,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#materialpage {
-  .van-tabs__line {
-    background-color: #3390ff;
-  }
-}
-</style>
+
 
     
 <style scoped lang="scss">

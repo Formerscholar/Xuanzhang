@@ -11,22 +11,19 @@
 </template>
     
 <script>
- 
-
 export default {
   name: 'topbar',
-  components: {
-  },
+  components: {},
   data() {
     return {
-      input: ''
+      input: '',
     }
   },
   methods: {
     showCard() {
       this.$emit('showCard')
-    }
-  }
+    },
+  },
 }
 </script>
 

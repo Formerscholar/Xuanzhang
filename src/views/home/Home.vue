@@ -2,7 +2,7 @@
   <div id="home">
     <topbar @showCard="showCard" />
 
-    <scroll class="scroll-wrapper" :probeType="3">
+    <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscroll">
       <div>
         <myHeader
           :isShow="isShow"
@@ -11,9 +11,9 @@
           @ReimbursementClick="ReimbursementClick"
           @goEarly="goEarly"
         />
-        <!-- <Ability /> -->
+        <Ability />
         <!-- <reminder /> -->
-        <myEcharts />
+        <div id="container" style="width: 100%;height:15.714286rem;"></div>
       </div>
     </scroll>
 
@@ -36,34 +36,77 @@ import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
 import topbar from '@/views/home/children/topbar/topbar'
 import myHeader from '@/views/home/children/myHeader/myHeader'
 import Ability from '@/views/home/children/ability/Ability'
-import myEcharts from '@/views/home/children/myEcharts/myEcharts'
 import reminder from '@/views/home/children/reminder/reminder'
 
-import { getUserDesignatedTasks } from '@/network/home'
+import { getUserDesignatedTasks, getUserIndex } from '@/network/home'
 import { getlogin, getIndex } from '@/network/login'
 
 export default {
-  name: 'Home',
-  components: {
-    topbar,
-    myHeader,
-    Ability,
-    myEcharts,
-    Interval: null,
-    reminder,
-    MainTabBar,
-  },
   data() {
     return {
       isShow: 0,
       overlayshow: false,
+      Interval: null,
+      options: {
+        credits: { enabled: false },
+        subtitle: {
+          text: '',
+        },
+        title: {
+          text: '发货数据',
+          align: 'left',
+        },
+        xAxis: {
+          categories: [],
+          labels: {
+            autoRotation: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+        },
+        yAxis: {
+          visible: false,
+          title: {
+            text: '',
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080',
+            },
+          ],
+        },
+        tooltip: {
+          valueSuffix: '元',
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle',
+          borderWidth: 0,
+          enabled: false,
+        },
+        series: [
+          {
+            name: '',
+            data: [],
+          },
+        ],
+      },
     }
+  },
+  components: {
+    topbar,
+    myHeader,
+    Ability,
+    reminder,
+    MainTabBar,
   },
   created() {
     this.getlogin()
+    this.getechIndex()
+    this.getUserDesignat()
     clearInterval(this.Interval)
     this.Interval = setInterval(this.getlogin, 600000)
-    this.getUserDesignat()
   },
   destroyed() {
     this.isShow = 0
@@ -77,8 +120,37 @@ export default {
         _: new Date().getTime(),
       }
     },
+    getUserIndexData: {
+      get() {
+        return {
+          token: this.$store.state.token,
+          _: new Date().getTime(),
+        }
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
+    },
   },
   methods: {
+    clickscroll() {
+      this.getechIndex()
+      this.getUserDesignat()
+    },
+    async getechIndex() {
+      const { data } = await getUserIndex(this.getUserIndexData)
+      console.log('getUserIndex', data)
+      let arr = []
+      let month = []
+      for (let k = 11; k >= 0; k--) {
+        arr.push(parseInt(data.OrderStatus.flowingWater[k].sale))
+        month.push(data.OrderStatus.flowingWater[k].month.split('月')[0])
+      }
+      console.log(arr, month)
+      this.options.series[0].data = arr
+      this.options.xAxis.categories = month
+      Highcharts.chart('container', this.options)
+    },
     async gettime() {
       var storage = window.localStorage
       var form = new FormData()

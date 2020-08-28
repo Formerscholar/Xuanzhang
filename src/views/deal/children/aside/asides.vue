@@ -6,6 +6,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @pullingUp="loadMore"
+      @scroll="clickScroll"
     >
       <van-tabs v-model="active" animated>
         <van-tab title="入库清单" class="Delivery">
@@ -279,6 +280,14 @@ export default {
     this.textContent = ''
   },
   methods: {
+    clickScroll() {
+      if (!this.active) {
+        this.getDeliverLists()
+      } else {
+        this.flowOrderList = []
+        this.getFlowOrderLists()
+      }
+    },
     async unlockyoursidekick(iid) {
       const { code, msg } = await cancelToExamineWarehouseRecord({
         id: [iid],
