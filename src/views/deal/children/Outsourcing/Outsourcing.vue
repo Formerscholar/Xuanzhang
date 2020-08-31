@@ -213,6 +213,7 @@ export default {
   },
   methods: {
     clickScroll() {
+      this.supplier_id = null
       if (!this.active) {
         this.outsourcingOrderList = []
         this.processing = 1
@@ -314,17 +315,15 @@ export default {
       const { data } = await getUndischargedOutsourcingOrderList(
         this.getOrderListData
       )
-      data.outsourcingOrderList.map((item) => {
-        this.outsourcingOrderList.push(item)
-      })
+      this.outsourcingOrderList = data.outsourcingOrderList.map((item) => item)
     },
     async getLiquidated() {
       const { data } = await getLiquidatedOutsourcingOrderList(
         this.getOrderListData
       )
-      data.outsourcingOrderList.map((item) => {
-        this.outsourcingOrderListed.push(item)
-      })
+      this.outsourcingOrderListed = data.outsourcingOrderList.map(
+        (item) => item
+      )
     },
     tooutsource() {
       this.$router.push('/outsource')

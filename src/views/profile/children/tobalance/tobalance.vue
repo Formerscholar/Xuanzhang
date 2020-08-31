@@ -10,7 +10,7 @@
         <span>可用余额</span>
       </div>
       <div class="icon_options">
-        <span>{{state.balance}}元</span>
+        <span>{{balance}}元</span>
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -19,25 +19,16 @@
     
 <script>
 import { reactive, computed } from '@vue/composition-api'
-import { getUserIndex } from '@/network/home'
 export default {
+  props: {
+    balance: {
+      type: String,
+      default: '0.00',
+    },
+  },
   setup(props, { root }) {
-    const state = reactive({
-      balance: '0.00',
-    })
+    const state = reactive({})
 
-    const IndexNewsData = computed(() => {
-      return {
-        token: root.$store.state.token,
-        _: new Date().getTime(),
-      }
-    })
-
-    async function getUserIndexNews() {
-      const { data } = await getUserIndex(IndexNewsData.value)
-      state.balance = data.userNews.balance
-    }
-    getUserIndexNews()
     return {
       state,
     }

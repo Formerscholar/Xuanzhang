@@ -14,6 +14,7 @@
       :probe-type="3"
       :pull-up-load="true"
       @scroll="clickscroll"
+      @pullingUp="loadMore"
     >
       <div class="ScreenClassification">
         <div class="leftbox">
@@ -84,6 +85,7 @@ export default {
       ],
       userMoneyLogLists: [],
       types: {},
+      listPage: 1,
     })
 
     const getMyMoneyLogListData = computed(() => {
@@ -95,7 +97,7 @@ export default {
         variable_id: 0,
         keyword: null,
         offset: 20,
-        page: 1,
+        page: state.listPage,
         _: new Date().getTime(),
       }
     })
@@ -103,7 +105,10 @@ export default {
     async function getMyMoneyList() {
       const { data } = await getMyMoneyLogLists(getMyMoneyLogListData.value)
       console.log('getMyMoneyList', data)
-      state.userMoneyLogLists = data.userMoneyLogLists
+      state.userMoneyLogLists = [
+        ...state.userMoneyLogLists,
+        ...data.userMoneyLogLists,
+      ]
       state.types = data.type
     }
 
@@ -112,6 +117,12 @@ export default {
     }
 
     function clickscroll() {
+      state.listPage = 1
+      getMyMoneyList()
+    }
+
+    function loadMore() {
+      state.listPage++
       getMyMoneyList()
     }
 
@@ -121,6 +132,7 @@ export default {
       goBack,
       fmoney,
       clickscroll,
+      loadMore,
     }
   },
 }

@@ -10,9 +10,9 @@
         <span>版本号</span>
       </div>
       <div class="icon_options">
-        <span>{{state.version}}</span>
+        <span>{{version}}</span>
         <i class="el-icon-arrow-right"></i>
-        <div class="redicon" v-if="state.isShow"></div>
+        <div class="redicon" v-if="isShow"></div>
       </div>
     </div>
   </div>
@@ -20,32 +20,23 @@
     
 <script>
 import { reactive } from '@vue/composition-api'
-import { getAppVersion } from '@/network/login'
-import { version } from '@/AppConfig'
-
 export default {
+  props: {
+    version: {
+      type: String,
+      default: '',
+    },
+    isShow: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { root }) {
-    const state = reactive({
-      version,
-      isShow: false,
-    })
-
-    async function getNativeVersion() {
-      const { code, data, msg } = await getAppVersion()
-      if (code == 200) {
-        if (state.version !== data.version) {
-          state.isShow = true
-        } else {
-          state.isShow = false
-        }
-      }
-    }
+    const state = reactive({})
 
     function goSetup() {
       root.$router.push('/Setup')
     }
-
-    getNativeVersion()
 
     return {
       state,

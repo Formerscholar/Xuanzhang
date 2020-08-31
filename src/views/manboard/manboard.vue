@@ -46,6 +46,7 @@
               <div class="title">
                 <div class="title_left">{{item.name}}</div>
                 <div
+                  v-if="isBalance"
                   class="title_right"
                   :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
                 >￥{{item.balance}}</div>
@@ -108,7 +109,6 @@ export default {
       isTNetwork: true,
     }
   },
-
   computed: {
     getUserListData() {
       return {
@@ -137,6 +137,16 @@ export default {
         name: this.inputID,
         _: new Date().getTime(),
       }
+    },
+    isBalance: {
+      get() {
+        return this.$store.state.userInfo[0].role.oparr.indexOf('304') == -1
+          ? false
+          : true
+      },
+      set(newValue) {
+        console.log(newValue)
+      },
     },
   },
   methods: {

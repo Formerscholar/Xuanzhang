@@ -587,7 +587,7 @@ export default {
   }
   .scroll-wrapper {
     background-color: #f3f4f5;
-    padding: 0.571429rem;
+    padding: 0 0.571429rem;
     position: absolute;
     left: 0;
     top: 5.428571rem;

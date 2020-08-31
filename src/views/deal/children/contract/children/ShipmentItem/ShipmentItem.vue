@@ -121,7 +121,7 @@ export default {
   components: {
     myVqr,
   },
-  destroyed() {
+  deactivated() {
     this.deliveryRecordItem = {}
     this.iid = 0
     this.isShow = false
@@ -130,7 +130,7 @@ export default {
     this.textContent = ''
     this.deliverGoodsDetail = []
   },
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.getFlowDeliverD()
   },
@@ -258,7 +258,7 @@ export default {
     bottom: 5.428571rem;
     width: 100%;
     overflow: hidden;
-    padding: 1.428571rem 0.714286rem;
+    padding: 0 0.714286rem;
     .content_wrap {
       padding: 0.714286rem 1.071429rem;
       margin-top: 0.357143rem;

@@ -157,7 +157,7 @@ export default {
     bottom: 3.714286rem;
     width: 100%;
     overflow: hidden;
-    padding: 0.714286rem;
+    padding: 0 0.714286rem;
     .border_card {
       padding: 1rem 0.857143rem;
       margin-bottom: 0.714286rem;

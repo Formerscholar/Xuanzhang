@@ -103,7 +103,7 @@ export default {
       default: [],
     },
   },
-  created() {
+  asidesItem() {
     this.show = false
     // this.getEditContractOrders()
   },

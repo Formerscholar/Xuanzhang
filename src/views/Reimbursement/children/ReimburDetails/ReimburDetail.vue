@@ -10,7 +10,7 @@
       <div slot="right"></div>
     </navbar>
 
-    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
+    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" @scroll="clickScroll">
       <div class="body">
         <div class="logo">
           <div class="leftbox">
@@ -134,6 +134,9 @@ export default {
     },
   },
   methods: {
+    clickScroll() {
+      this.getreimbursementDetail()
+    },
     async deleteDeliver() {
       const { code, msg } = await deleteReimbursement({
         token: this.$store.state.token,

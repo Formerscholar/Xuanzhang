@@ -178,18 +178,28 @@ export default {
     clickscroll() {
       throttle(() => {
         if (this.pageIndex == 0) {
+          this.entire = 0
+          this.allPage = this.entire
           this.goodsLists = []
           this.getOrderList(1)
         } else if (this.pageIndex == 1) {
+          this.Quote = 0
+          this.allPage = this.Quote
           this.QuoteList = []
           this.getOrderList(0)
         } else if (this.pageIndex == 2) {
+          this.MyContract = 0
+          this.allPage = this.MyContract
           this.contractOrderList = []
           this.getUserContractOrderss()
         } else if (this.pageIndex == 3) {
+          this.MyOffer = 0
+          this.allPage = this.MyOffer
           this.MyOfferList = []
           this.getUserContractOrders()
         } else if (this.pageIndex == 4) {
+          this.Delivery = 0
+          this.allPage = this.Delivery
           this.DeliveryList = []
           this.getDeliverGoodsLists()
         }

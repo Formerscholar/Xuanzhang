@@ -111,9 +111,13 @@ export default {
   methods: {
     clickScroll() {
       if (!this.searchID) {
+        this.onePage = 1
+        this.allPage = this.onePage
         this.distributor = []
         this.getDistri()
       } else {
+        this.twoPage = 1
+        this.allPage = this.twoPage
         this.supplier = []
         this.getSupplier()
       }

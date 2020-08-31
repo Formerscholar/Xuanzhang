@@ -122,7 +122,7 @@ export default {
       }
     })
   },
-  created() {
+  activated() {
     document
       .querySelectorAll('.content .Process .el-timeline-item__timestamp')
       .forEach((item) => {
@@ -130,7 +130,7 @@ export default {
       })
     this.getdealitem()
   },
-  destroyed() {
+  deactivated() {
     this.imgSrc = ''
   },
   computed: {
@@ -274,7 +274,7 @@ export default {
             width: 1.071429rem;
             border-radius: 50%;
             position: relative;
-            top: 0.178571rem;
+            top: -0.142857rem;
           }
         }
       }

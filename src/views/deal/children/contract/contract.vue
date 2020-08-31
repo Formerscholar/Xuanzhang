@@ -229,6 +229,8 @@ export default {
       actions: [],
       DeliverList: 1,
       FlowOrderList: 1,
+      isTosi: false,
+      isTosis: false,
       distributor_id: null,
       leftBtn: [],
       selectionList: [{ id: 0 }],
@@ -337,14 +339,20 @@ export default {
     this.DeliverList = 1
     this.flowOrderList = []
     this.distributor_id = null
+    this.isTosi = false
+    this.isTosis = false
     this.FlowOrderList = 1
   },
   methods: {
     clickscroll() {
       if (!this.active) {
+        this.isTosi = false
+        this.DeliverList = 1
         this.deliveryRecordList = []
         this.getDeliverListss()
       } else {
+        this.isTosis = false
+        this.FlowOrderList = 1
         this.flowOrderList = []
         this.getFlowOrderLists()
       }
@@ -421,11 +429,19 @@ export default {
     },
     loadMore() {
       if (this.isShow) {
-        this.DeliverList += 1
-        this.getDeliverListss()
+        if (!this.isTosi) {
+          this.DeliverList += 1
+          this.getDeliverListss()
+        } else {
+          this.$toast('没有更多数据了')
+        }
       } else {
-        this.FlowOrderList += 1
-        this.getFlowOrderLists()
+        if (!this.isTosis) {
+          this.FlowOrderList += 1
+          this.getFlowOrderLists()
+        } else {
+          this.$toast('没有更多数据了')
+        }
       }
     },
     toReceivables(item) {
@@ -468,19 +484,25 @@ export default {
 
     async getDeliverListss() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodsListData)
-      data.deliveryRecordList.map((item) => {
-        this.deliveryRecordList.push(item)
-      })
+      if (data.deliveryRecordList.length > 0) {
+        this.deliveryRecordList = [
+          ...this.deliveryRecordList,
+          ...data.deliveryRecordList,
+        ]
+      } else {
+        this.isTosi = true
+      }
     },
     createAddbill() {
       this.$router.push('/addbill')
     },
     async getFlowOrderLists() {
       const { data } = await getFlowOrderList(this.getFlowOrderListData)
-      console.log('getFlowOrderList', data)
-      data.flowOrderList.map((item) => {
-        this.flowOrderList.push(item)
-      })
+      if (data.flowOrderList.length > 0) {
+        this.flowOrderList = [...this.flowOrderList, ...data.flowOrderList]
+      } else {
+        this.isTosis = true
+      }
     },
     tacheClick(name, title) {
       if (name) {

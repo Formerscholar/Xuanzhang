@@ -10,7 +10,7 @@
         <span>报销记录</span>
       </div>
       <div class="icon_options">
-        <span>20条信息</span>
+        <span>{{record}}条信息</span>
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -18,16 +18,21 @@
 </template>
     
 <script>
-import { reactive } from '@vue/composition-api'
+import { reactive, computed } from '@vue/composition-api'
 
 export default {
+  props: {
+    record: {
+      type: Number,
+      default: 0,
+    },
+  },
   setup(props, { root }) {
     const state = reactive({})
 
     function handleClick() {
       root.$router.push('/reimbursement')
     }
-
     return {
       state,
       handleClick,
@@ -38,11 +43,12 @@ export default {
     
 <style  lang="scss" scoped>
 .options_profile_item {
-  height: 2.857143rem;
+  height: 3.357143rem;
   justify-content: space-between;
   align-items: center;
-  margin: 0.357143rem 0;
-  padding: 0.142857rem 1.428571rem;
+  padding: 0 1.428571rem;
+  border-bottom: 0.714286rem solid #f5f5f5;
+
   .image_options {
     margin-right: 1.428571rem;
     display: flex;

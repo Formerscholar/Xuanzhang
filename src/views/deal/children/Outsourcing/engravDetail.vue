@@ -112,11 +112,11 @@ export default {
       }
     },
   },
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.getOutsourcingDetails()
   },
-  destroyed() {
+  deactivated() {
     this.metadata = {}
     this.isShow = false
     this.textContent = ''

@@ -144,7 +144,7 @@ export default {
       imgData: '',
     }
   },
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.getEditContractOrders()
   },
@@ -260,7 +260,7 @@ export default {
     bottom: 5.428571rem;
     width: 100%;
     overflow: hidden;
-    padding: 0.714286rem 0.857143rem;
+    padding: 0 0.857143rem;
     background-color: #f3f4f9;
 
     .content_wrap {
