@@ -11,6 +11,7 @@
       :DesignatedCount="DesignatedCount"
       @goDetails="goDetails"
       @loadMore="loadMore"
+      @clickScroll="clickScroll"
       @deletTasks="deletTasks"
     />
     <i class="el-icon-plus" @click="tike"></i>
@@ -98,15 +99,15 @@ export default {
     loadMore(str) {
       console.log('加载更多', str)
       switch (str) {
-        case 'particiType':
+        case 'participate':
           this.allpage = ++this.partici
           this.getUserDesignat()
           break
-        case 'SuccessType':
+        case 'success':
           this.allpage = ++this.succpages
           this.getCompleteDesignated()
           break
-        case 'ListType':
+        case 'list':
           this.allpage = ++this.itempages
           this.getDesignated()
           break
@@ -114,18 +115,42 @@ export default {
           break
       }
     },
+    clickScroll(str) {
+      switch (str) {
+        case 'participate':
+          this.partici = 1
+          this.allpage = this.partici
+          this.designatedTasksList = []
+          this.getUserDesignat()
+          break
+        case 'success':
+          this.succpages = 1
+          this.allpage = this.succpages
+          this.UserDesignatedTasksData = []
+          this.getCompleteDesignated()
+          break
+        case 'list':
+          this.itempages = 1
+          this.allpage = this.itempages
+          this.Designated = []
+          this.getDesignated()
+          break
+        default:
+          break
+      }
+    },
     goDetails(id) {
-      this.$store.commit('setDetailsData', id)
-      this.$router.push('/details')
+      this.$router.push(`/details/${id}`)
     },
     async getUserDesignat() {
       const { data } = await getUserDesignatedTasks(
         this.getUserDesignatedTasksData
       )
       this.UserDesignatedTasksCount = data.count
-      data.designatedTasksList.map((item) => {
-        this.designatedTasksList.push(item)
-      })
+      this.designatedTasksList = [
+        ...this.designatedTasksList,
+        ...data.designatedTasksList,
+      ]
       console.log('designatedTasksList', this.designatedTasksList)
     },
     async getCompleteDesignated() {
@@ -133,17 +158,18 @@ export default {
         this.getUserDesignatedTasksData
       )
       this.designatedTasksCount = data.count
-      data.designatedTasksList.map((item) => {
-        this.UserDesignatedTasksData.push(item)
-      })
+      this.UserDesignatedTasksData = [
+        ...this.UserDesignatedTasksData,
+        ...data.designatedTasksList,
+      ]
+
       console.log('UserDesignatedTasks', this.UserDesignatedTasksData)
     },
     async getDesignated() {
       const { data } = await getDesignatedTasks(this.getUserDesignatedTasksData)
       this.DesignatedCount = data.count
-      data.designatedTasksList.map((item) => {
-        this.Designated.push(item)
-      })
+      this.Designated = [...this.Designated, ...data.designatedTasksList]
+
       console.log('Designated', this.Designated)
     },
     async tike() {

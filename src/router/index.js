@@ -79,7 +79,7 @@ const controlled = () => import('../views/controlled/Controlled')
 const manboard = () => import('../views/manboard/manboard')
 const staffEntry = () =>
   import('../views/manboard/children/staffEntry/staffEntry')
-
+const editting = () => import('../views/manboard/children/editting/editting')
 const fileInfo = () => import('../views/fileInfo/fileInfo')
 const Email = () => import('../views/fileInfo/children/myArea/myArea')
 const Password = () => import('../views/fileInfo/children/password/password')
@@ -284,7 +284,7 @@ const routes = [
     component: edittask,
   },
   {
-    path: '/details',
+    path: '/details/:iid',
     component: Details,
   },
   {
@@ -426,6 +426,10 @@ const routes = [
   {
     path: '/staffEntry',
     component: staffEntry,
+  },
+  {
+    path: '/editting/:id',
+    component: editting,
   },
   {
     path: '/ShipmentItem/:id',

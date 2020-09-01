@@ -12,18 +12,30 @@
       </div>
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
-      <el-card class="content_wrap">
-        <div class="Company">
-          <span>{{deliveryRecordItem.name }}</span>
+      <div class="content_wrap">
+        <div class="main_box">
+          <svg class="icon icons" aria-hidden="true">
+            <use xlink:href="#icon-gongchengyuguidang" />
+          </svg>
+          <div class="text_box">
+            <div class="Company">
+              <span>{{deliveryRecordItem.name }}</span>
+            </div>
+            <div class="itembox">
+              <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
+              <span>{{deliveryRecordItem.operator_name }}</span>
+            </div>
+          </div>
         </div>
-        <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
-        <div class="itembox">
-          <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
-          <span>{{deliveryRecordItem.operator_name |setOperatorName }}</span>
+        <div class="img_box">
+          <img src="@/assets/image/liushuiBG.png" alt="liushuiBG" />
         </div>
-      </el-card>
-      <el-card class="product_box">
-        <div class="product_title">产品信息</div>
+      </div>
+
+      <div class="product_box">
+        <div class="product_title">
+          <span>流水发货单产品明细</span>
+        </div>
 
         <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
           <div class="wrap_left">
@@ -43,14 +55,14 @@
             <div class="text">
               <div class="title">
                 <p>{{item.product_name}}</p>
-              </div>
-              <p class="model">{{item.product_model}}</p>
-              <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
                 <div class="funds">
                   <span>￥</span>
                   <span>{{item.total_funds}}</span>
                 </div>
+              </div>
+              <p class="model">{{item.product_model}}</p>
+              <div class="wrap_right">
+                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
               </div>
             </div>
           </div>
@@ -82,7 +94,7 @@
             </span>
           </div>
         </div>
-      </el-card>
+      </div>
     </scroll>
     <div class="btns">
       <div class="deleteDeliver" @click="deleteDeliver"></div>
@@ -260,32 +272,46 @@ export default {
     overflow: hidden;
     padding: 0 0.714286rem;
     .content_wrap {
-      padding: 0.714286rem 1.071429rem;
       margin-top: 0.357143rem;
+      padding-top: 0.714286rem;
       margin-bottom: 0.357143rem;
-      .Company {
-        margin-bottom: 0.714286rem;
-        font-size: 1rem;
+
+      .main_box {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        em {
-          font-size: 0.714286rem;
-        }
-      }
-      .Numbers {
+        padding: 0 0.357143rem;
         margin-bottom: 0.357143rem;
-        font-size: 0.857143rem;
-        color: #5b534d;
-      }
-      .itembox {
-        font-size: 0.857143rem;
-        color: #5b534d;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        span {
+        .icons {
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 0.357143rem;
+          margin-right: 0.714286rem;
         }
+        .text_box {
+          flex: 1;
+          .Company {
+            font-size: 1.285714rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .itembox {
+            font-size: 0.857143rem;
+            color: #bbbbbb;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 1rem;
+            span {
+              margin-right: 0.357143rem;
+            }
+          }
+        }
+      }
+      .img_box {
+        width: 100%;
+        overflow: hidden;
       }
     }
     .product_box {
@@ -296,22 +322,26 @@ export default {
         font-size: 1.142857rem;
         color: #000;
         border-bottom: 1px solid #ededed;
+        span {
+          padding-left: 0.714286rem;
+          border-left: 0.142857rem solid #f87f17;
+        }
       }
       .wrap_item {
-        padding: 0.357143rem 0.714286rem;
+        padding: 0.714286rem;
 
         .wrap_left {
           display: flex;
           justify-content: flex-start;
           align-items: center;
           border-bottom: 1px solid #ededed;
-          padding-bottom: 0.357143rem;
+          padding-bottom: 0.714286rem;
           .img {
-            width: 6.785714rem;
-            height: 6.785714rem;
+            width: 6rem;
+            height: 6rem;
             background-color: #655d55;
             border-radius: 0.357143rem;
-            margin-right: 0.714286rem;
+            margin-right: 1.428571rem;
           }
           .text {
             flex: 1;
@@ -325,6 +355,9 @@ export default {
               justify-content: space-between;
               align-items: center;
               font-size: 1rem;
+              .funds {
+                color: black;
+              }
             }
             .model {
               color: #ccc;
@@ -339,9 +372,11 @@ export default {
               align-items: center;
               color: #ccc;
               font-size: 0.857143rem;
-              .funds {
-                font-size: 1rem;
-                color: black;
+              em {
+                font-size: 1.285714rem;
+                font-weight: 700;
+                color: #696969;
+                margin-left: -0.214286rem;
               }
             }
           }

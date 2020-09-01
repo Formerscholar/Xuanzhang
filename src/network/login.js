@@ -1,4 +1,5 @@
 import { request } from './request'
+import Qs from 'qs'
 
 export function getlogin(params) {
   return request({
@@ -51,5 +52,29 @@ export function getAppVersion(params) {
   return request({
     url: '/Customer/getAppVersion',
     params,
+  })
+}
+
+export function editUserStatus(data) {
+  return request({
+    method: 'POST',
+    url: '/Login/editUserStatus',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getEditUserNew(data) {
+  return request({
+    method: 'POST',
+    url: '/Login/getEditUserNew',
+    data: Qs.stringify(data),
+  })
+}
+
+export function editUser(data) {
+  return request({
+    method: 'POST',
+    url: '/Login/editUser',
+    data,
   })
 }

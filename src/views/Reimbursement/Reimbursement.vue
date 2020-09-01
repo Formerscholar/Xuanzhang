@@ -2,7 +2,7 @@
   <div id="Reimbursement">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blackhome">
-        <i class="el-icon-back"></i>
+        <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
         <span>报销</span>
@@ -447,7 +447,7 @@ export default {
         getReimbursementListsState.value
       )
       console.log('reimbursementList', data)
-      state.img_url = data.userInfo[0].img_url.substr(1)
+      state.img_url = data.userInfo[0]?.img_url.substr(1)
       state.StateList = data.is_verified
       state.reimbursementList = data.reimbursementList
       state.titleName = {
@@ -553,15 +553,11 @@ export default {
   .p_root_box {
     .left {
       margin-left: 1.071429rem;
-      i {
-        font-size: 1.571429rem;
-      }
+      font-size: 1.5rem;
     }
     .center {
       margin-left: -1.071429rem;
-      span {
-        font-size: 1.571429rem;
-      }
+      font-size: 1.5rem;
     }
   }
   .titlebox {

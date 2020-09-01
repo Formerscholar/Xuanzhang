@@ -3,34 +3,30 @@
     <navbar class="Controlled_root">
       <i class="el-icon-arrow-left text-primary" slot="left" @click="callBack"></i>
       <div class="title text-black" slot="center">
-        <span>入职增加</span>
+        <span>入职编辑</span>
       </div>
       <i slot="right"></i>
     </navbar>
     <div class="staffEntry_content">
-      <div class="box-card">
-        <van-field class="newStyle" v-model="tel" type="tel" label="手机号" />
-
-        <el-row class="DeliveryDate van-cell">
-          <span class="lable">头像</span>
-          <Avatars class="time" @ObtainUrl="ObtainUrls" />
-        </el-row>
-        <van-field class="newStyle" v-model="name" label="姓名" />
-        <van-field
-          class="newStyle"
-          v-model="value"
-          type="digit"
-          label="身份证"
-          ref="digit"
-          @focus="touchStart"
-        />
-        <el-row class="DeliveryDate van-cell">
-          <span class="lable">性别</span>
-          <van-radio-group v-model="radio" direction="horizontal" class="time van-field__body">
-            <van-radio name="1">男</van-radio>
-            <van-radio name="2">女</van-radio>
-          </van-radio-group>
-        </el-row>
+      <el-card class="box-card">
+        <van-field v-model="tel" type="tel" label="手机号" />
+        <div class="van-cell van-field">
+          <span class="van-cell__title van-field__label">头像</span>
+          <div class="van-cell__value van-field__value">
+            <Avatars @ObtainUrl="ObtainUrls" :PropsImg="PropsImg" />
+          </div>
+        </div>
+        <van-field v-model="name" label="姓名" />
+        <van-field v-model="value" type="digit" label="身份证" ref="digit" @focus="touchStart" />
+        <div class="van-cell van-field">
+          <span class="van-cell__title van-field__label">性别</span>
+          <div class="van-cell__value van-field__value">
+            <van-radio-group v-model="radio" direction="horizontal" class="van-field__body">
+              <van-radio name="1">男</van-radio>
+              <van-radio name="2">女</van-radio>
+            </van-radio-group>
+          </div>
+        </div>
         <div class="van-cell van-field">
           <span class="van-cell__title van-field__label">部门</span>
           <div class="van-cell__value van-field__value">
@@ -71,12 +67,10 @@
           </div>
         </div>
         <div class="Contract">
-          <van-field class="newStyle" v-model="Contractnum" label="合同编号" />
+          <van-field v-model="Contractnum" label="合同编号" />
           <van-button type="info">下载合约</van-button>
         </div>
-
         <van-field
-          class="newStyle"
           v-model="orther"
           rows="1"
           autosize
@@ -84,16 +78,11 @@
           type="textarea"
           placeholder="请输入内容"
         />
-      </div>
+      </el-card>
     </div>
-
-    <myBtns :commitFun="addUserNow" :cancelFun="callBack">
-      <span slot="cancel-btn">取消</span>
-      <span slot="commit-btn">
-        <span>保存</span>
-      </span>
-    </myBtns>
-
+    <div class="btns">
+      <van-button type="info" @click="addUserNow">保存</van-button>
+    </div>
     <van-number-keyboard
       :show="isShow"
       v-model="value"
@@ -106,9 +95,14 @@
     
 <script>
 import Avatars from '@/components/content/Avatars/Avatars'
-import myBtns from '@/components/common/my_btns/my_btns'
 
-import { getDepartments, getRoles, addUser } from '@/network/login'
+import {
+  getDepartments,
+  getRoles,
+  addUser,
+  getEditUserNew,
+  editUser,
+} from '@/network/login'
 import { bestURL, crosURl } from '@/network/baseURL'
 export default {
   data() {
@@ -119,7 +113,9 @@ export default {
       digit: '',
       tel: '',
       orther: '',
+      PropsImg: '',
       radio: '1',
+      iid: 0,
       Contractnum: '',
       ContractValue: '',
       ContractValuse: '',
@@ -139,10 +135,12 @@ export default {
       dataImgUrl: '',
     }
   },
-  components: { Avatars, myBtns },
-  created() {
+  components: { Avatars },
+  activated() {
+    this.iid = this.$route.params.id
     this.getDepartment()
     this.getRolesList()
+    this.getEditUser()
   },
   computed: {
     getDepartmentData() {
@@ -154,25 +152,51 @@ export default {
     addUserData() {
       let form = new FormData()
       form.append('username', this.tel)
+      form.append('password', '')
       form.append('name', this.name)
       form.append('sex', this.radio)
       form.append('id_number', this.value)
       form.append('department_id', this.ContractValue)
       form.append('remark', this.orther)
       form.append('role_id', this.jobValue)
-      form.append('department_head', this.ContractValuse)
+      form.append('user_id', this.iid)
       form.append('token', this.$store.state.token)
+      form.append('is_statistic', 0)
       form.append('logo_url', this.dataImgUrl)
+      form.append('department_head', this.ContractValuse)
       return form
     },
   },
   methods: {
+    async getEditUser() {
+      const { data } = await getEditUserNew({
+        user_id: this.iid,
+        token: this.$store.state.token,
+      })
+      const {
+        username,
+        img_url,
+        name,
+        id_number,
+        sex,
+        department_id,
+        role_id,
+      } = data.user[0]
+      console.log('getEditUserNew', data)
+      this.tel = username
+      this.PropsImg = img_url.substr(1)
+      this.name = name
+      this.value = id_number
+      this.radio = sex
+      this.ContractValue = department_id
+      this.jobValue = role_id
+    },
     touchStart() {
       this.$refs.digit.blur()
       this.isShow = true
     },
     async addUserNow() {
-      const { code, msg } = await addUser(this.addUserData)
+      const { code, msg } = await editUser(this.addUserData)
       if (code == 200) {
         this.$message({
           message: msg,
@@ -193,6 +217,7 @@ export default {
       this.digit = ''
       this.tel = ''
       this.orther = ''
+      this.PropsImg = ''
       this.radio = '1'
       this.Contractnum = ''
       this.ContractValue = ''
@@ -262,27 +287,6 @@ export default {
   }
   .staffEntry_content {
     .box-card {
-      padding: 0.357143rem;
-      .DeliveryDate {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #e7e7e7;
-        line-height: normal;
-        .lable {
-          width: 4.928571rem;
-          text-align: justify;
-          text-align-last: justify;
-          color: black;
-          padding-right: 0.714286rem;
-          border-right: 1px solid #e7e7e7;
-        }
-        .time {
-          flex: 1;
-          text-align: right;
-          padding: 0 1rem;
-        }
-      }
       .Contract {
         display: flex;
         justify-content: space-between;

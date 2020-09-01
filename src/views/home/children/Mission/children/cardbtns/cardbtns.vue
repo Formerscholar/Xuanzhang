@@ -13,6 +13,7 @@
           :probe-type="3"
           :pull-up-load="true"
           @pullingUp="loadMore('participate')"
+          @scroll="clickScroll('participate')"
         >
           <div v-for="(item,index) in designatedTasksList" :key="index">
             <van-swipe-cell v-if="item.operator_id == $store.state.userInfo[0].id">
@@ -126,6 +127,7 @@
           :probe-type="3"
           :pull-up-load="true"
           @pullingUp="loadMore('success')"
+          @scroll="clickScroll('success')"
         >
           <div class="cardList" v-for="(item,index) in UserDesignatedTasksData" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
@@ -177,6 +179,7 @@
           :probe-type="3"
           :pull-up-load="true"
           @pullingUp="loadMore('list')"
+          @scroll="clickScroll('list')"
         >
           <div class="cardList" v-for="(item,index) in Designated" :key="index">
             <div class="listcontent" @click="goDetails(item.id)">
@@ -270,14 +273,28 @@ export default {
     loadMore(str) {
       switch (str) {
         case 'participate':
-          this.$emit('loadMore', 'particiType')
+          this.$emit('loadMore', 'participate')
           break
         case 'success':
-          this.$emit('loadMore', 'SuccessType')
+          this.$emit('loadMore', 'success')
           break
         case 'list':
-          this.$emit('loadMore', 'ListType')
-
+          this.$emit('loadMore', 'list')
+          break
+        default:
+          break
+      }
+    },
+    clickScroll(str) {
+      switch (str) {
+        case 'participate':
+          this.$emit('clickScroll', 'participate')
+          break
+        case 'success':
+          this.$emit('clickScroll', 'success')
+          break
+        case 'list':
+          this.$emit('clickScroll', 'list')
           break
         default:
           break
@@ -410,8 +427,8 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          color: #ababab;
           span {
-            color: #666666;
           }
         }
       }

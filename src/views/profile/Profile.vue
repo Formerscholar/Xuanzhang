@@ -165,7 +165,7 @@ export default {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         }
         this.dataInfo = res.data.userInfo[0]
-        this.imgUrl = this.dataInfo.img_url.substr(1)
+        this.imgUrl = this.dataInfo?.img_url.substr(1)
         this.jobName = this.dataInfo.role.display_name
         this.phone = this.formatPhone(this.dataInfo.username)
         this.name = this.dataInfo.name

@@ -100,9 +100,10 @@ export default {
     
 <style lang="scss">
 .ability {
-  border-bottom: 3px solid #f5f5f5;
+  border-bottom: 0.214286rem solid #f5f5f5;
   width: 100%;
   padding: 0.357143rem;
+  padding-top: 1.428571rem;
   display: flex;
   flex-wrap: wrap;
   background-color: #f5f5f5;

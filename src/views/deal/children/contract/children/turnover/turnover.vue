@@ -18,7 +18,7 @@
             <ul>
               <li>
                 <span>总金额</span>
-                <em>{{distributorNew.actualNotInvoiceMoney}}</em>
+                <em>{{OrderStatus.countSales}}</em>
               </li>
               <li>
                 <span>总欠款</span>
@@ -171,11 +171,11 @@ export default {
       active: 0,
       iid: 0,
       distributorNew: {},
+      OrderStatus: {},
       orderList: [],
     }
   },
-
-  created() {
+  activated() {
     this.iid = this.$route.params.id
     this.getDistributor()
   },
@@ -270,6 +270,7 @@ export default {
       console.log('getDistributor', data)
       this.distributorNew = data.distributorNew
       this.orderList = data.orderList
+      this.OrderStatus = data.OrderStatus
     },
   },
 }
