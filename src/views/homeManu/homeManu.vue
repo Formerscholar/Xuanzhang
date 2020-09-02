@@ -19,7 +19,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -32,7 +32,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -45,7 +45,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -58,7 +58,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -71,7 +71,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -84,7 +84,7 @@
                   <svg class="icon icons" aria-hidden="true">
                     <use :xlink:href="item.icon_Url" />
                   </svg>
-                  <span>{{item.title}}</span>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
                 </div>
               </li>
             </ul>
@@ -103,6 +103,7 @@ export default {
         {
           icon_Url: '#icon-jinrongleiicontubiao-17',
           title: '报销',
+          path: '/reimbursement',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-16',
@@ -143,6 +144,7 @@ export default {
         {
           icon_Url: '#icon-gongchengyuguidang',
           title: '发起代工',
+          path: '/oem',
         },
         {
           icon_Url: '#icon-jiadaxiuguanlixitong',
@@ -157,18 +159,22 @@ export default {
         {
           icon_Url: '#icon-xiangmurenwu',
           title: '领料',
+          path: '/MaterialReturn',
         },
         {
           icon_Url: '#icon-renlikaoqin',
           title: '退料',
+          path: '/picking',
         },
         {
           icon_Url: '#icon-gongchengjiansheanquanpaicha',
           title: '盘库',
+          path: '/Inventory',
         },
         {
           icon_Url: '#icon-renlikaoqin',
           title: '任务管理',
+          path: '/mission',
         },
         {
           icon_Url: '#icon-Glink',
@@ -183,10 +189,16 @@ export default {
         {
           icon_Url: '#icon-txt',
           title: '物料入库',
+          path: '/warehouse',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-25',
           title: '合同收货',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-25',
+          title: '等待发货',
+          path: '/shipments',
         },
       ],
       PurchaseTotalList: [
@@ -201,7 +213,7 @@ export default {
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-23',
-          title: '物料采购',
+          title: '采购计划',
         },
         {
           icon_Url: '#icon-yycg',
@@ -234,17 +246,17 @@ export default {
         {
           icon_Url: '#icon-yunkanban',
           title: '合同进度',
-          path: '/LargeScreen',
+          path: '/contractScreen',
         },
         {
           icon_Url: '#icon-xiaobaiban',
           title: '流水进度',
-          path: '/LargeScreen',
+          path: '/flowScreen',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '代工进度',
-          path: '/LargeScreen',
+          path: '/oemScreen',
         },
       ],
       searchData: '',

@@ -15,6 +15,7 @@
           <span class="lable">头像</span>
           <Avatars class="time" @ObtainUrl="ObtainUrls" />
         </el-row>
+
         <van-field class="newStyle" v-model="name" label="姓名" />
         <van-field
           class="newStyle"
@@ -31,48 +32,29 @@
             <van-radio name="2">女</van-radio>
           </van-radio-group>
         </el-row>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">部门</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="ContractValue" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in ContractOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
+
+        <div @click="isproperties = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">部门</span>
+          <span>
+            {{ContractValue}}
+            <van-icon name="arrow" />
+          </span>
         </div>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">主管</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="ContractValuse" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in ContractOptisons"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
+
+        <div @click="ispropertiess = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">主管</span>
+          <span>
+            {{ContractValuse}}
+            <van-icon name="arrow" />
+          </span>
         </div>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">职务</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="jobValue" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in jobOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="Contract">
-          <van-field class="newStyle" v-model="Contractnum" label="合同编号" />
-          <van-button type="info">下载合约</van-button>
+
+        <div @click="ispropertiesss = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">职务</span>
+          <span>
+            {{jobValue}}
+            <van-icon name="arrow" />
+          </span>
         </div>
 
         <van-field
@@ -88,7 +70,7 @@
     </div>
 
     <myBtns :commitFun="addUserNow" :cancelFun="callBack">
-      <span slot="cancel-btn">取消</span>
+      <span slot="cancel-btn">返回</span>
       <span slot="commit-btn">
         <span>保存</span>
       </span>
@@ -101,6 +83,36 @@
       close-button-text="完成"
       @blur="isShow = false"
     />
+
+    <van-picker
+      class="datetime"
+      v-if="isproperties"
+      title="部门"
+      show-toolbar
+      :columns="ContractOptions"
+      @confirm="propertiesonConfirm"
+      @cancel="isproperties = false"
+    />
+
+    <van-picker
+      class="datetime"
+      v-if="ispropertiess"
+      title="主管"
+      show-toolbar
+      :columns="ContractOptisons"
+      @confirm="propertiesonConfirms"
+      @cancel="ispropertiess = false"
+    />
+
+    <van-picker
+      class="datetime"
+      v-if="ispropertiesss"
+      title="职务"
+      show-toolbar
+      :columns="jobOptions"
+      @confirm="propertiesonConfirmss"
+      @cancel="ispropertiesss = false"
+    />
   </div>
 </template>
     
@@ -110,6 +122,7 @@ import myBtns from '@/components/common/my_btns/my_btns'
 
 import { getDepartments, getRoles, addUser } from '@/network/login'
 import { bestURL, crosURl } from '@/network/baseURL'
+
 export default {
   data() {
     return {
@@ -118,24 +131,23 @@ export default {
       name: '',
       digit: '',
       tel: '',
+      isproperties: false,
+      ispropertiess: false,
+      ispropertiesss: false,
       orther: '',
       radio: '1',
       Contractnum: '',
       ContractValue: '',
+      ContractValuetest: '',
       ContractValuse: '',
+      ContractValusetest: '',
       ContractOptions: [],
-      ContractOptisons: [
-        {
-          value: 1,
-          label: '是',
-        },
-        {
-          value: 0,
-          label: '否',
-        },
-      ],
+      getDepartments: [],
+      ContractOptisons: ['否', '是'],
       jobValue: '',
+      jobValuetest: '',
       jobOptions: [],
+      roles: [],
       dataImgUrl: '',
     }
   },
@@ -157,16 +169,40 @@ export default {
       form.append('name', this.name)
       form.append('sex', this.radio)
       form.append('id_number', this.value)
-      form.append('department_id', this.ContractValue)
+      form.append('department_id', this.ContractValuetest)
       form.append('remark', this.orther)
-      form.append('role_id', this.jobValue)
-      form.append('department_head', this.ContractValuse)
+      form.append('role_id', this.jobValuetest)
+      form.append('department_head', this.ContractValusetest)
       form.append('token', this.$store.state.token)
       form.append('logo_url', this.dataImgUrl)
       return form
     },
   },
   methods: {
+    propertiesonConfirmss(value, index) {
+      this.jobValue = value
+      this.roles.map((item, index1) => {
+        if (index1 == index) {
+          this.jobValuetest = item.id
+        }
+      })
+      console.log(this.jobValuetest)
+      this.ispropertiesss = false
+    },
+    propertiesonConfirms(value, index) {
+      this.ContractValuse = value
+      this.ContractValusetest = index
+      this.ispropertiess = false
+    },
+    propertiesonConfirm(value, index) {
+      this.ContractValue = value
+      this.getDepartments.map((item, index1) => {
+        if (index1 == index) {
+          this.ContractValuetest = item.id
+        }
+      })
+      this.isproperties = false
+    },
     touchStart() {
       this.$refs.digit.blur()
       this.isShow = true
@@ -192,55 +228,41 @@ export default {
       this.name = ''
       this.digit = ''
       this.tel = ''
+      this.isproperties = false
+      this.ispropertiess = false
+      this.ispropertiesss = false
       this.orther = ''
       this.radio = '1'
       this.Contractnum = ''
       this.ContractValue = ''
+      this.ContractValuetest = ''
       this.ContractValuse = ''
+      this.ContractValusetest = ''
       this.ContractOptions = []
+      this.getDepartments = []
       this.jobValue = ''
+      this.jobValuetest = ''
       this.jobOptions = []
+      this.roles = []
       this.dataImgUrl = ''
       this.$router.go(-1)
     },
     async getDepartment() {
       const { data } = await getDepartments(this.getDepartmentData)
       console.log('getDepartments', data)
-      data.getDepartments.map((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.name,
-        }
-        this.ContractOptions.push(obj)
-      })
+      this.getDepartments = data.getDepartments
+      this.ContractOptions = data.getDepartments.map((item) => item.name)
     },
     async getRolesList() {
       const { data } = await getRoles(this.getDepartmentData)
       console.log('getRoles', data)
-      data.roles.map((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.display_name,
-        }
-        this.jobOptions.push(obj)
-      })
+      this.roles = data.roles
+      this.jobOptions = data.roles.map((item, index) => item.display_name)
     },
   },
 }
 </script>
-<style lang="scss">
-.van-cell {
-  padding: 0.714286rem 0.428571rem;
-}
-.van-button {
-  font-size: 0.857143rem;
-  width: 7.142857rem;
-  padding: 0;
-  height: 2.571429rem;
-}
-.van-cell__title {
-}
-</style>
+
 <style scoped lang="scss">
 #staffEntry {
   padding-top: 5.428571rem;
@@ -299,6 +321,12 @@ export default {
     .van-button {
       margin-right: 0.357143rem;
     }
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

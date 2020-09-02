@@ -5,291 +5,100 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>生产任务</span>
+        <span>流水订单</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <div class="content">
-      <van-tabs v-model="active" @click="tabsClick">
-        <van-tab :title="titleArr[0]" v-if="titleArr[0] != undefined">
-          <scroll
-            class="scroll_wrapper"
-            ref="scrolls"
-            :probe-type="3"
-            :pull-up-load="true"
-            @pullingUp="loadMores"
-            @scroll="clickscroll"
-          >
-            <div class="search_box">
-              <div class="search_left">
-                <el-select
-                  v-model="businessValue"
-                  placeholder="商务状态"
-                  @change="businesChange"
-                  @focus="focushandle(0)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in business"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-              <div class="search_right">
-                <el-select
-                  v-model="workshopValue"
-                  placeholder="车间状态"
-                  @change="workshopChange"
-                  @focus="focushandle(0)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in workshop"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-            </div>
-            <div
-              class="box-card"
-              v-for="(item,index) in ProductList"
-              :key="index"
-              style="margin-bottom:.357143rem;"
+      <scroll
+        class="scroll_wrapper"
+        ref="scroll"
+        :probe-type="3"
+        :pull-up-load="true"
+        @pullingUp="loadMore"
+        @scroll="clickscroll"
+      >
+        <div class="search_box">
+          <div class="search_left">
+            <el-select
+              v-model="omesValue"
+              placeholder="商务状态"
+              @change="omesChange"
+              @focus="focushandle(1)"
+              style="width:100%"
             >
-              <div
-                class="background_box"
-                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
-              ></div>
-              <div class="content_box" @click="pageHandleClick(item)">
-                <div class="title_box">
-                  <div class="left_title">
-                    <!-- <input type="text" > -->
-                    <!-- <span>{{item.order_number | orderNum}}</span> -->
-                    <span>{{item.order_number }}</span>
-                    <span>{{item.name_alias}}</span>
-                  </div>
-                  <div class="right_title">
-                    <span>{{item.surplus_number | setSurplusNumber}}</span>
-                  </div>
-                </div>
-                <div class="content_child">
-                  <div class="left_box">
-                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
-                    <div class="img"></div>
-                    <div class="left_box_content">
-                      <span>{{item.product_name}}</span>
-                      <span>{{item.product_model}}</span>
-                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
-                    </div>
-                  </div>
-                  <div class="right_box">
-                    <div class="child_right">
-                      <van-tag
-                        :type="item.business_status | setbusinessstatus"
-                        :color="item.business_status == 1 ? '#FFCC33':'' "
-                      >{{item.business_status | setbusinessName}}</van-tag>
-                    </div>
-                    <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag
-                        :type="item.status | setchestatus"
-                        :color="item.status == 0 ? '#FFCC33':'' "
-                      >{{item.status | setcheName}}</van-tag>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </scroll>
-        </van-tab>
-        <van-tab :title="titleArr[1]" v-if="titleArr[1] != undefined">
-          <scroll
-            class="scroll_wrapper"
-            ref="scroll"
-            :probe-type="3"
-            :pull-up-load="true"
-            @pullingUp="loadMore"
-            @scroll="clickscroll"
-          >
-            <div class="search_box">
-              <div class="search_left">
-                <el-select
-                  v-model="omesValue"
-                  placeholder="商务状态"
-                  @change="omesChange"
-                  @focus="focushandle(1)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in omess"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-              <div class="search_right">
-                <el-select
-                  v-model="workshopValue"
-                  placeholder="车间状态"
-                  @change="workshopChange"
-                  @focus="focushandle(1)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in workshop"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-            </div>
-            <div
-              class="box-card"
-              v-for="(item,index) in ProductLists"
-              :key="index"
-              style="margin-bottom:.357143rem;"
+              <el-option
+                v-for="item in omess"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+          <div class="search_right">
+            <el-select
+              v-model="workshopValue"
+              placeholder="车间状态"
+              @change="workshopChange"
+              @focus="focushandle(1)"
+              style="width:100%"
             >
-              <div
-                class="background_box"
-                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
-              ></div>
-              <div class="content_box" @click="pageHandleClick(item)">
-                <div class="title_box">
-                  <div class="left_title">
-                    <span>{{item.order_number}}</span>
-                    <span>{{item.name_alias}}</span>
-                  </div>
-                  <div class="right_title">
-                    <span>{{item.surplus_number | setSurplusNumber}}</span>
-                  </div>
+              <el-option
+                v-for="item in workshop"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div
+          class="box-card"
+          v-for="(item,index) in ProductLists"
+          :key="index"
+          style="margin-bottom:.357143rem;"
+        >
+          <div
+            class="background_box"
+            :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
+          ></div>
+          <div class="content_box" @click="pageHandleClick(item)">
+            <div class="title_box">
+              <div class="left_title">
+                <span>{{item.order_number}}</span>
+                <span>{{item.name_alias}}</span>
+              </div>
+              <div class="right_title">
+                <span>{{item.surplus_number | setSurplusNumber}}</span>
+              </div>
+            </div>
+            <div class="content_child">
+              <div class="left_box">
+                <div class="img"></div>
+                <div class="left_box_content">
+                  <span>{{item.product_name}}</span>
+                  <span>{{item.product_model}}</span>
+                  <span>{{item.commitment_period | setCommitmentPeriod}}</span>
                 </div>
-                <div class="content_child">
-                  <div class="left_box">
-                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
-                    <div class="img"></div>
-                    <div class="left_box_content">
-                      <span>{{item.product_name}}</span>
-                      <span>{{item.product_model}}</span>
-                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
-                    </div>
-                  </div>
-                  <div class="right_box">
-                    <div class="child_right">
-                      <van-tag
-                        :type="item.business_status | omesstatus"
-                        :color="item.business_status == 1 ? '#FFCC33':'' "
-                      >{{item.business_status | omesName}}</van-tag>
-                    </div>
-                    <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag
-                        :type="item.status | setchestatus"
-                        :color="item.status == 0 ? '#FFCC33':'' "
-                      >{{item.status | setcheName}}</van-tag>
-                    </div>
-                  </div>
+              </div>
+              <div class="right_box">
+                <div class="child_right">
+                  <van-tag
+                    :type="item.business_status | omesstatus"
+                    :color="item.business_status == 1 ? '#FFCC33':'' "
+                  >{{item.business_status | omesName}}</van-tag>
+                </div>
+                <div @click.stop="changeProduct(item.id)" class="child_right">
+                  <van-tag
+                    :type="item.status | setchestatus"
+                    :color="item.status == 0 ? '#FFCC33':'' "
+                  >{{item.status | setcheName}}</van-tag>
                 </div>
               </div>
             </div>
-          </scroll>
-        </van-tab>
-        <van-tab :title="titleArr[2]" v-if="titleArr[2] != undefined">
-          <scroll
-            class="scroll_wrapper"
-            ref="scrollss"
-            :probe-type="3"
-            :pull-up-load="true"
-            @pullingUp="loadMoress"
-            @scroll="clickscroll"
-          >
-            <div class="search_box">
-              <div class="search_left">
-                <el-select
-                  v-model="omesValue"
-                  placeholder="商务状态"
-                  @change="omesChange"
-                  @focus="focushandle(2)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in omess"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-              <div class="search_right">
-                <el-select
-                  v-model="workshopValue"
-                  placeholder="车间状态"
-                  @change="workshopChange"
-                  @focus="focushandle(2)"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in workshop"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-            </div>
-            <div
-              class="box-card"
-              v-for="(item,index) in ProductListss"
-              :key="index"
-              style="margin-bottom:.357143rem;"
-            >
-              <div
-                class="background_box"
-                :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
-              ></div>
-              <div class="content_box" @click="pageHandleClick(item)">
-                <div class="title_box">
-                  <div class="left_title">
-                    <span>{{item.order_number}}</span>
-                    <span>{{item.name_alias}}</span>
-                  </div>
-                  <div class="right_title">
-                    <span>{{item.surplus_number | setSurplusNumber}}</span>
-                  </div>
-                </div>
-                <div class="content_child">
-                  <div class="left_box">
-                    <!-- <img  src="@/assets/image/dpng.png" alt="logo" /> -->
-                    <div class="img"></div>
-                    <div class="left_box_content">
-                      <span>{{item.product_name}}</span>
-                      <span>{{item.product_model}}</span>
-                      <span>{{item.commitment_period | setCommitmentPeriod}}</span>
-                    </div>
-                  </div>
-                  <div class="right_box">
-                    <div class="child_right">
-                      <van-tag
-                        :type="item.business_status | omesstatus"
-                        :color="item.business_status == 1 ? '#FFCC33':'' "
-                      >{{item.business_status | omesName}}</van-tag>
-                    </div>
-                    <div @click.stop="changeProduct(item.id)" class="child_right">
-                      <van-tag
-                        :type="item.status | setchestatus"
-                        :color="item.status == 0 ? '#FFCC33':'' "
-                      >{{item.status | setcheName}}</van-tag>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </scroll>
-        </van-tab>
-      </van-tabs>
+          </div>
+        </div>
+      </scroll>
     </div>
   </div>
 </template>
@@ -365,16 +174,16 @@ export default {
     }
   },
   created() {
-    this.ProductList = []
-    this.getlargeAcreen()
+    // this.ProductList = []
+    // this.getlargeAcreen()
     this.ProductLists = []
     this.getlargeAcreens()
-    this.ProductListss = []
-    this.getlargeAcreenss()
+    // this.ProductListss = []
+    // this.getlargeAcreenss()
     this.allpage = 1
-    this.Opage = 1
+    // this.Opage = 1
     this.Tpage = 1
-    this.Spage = 1
+    // this.Spage = 1
   },
   computed: {
     getlargeAcreenOrderData() {
@@ -753,12 +562,11 @@ export default {
       position: absolute;
       left: 0;
       right: 0;
-      top: 3.142857rem;
+      top: 5.428571rem;
       bottom: 0;
       width: 100%;
       overflow: hidden;
       background-color: #eeeeee;
-      height: calc(100vh - 8.571429rem);
       .search_box {
         display: flex;
         justify-content: space-between;

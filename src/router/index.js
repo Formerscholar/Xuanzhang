@@ -126,9 +126,10 @@ const editMaterial = () => import('../views/materials/children/editMaterial')
 
 const bompage = () => import('../views/materials/children/bompage')
 
-const LargeScreen = () =>
-  import('../views/home/children/LargeScreen/LargeScreen')
-
+const contractScreen = () =>
+  import('../views/home/children/LargeScreen/contractScreen')
+const flowScreen = () => import('../views/home/children/LargeScreen/flowScreen')
+const oemScreen = () => import('../views/home/children/LargeScreen/oemScreen')
 const ScreenItem = () =>
   import('../views/home/children/LargeScreen/children/ScreenItem.vue')
 
@@ -178,6 +179,8 @@ const picking = () => import('@/views/InventoryPick/picking')
 const Setup = () => import('@/views/profile/children/Setup/Setup')
 const Recordlist = () =>
   import('@/views/profile/children/Runrecord/children/Recordlist/Recordlist')
+
+const shipments = () => import('@/views/home/children/shipments/shipments')
 
 const routes = [
   {
@@ -515,8 +518,16 @@ const routes = [
     component: bompage,
   },
   {
-    path: '/LargeScreen',
-    component: LargeScreen,
+    path: '/contractScreen',
+    component: contractScreen,
+  },
+  {
+    path: '/flowScreen',
+    component: flowScreen,
+  },
+  {
+    path: '/oemScreen',
+    component: oemScreen,
   },
   {
     path: '/ScreenItem',
@@ -630,6 +641,10 @@ const routes = [
   {
     path: '/Recordlist',
     component: Recordlist,
+  },
+  {
+    path: '/shipments',
+    component: shipments,
   },
 ]
 

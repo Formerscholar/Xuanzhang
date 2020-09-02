@@ -8,69 +8,57 @@
       <i slot="right"></i>
     </navbar>
     <div class="staffEntry_content">
-      <el-card class="box-card">
-        <van-field v-model="tel" type="tel" label="手机号" />
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">头像</span>
-          <div class="van-cell__value van-field__value">
-            <Avatars @ObtainUrl="ObtainUrls" :PropsImg="PropsImg" />
-          </div>
-        </div>
-        <van-field v-model="name" label="姓名" />
-        <van-field v-model="value" type="digit" label="身份证" ref="digit" @focus="touchStart" />
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">性别</span>
-          <div class="van-cell__value van-field__value">
-            <van-radio-group v-model="radio" direction="horizontal" class="van-field__body">
-              <van-radio name="1">男</van-radio>
-              <van-radio name="2">女</van-radio>
-            </van-radio-group>
-          </div>
-        </div>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">部门</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="ContractValue" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in ContractOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">主管</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="ContractValuse" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in ContractOptisons"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="van-cell van-field">
-          <span class="van-cell__title van-field__label">职务</span>
-          <div class="van-cell__value van-field__value">
-            <el-select v-model="jobValue" placeholder="请选择" class="van-field__body">
-              <el-option
-                v-for="item in jobOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="Contract">
-          <van-field v-model="Contractnum" label="合同编号" />
-          <van-button type="info">下载合约</van-button>
-        </div>
+      <div class="box-card">
+        <van-field class="newStyle" v-model="tel" type="tel" label="手机号" />
+        <el-row class="DeliveryDate van-cell">
+          <span class="lable">头像</span>
+          <Avatars class="time" @ObtainUrl="ObtainUrls" :PropsImg="PropsImg" />
+        </el-row>
+
+        <van-field class="newStyle" v-model="name" label="姓名" />
         <van-field
+          class="newStyle"
+          v-model="value"
+          type="digit"
+          label="身份证"
+          ref="digit"
+          @focus="touchStart"
+        />
+
+        <el-row class="DeliveryDate van-cell">
+          <span class="lable">性别</span>
+          <van-radio-group v-model="radio" direction="horizontal" class="time van-field__body">
+            <van-radio name="1">男</van-radio>
+            <van-radio name="2">女</van-radio>
+          </van-radio-group>
+        </el-row>
+
+        <div @click="isproperties = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">部门</span>
+          <span>
+            {{ContractValue}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <div @click="ispropertiess = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">主管</span>
+          <span>
+            {{ContractValuse}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <div @click="ispropertiesss = true" class="newStyle DeliveryDate van-cell">
+          <span class="lable">职务</span>
+          <span>
+            {{jobValue}}
+            <van-icon name="arrow" />
+          </span>
+        </div>
+
+        <van-field
+          class="newStyle"
           v-model="orther"
           rows="1"
           autosize
@@ -78,11 +66,16 @@
           type="textarea"
           placeholder="请输入内容"
         />
-      </el-card>
+      </div>
     </div>
-    <div class="btns">
-      <van-button type="info" @click="addUserNow">保存</van-button>
-    </div>
+
+    <myBtns :commitFun="addUserNow" :cancelFun="callBack">
+      <span slot="cancel-btn">返回</span>
+      <span slot="commit-btn">
+        <span>保存</span>
+      </span>
+    </myBtns>
+
     <van-number-keyboard
       :show="isShow"
       v-model="value"
@@ -90,11 +83,42 @@
       close-button-text="完成"
       @blur="isShow = false"
     />
+
+    <van-picker
+      class="datetime"
+      v-if="isproperties"
+      title="部门"
+      show-toolbar
+      :columns="ContractOptions"
+      @confirm="propertiesonConfirm"
+      @cancel="isproperties = false"
+    />
+
+    <van-picker
+      class="datetime"
+      v-if="ispropertiess"
+      title="主管"
+      show-toolbar
+      :columns="ContractOptisons"
+      @confirm="propertiesonConfirms"
+      @cancel="ispropertiess = false"
+    />
+
+    <van-picker
+      class="datetime"
+      v-if="ispropertiesss"
+      title="职务"
+      show-toolbar
+      :columns="jobOptions"
+      @confirm="propertiesonConfirmss"
+      @cancel="ispropertiesss = false"
+    />
   </div>
 </template>
     
 <script>
 import Avatars from '@/components/content/Avatars/Avatars'
+import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getDepartments,
@@ -112,30 +136,29 @@ export default {
       name: '',
       digit: '',
       tel: '',
+      isproperties: false,
+      ispropertiess: false,
+      ispropertiesss: false,
       orther: '',
       PropsImg: '',
       radio: '1',
       iid: 0,
       Contractnum: '',
       ContractValue: '',
+      ContractValuetest: '',
       ContractValuse: '',
+      ContractValusetest: '',
       ContractOptions: [],
-      ContractOptisons: [
-        {
-          value: 1,
-          label: '是',
-        },
-        {
-          value: 0,
-          label: '否',
-        },
-      ],
+      getDepartments: [],
+      ContractOptisons: ['否', '是'],
       jobValue: '',
+      jobValuetest: '',
       jobOptions: [],
+      roles: [],
       dataImgUrl: '',
     }
   },
-  components: { Avatars },
+  components: { Avatars, myBtns },
   activated() {
     this.iid = this.$route.params.id
     this.getDepartment()
@@ -156,18 +179,42 @@ export default {
       form.append('name', this.name)
       form.append('sex', this.radio)
       form.append('id_number', this.value)
-      form.append('department_id', this.ContractValue)
+      form.append('department_id', this.ContractValuetest)
       form.append('remark', this.orther)
-      form.append('role_id', this.jobValue)
+      form.append('role_id', this.jobValuetest)
       form.append('user_id', this.iid)
       form.append('token', this.$store.state.token)
       form.append('is_statistic', 0)
       form.append('logo_url', this.dataImgUrl)
-      form.append('department_head', this.ContractValuse)
+      form.append('department_head', this.ContractValusetest)
       return form
     },
   },
   methods: {
+    propertiesonConfirmss(value, index) {
+      this.jobValue = value
+      this.roles.map((item, index1) => {
+        if (index1 == index) {
+          this.jobValuetest = item.id
+        }
+      })
+      console.log(this.jobValuetest)
+      this.ispropertiesss = false
+    },
+    propertiesonConfirms(value, index) {
+      this.ContractValuse = value
+      this.ContractValusetest = index
+      this.ispropertiess = false
+    },
+    propertiesonConfirm(value, index) {
+      this.ContractValue = value
+      this.getDepartments.map((item, index1) => {
+        if (index1 == index) {
+          this.ContractValuetest = item.id
+        }
+      })
+      this.isproperties = false
+    },
     async getEditUser() {
       const { data } = await getEditUserNew({
         user_id: this.iid,
@@ -181,6 +228,7 @@ export default {
         sex,
         department_id,
         role_id,
+        department_head,
       } = data.user[0]
       console.log('getEditUserNew', data)
       this.tel = username
@@ -188,8 +236,20 @@ export default {
       this.name = name
       this.value = id_number
       this.radio = sex
-      this.ContractValue = department_id
-      this.jobValue = role_id
+      this.ContractValuetest = department_id
+      this.jobValuetest = role_id
+      this.roles.map((item, index) => {
+        if (item.id == role_id) {
+          this.jobValue = item.display_name
+        }
+      })
+      this.getDepartments.map((item, index) => {
+        if (item.id == department_id) {
+          this.ContractValue = item.name
+        }
+      })
+      this.ContractValuse = department_head == '1' ? '是' : '否'
+      this.ContractValusetest = department_head
     },
     touchStart() {
       this.$refs.digit.blur()
@@ -231,41 +291,19 @@ export default {
     async getDepartment() {
       const { data } = await getDepartments(this.getDepartmentData)
       console.log('getDepartments', data)
-      data.getDepartments.map((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.name,
-        }
-        this.ContractOptions.push(obj)
-      })
+      this.getDepartments = data.getDepartments
+      this.ContractOptions = data.getDepartments.map((item) => item.name)
     },
     async getRolesList() {
       const { data } = await getRoles(this.getDepartmentData)
       console.log('getRoles', data)
-      data.roles.map((item, index) => {
-        let obj = {
-          value: item.id,
-          label: item.display_name,
-        }
-        this.jobOptions.push(obj)
-      })
+      this.roles = data.roles
+      this.jobOptions = data.roles.map((item, index) => item.display_name)
     },
   },
 }
 </script>
-<style lang="scss">
-.van-cell {
-  padding: 0.714286rem 0.428571rem;
-}
-.van-button {
-  font-size: 0.857143rem;
-  width: 7.142857rem;
-  padding: 0;
-  height: 2.571429rem;
-}
-.van-cell__title {
-}
-</style>
+
 <style scoped lang="scss">
 #staffEntry {
   padding-top: 5.428571rem;
@@ -287,6 +325,27 @@ export default {
   }
   .staffEntry_content {
     .box-card {
+      padding: 0.357143rem;
+      .DeliveryDate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e7e7e7;
+        line-height: normal;
+        .lable {
+          width: 4.928571rem;
+          text-align: justify;
+          text-align-last: justify;
+          color: black;
+          padding-right: 0.714286rem;
+          border-right: 1px solid #e7e7e7;
+        }
+        .time {
+          flex: 1;
+          text-align: right;
+          padding: 0 1rem;
+        }
+      }
       .Contract {
         display: flex;
         justify-content: space-between;
@@ -303,6 +362,12 @@ export default {
     .van-button {
       margin-right: 0.357143rem;
     }
+  }
+  .datetime {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

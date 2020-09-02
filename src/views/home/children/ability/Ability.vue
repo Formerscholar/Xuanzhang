@@ -6,7 +6,7 @@
           <svg class="icon icons" aria-hidden="true">
             <use :xlink:href="item.icon_Url" />
           </svg>
-          <span>{{item.title}}</span>
+          <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
         </div>
       </li>
     </ul>
@@ -42,6 +42,7 @@ export default {
         {
           icon_Url: '#icon-renlikaoqin',
           title: '任务管理',
+          path: '/mission',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-25',
@@ -62,24 +63,27 @@ export default {
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-16',
-          title: '提现操作',
+          title: '提现',
         },
-
         {
           icon_Url: '#icon-gongchengjiansheanquanpaicha',
           title: '盘库',
+          path: '/Inventory',
         },
         {
           icon_Url: '#icon-xiangmurenwu',
           title: '领料',
+          path: '/MaterialReturn',
         },
         {
           icon_Url: '#icon-renlikaoqin',
           title: '退料',
+          path: '/picking',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-17',
           title: '报销',
+          path: '/reimbursement',
         },
         {
           icon_Url: '#icon-product-cate',
@@ -98,7 +102,7 @@ export default {
 }
 </script>
     
-<style lang="scss">
+<style lang="scss" scoped>
 .ability {
   border-bottom: 0.214286rem solid #f5f5f5;
   width: 100%;
@@ -132,6 +136,7 @@ export default {
       span {
         margin-top: 0.142857rem;
         font-size: 0.857143rem;
+        color: #969799;
       }
     }
   }
