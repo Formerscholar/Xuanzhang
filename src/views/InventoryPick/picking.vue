@@ -236,8 +236,30 @@ export default {
   },
   methods: {
     scanProduct() {
-      this.$router.push('/scan')
-      console.log('扫码')
+      this.$router.push('/scan/picking')
+      this.$bus.$off('proudectReturn')
+      this.$bus.$on('proudectReturn', (item) => {
+        const {
+          id,
+          name,
+          specification,
+          remark,
+          weight,
+          img_url,
+        } = item.materiel
+        const quantity = item.digit
+        this.productId = id
+        this.shippingValue = name
+        this.Products = specification
+        this.quantity = quantity
+        this.states = name
+        this.ProductNotes = remark
+        this.productWeight = weight
+        this.FlowingProducts = ['0']
+        this.product_img = img_url
+        this.processCost = '0'
+        this.AddClick()
+      })
     },
     onConfirm(value, index) {
       this.Shipment = value

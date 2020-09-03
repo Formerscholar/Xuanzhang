@@ -190,7 +190,10 @@ export default {
       this.listItems = []
       this.img_URL = ''
       this.allData = {}
-      this.$router.go(-1)
+
+      if (this.$route.params.model == 'MaterialReturn') {
+        this.$router.replace('/MaterialReturn')
+      }
     },
     focusClick() {
       this.$router.push({
@@ -231,10 +234,10 @@ export default {
       this.$router.go(-1)
     },
   },
-  created() {
+  activated() {
     this.getMaterielLists()
   },
-  destroyed() {
+  deactivated() {
     this.state = ''
     this.Products = ''
     this.img_URL = ''

@@ -5,15 +5,11 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>盘库</span>
+        <span>产品</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3">
       <el-card class="box-card item1">
-        <div class="Scandiv" @click="Scan">
-          <span>扫码选择产品</span>
-          <van-icon name="scan" />
-        </div>
         <div class="product_box">
           <div class="left_img" @click="imgClick">
             <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
@@ -25,12 +21,12 @@
             <img src="@/assets/image/Default.png" v-else />
           </div>
           <div class="right_box">
-            <div class="right_name" @click.stop="focusClick">
+            <div class="right_name">
               <span v-if="state">{{state}}</span>
               <span v-else class="pltext">请选择产品名称</span>
               <van-icon name="arrow" />
             </div>
-            <div class="right_model" v-if="isfouck" @click.stop="focusClick">
+            <div class="right_model" v-if="isfouck">
               <span v-if="Products">{{Products}}</span>
               <span v-else class="pltext">请选择产品型号</span>
               <van-icon name="arrow" />
@@ -44,7 +40,12 @@
             />
           </div>
         </div>
-        <van-field v-model="digit" class="newStyle leftINPUT" type="digit" />
+        <van-field
+          v-if="model != 'Inventory'"
+          v-model="digit"
+          class="newStyle leftINPUT"
+          type="digit"
+        />
       </el-card>
     </scroll>
     <myBtns :commitFun="commite" :cancelFun="onClickLeft">
@@ -60,7 +61,8 @@
 <script>
 import myBtns from '@/components/common/my_btns/my_btns'
 import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
-import { getMaterielList, addInventory } from '@/network/deal'
+import { getMaterielList } from '@/network/deal'
+import { getEditMateriel } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
@@ -75,6 +77,10 @@ export default {
       isfouck: true,
       uploadParam: 4,
       listItems: [],
+      model: null,
+      iid: 0,
+      company_id: '',
+      materiel: {},
     }
   },
   components: {
@@ -84,65 +90,43 @@ export default {
   computed: {
     getMaterielListData() {
       return {
-        company_id: this.$store.state.userInfo[0].user_compser_id,
+        company_id: this.company_id,
         _: new Date().getTime(),
       }
     },
-    addInventoryData() {
+    getEditMaterielData() {
       return {
         token: this.$store.state.token,
-        material_id: this.material_id,
-        inventory_num: this.digit,
+        id: this.iid,
+        _: new Date().getTime(),
       }
     },
   },
   activated() {
-    this.getMaterielLists()
+    this.iid = this.$route.params.id
+    this.model = this.$route.query.data
+    this.getEditMaterielS()
   },
   methods: {
-    Scan() {
-      this.$router.push('/scan/Inventory')
-      this.$bus.$off('proudectReturn')
-      this.$bus.$on('proudectReturn', (item) => {
-        const { id, name, specification, img_url } = item.materiel
-        this.isfouck = true
-        this.state = name
-        this.Products = specification
-        this.img_URL = img_url
-        this.material_id = id
-        this.listItem = {}
-        this.isFlowingShow = []
-        for (const key in this.listItem) {
-          this.listItems.push(this.listItem[key])
-        }
-      })
-    },
-    async commite() {
-      console.log('提交')
-      const { code, msg } = await addInventory(this.addInventoryData)
-      if (code == 200) {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
-        this.onClickLeft()
-      } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
-      }
-    },
-    async getMaterielLists() {
-      const { data } = await getMaterielList(this.getMaterielListData)
-      this.listItem = { ...data }
+    async getEditMaterielS() {
+      const { data } = await getEditMateriel(this.getEditMaterielData)
+      console.log('getEditMateriel', data)
+      this.materiel = data.materiel[0]
+      const { name, specification, img_url, img_url_lin, id } = this.materiel
+      this.isfouck = true
+      this.state = name
+      this.Products = specification
+      this.img_URL = img_url
+      this.img_url_lin = img_url_lin
+      this.material_id = id
+      this.listItem = {}
       this.isFlowingShow = []
       for (const key in this.listItem) {
         this.listItems.push(this.listItem[key])
       }
-      console.log(this.listItems)
+    },
+    commite() {
+      this.onClickLeft()
     },
     uploadHandle(data) {
       this.img_URL = data
@@ -152,6 +136,24 @@ export default {
       this.$refs['cropper'].upload()
     },
     onClickLeft() {
+      this.$bus.$emit('proudectReturn', {
+        materiel: this.materiel,
+        digit: this.digit,
+      })
+      switch (this.model) {
+        case 'MaterialReturn':
+          this.$router.replace('/MaterialReturn')
+          break
+        case 'Inventory':
+          this.$router.replace('/Inventory')
+          break
+        case 'picking':
+          this.$router.replace('/picking')
+          break
+        default:
+          this.$router.go(-1)
+          break
+      }
       this.state = ''
       this.img_URL = ''
       this.img_url_lin = ''
@@ -161,7 +163,6 @@ export default {
       this.isfouck = true
       this.uploadParam = 4
       this.listItems = []
-      this.$router.replace('/home')
     },
     focusClick() {
       this.$router.push({

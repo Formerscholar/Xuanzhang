@@ -44,6 +44,7 @@ export default {
         plus.barcode.RSSEXPANDED,
       ],
       scan: null,
+      model: null,
     }
   },
   activated() {
@@ -51,6 +52,7 @@ export default {
       this.startRecognize()
       this.startScan()
     }, 500)
+    this.model = this.$route.params.model
   },
   deactivated() {
     this.closeScan()
@@ -61,9 +63,20 @@ export default {
       this.scan.onmarked = (type, result, file) => {
         result = result.replace(/\n/g, '')
         this.codeUrl = result
-        alert(result)
         this.closeScan()
-        this.$router.go(-1)
+        switch (this.model) {
+          case 'home':
+            this.$router.replace('/home')
+            break
+          default:
+            this.$router.push({
+              path: this.codeUrl,
+              query: {
+                data: this.model,
+              },
+            })
+            break
+        }
       }
     },
     startScan() {

@@ -173,6 +173,8 @@ const editAddress = () =>
   import('@/views/deal/children/editAddress/editAddress')
 
 const Inventory = () => import('@/views/InventoryPick/Inventory')
+const scanSelectPd = () => import('@/views/InventoryPick/scanSelectPd')
+
 const MaterialReturn = () => import('@/views/InventoryPick/MaterialReturn')
 const picking = () => import('@/views/InventoryPick/picking')
 
@@ -261,7 +263,7 @@ const routes = [
     component: businessLogin,
   },
   {
-    path: '/scan',
+    path: '/scan/:model',
     component: scan,
   },
   {
@@ -625,6 +627,11 @@ const routes = [
   {
     path: '/Inventory',
     component: Inventory,
+  },
+  {
+    path: '/scanSelectPd/:id',
+    name: 'data',
+    component: scanSelectPd,
   },
   {
     path: '/MaterialReturn',

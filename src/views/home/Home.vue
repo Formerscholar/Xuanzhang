@@ -208,7 +208,7 @@ export default {
       this.isShow = data.designatedTasksList.length
     },
     scanClick() {
-      this.$router.push('/scan')
+      this.$router.push('/scan/home')
       this.overlayshow = false
     },
     goMission() {
