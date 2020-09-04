@@ -630,4 +630,35 @@ export function cancelToExamineOemOrder(data) {
     data: Qs.stringify(data),
   })
 }
-// OutsourcingOrder/toExamineOutsourcingOrder
+
+export function toExamineSettlementRecord(data) {
+  return request({
+    url: '/Settlement/toExamineSettlementRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExamineSettlementRecord(data) {
+  return request({
+    url: '/Settlement/cancelToExamineSettlementRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function delSettlementRecord(data) {
+  return request({
+    url: '/Settlement/delSettlementRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getOtherSettlementRecordList(params) {
+  return request({
+    url: '/Settlement/getOtherSettlementRecordList',
+    method: 'GET',
+    params,
+  })
+}

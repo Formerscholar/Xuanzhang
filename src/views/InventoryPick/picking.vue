@@ -201,7 +201,7 @@ export default {
     myVqr,
     myBtns,
   },
-  created() {
+  activated() {
     this.getAddPick()
   },
   filters: {

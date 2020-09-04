@@ -43,6 +43,7 @@
         <van-field
           v-if="model != 'Inventory'"
           v-model="digit"
+          placeholder="请输入数量"
           class="newStyle leftINPUT"
           type="digit"
         />
@@ -51,7 +52,7 @@
     <myBtns :commitFun="commite" :cancelFun="onClickLeft">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        <span>提交</span>
+        <span>确认</span>
       </span>
     </myBtns>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
@@ -73,7 +74,7 @@ export default {
       img_url_lin: '',
       Products: '',
       material_id: '',
-      digit: 0,
+      digit: null,
       isfouck: true,
       uploadParam: 4,
       listItems: [],
@@ -126,7 +127,76 @@ export default {
       }
     },
     commite() {
-      this.onClickLeft()
+      switch (this.model) {
+        case 'MaterialReturn':
+          if (this.digit <= 0) {
+            this.$dialog({ message: '数量不允许为0' })
+          } else {
+            this.$bus.$emit('proudectReturn', {
+              materiel: this.materiel,
+              digit: this.digit,
+            })
+            this.$router.replace('/MaterialReturn')
+            this.state = ''
+            this.img_URL = ''
+            this.img_url_lin = ''
+            this.Products = ''
+            this.material_id = ''
+            this.digit = null
+            this.isfouck = true
+            this.uploadParam = 4
+            this.listItems = []
+          }
+          break
+        case 'Inventory':
+          this.$bus.$emit('proudectReturn', {
+            materiel: this.materiel,
+            digit: this.digit,
+          })
+          this.$router.replace('/Inventory')
+          this.state = ''
+          this.img_URL = ''
+          this.img_url_lin = ''
+          this.Products = ''
+          this.material_id = ''
+          this.digit = null
+          this.isfouck = true
+          this.uploadParam = 4
+          this.listItems = []
+          break
+        case 'picking':
+          if (this.digit <= 0) {
+            this.$dialog({ message: '数量不允许为0' })
+          } else {
+            this.$bus.$emit('proudectReturn', {
+              materiel: this.materiel,
+              digit: this.digit,
+            })
+            this.$router.replace('/picking')
+            this.state = ''
+            this.img_URL = ''
+            this.img_url_lin = ''
+            this.Products = ''
+            this.material_id = ''
+            this.digit = null
+            this.isfouck = true
+            this.uploadParam = 4
+            this.listItems = []
+          }
+          break
+        default:
+          this.$router.go(-1)
+          this.state = ''
+          this.img_URL = ''
+          this.img_url_lin = ''
+          this.Products = ''
+          this.material_id = ''
+          this.digit = null
+          this.isfouck = true
+          this.uploadParam = 4
+          this.listItems = []
+          break
+      }
     },
     uploadHandle(data) {
       this.img_URL = data
@@ -136,33 +206,16 @@ export default {
       this.$refs['cropper'].upload()
     },
     onClickLeft() {
-      this.$bus.$emit('proudectReturn', {
-        materiel: this.materiel,
-        digit: this.digit,
-      })
-      switch (this.model) {
-        case 'MaterialReturn':
-          this.$router.replace('/MaterialReturn')
-          break
-        case 'Inventory':
-          this.$router.replace('/Inventory')
-          break
-        case 'picking':
-          this.$router.replace('/picking')
-          break
-        default:
-          this.$router.go(-1)
-          break
-      }
       this.state = ''
       this.img_URL = ''
       this.img_url_lin = ''
       this.Products = ''
       this.material_id = ''
-      this.digit = 0
+      this.digit = null
       this.isfouck = true
       this.uploadParam = 4
       this.listItems = []
+      this.$router.go(-1)
     },
     focusClick() {
       this.$router.push({

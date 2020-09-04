@@ -129,6 +129,34 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '统计报表',
         },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '合同收款',
+          path: '/ContractCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '流水收款',
+          path: '/CurrentCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '代工收款',
+          path: '/CollectionOEM',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '其他收款',
+          path: '/OtherCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '委外付款',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '采购付款',
+        },
       ],
       Tuple5OrderList: [
         {

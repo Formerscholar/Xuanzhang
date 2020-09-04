@@ -406,7 +406,8 @@ i {
 #contract,
 #aside,
 #StorageCompany,
-#turnover {
+#turnover,
+#ContractCollection {
   .van-swipe-cell__right {
     display: flex;
     flex-direction: column;
@@ -419,6 +420,13 @@ i {
     line-height: .785714rem;
     border-radius: 0.214286rem;
     margin-right: 0.214286rem;
+  }
+}
+
+#ContractCollection {
+  .van-swipe-cell__right {
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -441,7 +449,8 @@ i {
 #cardbox,
 #engravDetail,
 #completions,
-#Reimbursement {
+#Reimbursement,
+#ContractCollection {
   .el-card__body {
     padding: 0.571429rem;
   }

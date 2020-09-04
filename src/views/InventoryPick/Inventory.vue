@@ -44,13 +44,13 @@
             />
           </div>
         </div>
-        <van-field v-model="digit" class="newStyle leftINPUT" type="digit" />
+        <van-field v-model="digit" placeholder="请输入最终数量" class="newStyle leftINPUT" type="digit" />
       </el-card>
     </scroll>
     <myBtns :commitFun="commite" :cancelFun="onClickLeft">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        <span>提交</span>
+        <span>确认</span>
       </span>
     </myBtns>
     <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
@@ -71,7 +71,7 @@ export default {
       img_url_lin: '',
       Products: '',
       material_id: '',
-      digit: 0,
+      digit: null,
       isfouck: true,
       uploadParam: 4,
       listItems: [],
@@ -118,21 +118,24 @@ export default {
       })
     },
     async commite() {
-      console.log('提交')
-      const { code, msg } = await addInventory(this.addInventoryData)
-      if (code == 200) {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'success',
-        })
-        this.onClickLeft()
+      if (this.digit <= 0) {
+        this.$dialog({ message: '数量不允许为0' })
       } else {
-        this.$message({
-          showClose: true,
-          message: msg,
-          type: 'error',
-        })
+        const { code, msg } = await addInventory(this.addInventoryData)
+        if (code == 200) {
+          this.$message({
+            showClose: true,
+            message: msg,
+            type: 'success',
+          })
+          this.onClickLeft()
+        } else {
+          this.$message({
+            showClose: true,
+            message: msg,
+            type: 'error',
+          })
+        }
       }
     },
     async getMaterielLists() {
@@ -157,7 +160,7 @@ export default {
       this.img_url_lin = ''
       this.Products = ''
       this.material_id = ''
-      this.digit = 0
+      this.digit = null
       this.isfouck = true
       this.uploadParam = 4
       this.listItems = []

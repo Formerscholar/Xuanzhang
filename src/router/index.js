@@ -184,6 +184,18 @@ const Recordlist = () =>
 
 const shipments = () => import('@/views/home/children/shipments/shipments')
 
+const ContractCollection = () =>
+  import('@/views/home/children/ContractCollection/ContractCollection')
+
+const CurrentCollection = () =>
+  import('@/views/home/children/CurrentCollection/CurrentCollection')
+
+const CollectionOEM = () =>
+  import('@/views/home/children/CollectionOEM/CollectionOEM')
+
+const OtherCollection = () =>
+  import('@/views/home/children/OtherCollection/OtherCollection')
+
 const routes = [
   {
     path: '/',
@@ -652,6 +664,22 @@ const routes = [
   {
     path: '/shipments',
     component: shipments,
+  },
+  {
+    path: '/ContractCollection',
+    component: ContractCollection,
+  },
+  {
+    path: '/CurrentCollection',
+    component: CurrentCollection,
+  },
+  {
+    path: '/CollectionOEM',
+    component: CollectionOEM,
+  },
+  {
+    path: '/OtherCollection',
+    component: OtherCollection,
   },
 ]
 

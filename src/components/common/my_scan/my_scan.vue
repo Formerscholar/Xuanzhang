@@ -64,18 +64,23 @@ export default {
         result = result.replace(/\n/g, '')
         this.codeUrl = result
         this.closeScan()
-        switch (this.model) {
-          case 'home':
-            this.$router.replace('/home')
-            break
-          default:
-            this.$router.push({
-              path: this.codeUrl,
-              query: {
-                data: this.model,
-              },
-            })
-            break
+        if (this.codeUrl.indexOf('/scanSelectPd/') != -1) {
+          switch (this.model) {
+            case 'home':
+              this.$router.replace('/home')
+              break
+            default:
+              this.$router.push({
+                path: this.codeUrl,
+                query: {
+                  data: this.model,
+                },
+              })
+              break
+          }
+        } else {
+          this.$dialog({ message: '无法识别的二维码!' })
+          this.$router.go(-1)
         }
       }
     },
