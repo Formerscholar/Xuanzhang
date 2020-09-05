@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>合同收款</span>
+        <span>委外付款</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -42,9 +42,7 @@
                   :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
                 >{{item.created_at | setCommitmentPeriod}}</span>
                 <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                  <em
-                    :class="item.deleted_at ? 'color_break ' : 'black' "
-                  >￥{{item.settlement_money}}</em>
+                  <em :class="item.deleted_at ? 'color_break ' : 'black' ">￥{{item.payment_money}}</em>
                 </span>
               </div>
             </div>
@@ -108,7 +106,7 @@
                 :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
               >{{item.created_at | setCommitmentPeriod}}</span>
               <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                <em :class="item.deleted_at ? 'color_break ' : 'black'">￥{{item.settlement_money}}</em>
+                <em :class="item.deleted_at ? 'color_break ' : 'black'">￥{{item.payment_money}}</em>
               </span>
             </div>
           </div>
@@ -129,13 +127,12 @@ import myVqr from '@/components/common/my_vqr/myVqr'
 
 import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
-  getSettlementRecordList,
-  toExamineSettlementRecord,
-  cancelToExamineSettlementRecord,
-  delSettlementRecord,
-  getAddSettlementRecordDistributors,
+  getPaymentRecordList,
+  toExaminePaymentRecord,
+  cancelToExaminePaymentRecord,
+  delPaymentRecord,
+  getAddSettlementRecordSuppliers,
 } from '@/network/deal'
-
 export default {
   components: {
     myVqr,
@@ -174,7 +171,7 @@ export default {
         token: root.$store.state.token,
         page: state.page,
         offset: 20,
-        order_type: 0,
+        order_type: 'outsourcing',
         distributor_id: 0,
         start_date: null,
         end_date: null,
@@ -183,13 +180,11 @@ export default {
     })
 
     async function getSettlementList() {
-      const { data } = await getSettlementRecordList(
-        getSettlementListData.value
-      )
-      if (data.settlementRecordList.length && state.isNetWork) {
+      const { data } = await getPaymentRecordList(getSettlementListData.value)
+      if (data.paymentRecordList.length && state.isNetWork) {
         state.settlementRecordList = [
           ...state.settlementRecordList,
-          ...data.settlementRecordList,
+          ...data.paymentRecordList,
         ]
       } else {
         state.isNetWork = false
@@ -197,10 +192,10 @@ export default {
     }
 
     async function ControlledDelay(iid) {
-      const { code, msg } = await toExamineSettlementRecord({
+      const { code, msg } = await toExaminePaymentRecord({
         id: [iid],
         token: root.$store.state.token,
-        order_type: 'contract',
+        order_type: 'outsourcing',
       })
       if (code == 200) {
         root.$message({
@@ -219,10 +214,10 @@ export default {
     }
 
     async function unlockyoursidekick(iid) {
-      const { code, msg } = await cancelToExamineSettlementRecord({
+      const { code, msg } = await cancelToExaminePaymentRecord({
         id: [iid],
         token: root.$store.state.token,
-        order_type: 'contract',
+        order_type: 'outsourcing',
       })
       if (code == 200) {
         root.$message({
@@ -246,10 +241,11 @@ export default {
     }
 
     async function deleteClick(iid) {
-      const { code, msg } = await delSettlementRecord({
+      const { code, msg } = await delPaymentRecord({
         token: root.$store.state.token,
         id: iid,
-        order_type: 'contract',
+        order_type: 'outsourcing',
+        _: new Date().getTime(),
       })
       if (code == 200) {
         root.$message({
@@ -269,7 +265,7 @@ export default {
 
     function printClick(iid) {
       state.isShow = true
-      state.textContent = `http://219.83.161.11:8030/view/html/accountment/sell_print.php?id=${iid}&order_type=contract`
+      state.textContent = `http://219.83.161.11:8030/view/html/accountment/sell_print.php?id=${iid}&order_type=outsourcing`
     }
 
     function pullingUp() {
@@ -282,10 +278,10 @@ export default {
     }
 
     async function getAddSettlement() {
-      const { data } = await getAddSettlementRecordDistributors({
+      const { data } = await getAddSettlementRecordSuppliers({
         _: new Date().getTime(),
       })
-      if (data.companyOrderType['contract'] === undefined) {
+      if (data.companyOrderType['outsourcing'] === undefined) {
         root.$router.replace('/home')
         root.$dialog({ message: '您无该模块权限!' })
       }

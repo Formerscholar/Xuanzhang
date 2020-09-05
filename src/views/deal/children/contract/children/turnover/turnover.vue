@@ -2,38 +2,54 @@
   <div id="turnover">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blackhome">
-        <i class="el-icon-back"></i>
+        <van-icon name="arrow-left" />
       </div>
       <div class="center" slot="center">
-        <span>{{distributorNew.name}}</span>
+        <span>合作统计信息</span>
       </div>
-      <div class="right" slot="right">
+      <!-- <div class="right" slot="right">
         <van-icon @click="newAccount" name="orders-o" />
-      </div>
+      </div>-->
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="coutent">
         <div class="card topcard">
-          <el-card class="box-card">
-            <ul>
-              <li>
-                <span>总金额</span>
-                <em>{{OrderStatus.countSales}}</em>
-              </li>
-              <li>
-                <span>总欠款</span>
-                <em>{{distributorNew.actualNotSettlementMoney}}</em>
-              </li>
-              <li>
-                <span>已结算</span>
-                <em>{{distributorNew.settlementMoney}}</em>
-              </li>
-              <li>
-                <span>已开票</span>
-                <em>{{distributorNew.invoiceMoney}}</em>
-              </li>
-            </ul>
-          </el-card>
+          <div class="distributor_info">
+            <div class="icon_box">
+              <svg class="icon icons" aria-hidden="true">
+                <use xlink:href="#icon-baogao" />
+              </svg>
+            </div>
+            <div class="text">
+              <div class="name">{{distributorNew.name}}</div>
+              <div class="timers">最新交易时间:{{apply_time}}</div>
+            </div>
+          </div>
+
+          <div class="box-card">
+            <div class="card_items">
+              <span>总发货</span>
+              <em>{{OrderStatus.countSales}}</em>
+            </div>
+            <div class="card_items">
+              <span>已结算</span>
+              <em>{{distributorNew.settlementMoney}}</em>
+            </div>
+            <div class="card_items">
+              <span>欠款</span>
+              <em>{{distributorNew.actualNotSettlementMoney}}</em>
+            </div>
+            <div class="card_items">
+              <span>开票</span>
+              <em>{{distributorNew.invoiceMoney}}</em>
+            </div>
+          </div>
+          <img class="bg" src="@/assets/image/liushuiBG.png" alt="liushuiBG" />
+          <div class="bor_box">
+            <div class="bg_title">
+              <div class="bg_content">已发布的招标项目</div>
+            </div>
+          </div>
         </div>
 
         <div v-for="(item, index) in orderList" :key="item.id" class="Delivery">
@@ -173,6 +189,7 @@ export default {
       distributorNew: {},
       OrderStatus: {},
       orderList: [],
+      apply_time: '',
     }
   },
   activated() {
@@ -271,6 +288,7 @@ export default {
       this.distributorNew = data.distributorNew
       this.orderList = data.orderList
       this.OrderStatus = data.OrderStatus
+      this.apply_time = this.orderList[0].apply_time
     },
   },
 }
@@ -280,6 +298,8 @@ export default {
 #turnover {
   padding-top: 5.428571rem;
   .p_root_box {
+    background-color: #fff;
+    color: #000;
     .left {
       margin-left: 1.071429rem;
       i {
@@ -287,16 +307,16 @@ export default {
       }
     }
     .center {
-      margin-left: 0.928571rem;
+      margin-left: -2.071429rem;
       span {
         font-size: 1.142857rem;
       }
     }
-    .right {
-      margin-right: 1.071429rem;
-      .newbtn {
-      }
-    }
+    // .right {
+    //   margin-right: 1.071429rem;
+    //   .newbtn {
+    //   }
+    // }
   }
   .scroll-wrapper {
     position: absolute;
@@ -307,36 +327,85 @@ export default {
     overflow: hidden;
   }
   .coutent {
-    padding: 0.571429rem 1rem;
     .card {
+      .distributor_info {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        border-bottom: 0.857143rem solid #e6e6e6;
+        padding: 1.142857rem 1.285714rem;
+        .icon_box {
+          margin-right: 0.714286rem;
+          .icons {
+            width: 3.285714rem;
+            height: 3.285714rem;
+          }
+        }
+        .text {
+          .name {
+            font-size: 1.285714rem;
+          }
+          .timers {
+            font-size: 1rem;
+            color: #b7b7b7;
+          }
+        }
+      }
       .box-card {
-        margin-bottom: 0.571429rem;
-        ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.071429rem;
+        padding-bottom: 0;
+
+        .card_items {
+          flex: 1;
           display: flex;
-          width: 100%;
-          flex-wrap: wrap;
-          li {
-            width: 50%;
-            height: 5.571429rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 1.014286rem;
-            span {
-              color: #9b9b9b;
-            }
-            em {
-              font-weight: 700;
-              font-style: normal;
-              font-size: 1.142857rem;
-            }
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 5.142857rem;
+          border-radius: 0.357143rem;
+          border: 1px solid #efefef;
+          margin-right: 0.714286rem;
+          overflow: hidden;
+          &:first-child {
+            border-color: #e5b27d;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+          span {
+            font-size: 1rem;
+            color: #333333;
+          }
+          em {
+            font-size: 0.857143rem;
+            color: #458ff8;
+          }
+        }
+      }
+      .bg {
+        width: 100%;
+        padding: 0 1.071429rem;
+      }
+      .bor_box {
+        padding: 0 1.142857rem;
+        margin-bottom: 0.714286rem;
+        .bg_title {
+          border-bottom: 1px solid #ededed;
+          padding: 1.142857rem 0;
+
+          .bg_content {
+            border-left: 0.214286rem solid #f77709;
+            padding-left: 0.857143rem;
           }
         }
       }
     }
 
     .Delivery {
+      padding: 0 1.071429rem;
       .box-card {
         padding: 0.571429rem 1rem;
         margin-bottom: 0.571429rem;

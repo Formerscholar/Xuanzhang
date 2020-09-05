@@ -662,3 +662,43 @@ export function getOtherSettlementRecordList(params) {
     params,
   })
 }
+
+export function getPaymentRecordList(params) {
+  return request({
+    url: '/Payment/getPaymentRecordList',
+    method: 'GET',
+    params,
+  })
+}
+
+export function delPaymentRecord(params) {
+  return request({
+    url: '/Payment/delPaymentRecord',
+    method: 'GET',
+    params,
+  })
+}
+
+export function toExaminePaymentRecord(data) {
+  return request({
+    url: '/Payment/toExaminePaymentRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cancelToExaminePaymentRecord(data) {
+  return request({
+    url: '/Payment/cancelToExaminePaymentRecord',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getAddSettlementRecordSuppliers(params) {
+  return request({
+    url: '/Payment/getAddSettlementRecordSuppliers',
+    method: 'GET',
+    params,
+  })
+}

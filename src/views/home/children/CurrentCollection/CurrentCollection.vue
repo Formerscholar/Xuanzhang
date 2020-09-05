@@ -9,6 +9,15 @@
       </div>
       <div slot="right"></div>
     </navbar>
+    <div class="search">
+      <van-search
+        v-model="state.searchValue"
+        show-action
+        placeholder="请输入搜索公司名"
+        @focus="focusClick"
+        @cancel="onCancel"
+      />
+    </div>
     <scroll
       class="scroll-wrapper"
       ref="scroll"
@@ -19,55 +28,55 @@
     >
       <div v-for="(item ) in state.settlementRecordList" :key="item.id">
         <van-swipe-cell v-if="item.to_examine != undefined ">
-          <el-card class="box-card">
+          <div class="box-card">
             <div :class="item.deleted_at && 'color_break ' ">
               <div class="title">
                 <div class="title_text">
                   <span
                     :class="item.deleted_at ? 'color_break model' :' model'"
                   >{{ item.order_number }}</span>
-                  <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
-                </div>
-
-                <div class="ControlledDelaybox">
-                  <span
-                    v-for="(item,index) in item.auditRecord"
-                    :key="index"
-                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
-                  ></span>
+                  <div class="ControlledDelaybox">
+                    <span
+                      v-for="(item,index) in item.auditRecord"
+                      :key="index"
+                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    ></span>
+                  </div>
                 </div>
               </div>
+              <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
               <div class="time_box">
                 <span
                   :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >{{item.created_at | setCommitmentPeriod}}</span>
+                >{{item.created_at }}</span>
                 <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
                   <em
-                    :class="item.deleted_at ? 'color_break ' : 'black' "
-                  >￥{{item.settlement_money}}</em>
+                    :class="item.deleted_at ? 'color_break ' : 'orgin' "
+                  >￥{{fmoney(item.settlement_money,2)}}</em>
                 </span>
               </div>
             </div>
-          </el-card>
-          <template #right>
+          </div>
+          <template #right v-if="!item.deleted_at">
             <van-button
               v-if="item.to_examine == 0 "
               square
               type="primary"
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               text="受控"
               @click.stop="ControlledDelay(item.id)"
             />
             <van-button
               v-if="item.to_examine == 1 "
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               square
               type="danger"
               text="解锁"
               @click.stop="unlockyoursidekick(item.id)"
             />
             <van-button
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              v-if="setIsDelete(item.auditRecord)"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               square
               type="danger"
               text="作废"
@@ -76,42 +85,41 @@
             <van-button
               square
               type="primary"
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               text="打印"
               @click.stop="printClick(item.id)"
             />
           </template>
         </van-swipe-cell>
-        <el-card class="box-card" v-else>
+        <div class="box-card" v-else>
           <div :class="item.deleted_at && 'color_break ' ">
             <div class="title">
               <div class="title_text">
                 <span
                   :class="item.deleted_at ? 'color_break model' :' model'"
                 >{{ item.order_number }}</span>
-                <span
-                  :class="item.deleted_at ? 'color_break name' :' name'"
-                  @click.stop="gotodetails(item.distributor_id)"
-                >{{item.name}}</span>
-              </div>
-              <div class="ControlledDelaybox">
-                <span
-                  v-for="(item,index) in item.auditRecord"
-                  :key="index"
-                  :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
-                ></span>
+                <div class="ControlledDelaybox">
+                  <span
+                    v-for="(item,index) in item.auditRecord"
+                    :key="index"
+                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                  ></span>
+                </div>
               </div>
             </div>
+            <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
             <div class="time_box">
               <span
                 :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-              >{{item.created_at | setCommitmentPeriod}}</span>
+              >{{item.created_at}}</span>
               <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                <em :class="item.deleted_at ? 'color_break ' : 'black'">￥{{item.settlement_money}}</em>
+                <em
+                  :class="item.deleted_at ? 'color_break ' : 'orgin'"
+                >￥{{ fmoney(item.settlement_money,2)}}</em>
               </span>
             </div>
           </div>
-        </el-card>
+        </div>
       </div>
     </scroll>
 
@@ -125,13 +133,14 @@
     
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
-
-import { reactive, computed } from '@vue/composition-api'
+import { fmoney } from '@/common/utils'
+import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
   getSettlementRecordList,
   toExamineSettlementRecord,
   cancelToExamineSettlementRecord,
   delSettlementRecord,
+  getAddSettlementRecordDistributors,
 } from '@/network/deal'
 export default {
   components: {
@@ -161,6 +170,9 @@ export default {
       textContent: '',
       page: 1,
       isNetWork: true,
+      searchValue: '',
+      distributors: [],
+      distributor_id: '',
     })
 
     function onClickLeft() {
@@ -172,7 +184,7 @@ export default {
         page: state.page,
         offset: 20,
         order_type: 'flow',
-        distributor_id: 0,
+        distributor_id: state.distributor_id,
         start_date: null,
         end_date: null,
         _: new Date().getTime(),
@@ -237,7 +249,10 @@ export default {
       }
     }
     function clickScroll() {
+      state.searchValue = ''
+      state.distributor_id = '0'
       state.page = 1
+      state.isNetWork = true
       state.settlementRecordList = []
       getSettlementList()
     }
@@ -278,6 +293,59 @@ export default {
       }
     }
 
+    async function getAddSettlement() {
+      const { data } = await getAddSettlementRecordDistributors({
+        _: new Date().getTime(),
+      })
+      if (data.companyOrderType['flow'] === undefined) {
+        root.$router.replace('/home')
+        root.$dialog({ message: '您无该模块权限!' })
+      } else {
+        state.distributors = [...data.distributors]
+      }
+    }
+
+    function setIsDelete(data) {
+      return data.findIndex((item) => item.status == 1) == 0 ? false : true
+    }
+
+    function onCancel() {
+      console.log('onCancel')
+      state.searchValue = ''
+      state.distributor_id = '0'
+      state.page = 1
+      state.isNetWork = true
+      state.settlementRecordList = []
+      getSettlementList()
+    }
+
+    function focusClick() {
+      console.log('focusClick')
+      root.$router.push({
+        path: '/nameSearch',
+        query: {
+          data: { ...state.distributors },
+        },
+      })
+      root.$bus.$off('nameSupplier')
+      root.$bus.$on('nameSupplier', (item) => {
+        console.log(item)
+        if (typeof item == 'string') {
+          state.searchValue = item
+        } else {
+          state.searchValue = item.name
+          state.distributor_id = item.id
+          state.page = 1
+          state.settlementRecordList = []
+          getSettlementList()
+        }
+      })
+    }
+
+    onActivated(() => {
+      getAddSettlement()
+    })
+
     getSettlementList()
 
     return {
@@ -289,6 +357,10 @@ export default {
       deleteClick,
       printClick,
       pullingUp,
+      setIsDelete,
+      fmoney,
+      onCancel,
+      focusClick,
     }
   },
 }
@@ -311,16 +383,26 @@ export default {
       }
     }
   }
+  .search {
+    border-bottom: 1rem solid #e6e6e6;
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    top: 5.428571rem;
+    top: 10.285714rem;
     bottom: 0;
     width: 100%;
     overflow: hidden;
+
+    /deep/.content {
+      padding: 0.571429rem 1.714286rem;
+    }
     .box-card {
       margin-bottom: 0.571429rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.857143rem;
+      margin-bottom: 0.857143rem;
       .color_break {
         color: #ccc !important;
         border-color: #ccc !important;
@@ -339,23 +421,25 @@ export default {
             color: rgb(66, 147, 200);
             margin-right: 0.714286rem;
           }
-          .name {
+
+          .ControlledDelaybox {
+            display: flex;
+            align-items: center;
+            .glyphicon {
+              width: 0.857143rem;
+              height: 0.857143rem;
+              margin-right: 0.357143rem;
+            }
+            .pramary {
+              background-color: #e3e3e3;
+            }
+            .info {
+              background-color: rgb(66, 147, 200);
+            }
           }
         }
-        .ControlledDelaybox {
-          display: flex;
-          .glyphicon {
-            width: 0.857143rem;
-            height: 0.857143rem;
-            margin-right: 0.357143rem;
-          }
-          .pramary {
-            background-color: #e3e3e3;
-          }
-          .info {
-            background-color: rgb(66, 147, 200);
-          }
-        }
+      }
+      .name {
       }
       .itemlist {
         display: flex;
@@ -396,7 +480,8 @@ export default {
         .time_pircle {
           display: flex;
           justify-content: center;
-          align-items: center;
+          align-items: flex-end;
+          font-size: 1.285714rem;
           /deep/.el-tag--plain {
             color: rgb(66, 147, 200);
           }
@@ -406,8 +491,8 @@ export default {
           .black {
             color: #000000;
           }
-          .red {
-            color: red;
+          .orgin {
+            color: #ff6633;
           }
           em {
             color: #acacac;

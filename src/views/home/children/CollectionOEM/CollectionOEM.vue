@@ -49,25 +49,26 @@
               </div>
             </div>
           </el-card>
-          <template #right>
+          <template #right v-if="!item.deleted_at">
             <van-button
               v-if="item.to_examine == 0 "
               square
               type="primary"
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               text="受控"
               @click.stop="ControlledDelay(item.id)"
             />
             <van-button
               v-if="item.to_examine == 1 "
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               square
               type="danger"
               text="解锁"
               @click.stop="unlockyoursidekick(item.id)"
             />
             <van-button
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              v-if="setIsDelete(item.auditRecord)"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               square
               type="danger"
               text="作废"
@@ -76,7 +77,7 @@
             <van-button
               square
               type="primary"
-              style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
+              style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               text="打印"
               @click.stop="printClick(item.id)"
             />
@@ -126,13 +127,15 @@
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
 
-import { reactive, computed } from '@vue/composition-api'
+import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
   getSettlementRecordList,
   toExamineSettlementRecord,
   cancelToExamineSettlementRecord,
   delSettlementRecord,
+  getAddSettlementRecordDistributors,
 } from '@/network/deal'
+
 export default {
   components: {
     myVqr,
@@ -278,6 +281,24 @@ export default {
       }
     }
 
+    async function getAddSettlement() {
+      const { data } = await getAddSettlementRecordDistributors({
+        _: new Date().getTime(),
+      })
+      if (data.companyOrderType['oem'] === undefined) {
+        root.$router.replace('/home')
+        root.$dialog({ message: '您无该模块权限!' })
+      }
+    }
+
+    function setIsDelete(data) {
+      return data.findIndex((item) => item.status == 1) == 0 ? false : true
+    }
+
+    onActivated(() => {
+      getAddSettlement()
+    })
+
     getSettlementList()
 
     return {
@@ -289,6 +310,7 @@ export default {
       deleteClick,
       printClick,
       pullingUp,
+      setIsDelete,
     }
   },
 }

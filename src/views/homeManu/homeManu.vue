@@ -152,10 +152,12 @@ export default {
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '委外付款',
+          path: '/Outsourcingpayment',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '采购付款',
+          path: '/Purchasepayment',
         },
       ],
       Tuple5OrderList: [

@@ -196,6 +196,11 @@ const CollectionOEM = () =>
 const OtherCollection = () =>
   import('@/views/home/children/OtherCollection/OtherCollection')
 
+const Outsourcingpayment = () =>
+  import('@/views/home/children/Outsourcingpayment/Outsourcingpayment')
+
+const Purchasepayment = () =>
+  import('@/views/home/children/Purchasepayment/Purchasepayment')
 const routes = [
   {
     path: '/',
@@ -680,6 +685,14 @@ const routes = [
   {
     path: '/OtherCollection',
     component: OtherCollection,
+  },
+  {
+    path: '/Outsourcingpayment',
+    component: Outsourcingpayment,
+  },
+  {
+    path: '/Purchasepayment',
+    component: Purchasepayment,
   },
 ]
 
