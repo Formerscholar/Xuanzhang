@@ -9,6 +9,14 @@ export function getMyMoneyLogLists(params) {
   })
 }
 
+export function getUserMoneyLogLists(params) {
+  return request({
+    url: '/CustomerBank/getUserMoneyLogLists',
+    method: 'GET',
+    params,
+  })
+}
+
 // export function getEditMaterielStatus(data) {
 //   return request({
 //     url: '/materiel/getEditMaterielStatus',

@@ -221,8 +221,7 @@ export default {
       number: 0,
     }
   },
-
-  created() {
+  activated() {
     this.getAddOemOrders()
 
     if (this.$store.state.timers.timers.SigningDate != '') {

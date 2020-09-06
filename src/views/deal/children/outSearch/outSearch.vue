@@ -30,14 +30,14 @@ export default {
       itemData: {},
     }
   },
-  created() {
+  activated() {
     this.listItem = { ...this.$route.query.data }
     filterList(
       document.getElementById('form'),
       document.getElementById('demo-list')
     )
   },
-  destroyed() {
+  deactivated() {
     this.listItem = []
     this.value = ''
     this.itemData = {}

@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>账单</span>
+        <span>公司账单</span>
       </div>
     </navbar>
     <scroll
@@ -65,7 +65,7 @@
     
 <script>
 import { reactive, computed } from '@vue/composition-api'
-import { getMyMoneyLogLists } from '@/network/Profile'
+import { getUserMoneyLogLists } from '@/network/Profile'
 import { fmoney } from '@/common/utils'
 
 export default {
@@ -96,6 +96,8 @@ export default {
         money_type: 0,
         variable_id: 0,
         keyword: null,
+        operator_id: 0,
+        happen_user_id: 0,
         offset: 20,
         page: state.listPage,
         _: new Date().getTime(),
@@ -103,7 +105,7 @@ export default {
     })
 
     async function getMyMoneyList() {
-      const { data } = await getMyMoneyLogLists(getMyMoneyLogListData.value)
+      const { data } = await getUserMoneyLogLists(getMyMoneyLogListData.value)
       console.log('getMyMoneyList', data)
       state.userMoneyLogLists = [
         ...state.userMoneyLogLists,
@@ -113,7 +115,7 @@ export default {
     }
 
     function goBack() {
-      root.$router.go(-1)
+      root.$router.replace('/home')
     }
 
     function clickscroll() {

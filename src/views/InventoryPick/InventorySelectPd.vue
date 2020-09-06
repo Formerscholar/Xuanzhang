@@ -44,6 +44,7 @@
             />
           </div>
         </div>
+        <div class="nums">库存数量:{{nums}}</div>
       </el-card>
 
       <el-card class="box-card item1">
@@ -96,6 +97,7 @@ export default {
       ProductSubtotal: 0,
       processCost: '',
       ProductNotes: '',
+      nums: 0,
       img_URL: '',
       PropsImg: '',
       listItem: {},
@@ -182,6 +184,7 @@ export default {
       this.FlowingProducts = ['0']
       this.isWeightShow = false
       this.quantity = ''
+      this.nums = 0
       this.isfouck = true
       this.img_url_lin = ''
       this.ProductSubtotal = 0
@@ -190,10 +193,7 @@ export default {
       this.listItems = []
       this.img_URL = ''
       this.allData = {}
-
-      if (this.$route.params.model == 'MaterialReturn') {
-        this.$router.replace('/MaterialReturn')
-      }
+      this.$router.go(-1)
     },
     focusClick() {
       this.$router.push({
@@ -207,6 +207,7 @@ export default {
         console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
+          this.nums = 0
           this.state = item
         } else {
           this.isfouck = true
@@ -214,6 +215,7 @@ export default {
           this.productWeight = item.weight
           this.allData = item
           this.state = item.name
+          this.nums = item.stock
           this.Products = item.specification
           this.productPrice = item.out_price
           this.img_URL = item?.img_url
@@ -380,6 +382,10 @@ export default {
           }
         }
       }
+    }
+    .nums {
+      padding: 0.571429rem 1.142857rem;
+      font-size: 1.142857rem;
     }
   }
 }

@@ -12,6 +12,19 @@
       <van-collapse v-model="activeNames">
         <van-collapse-item title="全部应用" name="1">
           <div class="abilitys">
+            <span class="titleName">审核</span>
+            <ul class="abilitys_item">
+              <li v-for="(item,index) in ExamineList" :key="index">
+                <div @click="jumpPage(item.path)" class="abilitys_item_list">
+                  <svg class="icon icons" aria-hidden="true">
+                    <use :xlink:href="item.icon_Url" />
+                  </svg>
+                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="abilitys">
             <span class="titleName">财务</span>
             <ul class="abilitys_item">
               <li v-for="(item,index) in financeThisList" :key="index">
@@ -76,19 +89,6 @@
               </li>
             </ul>
           </div>
-          <div class="abilitys">
-            <span class="titleName">审核</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in ExamineList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
         </van-collapse-item>
       </van-collapse>
     </scroll>
@@ -124,40 +124,11 @@ export default {
         {
           icon_Url: '#icon-hetongguanlixitong',
           title: '公司流水',
+          path: '/Companyflow',
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '统计报表',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '合同收款',
-          path: '/ContractCollection',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '流水收款',
-          path: '/CurrentCollection',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '代工收款',
-          path: '/CollectionOEM',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '其他收款',
-          path: '/OtherCollection',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '委外付款',
-          path: '/Outsourcingpayment',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
-          title: '采购付款',
-          path: '/Purchasepayment',
         },
       ],
       Tuple5OrderList: [
@@ -270,6 +241,36 @@ export default {
         {
           icon_Url: '#icon-jinrongleiicontubiao-21',
           title: '发票单据',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '合同收款',
+          path: '/ContractCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '流水收款',
+          path: '/CurrentCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '代工收款',
+          path: '/CollectionOEM',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '其他收款',
+          path: '/OtherCollection',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '委外付款',
+          path: '/Outsourcingpayment',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-31',
+          title: '采购付款',
+          path: '/Purchasepayment',
         },
       ],
       productionsList: [

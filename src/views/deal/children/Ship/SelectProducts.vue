@@ -15,25 +15,14 @@
           <span>请认真填写每一条数据信息</span>
         </div>
         <div class="product_box">
-          <div class="left_img" @click="imgClick">
-            <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
-            <img
-              v-else-if="img_url_lin && img_url_lin != 0 "
-              class="img"
-              :src="img_url_lin  | getUrl"
-            />
-            <img src="@/assets/image/Default.png" v-else />
-          </div>
           <div class="right_box">
             <div class="right_name" @click.stop="focusClick">
               <span v-if="state">{{state}}</span>
               <span v-else class="pltext">请选择产品名称</span>
-              <van-icon name="arrow" />
             </div>
             <div class="right_model" v-if="isfouck" @click.stop="focusClick">
               <span v-if="Products">{{Products}}</span>
               <span v-else class="pltext">请选择产品型号</span>
-              <van-icon name="arrow" />
             </div>
             <van-field
               class="right_model field_handle"
@@ -43,23 +32,27 @@
               placeholder="请手动填写产品型号"
             />
           </div>
+          <div class="left_img" @click="imgClick">
+            <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
+            <img
+              v-else-if="img_url_lin && img_url_lin != 0 "
+              class="img"
+              :src="img_url_lin  | getUrl"
+            />
+            <img src="@/assets/image/Default.png" v-else />
+          </div>
         </div>
       </el-card>
 
       <el-card class="box-card item1">
-        <el-row class="DeliveryDate van-cell">
-          <span class="lable">数量</span>
-          <span class="time">
-            <van-stepper
-              v-model="quantity"
-              min="0"
-              max="99999999"
-              default-value="0"
-              @change="stepperChange"
-              integer
-            />
-          </span>
-        </el-row>
+        <van-field
+          v-model="quantity"
+          type="number"
+          label="数量"
+          class="newStyle"
+          placeholder="请填写产品数量"
+          @input="SubtotalFocus"
+        />
 
         <van-field
           v-model="productWeight"
@@ -396,7 +389,6 @@ export default {
           }
           .pltext {
             width: 100%;
-            text-align: right;
             color: #a2a2a2;
             font-size: 1rem;
             margin-right: 2rem;
@@ -420,7 +412,6 @@ export default {
           .pltext {
             width: 100%;
             font-size: 1rem;
-            text-align: right;
             color: #a2a2a2;
             margin-right: 2rem;
           }

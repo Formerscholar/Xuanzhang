@@ -201,6 +201,10 @@ const Outsourcingpayment = () =>
 
 const Purchasepayment = () =>
   import('@/views/home/children/Purchasepayment/Purchasepayment')
+
+const Companyflow = () =>
+  import('@/views/home/children/Companyflow/Companyflow')
+
 const routes = [
   {
     path: '/',
@@ -693,6 +697,10 @@ const routes = [
   {
     path: '/Purchasepayment',
     component: Purchasepayment,
+  },
+  {
+    path: '/Companyflow',
+    component: Companyflow,
   },
 ]
 

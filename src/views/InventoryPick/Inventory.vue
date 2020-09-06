@@ -44,6 +44,7 @@
             />
           </div>
         </div>
+        <div class="nums">库存数量:{{nums}}</div>
         <van-field v-model="digit" placeholder="请输入最终数量" class="newStyle leftINPUT" type="digit" />
       </el-card>
     </scroll>
@@ -71,6 +72,7 @@ export default {
       img_url_lin: '',
       Products: '',
       material_id: '',
+      nums: 0,
       digit: null,
       isfouck: true,
       uploadParam: 4,
@@ -104,11 +106,12 @@ export default {
       this.$router.push('/scan/Inventory')
       this.$bus.$off('proudectReturn')
       this.$bus.$on('proudectReturn', (item) => {
-        const { id, name, specification, img_url } = item.materiel
+        const { id, name, specification, img_url, stock } = item.materiel
         this.isfouck = true
         this.state = name
         this.Products = specification
         this.img_URL = img_url
+        this.nums = stock
         this.material_id = id
         this.listItem = {}
         this.isFlowingShow = []
@@ -160,6 +163,7 @@ export default {
       this.img_url_lin = ''
       this.Products = ''
       this.material_id = ''
+      this.nums = 0
       this.digit = null
       this.isfouck = true
       this.uploadParam = 4
@@ -178,6 +182,7 @@ export default {
         console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
+          this.nums = 0
           this.state = item
         } else {
           this.isfouck = true
@@ -186,6 +191,7 @@ export default {
           this.img_URL = item?.img_url
           this.img_url_lin = item.img_url_lin
           this.material_id = item.id
+          this.nums = item.stock
           this.listItem = {}
           this.isFlowingShow = []
           for (const key in this.listItem) {
@@ -347,6 +353,9 @@ export default {
             }
           }
         }
+      }
+      .nums {
+        font-size: 1.142857rem;
       }
     }
   }

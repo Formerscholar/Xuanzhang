@@ -9,6 +9,15 @@
       </div>
       <div slot="right"></div>
     </navbar>
+    <div class="search">
+      <van-search
+        v-model="state.searchValue"
+        show-action
+        placeholder="请输入款项来源"
+        @search="focusClick"
+        @cancel="onCancel"
+      />
+    </div>
     <scroll
       class="scroll-wrapper"
       ref="scroll"
@@ -19,36 +28,35 @@
     >
       <div v-for="(item ) in state.settlementRecordList" :key="item.id">
         <van-swipe-cell v-if="item.to_examine != undefined ">
-          <el-card class="box-card">
+          <div class="box-card">
             <div :class="item.deleted_at && 'color_break ' ">
               <div class="title">
                 <div class="title_text">
                   <span
                     :class="item.deleted_at ? 'color_break model' :' model'"
                   >{{ item.order_number }}</span>
-                  <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
-                </div>
-
-                <div class="ControlledDelaybox">
-                  <span
-                    v-for="(item,index) in item.auditRecord"
-                    :key="index"
-                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
-                  ></span>
+                  <div class="ControlledDelaybox">
+                    <span
+                      v-for="(item,index) in item.auditRecord"
+                      :key="index"
+                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    ></span>
+                  </div>
                 </div>
               </div>
+              <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
               <div class="time_box">
                 <span
                   :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >{{item.created_at | setCommitmentPeriod}}</span>
+                >{{item.created_at }}</span>
                 <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
                   <em
-                    :class="item.deleted_at ? 'color_break ' : 'black' "
-                  >￥{{item.settlement_money}}</em>
+                    :class="item.deleted_at ? 'color_break ' : 'orgin' "
+                  >￥{{fmoney(item.settlement_money,2)}}</em>
                 </span>
               </div>
             </div>
-          </el-card>
+          </div>
           <template #right v-if="!item.deleted_at">
             <van-button
               v-if="item.to_examine == 0 "
@@ -83,36 +91,35 @@
             />
           </template>
         </van-swipe-cell>
-        <el-card class="box-card" v-else>
+        <div class="box-card" v-else>
           <div :class="item.deleted_at && 'color_break ' ">
             <div class="title">
               <div class="title_text">
                 <span
                   :class="item.deleted_at ? 'color_break model' :' model'"
                 >{{ item.order_number }}</span>
-                <span
-                  :class="item.deleted_at ? 'color_break name' :' name'"
-                  @click.stop="gotodetails(item.distributor_id)"
-                >{{item.name}}</span>
-              </div>
-              <div class="ControlledDelaybox">
-                <span
-                  v-for="(item,index) in item.auditRecord"
-                  :key="index"
-                  :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
-                ></span>
+                <div class="ControlledDelaybox">
+                  <span
+                    v-for="(item,index) in item.auditRecord"
+                    :key="index"
+                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                  ></span>
+                </div>
               </div>
             </div>
+            <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
             <div class="time_box">
               <span
                 :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-              >{{item.created_at | setCommitmentPeriod}}</span>
+              >{{item.created_at}}</span>
               <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                <em :class="item.deleted_at ? 'color_break ' : 'black'">￥{{item.settlement_money}}</em>
+                <em
+                  :class="item.deleted_at ? 'color_break ' : 'orgin'"
+                >￥{{ fmoney(item.settlement_money,2)}}</em>
               </span>
             </div>
           </div>
-        </el-card>
+        </div>
       </div>
     </scroll>
 
@@ -126,7 +133,7 @@
     
 <script>
 import myVqr from '@/components/common/my_vqr/myVqr'
-
+import { fmoney } from '@/common/utils'
 import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
   getOtherSettlementRecordList,
@@ -164,6 +171,8 @@ export default {
       textContent: '',
       page: 1,
       isNetWork: true,
+      searchValue: '',
+      distributors: [],
     })
 
     function onClickLeft() {
@@ -174,7 +183,7 @@ export default {
         token: root.$store.state.token,
         page: state.page,
         offset: 20,
-        distributor_name: null,
+        distributor_name: state.searchValue,
         start_date: null,
         end_date: null,
         _: new Date().getTime(),
@@ -239,7 +248,9 @@ export default {
       }
     }
     function clickScroll() {
+      state.searchValue = ''
       state.page = 1
+      state.isNetWork = true
       state.settlementRecordList = []
       getSettlementList()
     }
@@ -293,6 +304,20 @@ export default {
     function setIsDelete(data) {
       return data.findIndex((item) => item.status == 1) == 0 ? false : true
     }
+    function onCancel() {
+      state.searchValue = ''
+      state.page = 1
+      state.isNetWork = true
+      state.settlementRecordList = []
+      getSettlementList()
+    }
+
+    function focusClick() {
+      state.page = 1
+      state.isNetWork = true
+      state.settlementRecordList = []
+      getSettlementList()
+    }
 
     onActivated(() => {
       getAddSettlement()
@@ -310,6 +335,9 @@ export default {
       printClick,
       pullingUp,
       setIsDelete,
+      fmoney,
+      onCancel,
+      focusClick,
     }
   },
 }
@@ -332,16 +360,25 @@ export default {
       }
     }
   }
+  .search {
+    border-bottom: 1rem solid #e6e6e6;
+  }
   .scroll-wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    top: 5.428571rem;
+    top: 10.285714rem;
     bottom: 0;
     width: 100%;
     overflow: hidden;
+    /deep/.content {
+      padding: 0.571429rem 1.714286rem;
+    }
     .box-card {
       margin-bottom: 0.571429rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.857143rem;
+      margin-bottom: 0.857143rem;
       .color_break {
         color: #ccc !important;
         border-color: #ccc !important;

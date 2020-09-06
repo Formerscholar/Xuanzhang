@@ -40,6 +40,7 @@
             />
           </div>
         </div>
+        <div class="nums">库存数量:{{nums}}</div>
         <van-field
           v-if="model != 'Inventory'"
           v-model="digit"
@@ -75,6 +76,7 @@ export default {
       Products: '',
       material_id: '',
       digit: null,
+      nums: 0,
       isfouck: true,
       uploadParam: 4,
       listItems: [],
@@ -113,13 +115,21 @@ export default {
       const { data } = await getEditMateriel(this.getEditMaterielData)
       console.log('getEditMateriel', data)
       this.materiel = data.materiel[0]
-      const { name, specification, img_url, img_url_lin, id } = this.materiel
+      const {
+        name,
+        specification,
+        img_url,
+        img_url_lin,
+        id,
+        stock,
+      } = this.materiel
       this.isfouck = true
       this.state = name
       this.Products = specification
       this.img_URL = img_url
       this.img_url_lin = img_url_lin
       this.material_id = id
+      this.nums = stock
       this.listItem = {}
       this.isFlowingShow = []
       for (const key in this.listItem) {
@@ -143,6 +153,7 @@ export default {
             this.Products = ''
             this.material_id = ''
             this.digit = null
+            this.nums = 0
             this.isfouck = true
             this.uploadParam = 4
             this.listItems = []
@@ -158,6 +169,7 @@ export default {
           this.img_URL = ''
           this.img_url_lin = ''
           this.Products = ''
+          this.nums = 0
           this.material_id = ''
           this.digit = null
           this.isfouck = true
@@ -177,6 +189,7 @@ export default {
             this.img_URL = ''
             this.img_url_lin = ''
             this.Products = ''
+            this.nums = 0
             this.material_id = ''
             this.digit = null
             this.isfouck = true
@@ -190,6 +203,7 @@ export default {
           this.img_URL = ''
           this.img_url_lin = ''
           this.Products = ''
+          this.nums = 0
           this.material_id = ''
           this.digit = null
           this.isfouck = true
@@ -211,6 +225,7 @@ export default {
       this.img_url_lin = ''
       this.Products = ''
       this.material_id = ''
+      this.nums = 0
       this.digit = null
       this.isfouck = true
       this.uploadParam = 4
@@ -237,6 +252,7 @@ export default {
           this.img_URL = item?.img_url
           this.img_url_lin = item.img_url_lin
           this.material_id = item.id
+          this.nums = item.stock
           this.listItem = {}
           this.isFlowingShow = []
           for (const key in this.listItem) {
@@ -398,6 +414,9 @@ export default {
             }
           }
         }
+      }
+      .nums {
+        font-size: 1.142857rem;
       }
     }
   }

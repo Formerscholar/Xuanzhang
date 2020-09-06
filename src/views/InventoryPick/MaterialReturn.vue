@@ -304,8 +304,8 @@ export default {
             this.tableData = []
             this.shippingData = []
           } else {
-            this.tableData = this.tableData.splice(index - 1, 1)
-            this.shippingData = this.shippingData.splice(index - 1, 1)
+            this.tableData.splice(index, 1)
+            this.shippingData.splice(index, 1)
           }
         })
     },
