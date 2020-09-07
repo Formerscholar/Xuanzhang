@@ -702,3 +702,11 @@ export function getAddSettlementRecordSuppliers(params) {
     params,
   })
 }
+
+export function getAddOrderSettlementRecord(params) {
+  return request({
+    url: '/Settlement/getAddOrderSettlementRecord',
+    method: 'GET',
+    params,
+  })
+}

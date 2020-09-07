@@ -205,6 +205,8 @@ const Purchasepayment = () =>
 const Companyflow = () =>
   import('@/views/home/children/Companyflow/Companyflow')
 
+const sellAccept = () => import('@/views/home/children/sellAccept/sellAccept')
+
 const routes = [
   {
     path: '/',
@@ -701,6 +703,10 @@ const routes = [
   {
     path: '/Companyflow',
     component: Companyflow,
+  },
+  {
+    path: '/sellAccept',
+    component: sellAccept,
   },
 ]
 

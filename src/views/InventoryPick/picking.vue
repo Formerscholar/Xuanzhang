@@ -44,11 +44,11 @@
           <el-row class="AddProduct line">
             <div @click="addNewProduct" class="coutent">
               <i class="iconfont icon-copy"></i>
-              <em>添加产品</em>
+              <em>手动添加</em>
             </div>
             <div @click="scanProduct" class="coutent">
               <van-icon name="scan" class="icon-copy" />
-              <em>扫码产品</em>
+              <em>扫码添加</em>
             </div>
           </el-row>
         </el-card>

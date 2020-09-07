@@ -44,7 +44,7 @@
                   </div>
                 </div>
               </div>
-              <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+              <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.distributor_name}}</span>
               <div class="time_box">
                 <span
                   :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
@@ -107,7 +107,7 @@
                 </div>
               </div>
             </div>
-            <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+            <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.distributor_name}}</span>
             <div class="time_box">
               <span
                 :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
@@ -128,6 +128,7 @@
         <myVqr :Content="state.textContent"></myVqr>
       </div>
     </van-overlay>
+    <i class="el-icon-plus"></i>
   </div>
 </template>
     
@@ -362,6 +363,17 @@ export default {
   }
   .search {
     border-bottom: 1rem solid #e6e6e6;
+  }
+  .el-icon-plus {
+    position: fixed;
+    bottom: 3.357143rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: rgb(66, 147, 200);
+    color: #fff;
+    border-radius: 50%;
   }
   .scroll-wrapper {
     position: absolute;

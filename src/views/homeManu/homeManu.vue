@@ -20,6 +20,7 @@
                     <use :xlink:href="item.icon_Url" />
                   </svg>
                   <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+                  <div class="nums" v-if="item.nums != undefined">{{item.nums}}</div>
                 </div>
               </li>
             </ul>
@@ -96,6 +97,8 @@
 </template>
     
 <script>
+import { getSettlementRecordList, getPaymentRecordList } from '@/network/deal'
+
 export default {
   data() {
     return {
@@ -246,16 +249,19 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '合同收款',
           path: '/ContractCollection',
+          nums: 0,
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '流水收款',
           path: '/CurrentCollection',
+          nums: 0,
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '代工收款',
           path: '/CollectionOEM',
+          nums: 0,
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
@@ -266,11 +272,13 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '委外付款',
           path: '/Outsourcingpayment',
+          nums: 0,
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '采购付款',
           path: '/Purchasepayment',
+          nums: 0,
         },
       ],
       productionsList: [
@@ -294,12 +302,60 @@ export default {
       activeNames: ['1'],
     }
   },
+  activated() {
+    this.getSettlementRecord()
+    this.getPaymenList()
+  },
   methods: {
     blacknext() {
       this.$router.replace('/home')
     },
     jumpPage(path) {
       this.$router.replace(path)
+    },
+    async getPaymenList() {
+      const { data } = await getPaymentRecordList({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        order_type: 'outsourcing',
+        supplier_id: 0,
+        start_date: null,
+        end_date: null,
+        _: new Date().getTime(),
+      })
+      const { paymentO, paymentM } = data
+      console.log(paymentO, paymentM)
+      this.ExamineList.map((item) => {
+        if (item.title == '委外付款') {
+          item.nums = paymentO
+        } else if (item.title == '采购付款') {
+          item.nums = paymentM
+        }
+      })
+    },
+    async getSettlementRecord() {
+      const { data } = await getSettlementRecordList({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        order_type: 'contract',
+        distributor_id: 0,
+        start_date: null,
+        end_date: null,
+        _: new Date().getTime(),
+      })
+      const { settlementC, settlementF, settlementO } = data
+      console.log(settlementC, settlementF, settlementO)
+      this.ExamineList.map((item) => {
+        if (item.title == '合同收款') {
+          item.nums = settlementC
+        } else if (item.title == '流水收款') {
+          item.nums = settlementF
+        } else if (item.title == '代工收款') {
+          item.nums = settlementO
+        }
+      })
     },
   },
 }
@@ -368,7 +424,22 @@ export default {
           flex: 1;
           width: 20%;
           margin-bottom: 0.714286rem;
+          padding-top: 0.714286rem;
           overflow: hidden;
+          position: relative;
+          .nums {
+            width: 1.428571rem;
+            height: 1.428571rem;
+            text-align: center;
+            line-height: 1.428571rem;
+            font-size: 1rem;
+            color: #f6f6f6;
+            background-color: #fc5c65;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            right: 0.5rem;
+          }
 
           .icons {
             font-size: 2rem;
