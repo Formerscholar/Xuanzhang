@@ -20,7 +20,7 @@
                     <use :xlink:href="item.icon_Url" />
                   </svg>
                   <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                  <div class="nums" v-if="item.nums != undefined">{{item.nums}}</div>
+                  <div class="nums" v-if="item.nums">{{item.nums}}</div>
                 </div>
               </li>
             </ul>
@@ -296,6 +296,16 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '代工进度',
           path: '/oemScreen',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-30',
+          title: '计价新增',
+          path: '/Piecework',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-30',
+          title: '计价列表',
+          path: '/PieceworkList',
         },
       ],
       searchData: '',

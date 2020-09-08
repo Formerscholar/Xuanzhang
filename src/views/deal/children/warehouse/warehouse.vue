@@ -224,7 +224,7 @@ export default {
     myVqr,
     myBtns,
   },
-  created() {
+  activated() {
     this.getAddDeliverGood()
     // this.getMaterielLists()
   },

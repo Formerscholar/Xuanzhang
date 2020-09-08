@@ -1,4 +1,4 @@
-const version = '20200907'
+const version = '20200908'
 
 const ruleForm =
   process.env.NODE_ENV === 'production'

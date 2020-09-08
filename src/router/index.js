@@ -207,6 +207,10 @@ const Companyflow = () =>
 
 const sellAccept = () => import('@/views/home/children/sellAccept/sellAccept')
 
+const Piecework = () => import('@/views/home/children/Piecework/Piecework')
+const PieceworkList = () =>
+  import('@/views/home/children/PieceworkList/PieceworkList')
+
 const routes = [
   {
     path: '/',
@@ -707,6 +711,14 @@ const routes = [
   {
     path: '/sellAccept',
     component: sellAccept,
+  },
+  {
+    path: '/Piecework',
+    component: Piecework,
+  },
+  {
+    path: '/PieceworkList',
+    component: PieceworkList,
   },
 ]
 

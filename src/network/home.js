@@ -1,5 +1,6 @@
 import { request } from './request'
 import Qs from 'qs'
+
 export function getUserDesignatedTasks(params) {
   return request({
     url: '/DesignatedTasks/getUserDesignatedTasks',
@@ -90,5 +91,28 @@ export function editDesignatedTasks(data) {
     url: '/DesignatedTasks/editDesignatedTasks',
     method: 'POST',
     data: Qs.stringify(data),
+  })
+}
+export function getAddUserValuationWages(params) {
+  return request({
+    url: '/Wages/getAddUserValuationWages',
+    method: 'GET',
+    params,
+  })
+}
+
+export function addUserValuationWages(data) {
+  return request({
+    url: '/Wages/addUserValuationWages',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getUserValuationWagesList(params) {
+  return request({
+    url: '/Wages/getUserValuationWagesList',
+    method: 'GET',
+    params,
   })
 }
