@@ -31,7 +31,7 @@
             placeholder="点击选择订单模式"
             right-icon="arrow"
           />
-          <van-field
+          <!-- <van-field
             v-if="isShowContractNo"
             v-model="ContractNoState"
             label="合同号"
@@ -41,7 +41,7 @@
             @click-right-icon="isContractNo = true"
             placeholder="点击选择合同号"
             right-icon="arrow"
-          />
+          />-->
           <van-field
             v-model="ChooseChannelsStates"
             label="选择渠道"
@@ -62,9 +62,9 @@
             placeholder="点击选择渠道"
             right-icon="arrow"
           />
-          <van-field v-model="contractAmount" label="入账金额" class="newStyle" />
+          <van-field v-model="contractAmount" label="打款金额" class="newStyle" />
           <el-row class="DeliveryDate van-cell">
-            <span class="lable">入账日期</span>
+            <span class="lable">打款日期</span>
             <span class="time" @click="tiemrClick">{{timersList.SigningDate}}</span>
           </el-row>
           <van-field v-model="contractegg" type="textarea" label="备注" class="newStyle" />
@@ -144,10 +144,10 @@ import {
   getReceivingInformationList,
   addOemOrder,
   getMateriel,
-  getAddSettlementRecordDistributors,
+  getAddSettlementRecordSuppliers,
   getAddOrderSettlementRecord,
   getSettlementVariable,
-  addSettlementRecord,
+  addPaymentRecord,
 } from '@/network/deal'
 
 export default {
@@ -289,7 +289,7 @@ export default {
       from.append('variable_id', this.variable_id)
       from.append('settlement_money', this.contractAmount)
       from.append('apply_time', this.timersList.SigningDate)
-      from.append('distributor_id', this.selectedID)
+      from.append('supplier_id', this.selectedID)
       from.append('order_type', this.order_type)
       from.append('order_id', this.order_id)
       from.append('remark', this.contractegg)
@@ -374,7 +374,7 @@ export default {
       this.isOrderMode = false
       const { data } = await getAddOrderSettlementRecord({
         token: this.$store.state.token,
-        distributor_id: this.selectedID,
+        supplier_id: this.selectedID,
         order_type: this.companyOrderType[index],
         _: new Date().getTime(),
       })
@@ -450,7 +450,7 @@ export default {
       })
     },
     async quoteclick() {
-      const { code, msg } = await addSettlementRecord(this.addContractOrderData)
+      const { code, msg } = await addPaymentRecord(this.addContractOrderData)
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -467,11 +467,11 @@ export default {
       }
     },
     async getAddOemOrders() {
-      const { data } = await getAddSettlementRecordDistributors(
+      const { data } = await getAddSettlementRecordSuppliers(
         this.getAddOemOrderData
       )
-      console.log('getAddSettlementRecordDistributors', data)
-      this.distributors = data.distributors
+      console.log('getAddSettlementRecordSuppliers', data)
+      this.distributors = data.suppliers
       let newArr = Object.values(data.companyOrderType)
       newArr.shift()
       let newsArr = Object.keys(data.companyOrderType)
@@ -729,11 +729,7 @@ export default {
         )
       }
     },
-    handleSelect(val) {
-      this.selectedID = val.address
-      console.log(this.selectedID)
-      this.getReceiving()
-    },
+
     handleSelectss(val) {
       this.userId = val.address
     },

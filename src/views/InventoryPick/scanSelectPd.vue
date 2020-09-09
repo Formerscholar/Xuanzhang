@@ -109,6 +109,9 @@ export default {
     this.iid = this.$route.params.id
     this.model = this.$route.query.data
     this.getEditMaterielS()
+    if (this.model == 'Inventory') {
+      this.commite()
+    }
   },
   methods: {
     async getEditMaterielS() {

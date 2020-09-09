@@ -575,8 +575,10 @@ export default {
           align-items: flex-end;
           margin-bottom: 0.714286rem;
           .left {
+            margin-right: 0.357143rem;
             .title_logo {
               width: 2.857143rem;
+              border-radius: 0.357143rem;
             }
           }
           .right {

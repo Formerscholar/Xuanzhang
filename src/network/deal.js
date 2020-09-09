@@ -710,3 +710,11 @@ export function getAddOrderSettlementRecord(params) {
     params,
   })
 }
+
+export function addPaymentRecord(data) {
+  return request({
+    url: '/Payment/addPaymentRecord',
+    method: 'POST',
+    data,
+  })
+}

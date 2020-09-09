@@ -128,7 +128,7 @@
         <myVqr :Content="state.textContent"></myVqr>
       </div>
     </van-overlay>
-    <i class="el-icon-plus"></i>
+    <i class="el-icon-plus" @click="goSellAccept"></i>
   </div>
 </template>
     
@@ -342,7 +342,9 @@ export default {
         }
       })
     }
-
+    function goSellAccept() {
+      root.$router.push('/sellAccept')
+    }
     onActivated(() => {
       getAddSettlement()
     })
@@ -362,6 +364,7 @@ export default {
       fmoney,
       onCancel,
       focusClick,
+      goSellAccept,
     }
   },
 }

@@ -128,7 +128,7 @@
         <myVqr :Content="state.textContent"></myVqr>
       </div>
     </van-overlay>
-    <i class="el-icon-plus"></i>
+    <i class="el-icon-plus" @click="gopurchasePay"></i>
   </div>
 </template>
     
@@ -343,7 +343,9 @@ export default {
     onActivated(() => {
       getAddSettlement()
     })
-
+    function gopurchasePay() {
+      this.$router.push('/purchasePay')
+    }
     getSettlementList()
 
     return {
@@ -359,6 +361,7 @@ export default {
       fmoney,
       onCancel,
       focusClick,
+      gopurchasePay,
     }
   },
 }

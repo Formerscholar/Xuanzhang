@@ -15,7 +15,11 @@
         <div class="logo">
           <div class="leftbox">
             <div class="picter">
-              <img v-if="userInfo.img_url" :src="userInfo.img_url.substr(1)" alt="logo" />
+              <img
+                v-if="userInfo.img_url"
+                :src="userInfo.img_url.indexOf('#') == -1 ?  userInfo.img_url : userInfo.img_url.substr(1)"
+                alt="logo"
+              />
               <img v-else src="@/assets/image/dpng.png" />
             </div>
             <div class="text">
@@ -222,12 +226,12 @@ export default {
         .picter {
           width: 2.857143rem;
           height: 2.857143rem;
-          border-radius: 50%;
+          border-radius: 0.357143rem;
           overflow: hidden;
           img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
+            border-radius: 0.357143rem;
           }
         }
         .text {

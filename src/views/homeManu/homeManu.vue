@@ -9,90 +9,111 @@
       </div>
     </navbar>
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
-      <van-collapse v-model="activeNames">
-        <van-collapse-item title="全部应用" name="1">
-          <div class="abilitys">
-            <span class="titleName">审核</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in ExamineList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                  <div class="nums" v-if="item.nums">{{item.nums}}</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="abilitys">
-            <span class="titleName">财务</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in financeThisList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="abilitys">
-            <span class="titleName">订单</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in Tuple5OrderList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="abilitys">
-            <span class="titleName">执行</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in implementList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="abilitys">
-            <span class="titleName">采购</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in PurchaseTotalList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="abilitys">
-            <span class="titleName">生产</span>
-            <ul class="abilitys_item">
-              <li v-for="(item,index) in productionsList" :key="index">
-                <div @click="jumpPage(item.path)" class="abilitys_item_list">
-                  <svg class="icon icons" aria-hidden="true">
-                    <use :xlink:href="item.icon_Url" />
-                  </svg>
-                  <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </van-collapse-item>
-      </van-collapse>
+      <div class="abilitys">
+        <span class="titleName">审核</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in ExamineList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+              <div class="nums" v-if="item.nums">{{item.nums}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="abilitys">
+        <span class="titleName">财务</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in financeThisList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="abilitys">
+        <span class="titleName">订单</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in Tuple5OrderList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="abilitys">
+        <span class="titleName">执行</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in implementList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="abilitys">
+        <span class="titleName">采购</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in PurchaseTotalList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="abilitys">
+        <span class="titleName">生产</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in productionsList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </scroll>
+    <van-popup v-model="popupshow" position="bottom" :style="{ height: '30%' }">内容</van-popup>
   </div>
 </template>
     
@@ -102,6 +123,7 @@ import { getSettlementRecordList, getPaymentRecordList } from '@/network/deal'
 export default {
   data() {
     return {
+      popupshow: false,
       financeThisList: [
         {
           icon_Url: '#icon-jinrongleiicontubiao-17',
@@ -231,51 +253,35 @@ export default {
       ExamineList: [
         {
           icon_Url: '#icon-jinrongleiicontubiao-18',
-          title: '收款单据',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-7',
-          title: '付款单据',
-        },
-        {
-          icon_Url: '#icon-PDF',
-          title: '报销单据',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-21',
-          title: '发票单据',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
           title: '合同收款',
           path: '/ContractCollection',
           nums: 0,
         },
         {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
+          icon_Url: '#icon-jinrongleiicontubiao-7',
           title: '流水收款',
           path: '/CurrentCollection',
           nums: 0,
         },
         {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
+          icon_Url: '#icon-PDF',
           title: '代工收款',
           path: '/CollectionOEM',
           nums: 0,
         },
         {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
+          icon_Url: '#icon-jinrongleiicontubiao-21',
           title: '其他收款',
           path: '/OtherCollection',
         },
         {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
+          icon_Url: '#icon-jinrongleiicontubiao-7',
           title: '委外付款',
           path: '/Outsourcingpayment',
           nums: 0,
         },
         {
-          icon_Url: '#icon-jinrongleiicontubiao-31',
+          icon_Url: '#icon-jinrongleiicontubiao-18',
           title: '采购付款',
           path: '/Purchasepayment',
           nums: 0,
@@ -310,6 +316,8 @@ export default {
       ],
       searchData: '',
       activeNames: ['1'],
+      timer: null,
+      isCLICK: true,
     }
   },
   activated() {
@@ -317,6 +325,23 @@ export default {
     this.getPaymenList()
   },
   methods: {
+    touchstart() {
+      clearTimeout(this.timer)
+      this.isCLICK = true
+      this.timer = setTimeout(() => {
+        this.isCLICK = false
+      }, 500)
+    },
+    touchend(path) {
+      clearTimeout(this.timer)
+      if (this.isCLICK) {
+        this.jumpPage(path)
+      } else {
+        this.popupshow = true
+        this.isCLICK = true
+      }
+    },
+
     blacknext() {
       this.$router.replace('/home')
     },
@@ -405,19 +430,15 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden;
-    /deep/.van-collapse-item__title {
-      justify-content: center;
-      align-items: center;
-      .van-cell__title {
-        flex: none;
-      }
-    }
+    padding: 0.714286rem;
+
     .abilitys {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: left;
       align-items: center;
+      padding: 0 0.714286rem;
       .titleName {
         color: #000;
         font-size: 1.142857rem;

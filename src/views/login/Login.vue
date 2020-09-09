@@ -196,6 +196,9 @@ export default {
   padding-bottom: 0;
 }
 #Login {
+  .van-overlay {
+    z-index: 1 !important;
+  }
   .logo {
     width: 100%;
     padding-top: 2.857143rem;

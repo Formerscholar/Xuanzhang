@@ -12,7 +12,8 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <div class="box-card item1">
-          <van-field
+          <van-field v-model="state" label="款项来源" class="newStyle" />
+          <!-- <van-field
             v-model="state"
             label="客户名称"
             @focus="focusClick"
@@ -41,7 +42,7 @@
             @click-right-icon="isContractNo = true"
             placeholder="点击选择合同号"
             right-icon="arrow"
-          />
+          />-->
           <van-field
             v-model="ChooseChannelsStates"
             label="选择渠道"
@@ -289,8 +290,8 @@ export default {
       from.append('variable_id', this.variable_id)
       from.append('settlement_money', this.contractAmount)
       from.append('apply_time', this.timersList.SigningDate)
-      from.append('distributor_id', this.selectedID)
-      from.append('order_type', this.order_type)
+      from.append('distributor_name', this.state)
+      from.append('order_type', 'settlement')
       from.append('order_id', this.order_id)
       from.append('remark', this.contractegg)
       return from

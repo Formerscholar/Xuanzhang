@@ -23,30 +23,16 @@
           </div>
         </div>
       </div>
-      <!-- <div class="topbox">
-        <div class="leftbox">
-          <img v-if="state.img_url" :src="state.img_url" alt="logo" />
-          <img v-else src="@/assets/image/dpng.png" alt="logo" />
-        </div>
-        <div class="flex_box">
-          <div class="centerbox">
-            <div class="namebox">
-              <span>{{state.titleName.name}}</span>
-              <span class="bordertext">{{state.titleName.roleName}}</span>
-            </div>
-            <div class="firm">
-              <span>{{state.titleName.compserName}}</span>
-            </div>
-            <div class="firm">
-              <span>{{state.titleName.phone}}</span>
-            </div>
-          </div>
-        </div>
-      </div>-->
     </div>
     <el-tabs v-model="state.activeName">
       <el-tab-pane label="我的报销" class="itembox" name="third">
-        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscroll">
+        <scroll
+          class="scroll-wrapper"
+          :probeType="3"
+          :pull-up-load="true"
+          @scroll="clickscroll"
+          @pullingUp="loadMore"
+        >
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -106,7 +92,13 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="我的待审" class="itembox" name="three">
-        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrolls">
+        <scroll
+          class="scroll-wrapper"
+          :probeType="3"
+          :pull-up-load="true"
+          @scroll="clickscrolls"
+          @pullingUp="loadMores"
+        >
           <div class="body_box">
             <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
               <div class="cardmoney" @click="reimburClicks(item.id)">
@@ -166,7 +158,13 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部待审" class="itembox" name="second">
-        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrollss">
+        <scroll
+          class="scroll-wrapper"
+          :probeType="3"
+          :pull-up-load="true"
+          @scroll="clickscrollss"
+          @pullingUp="loadMoress"
+        >
           <div class="body_box">
             <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
               <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
@@ -233,25 +231,14 @@
         </scroll>
       </el-tab-pane>
       <el-tab-pane label="全部通过" class="itembox" name="first">
-        <scroll class="scroll-wrapper" :probeType="3" @scroll="clickscrollsss">
+        <scroll
+          class="scroll-wrapper"
+          :probeType="3"
+          :pull-up-load="true"
+          @scroll="clickscrollsss"
+          @pullingUp="loadMoresss"
+        >
           <div class="body_box">
-            <!-- <div class="btn">
-              <button>查看已完成的申请</button>
-            </div>
-            <div class="card">
-              <el-card class="box-card topcard">
-                <ul>
-                  <li>
-                    <span>待审金额</span>
-                    <em>0.00</em>
-                  </li>
-                  <li>
-                    <span>我的余额</span>
-                    <em>0.00</em>
-                  </li>
-                </ul>
-              </el-card>
-            </div>-->
             <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
               <div class="cardmoney" @click="reimburClicks(item.id)">
                 <div class="box-card">
@@ -326,6 +313,7 @@ import {
   getMyToExamineReimbursementList,
   cancelToExamineReimbursement,
 } from '@/network/Reimbursement'
+
 import myVqr from '@/components/common/my_vqr/myVqr'
 
 import { reactive, computed } from '@vue/composition-api'
@@ -344,6 +332,10 @@ export default {
       isShow: false,
       titleName: {},
       textContent: '',
+      onepage: 1,
+      twoPage: 1,
+      spage: 1,
+      threepage: 1,
       img_url: '',
       StateList: [],
     })
@@ -351,7 +343,7 @@ export default {
     const getReimbursementListsState = computed(() => {
       return {
         token: root.$store.state.token,
-        page: 1,
+        page: state.threepage,
         offset: 20,
         reason: null,
         category_id: null,
@@ -364,7 +356,7 @@ export default {
     const getReimbursementListsStates = computed(() => {
       return {
         token: root.$store.state.token,
-        page: 1,
+        page: state.spage,
         offset: 20,
         reason: null,
         category_id: null,
@@ -376,7 +368,7 @@ export default {
     const getUserReimbursementListData = computed(() => {
       return {
         token: root.$store.state.token,
-        page: 1,
+        page: state.onepage,
         offset: 20,
         reason: null,
         category_id: null,
@@ -388,7 +380,7 @@ export default {
     const getMyToExamineReimbursementListData = computed(() => {
       return {
         token: root.$store.state.token,
-        page: 1,
+        page: state.twoPage,
         offset: 20,
         _: new Date().getTime(),
       }
@@ -399,14 +391,20 @@ export default {
         getMyToExamineReimbursementListData.value
       )
       console.log('getMyToExamineReimbursementList', data)
-      state.auditRecordLists = data.auditRecordLists
+      state.auditRecordLists = [
+        ...state.auditRecordLists,
+        ...data.auditRecordLists,
+      ]
     }
     async function getUserReimbursement() {
       const { data } = await getUserReimbursementList(
         getUserReimbursementListData.value
       )
       console.log('getUserReimbursementList', data)
-      state.reimbursementListss = data.reimbursementList
+      state.reimbursementListss = [
+        ...state.reimbursementListss,
+        ...data.reimbursementList,
+      ]
     }
     function printH5(iid) {
       console.log('print', iid)
@@ -449,7 +447,10 @@ export default {
       console.log('reimbursementList', data)
       state.img_url = data.userInfo[0]?.img_url.substr(1)
       state.StateList = data.is_verified
-      state.reimbursementList = data.reimbursementList
+      state.reimbursementList = [
+        ...state.reimbursementList,
+        ...data.reimbursementList,
+      ]
       state.titleName = {
         name: data.userInfo[0].name || '姓名',
         compserName: data.userInfo[0].user_compser_name || '公司全称',
@@ -462,7 +463,10 @@ export default {
         getReimbursementListsStates.value
       )
       console.log('reimbursementList', data)
-      state.reimbursementLists = data.reimbursementList
+      state.reimbursementLists = [
+        ...state.reimbursementLists,
+        ...data.reimbursementList,
+      ]
     }
     function reimburClick(id) {
       console.log('-----ReimburDetails--------')
@@ -510,17 +514,44 @@ export default {
     }
 
     function clickscroll() {
+      state.onepage = 1
+      state.reimbursementListss = []
       getUserReimbursement()
     }
 
     function clickscrolls() {
+      state.twoPage = 1
+      state.auditRecordLists = []
       getMyToExamineReimbursement()
     }
 
     function clickscrollss() {
+      state.spage = 1
+      state.reimbursementLists = []
       getReimburses()
     }
     function clickscrollsss() {
+      state.threepage = 1
+      state.reimbursementList = []
+      getReimburse()
+    }
+
+    function loadMore() {
+      state.onepage++
+      getUserReimbursement()
+    }
+    function loadMores() {
+      state.twoPage++
+      getMyToExamineReimbursement()
+    }
+
+    function loadMoress() {
+      state.spage++
+      getReimburses()
+    }
+
+    function loadMoresss() {
+      state.threepage++
       getReimburse()
     }
 
@@ -542,6 +573,10 @@ export default {
       clickscrolls,
       clickscrollss,
       clickscrollsss,
+      loadMore,
+      loadMores,
+      loadMoress,
+      loadMoresss,
     }
   },
 }
