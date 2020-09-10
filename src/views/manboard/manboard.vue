@@ -50,7 +50,7 @@
                     v-if="isBalance"
                     class="title_right"
                     :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                  >￥{{item.balance}}</div>
+                  >￥{{fmoney(item.balance)}}</div>
                 </div>
                 <div class="body">
                   <div class="body_phone">{{item.username}}</div>
@@ -94,7 +94,7 @@
                 <div
                   class="title_right"
                   :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                >￥{{item.balance}}</div>
+                >￥{{fmoney(item.balance)}}</div>
               </div>
               <div class="body">
                 <div class="body_phone">{{item.username}}</div>
@@ -111,6 +111,7 @@
     
 <script>
 import { getUserList, editUserStatus } from '@/network/login'
+import { fmoney } from '@/common/utils'
 export default {
   data() {
     return {
@@ -127,6 +128,7 @@ export default {
       OllPage: 1,
       isONetwork: true,
       isTNetwork: true,
+      fmoney,
     }
   },
   computed: {
@@ -424,7 +426,7 @@ export default {
               color: #121212;
             }
             .title_right {
-              font-size: 0.714286rem;
+              font-size: 1.142857rem;
               color: #a8a8a8;
             }
           }

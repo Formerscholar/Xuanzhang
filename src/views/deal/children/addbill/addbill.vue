@@ -347,7 +347,7 @@ export default {
       this.Addresslog = false
       this.productlog = false
       this.radio = '0'
-      this.$router.replace('/deal/aside')
+      this.$router.replace('/flowScreen')
     },
     // querySearchAsync(queryString, cb) {
     //   var restaurants = this.restaurants

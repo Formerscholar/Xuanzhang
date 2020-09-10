@@ -437,6 +437,8 @@ export default {
         }
         .ControlledDelaybox {
           display: flex;
+          justify-content: space-between;
+          align-items: center;
           .glyphicon {
             width: 0.857143rem;
             height: 0.857143rem;

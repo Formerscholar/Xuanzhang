@@ -206,12 +206,20 @@ const Companyflow = () =>
   import('@/views/home/children/Companyflow/Companyflow')
 
 const sellAccept = () => import('@/views/home/children/sellAccept/sellAccept')
-const purchasePay = () => import('@/views/home/children/purchasePay/purchasePay')
+const purchasePay = () =>
+  import('@/views/home/children/purchasePay/purchasePay')
 const newOtherCollection = () =>
   import('@/views/home/children/newOtherCollection/newOtherCollection')
 const Piecework = () => import('@/views/home/children/Piecework/Piecework')
 const PieceworkList = () =>
   import('@/views/home/children/PieceworkList/PieceworkList')
+
+const RecordDetail = () =>
+  import(
+    '@/views/profile/children/Runrecord/children/RecordDetail/RecordDetail'
+  )
+
+const Balancies = () => import('@/views/profile/children/Balancies/Balancies')
 
 const routes = [
   {
@@ -729,6 +737,15 @@ const routes = [
   {
     path: '/PieceworkList',
     component: PieceworkList,
+  },
+  {
+    path: '/RecordDetail',
+    name: 'data',
+    component: RecordDetail,
+  },
+  {
+    path: '/Balancies',
+    component: Balancies,
   },
 ]
 

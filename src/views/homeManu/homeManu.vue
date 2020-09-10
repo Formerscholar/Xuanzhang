@@ -21,7 +21,7 @@
               <svg class="icon icons" aria-hidden="true">
                 <use :xlink:href="item.icon_Url" />
               </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+              <span :style="item.path  ?{'color':'black'}:''">{{item.title}}</span>
               <div class="nums" v-if="item.nums">{{item.nums}}</div>
             </div>
           </li>
@@ -157,11 +157,6 @@ export default {
         },
       ],
       Tuple5OrderList: [
-        {
-          icon_Url: '#icon-baogao',
-          title: '流水计划',
-          path: '/addbill',
-        },
         {
           icon_Url: '#icon-wodeshenpi',
           title: '新建合同',
@@ -458,6 +453,7 @@ export default {
           padding-top: 0.714286rem;
           overflow: hidden;
           position: relative;
+          color: rgba(0, 0, 0, 0.65);
           .nums {
             width: 1.428571rem;
             height: 1.428571rem;

@@ -1,5 +1,5 @@
 <template>
-  <div class="options_profile_item d-flex">
+  <div class="options_profile_item d-flex" @click="goBalancies">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
         <use xlink:href="#icon-bangding" />
@@ -30,8 +30,13 @@ export default {
   setup(props, { root }) {
     const state = reactive({})
 
+    function goBalancies() {
+      root.$router.push('/Balancies')
+    }
+
     return {
       state,
+      goBalancies,
     }
   },
 }

@@ -99,6 +99,7 @@
           </div>
         </div>
       </scroll>
+      <i class="el-icon-plus" @click="goaddbill"></i>
     </div>
   </div>
 </template>
@@ -278,6 +279,9 @@ export default {
     },
   },
   methods: {
+    goaddbill() {
+      this.$router.push('/addbill')
+    },
     businesChange(value) {
       this.business_status = value
       this.getLargeAcreenNEW(this.tipe)
@@ -556,6 +560,17 @@ export default {
       margin-left: -2.071429rem;
       font-size: 1.285714rem;
     }
+  }
+  .el-icon-plus {
+    position: fixed;
+    bottom: 3.357143rem;
+    right: 3.357143rem;
+    padding: 0.571429rem;
+    z-index: 999;
+    font-size: 2.714286rem;
+    background-color: rgb(66, 147, 200);
+    color: #fff;
+    border-radius: 50%;
   }
   .content {
     .scroll_wrapper {

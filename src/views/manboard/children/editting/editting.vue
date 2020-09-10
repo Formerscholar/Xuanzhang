@@ -232,7 +232,7 @@ export default {
       } = data.user[0]
       console.log('getEditUserNew', data)
       this.tel = username
-      this.PropsImg = img_url.substr(1)
+      this.PropsImg = img_url.indexOf('#') == -1 ? img_url : img_url.substr(1)
       this.name = name
       this.value = id_number
       this.radio = sex

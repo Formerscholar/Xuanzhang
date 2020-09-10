@@ -24,3 +24,11 @@ export function getUserMoneyLogLists(params) {
 //     data: Qs.stringify(data),
 //   })
 // }
+
+export function getUserMoneyLogAccountsList(params) {
+  return request({
+    url: '/CustomerBank/getUserMoneyLogAccountsList',
+    method: 'GET',
+    params,
+  })
+}

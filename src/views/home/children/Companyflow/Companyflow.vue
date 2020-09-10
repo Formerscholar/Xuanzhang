@@ -8,6 +8,21 @@
         <span>公司账单</span>
       </div>
     </navbar>
+    <div class="ScreenClassification">
+      <div class="leftbox">
+        <van-dropdown-menu>
+          <van-dropdown-item
+            v-model="state.value1"
+            :options="state.option1"
+            @change="dropdownOneChange"
+          />
+          <van-dropdown-item v-model="state.value2" :options="state.option2" />
+        </van-dropdown-menu>
+      </div>
+      <div class="rightbox" @click="searchClick">
+        <span>搜索</span>
+      </div>
+    </div>
     <scroll
       class="scroll_wrapper"
       ref="scroll"
@@ -16,17 +31,6 @@
       @scroll="clickscroll"
       @pullingUp="loadMore"
     >
-      <div class="ScreenClassification">
-        <div class="leftbox">
-          <van-dropdown-menu>
-            <van-dropdown-item v-model="state.value1" :options="state.option1" />
-            <van-dropdown-item v-model="state.value2" :options="state.option2" />
-          </van-dropdown-menu>
-        </div>
-        <div class="rightbox">
-          <span>搜索</span>
-        </div>
-      </div>
       <div class="Screentotal">
         <div class="screen">本月</div>
         <div class="total_box">
@@ -38,7 +42,12 @@
         </div>
       </div>
       <div class="contentlist">
-        <div class="contentitem" v-for="item in state.userMoneyLogLists" :key="item.id">
+        <div
+          class="contentitem"
+          v-for="item in state.userMoneyLogLists"
+          :key="item.id"
+          @click="goRecordDetail(item)"
+        >
           <div class="leftimage">
             <svg class="icon icons" aria-hidden="true">
               <use xlink:href="#icon-zichanyijiaoguanlixitong" />
@@ -65,7 +74,10 @@
     
 <script>
 import { reactive, computed } from '@vue/composition-api'
-import { getUserMoneyLogLists } from '@/network/Profile'
+import {
+  getUserMoneyLogLists,
+  getUserMoneyLogAccountsList,
+} from '@/network/Profile'
 import { fmoney } from '@/common/utils'
 
 export default {
@@ -74,27 +86,30 @@ export default {
       value1: 0,
       value2: 0,
       option1: [
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
+        { text: '银行卡', value: 1 },
+        { text: '现金余额', value: 2 },
       ],
-      option2: [
-        { text: '默认排序', value: 0 },
-        { text: '好评排序', value: 1 },
-        { text: '销量排序', value: 2 },
-      ],
+      option2: [],
       userMoneyLogLists: [],
       types: {},
       listPage: 1,
     })
 
     const getMyMoneyLogListData = computed(() => {
+      let money_type
+      if (state.value1 == 0) {
+        money_type == 0
+      } else if (state.value1 == 1) {
+        money_type == 'bank'
+      } else if (state.value1 == 2) {
+        money_type == 'user'
+      }
       return {
         token: root.$store.state.token,
         start_time: null,
         end_time: null,
-        money_type: 0,
-        variable_id: 0,
+        money_type,
+        variable_id: state.value2,
         keyword: null,
         operator_id: 0,
         happen_user_id: 0,
@@ -119,6 +134,8 @@ export default {
     }
 
     function clickscroll() {
+      state.value1 = 0
+      state.value2 = 0
       state.listPage = 1
       getMyMoneyList()
     }
@@ -128,6 +145,55 @@ export default {
       getMyMoneyList()
     }
 
+    const getUserMoneyData = computed(() => {
+      let type
+      if (state.value1 == 1) {
+        type = 'bank'
+      } else if (state.value1 == 2) {
+        type = 'user'
+      }
+      return {
+        token: root.$store.state.token,
+        type,
+        _: new Date().getTime(),
+      }
+    })
+
+    async function getUserMoneyList() {
+      const { data } = await getUserMoneyLogAccountsList(getUserMoneyData.value)
+      console.log('getUserMoneyLogAccountsList', data)
+      const { customerBankList } = data
+      state.option2 = []
+      state.option2 = customerBankList.map((item, index) => {
+        if (state.value1 == 0) {
+          return {}
+        } else if (state.value1 == 1) {
+          return { text: item.bank_account, value: item.id }
+        } else if (state.value1 == 2) {
+          return { text: item.user_name, value: item.user_id }
+        }
+      })
+    }
+
+    function dropdownOneChange(value) {
+      getUserMoneyList()
+    }
+
+    function searchClick() {
+      console.log(state.value1, state.value2)
+      state.userMoneyLogLists = []
+      getMyMoneyList()
+    }
+
+    function goRecordDetail(item) {
+      root.$router.push({
+        path: '/RecordDetail',
+        query: {
+          data: item,
+        },
+      })
+    }
+
     getMyMoneyList()
     return {
       state,
@@ -135,6 +201,9 @@ export default {
       fmoney,
       clickscroll,
       loadMore,
+      dropdownOneChange,
+      searchClick,
+      goRecordDetail,
     }
   },
 }
@@ -142,6 +211,7 @@ export default {
     
 <style scoped lang="scss">
 #Recordlist {
+  padding-top: 5.428571rem;
   .p_root_box {
     color: #747474;
     background-color: #fff;
@@ -156,44 +226,49 @@ export default {
       font-size: 1.285714rem;
     }
   }
+  .ScreenClassification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.714286rem;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    .leftbox {
+      /deep/.van-dropdown-menu__bar {
+        height: 2.714286rem;
+        box-shadow: none;
+        .van-dropdown-menu__item {
+          width: 7.071429rem;
+          &:last-child {
+            margin-left: 2rem;
+          }
+          .van-ellipsis {
+            font-size: 0.928571rem;
+          }
+        }
+      }
+      /deep/.van-dropdown-item {
+        top: 8.213143rem !important;
+      }
+    }
+    .rightbox {
+      margin-right: 0.571429rem;
+      font-size: 0.928571rem;
+      span {
+        border-left: 1px solid #eee;
+        padding-left: 1rem;
+      }
+    }
+  }
   .scroll_wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    top: 5.428571rem;
+    top: 8.285714rem;
     bottom: 0;
     width: 100%;
     overflow: hidden;
-    .ScreenClassification {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 0.714286rem;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      .leftbox {
-        /deep/.van-dropdown-menu__bar {
-          height: 2.714286rem;
-          box-shadow: none;
-          .van-dropdown-menu__item {
-            &:last-child {
-              margin-left: 2rem;
-            }
-            .van-ellipsis {
-              font-size: 0.928571rem;
-            }
-          }
-        }
-      }
-      .rightbox {
-        margin-right: 0.571429rem;
-        font-size: 0.928571rem;
-        span {
-          border-left: 1px solid #eee;
-          padding-left: 1rem;
-        }
-      }
-    }
+
     .Screentotal {
       display: flex;
       justify-content: space-between;
