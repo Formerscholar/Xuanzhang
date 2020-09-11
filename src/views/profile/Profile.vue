@@ -19,8 +19,14 @@
       />
       <versionItem :version="version" :isShow="isShow" />
       <mytaskItem :doQuantity="doQuantity" />
-      <tobalance :balance="balance" />
-      <Pendbalance :Pendbalance="Pendbalance" />
+
+      <tobalance
+        :balance="balance.indexOf('-') == -1? fmoney(balance): '-' + fmoney(balance.substr(1))"
+      />
+      <Pendbalance
+        :Pendbalance=" Pendbalance.indexOf('-') == -1? fmoney(Pendbalance): '-' + fmoney(Pendbalance.substr(1))"
+      />
+
       <Runrecord />
       <wages />
       <BankAccounts />
@@ -54,7 +60,7 @@ import { getlogin, getIndex, getAppVersion } from '@/network/login'
 import { getUserDesignatedTasks, getUserIndex } from '@/network/home'
 import { getUserReimbursementList } from '@/network/Reimbursement'
 import { version } from '@/AppConfig'
-
+import { fmoney } from '@/common/utils'
 export default {
   name: 'Profile',
   data() {
@@ -71,6 +77,7 @@ export default {
       balance: '0.00',
       Pendbalance: '0.00',
       record: 0,
+      fmoney,
     }
   },
   components: {

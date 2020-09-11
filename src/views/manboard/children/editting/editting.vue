@@ -276,15 +276,24 @@ export default {
       this.name = ''
       this.digit = ''
       this.tel = ''
+      this.isproperties = false
+      this.ispropertiess = false
+      this.ispropertiesss = false
       this.orther = ''
       this.PropsImg = ''
       this.radio = '1'
+      this.iid = 0
       this.Contractnum = ''
       this.ContractValue = ''
+      this.ContractValuetest = ''
       this.ContractValuse = ''
+      this.ContractValusetest = ''
       this.ContractOptions = []
+      this.getDepartments = []
       this.jobValue = ''
+      this.jobValuetest = ''
       this.jobOptions = []
+      this.roles = []
       this.dataImgUrl = ''
       this.$router.go(-1)
     },

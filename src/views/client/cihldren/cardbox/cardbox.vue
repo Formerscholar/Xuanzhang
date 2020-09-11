@@ -5,7 +5,9 @@
         <div class="content" @click="gokhlist(item)">
           <div class="title">
             <span class="kh_name">{{item.name}}</span>
-            <span class="kh_moneny">￥{{item.arrearsCount }}</span>
+            <span
+              class="kh_moneny"
+            >￥{{item.arrearsCount.indexOf('-') == -1? fmoney(item.arrearsCount): '-' + fmoney(item.arrearsCount.substr(1))}}</span>
           </div>
           <div class="body">
             <span class="kh_address">{{item.province}}{{item.contacts_address}}</span>
@@ -43,8 +45,14 @@
     
 <script>
 import { deleteDistributor, deleteSupplier } from '@/network/client'
+import { fmoney } from '@/common/utils'
 
 export default {
+  data() {
+    return {
+      fmoney,
+    }
+  },
   props: {
     titlename: {
       type: String,

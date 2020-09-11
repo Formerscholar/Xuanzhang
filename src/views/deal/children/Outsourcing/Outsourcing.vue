@@ -141,7 +141,7 @@ import {
 
 import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
-import { throttle } from '@/common/utils'
+import { throttle, fmoney } from '@/common/utils'
 
 export default {
   name: 'Outsourcing',
@@ -208,7 +208,9 @@ export default {
       return '交期:' + value
     },
     setAmountOfDiscount(value) {
-      return '预设价格:' + value
+      return value.indexOf('-') == -1
+        ? '预设价格:' + fmoney(value)
+        : '预设价格:-' + fmoney(value.substr(1))
     },
   },
   methods: {

@@ -12,38 +12,70 @@
     </navbar>
     <!-- body -->
     <div class="body">
-      <el-card class="box-card">
-        <div class="clientName">
-          <span>{{clientName | SetClientName}}</span>
+      <div class="title_warp">
+        <div class="left">
+          <svg class="icon icons" aria-hidden="true">
+            <use xlink:href="#icon-baogao" />
+          </svg>
         </div>
-        <div class="clientIdCard">
-          <span>{{clientIdCard | SetClientId}}</span>
+        <div class="right">
+          <div class="clientName">{{clientName}}</div>
+          <div class="clientAderss">{{clientAderss}}</div>
         </div>
-        <div class="clientAderss">
-          <span>{{clientAderss | SetClientAderss}}</span>
+      </div>
+      <div class="info_three">
+        <div class="left">
+          <div class="title">简称</div>
+          <div class="info">{{clientIdCard}}</div>
         </div>
-        <div class="clientSales">
-          <span>{{clientSales | SetClientSales}}</span>
+        <div class="con_box">
+          <div class="title">税率</div>
+          <div class="info">13%</div>
         </div>
-        <div class="clientTable">
-          <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="date" label="联系人" width="70"></el-table-column>
-            <el-table-column prop="job" label="职务" width="80"></el-table-column>
-            <el-table-column prop="phone" label="电话" width="100"></el-table-column>
-            <el-table-column prop="email" label="邮箱"></el-table-column>
-          </el-table>
+        <div class="right">
+          <div class="title">最近交易</div>
+          <div class="info">2020-09-11</div>
         </div>
-      </el-card>
-      <el-card class="box-card" v-if="typeShow">
-        <div>开票资料</div>
-        <div>{{name | SetName}}</div>
-        <div>{{TaxID | SetTaxID}}</div>
-        <div>{{address | SetAddress}}</div>
-        <div>{{phone | SetPhone}}</div>
-        <div>{{Bank | SetBank}}</div>
-        <div>{{account | SetAccount}}</div>
-        <div>{{representative | SetRepresentativet}}</div>
-      </el-card>
+      </div>
+      <div class="tos_text">
+        <div class="blue_box">
+          <div class="left_title">付款方式</div>
+          <div class="right_info">付款金额允许不包含最近2个月的发货款</div>
+        </div>
+      </div>
+      <div class="list_box">
+        <div class="item_box">
+          <div class="left_box">
+            <div class="icon_box">
+              <svg class="icon icons" aria-hidden="true">
+                <use xlink:href="#icon-baogao" />
+              </svg>
+            </div>
+            <div class="text">总账款</div>
+          </div>
+          <div class="right_box">123324.00</div>
+        </div>
+      </div>
+      <div class="box-card">
+        <div class="clientSales">{{clientSales}}</div>
+      </div>
+      <div class="clientTable">
+        <el-table :data="tableData" stripe style="width: 100%">
+          <el-table-column prop="date" label="联系人" width="70"></el-table-column>
+          <el-table-column prop="job" label="职务" width="80"></el-table-column>
+          <el-table-column prop="phone" label="电话" width="100"></el-table-column>
+          <el-table-column prop="email" label="邮箱"></el-table-column>
+        </el-table>
+      </div>
+      <div class="box-card botcard" v-if="typeShow">
+        <div>{{name }}</div>
+        <div>{{TaxID }}</div>
+        <div>{{address }}</div>
+        <div>{{phone}}</div>
+        <div>{{Bank }}</div>
+        <div>{{account }}</div>
+        <div>{{representative }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,42 +100,6 @@ export default {
       account: '',
       representative: '',
     }
-  },
-  components: {},
-  filters: {
-    SetClientName(value) {
-      return '个人名称:' + value
-    },
-    SetClientId(value) {
-      return '身份证号:' + value
-    },
-    SetClientAderss(value) {
-      return '地址:' + value
-    },
-    SetClientSales(value) {
-      return '销售负责人:' + value
-    },
-    SetName(value) {
-      return '名称:' + value
-    },
-    SetTaxID(value) {
-      return '税号:' + value
-    },
-    SetAddress(value) {
-      return '地址:' + value
-    },
-    SetPhone(value) {
-      return '电话:' + value
-    },
-    SetBank(value) {
-      return '开户行:' + value
-    },
-    SetAccount(value) {
-      return '账号:' + value
-    },
-    SetRepresentativet(value) {
-      return '法人代表:' + value
-    },
   },
   activated() {
     this.paramsData = this.$route.query.data
@@ -139,15 +135,7 @@ export default {
     dataOfClient() {
       this.clientName = this.paramsData.name
       this.clientIdCard = this.paramsData.name_alias
-      this.clientAderss =
-        this.paramsData.country +
-        ' ' +
-        this.paramsData.province +
-        ' ' +
-        this.paramsData.city +
-        ' ' +
-        this.paramsData.contacts_address
-
+      this.clientAderss = this.paramsData.contacts_address
       this.clientSales = this.paramsData.uname
       this.paramsData.contacts.map((item) => {
         this.tableData.push({
@@ -186,6 +174,120 @@ export default {
       span {
         font-size: 1.571429rem;
       }
+    }
+  }
+  .body {
+    .title_warp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.857143rem 1.428571rem;
+      padding-bottom: 0;
+      .left {
+        margin-right: 0.857143rem;
+        .icons {
+          width: 3.428571rem;
+          height: 3.428571rem;
+        }
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        .clientName {
+          font-size: 1.428571rem;
+        }
+        .clientAderss {
+          font-size: 1.142857rem;
+          color: #b3b3b3;
+        }
+      }
+    }
+    .info_three {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.857143rem;
+      margin-top: 1.428571rem;
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+      }
+      .con_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+      }
+    }
+    .tos_text {
+      padding: 0.714286rem;
+      border-bottom: 0.857143rem solid #f2f2f2;
+      .blue_box {
+        background-color: #f2f7fd;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.714286rem;
+        .left_title {
+          width: 4.285714rem;
+          color: #029aff;
+          margin-right: 1.428571rem;
+        }
+        .right_info {
+          color: #9a9a9c;
+          flex: 1;
+        }
+      }
+    }
+    .list_box {
+      padding: 1.214286rem 1.928571rem;
+      .item_box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.714286rem;
+        border-bottom: 1px solid #ccc;
+        .left_box {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .icon_box {
+            margin-right: 1rem;
+            .icons {
+              width: 1.714286rem;
+              height: 1.714286rem;
+            }
+          }
+          .text {
+            font-size: 1.142857rem;
+          }
+        }
+      }
+    }
+    .box-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.285714rem;
+      padding: 1.428571rem 0;
+      text-align: center;
+    }
+    .botcard {
+      font-size: 1rem;
     }
   }
 }

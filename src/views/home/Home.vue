@@ -101,14 +101,14 @@ export default {
     reminder,
     MainTabBar,
   },
-  created() {
+  activated() {
     this.getlogin()
     this.getechIndex()
     this.getUserDesignat()
     clearInterval(this.Interval)
     this.Interval = setInterval(this.getlogin, 600000)
   },
-  destroyed() {
+  deactivated() {
     this.isShow = 0
   },
   computed: {

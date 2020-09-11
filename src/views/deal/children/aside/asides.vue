@@ -58,7 +58,7 @@
                       >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
                       <em
                         :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                      >￥{{item.total_price}}</em>
+                      >￥{{item.total_price.indexOf('-') == -1? fmoney(item.total_price): '-' + fmoney(item.total_price.substr(1))}}</em>
                     </span>
                   </div>
                 </div>
@@ -127,7 +127,7 @@
                     >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
                     <em
                       :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                    >￥{{item.total_price}}</em>
+                    >￥{{item.total_price.indexOf('-') == -1? fmoney(item.total_price): '-' + fmoney(item.total_price.substr(1))}}</em>
                   </span>
                 </div>
               </div>
@@ -209,7 +209,7 @@ import {
 } from '@/network/deal'
 
 import { bestURL } from '@/network/baseURL'
-import { throttle } from '@/common/utils.ts'
+import { throttle, fmoney } from '@/common/utils.ts'
 import selection from '@/views/deal/children/selection_cont/selection_cont'
 export default {
   components: { selection },
@@ -230,6 +230,7 @@ export default {
       myVqrShow: false,
       textContent: '',
       iid: 0,
+      fmoney,
     }
   },
   computed: {

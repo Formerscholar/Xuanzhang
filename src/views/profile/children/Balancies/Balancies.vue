@@ -9,8 +9,12 @@
     <div class="content_box">
       <div class="top_blue_box bg-primary">
         <div class="title">可以余额(元)</div>
-        <div class="money">{{state.balance}}</div>
-        <div class="active_money">待审余额￥{{state.Pendbalance}}</div>
+        <div
+          class="money"
+        >￥{{state.balance.indexOf('-') == -1? fmoney(state.balance): '-' + fmoney(state.balance.substr(1))}}</div>
+        <div
+          class="active_money"
+        >待审余额￥{{state.Pendbalance.indexOf('-') == -1? fmoney(state.Pendbalance): '-' + fmoney(state.Pendbalance.substr(1))}}</div>
       </div>
       <div class="list_warp">
         <div class="list_item">
@@ -54,6 +58,8 @@
 <script>
 import { reactive } from '@vue/composition-api'
 import { getUserIndex } from '@/network/home'
+import { fmoney } from '@/common/utils'
+
 export default {
   setup(props, { root }) {
     const state = reactive({
@@ -75,6 +81,7 @@ export default {
     return {
       state,
       callBack,
+      fmoney,
     }
   },
 }
@@ -108,7 +115,7 @@ export default {
         font-size: 1.142857rem;
       }
       .money {
-        font-size: 4.642857rem;
+        font-size: 1.285714rem;
       }
       .active_money {
         font-size: 1.285714rem;

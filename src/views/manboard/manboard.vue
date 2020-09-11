@@ -50,7 +50,7 @@
                     v-if="isBalance"
                     class="title_right"
                     :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                  >￥{{fmoney(item.balance)}}</div>
+                  >￥{{item.balance.indexOf('-') == -1? fmoney(item.balance): '-' + fmoney(item.balance.substr(1))}}</div>
                 </div>
                 <div class="body">
                   <div class="body_phone">{{item.username}}</div>
@@ -94,7 +94,7 @@
                 <div
                   class="title_right"
                   :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                >￥{{fmoney(item.balance)}}</div>
+                >￥{{item.balance.indexOf('-') == -1? fmoney(item.balance): '-' + fmoney(item.balance.substr(1))}}</div>
               </div>
               <div class="body">
                 <div class="body_phone">{{item.username}}</div>

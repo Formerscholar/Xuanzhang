@@ -16,8 +16,8 @@
           <em>V{{state.version}}</em>
         </span>
       </div>
-      <div class="UserActions">
-        <div class="update" v-if="state.isNews" @click="getUpdate">
+      <div class="UserActions" @click="getUpdate">
+        <div class="update" v-if="state.isNews">
           <div class="label">检测更新</div>
           <div class="status">
             <van-icon name="arrow" />

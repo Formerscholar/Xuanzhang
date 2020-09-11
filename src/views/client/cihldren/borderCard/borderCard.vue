@@ -8,7 +8,9 @@
               <p class="tab_icon tabs_icon"></p>
               <span class="name">客户</span>
             </div>
-            <div class="totol_price">￥{{allArrearsCount}}</div>
+            <div
+              class="totol_price"
+            >￥{{allArrearsCount.indexOf('-') == -1? fmoney(allArrearsCount): '-' + fmoney(allArrearsCount.substr(1))}}</div>
           </div>
         </template>
         <div class="bg"></div>
@@ -21,7 +23,9 @@
               <p class="tab_icon tabs_icons"></p>
               <span class="name">供应商</span>
             </div>
-            <div class="totol_price">￥{{allArrearsCounts}}</div>
+            <div
+              class="totol_price"
+            >￥{{allArrearsCounts.indexOf('-') == -1? fmoney(allArrearsCounts): '-' + fmoney(allArrearsCounts.substr(1))}}</div>
           </div>
         </template>
         <div class="bg"></div>
@@ -32,6 +36,7 @@
 </template>
     
 <script>
+import { fmoney } from '@/common/utils'
 export default {
   name: 'borderCard',
   components: {},
@@ -48,6 +53,7 @@ export default {
   data() {
     return {
       active: 0,
+      fmoney,
     }
   },
   methods: {

@@ -58,7 +58,7 @@
                       >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
                       <em
                         :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                      >￥{{item.total_funds}}</em>
+                      >￥{{item.total_funds.indexOf('-') == -1? fmoney(item.total_funds): '-' + fmoney(item.total_funds.substr(1))}}</em>
                     </span>
                   </div>
                 </div>
@@ -127,7 +127,7 @@
                     >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
                     <em
                       :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                    >￥{{item.total_funds}}</em>
+                    >￥{{item.total_funds.indexOf('-') == -1? fmoney(item.total_funds): '-' + fmoney(item.total_funds.substr(1))}}</em>
                   </span>
                 </div>
               </div>
@@ -214,7 +214,7 @@ import {
   getleft,
 } from '@/network/deal'
 
-import { throttle } from '@/common/utils.ts'
+import { throttle, fmoney } from '@/common/utils.ts'
 import selection from '@/views/deal/children/selection_cont/selection_cont'
 
 export default {
@@ -234,6 +234,7 @@ export default {
       distributor_id: null,
       leftBtn: [],
       selectionList: [{ id: 0 }],
+      fmoney,
     }
   },
   components: {

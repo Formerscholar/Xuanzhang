@@ -124,6 +124,7 @@ import {
   toExamineContractOrder,
   cancelToExamineContractOrder,
 } from '@/network/deal'
+import { fmoney } from '@/common/utils'
 
 export default {
   name: 'DealGoodsItem',
@@ -163,7 +164,9 @@ export default {
       return '销售:' + value
     },
     SetAmount(value) {
-      return '￥' + value
+      return value.indexOf('-') == -1
+        ? '￥' + fmoney(value)
+        : '￥-' + fmoney(value.substr(1))
     },
     SetDelivery(value) {
       return '交期:' + value
