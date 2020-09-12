@@ -29,7 +29,7 @@
         <cardbox
           :distributor="supplier"
           @refreshList="refreshLists"
-          @gokhlist="gokhlist"
+          @gokhlist="gokhlists"
           :titlename="titlename"
           slot="Supplicard"
         />
@@ -215,12 +215,10 @@ export default {
       this.getSupplier()
     },
     gokhlist(item) {
-      this.$router.push({
-        path: '/clientdetails',
-        query: {
-          data: item,
-        },
-      })
+      this.$router.push(`/clientdetails/distributor/${item.id}`)
+    },
+    gokhlists(item) {
+      this.$router.push(`/clientdetails/supplier/${item.id}`)
     },
     tabListTach(e) {
       console.log(e)

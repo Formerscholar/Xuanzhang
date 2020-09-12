@@ -13,17 +13,14 @@
 </template>
     
 <script>
- 
-
 export default {
   name: 'mHeader',
-  components: {
-  },
+  components: {},
   methods: {
     blackhome() {
-      this.$router.go(-1)
-    }
-  }
+      this.$router.replace('/home')
+    },
+  },
 }
 </script>
     

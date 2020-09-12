@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>计价列表</span>
+        <span>工序计件</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -26,8 +26,8 @@
               <em>{{item.user_name}}</em>
             </div>
             <div class="items">
-              <span>模式</span>
-              <em>{{item.valuation_name}}</em>
+              <span>计件物料</span>
+              <em>{{item.materiel_name}}</em>
             </div>
             <div class="items">
               <span>工资</span>
@@ -58,7 +58,7 @@
     
 <script>
 import { reactive, computed } from '@vue/composition-api'
-import { getUserValuationWagesList } from '@/network/home'
+import { getProcessPieceWorkWagesList } from '@/network/home'
 export default {
   setup(props, { root }) {
     const state = reactive({
@@ -81,12 +81,14 @@ export default {
     })
 
     async function getUserValuaList() {
-      const { data } = await getUserValuationWagesList(getUserValuaData.value)
-      console.log('getUserValuationWagesList', data)
-      const { userValuationWagesList } = data
+      const { data } = await getProcessPieceWorkWagesList(
+        getUserValuaData.value
+      )
+      console.log('getProcessPieceWorkWagesList', data)
+      const { processPieceWorkWages } = data
       state.userValuationWagesList = [
         ...state.userValuationWagesList,
-        ...userValuationWagesList,
+        ...processPieceWorkWages,
       ]
       console.log(state.userValuationWagesList)
     }
@@ -101,7 +103,7 @@ export default {
       getUserValuaList()
     }
     function addClick() {
-      this.$router.push('/Piecework')
+      this.$router.push('/Processwork')
     }
 
     getUserValuaList()

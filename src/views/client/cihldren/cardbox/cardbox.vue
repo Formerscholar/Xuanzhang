@@ -30,13 +30,13 @@
             style=" height: 100%;"
             @click="editClick(item)"
           />
-          <van-button
+          <!-- <van-button
             square
             text="删除"
             type="danger"
             style=" height: 100%;"
             @click="delelClick(item.id)"
-          />
+          />-->
         </div>
       </template>
     </van-swipe-cell>

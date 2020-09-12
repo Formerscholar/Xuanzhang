@@ -116,3 +116,35 @@ export function getUserValuationWagesList(params) {
     params,
   })
 }
+
+export function getProcessPieceWorkWagesList(params) {
+  return request({
+    url: '/Wages/getProcessPieceWorkWagesList',
+    method: 'GET',
+    params,
+  })
+}
+
+export function getAddProcessPieceWorkWages(params) {
+  return request({
+    url: '/Wages/getAddProcessPieceWorkWages',
+    method: 'GET',
+    params,
+  })
+}
+
+export function addProcessPieceWorkWages(data) {
+  return request({
+    url: '/Wages/addProcessPieceWorkWages',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function getProcessPieceWorkWagesMoney(params) {
+  return request({
+    url: '/Wages/getProcessPieceWorkWagesMoney',
+    method: 'GET',
+    params,
+  })
+}

@@ -112,6 +112,23 @@
           </li>
         </ul>
       </div>
+      <div class="abilitys">
+        <span class="titleName">计件考核</span>
+        <ul class="abilitys_item">
+          <li v-for="(item,index) in PieceworkList" :key="index">
+            <div
+              @touchstart="touchstart"
+              @touchend="touchend(item.path)"
+              class="abilitys_item_list"
+            >
+              <svg class="icon icons" aria-hidden="true">
+                <use :xlink:href="item.icon_Url" />
+              </svg>
+              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </scroll>
     <van-popup v-model="popupshow" position="bottom" :style="{ height: '30%' }">内容</van-popup>
   </div>
@@ -124,6 +141,18 @@ export default {
   data() {
     return {
       popupshow: false,
+      PieceworkList: [
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-30',
+          title: '计价列表',
+          path: '/PieceworkList',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-30',
+          title: '工序计件',
+          path:'/Processpiecework'
+        },
+      ],
       financeThisList: [
         {
           icon_Url: '#icon-jinrongleiicontubiao-17',
@@ -297,16 +326,6 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '代工进度',
           path: '/oemScreen',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-30',
-          title: '计价新增',
-          path: '/Piecework',
-        },
-        {
-          icon_Url: '#icon-jinrongleiicontubiao-30',
-          title: '计价列表',
-          path: '/PieceworkList',
         },
       ],
       searchData: '',

@@ -5,21 +5,11 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>计价新增</span>
+        <span>计件新增</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
-      <van-field
-        v-model="state.OrderModeState"
-        label="计价模式"
-        readonly
-        @click-input="state.isOrderMode = true"
-        class="newStyle"
-        @click-right-icon="state.isOrderMode = true"
-        placeholder="点击选择计价模式"
-        right-icon="arrow"
-      />
       <van-field
         v-model="state.state"
         label="员工姓名"
@@ -29,11 +19,57 @@
         placeholder="点击检索员工姓名"
         right-icon="arrow"
       />
+      <van-field
+        v-model="state.OrderModeState"
+        label="物料成品"
+        readonly
+        @click-input="state.isOrderMode = true"
+        class="newStyle"
+        @click-right-icon="state.isOrderMode = true"
+        placeholder="点击选择物料成品"
+        right-icon="arrow"
+      />
+      <van-field
+        v-model="state.consumablesState"
+        label="物料耗材"
+        readonly
+        @click-input="state.isconsumables = true"
+        class="newStyle"
+        @click-right-icon="state.isconsumables = true"
+        placeholder="点击选择物料耗材"
+        right-icon="arrow"
+      />
+      <van-field
+        v-model="state.Totalproduction"
+        label="生产总数"
+        class="newStyle"
+        @input="changeInput"
+      />
+      <van-field
+        v-model="state.Unitpriceperpiece"
+        label="计件单价"
+        class="newStyle"
+        @input="changeInput"
+      />
+      <van-field
+        v-model="state.Subjectivescrapping"
+        label="主观报废"
+        class="newStyle"
+        @input="changeInput"
+      />
+      <van-field v-model="state.UnitpricedeductionO" label="扣损单价" class="newStyle" readonly />
+      <van-field
+        v-model="state.Nonprimaryscrap"
+        label="非主报废"
+        class="newStyle"
+        @input="changeInput"
+      />
+      <van-field v-model="state.UnitpricedeductionT" label="扣损单价" class="newStyle" readonly />
       <el-row class="DeliveryDate van-cell">
         <span class="lable">日期</span>
         <span class="time" @click="state.isDatetime = true">{{state.timersList.SigningDate}}</span>
       </el-row>
-      <van-field v-model="state.contractAmount" label="工资" class="newStyle" />
+      <van-field v-model="state.contractAmount" label="工资" class="newStyle" readonly />
       <van-field v-model="state.textarea" type="textarea" label="备注" class="newStyle" />
     </scroll>
     <myBtns :commitFun="quoteclick" :cancelFun="onClickLeft">
@@ -56,18 +92,31 @@
     <van-picker
       class="datetime"
       v-if="state.isOrderMode"
-      title="计价模式"
+      title="物料成品"
       show-toolbar
       :columns="state.OrderMode"
       @confirm="OrderModeConfirm"
       @cancel="state.isOrderMode = false"
+    />
+    <van-picker
+      class="datetime"
+      v-if="state.isconsumables"
+      title="物料耗材"
+      show-toolbar
+      :columns="state.OrderMode"
+      @confirm="consumableConfirm"
+      @cancel="state.isconsumables = false"
     />
   </div>
 </template>
     
 <script>
 import { reactive, onActivated, computed } from '@vue/composition-api'
-import { getAddUserValuationWages, addUserValuationWages } from '@/network/home'
+import {
+  getAddProcessPieceWorkWages,
+  addProcessPieceWorkWages,
+  getProcessPieceWorkWagesMoney,
+} from '@/network/home'
 import { setTimerType } from '@/common/filter'
 import myBtns from '@/components/common/my_btns/my_btns'
 
@@ -82,12 +131,21 @@ export default {
         ContractField: setTimerType(new Date().getTime()),
       },
       OrderModeState: '',
+      consumablesState: '',
       state: '',
       isDatetime: false,
       isOrderMode: false,
+      isconsumables: false,
       OrderMode: [],
       contractAmount: '',
+      Totalproduction: '',
       valuation_id: '',
+      UnitpricedeductionO: '',
+      Unitpriceperpiece: '',
+      Nonprimaryscrap: '',
+      consume_materiel_id: '',
+      UnitpricedeductionT: '',
+      Subjectivescrapping: '',
       distributors: [],
       valuationWages: [],
       currentDate: '',
@@ -98,12 +156,21 @@ export default {
     })
     function onClickLeft() {
       state.OrderModeState = ''
+      state.consumablesState = ''
       state.state = ''
       state.isDatetime = false
       state.isOrderMode = false
+      state.isconsumables = false
       state.OrderMode = []
       state.contractAmount = ''
+      state.Totalproduction = ''
       state.valuation_id = ''
+      state.UnitpricedeductionO = ''
+      state.Unitpriceperpiece = ''
+      state.Nonprimaryscrap = ''
+      state.consume_materiel_id = ''
+      state.UnitpricedeductionT = ''
+      state.Subjectivescrapping = ''
       state.distributors = []
       state.valuationWages = []
       state.currentDate = ''
@@ -112,14 +179,14 @@ export default {
       root.$router.go(-1)
     }
     async function getAddUserList() {
-      const { data } = await getAddUserValuationWages({
+      const { data } = await getAddProcessPieceWorkWages({
         token: root.$store.state.token,
         _: new Date().getTime(),
       })
-      console.log('getAddUserValuationWages', data)
-      const { valuationWages, users } = data
-      state.valuationWages = valuationWages
-      state.OrderMode = valuationWages.map((item) => item.valuation_name)
+      console.log('getAddProcessPieceWorkWages', data)
+      const { materiel, users } = data
+      state.valuationWages = materiel
+      state.OrderMode = materiel.map((item) => item.name)
       state.distributors = users
     }
     onActivated(() => {
@@ -145,9 +212,32 @@ export default {
       })
     }
 
-    function OrderModeConfirm(value, index) {
+    async function OrderModeConfirm(value, index) {
       state.OrderModeState = value
       state.isOrderMode = false
+      state.valuationWages.map((item, index1) => {
+        if (index == index1) {
+          state.consume_materiel_id = item.id
+        }
+      })
+      const { data } = await getProcessPieceWorkWagesMoney({
+        token: root.$store.state.token,
+        user_id: state.selectedID,
+        materiel_id: state.consume_materiel_id,
+        _: new Date().getTime(),
+      })
+      const { processPieceWorkWages } = data
+      console.log(processPieceWorkWages)
+      state.consumablesState = processPieceWorkWages.cname
+      state.valuation_id = processPieceWorkWages.consume_materiel_id
+      state.Unitpriceperpiece = processPieceWorkWages.synthesis_price
+      state.UnitpricedeductionO = processPieceWorkWages.main_scrap_price
+      state.UnitpricedeductionT = processPieceWorkWages.secondary_scrap_price
+    }
+
+    function consumableConfirm(value, index) {
+      state.consumablesState = value
+      state.isconsumables = false
       state.valuationWages.map((item, index1) => {
         if (index == index1) {
           state.valuation_id = item.id
@@ -164,15 +254,22 @@ export default {
       return {
         token: root.$store.state.token,
         user_id: state.selectedID,
-        valuation_id: state.valuation_id,
+        consume_materiel_id: state.consume_materiel_id,
+        synthesis_materiel_id: state.valuation_id,
+        synthesis_number: state.Totalproduction,
+        synthesis_price: state.Unitpriceperpiece,
         apply_time: state.timersList.SigningDate,
         wages_money: state.contractAmount,
+        main_scrap_number: state.Subjectivescrapping,
+        main_scrap_price: state.UnitpricedeductionO,
+        secondary_scrap_number: state.Nonprimaryscrap,
+        secondary_scrap_price: state.UnitpricedeductionT,
         remark: state.textarea,
       }
     })
 
     async function quoteclick() {
-      const { code, msg } = await addUserValuationWages(
+      const { code, msg } = await addProcessPieceWorkWages(
         addUserValuationWagesData.value
       )
       if (code == 200) {
@@ -191,13 +288,40 @@ export default {
       }
     }
 
+    function changeInput() {
+      let main_money = 0
+      let secondary_money = 0
+      if (state.Unitpriceperpiece != '' && state.Totalproduction != '') {
+        if (
+          state.Subjectivescrapping != '' &&
+          state.UnitpricedeductionO != ''
+        ) {
+          main_money =
+            parseFloat(state.Subjectivescrapping) *
+            parseFloat(state.UnitpricedeductionO)
+        }
+        if (state.Nonprimaryscrap != '' && state.UnitpricedeductionT != '') {
+          secondary_money =
+            parseFloat(state.Nonprimaryscrap) *
+            parseFloat(state.UnitpricedeductionT)
+        }
+        state.contractAmount =
+          parseFloat(state.Unitpriceperpiece) *
+            parseFloat(state.Totalproduction) -
+          parseFloat(main_money) -
+          parseFloat(secondary_money)
+      }
+    }
+
     return {
       state,
       onClickLeft,
       focusClick,
       quoteclick,
       OrderModeConfirm,
+      consumableConfirm,
       confirms,
+      changeInput,
     }
   },
 }

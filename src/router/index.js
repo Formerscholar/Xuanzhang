@@ -211,9 +211,12 @@ const purchasePay = () =>
 const newOtherCollection = () =>
   import('@/views/home/children/newOtherCollection/newOtherCollection')
 const Piecework = () => import('@/views/home/children/Piecework/Piecework')
+const Processwork = () =>
+  import('@/views/home/children/Processwork/Processwork')
 const PieceworkList = () =>
   import('@/views/home/children/PieceworkList/PieceworkList')
-
+const Processpiecework = () =>
+  import('@/views/home/children/Processpiecework/Processpiecework')
 const RecordDetail = () =>
   import(
     '@/views/profile/children/Runrecord/children/RecordDetail/RecordDetail'
@@ -330,8 +333,7 @@ const routes = [
     component: Details,
   },
   {
-    path: '/clientdetails',
-    name: 'data',
+    path: '/clientdetails/:type/:id',
     component: clientDetails,
   },
   {
@@ -737,6 +739,14 @@ const routes = [
   {
     path: '/PieceworkList',
     component: PieceworkList,
+  },
+  {
+    path: '/Processwork',
+    component: Processwork,
+  },
+  {
+    path: '/Processpiecework',
+    component: Processpiecework,
   },
   {
     path: '/RecordDetail',
