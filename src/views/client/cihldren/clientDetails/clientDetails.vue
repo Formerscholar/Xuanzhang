@@ -3,7 +3,7 @@
     <!-- header -->
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="callbackbtn">
-        <i class="el-icon-back"></i>
+        <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
         <span>客户详情</span>
@@ -260,7 +260,7 @@ export default {
   .p_root_box {
     .left {
       padding-left: 1.071429rem;
-      .el-icon-back {
+      .el-icon-arrow-left {
       }
     }
     .center {

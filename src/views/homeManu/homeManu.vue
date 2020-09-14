@@ -15,6 +15,7 @@
           <li v-for="(item,index) in ExamineList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -33,6 +34,7 @@
           <li v-for="(item,index) in financeThisList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -50,6 +52,7 @@
           <li v-for="(item,index) in Tuple5OrderList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -67,6 +70,7 @@
           <li v-for="(item,index) in implementList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -84,6 +88,7 @@
           <li v-for="(item,index) in PurchaseTotalList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -101,6 +106,7 @@
           <li v-for="(item,index) in productionsList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -118,6 +124,7 @@
           <li v-for="(item,index) in PieceworkList" :key="index">
             <div
               @touchstart="touchstart"
+              @touchmove="touchmove"
               @touchend="touchend(item.path)"
               class="abilitys_item_list"
             >
@@ -130,7 +137,11 @@
         </ul>
       </div>
     </scroll>
-    <van-popup v-model="popupshow" position="bottom" :style="{ height: '30%' }">内容</van-popup>
+    <van-popup v-model="popupshow" position="bottom" :style="{ height: '10%' }">
+      <div class="text_rap">
+        <div class="text" @click="popupClick">添加到首页</div>
+      </div>
+    </van-popup>
   </div>
 </template>
     
@@ -150,7 +161,7 @@ export default {
         {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '工序计件',
-          path:'/Processpiecework'
+          path: '/Processpiecework',
         },
       ],
       financeThisList: [
@@ -332,6 +343,7 @@ export default {
       activeNames: ['1'],
       timer: null,
       isCLICK: true,
+      isFunc: true,
     }
   },
   activated() {
@@ -339,6 +351,9 @@ export default {
     this.getPaymenList()
   },
   methods: {
+    popupClick() {
+      this.popupshow = false
+    },
     touchstart() {
       clearTimeout(this.timer)
       this.isCLICK = true
@@ -346,13 +361,21 @@ export default {
         this.isCLICK = false
       }, 500)
     },
-    touchend(path) {
+    touchmove() {
+      this.isFunc = false
       clearTimeout(this.timer)
-      if (this.isCLICK) {
-        this.jumpPage(path)
+    },
+    touchend(path) {
+      if (this.isFunc) {
+        clearTimeout(this.timer)
+        if (this.isCLICK) {
+          this.jumpPage(path)
+        } else {
+          this.popupshow = true
+          this.isCLICK = true
+        }
       } else {
-        this.popupshow = true
-        this.isCLICK = true
+        this.isFunc = true
       }
     },
 
@@ -497,6 +520,26 @@ export default {
             font-size: 0.857143rem;
           }
         }
+      }
+    }
+  }
+  .van-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .text_rap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .text {
+        font-size: 1.571429rem;
+        border: 1px dashed #4293c8;
+        color: #4293c8;
+        padding: 0.428571rem 4.285714rem;
+        border-radius: 0.357143rem;
       }
     }
   }

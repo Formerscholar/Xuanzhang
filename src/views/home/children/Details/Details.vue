@@ -2,7 +2,7 @@
   <div id="Details">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="goBack">
-        <i class="el-icon-back"></i>
+        <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
         <span>任务详情</span>

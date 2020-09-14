@@ -9,12 +9,11 @@
     <div class="content_box">
       <div class="top_blue_box bg-primary">
         <div class="title">可以余额(元)</div>
-        <div
-          class="money"
-        >￥{{state.balance.indexOf('-') == -1? fmoney(state.balance): '-' + fmoney(state.balance.substr(1))}}</div>
-        <div
-          class="active_money"
-        >待审余额￥{{state.Pendbalance.indexOf('-') == -1? fmoney(state.Pendbalance): '-' + fmoney(state.Pendbalance.substr(1))}}</div>
+        <div class="money">
+          {{state.balance.split('.')[0]}}
+          <em>.{{state.balance.split('.')[1]}}</em>
+        </div>
+        <div class="active_money">待审余额{{state.Pendbalance}}</div>
       </div>
       <div class="list_warp">
         <div class="list_item">
@@ -28,6 +27,7 @@
             <van-icon name="arrow" />
           </div>
         </div>
+        <div class="bg"></div>
         <div class="list_item">
           <div class="left_icon">
             <svg class="icon icons" aria-hidden="true">
@@ -56,19 +56,33 @@
 </template>
     
 <script>
-import { reactive } from '@vue/composition-api'
+import { reactive, watch } from '@vue/composition-api'
 import { getUserIndex } from '@/network/home'
 import { fmoney } from '@/common/utils'
 
 export default {
   setup(props, { root }) {
     const state = reactive({
-      balance: '0.00',
-      Pendbalance: '0.00',
+      balance: '',
+      Pendbalance: '',
     })
+
     function callBack() {
       root.$router.replace('/profile')
     }
+
+    watch(
+      [() => state.balance, () => state.Pendbalance],
+      ([balance, Pendbalance], [prevbalance, prevPendbalance]) => {
+        state.balance = setNums(balance)
+        state.Pendbalance = setNums(Pendbalance)
+      }
+    )
+
+    function setNums(num) {
+      return num.indexOf('-') == -1 ? fmoney(num) : '-' + fmoney(num.substr(1))
+    }
+
     async function getUserIndexNews() {
       const { data } = await getUserIndex({
         token: root.$store.state.token,
@@ -77,7 +91,9 @@ export default {
       state.balance = data.userNews.balance
       state.Pendbalance = data.userNews.toExamineMoney
     }
+
     getUserIndexNews()
+
     return {
       state,
       callBack,
@@ -112,38 +128,54 @@ export default {
       padding-bottom: 1.714286rem;
       padding-left: 1.428571rem;
       .title {
-        font-size: 1.142857rem;
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
       }
       .money {
-        font-size: 1.285714rem;
+        font-size: 3.428571rem;
+        font-weight: 700;
+        margin-left: -0.357143rem;
+        margin-bottom: 1.428571rem;
+        em {
+          font-size: 1.714286rem;
+          font-weight: normal;
+          margin-left: -0.357143rem;
+        }
       }
       .active_money {
-        font-size: 1.285714rem;
+        font-size: 1.142857rem;
       }
     }
     .list_warp {
+      .bg {
+        border-bottom: 1.428571rem solid #f5f5f5;
+      }
       .list_item {
+        height: 3.357143rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.857143rem 1.428571rem;
-        &:first-child {
-          border-bottom: 1.428571rem solid #f5f5f5;
-        }
+        padding: 0 1.428571rem;
         .left_icon {
-          margin-right: 1.142857rem;
+          margin-right: 1.428571rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           .icons {
-            width: 2.285714rem;
-            height: 2.285714rem;
+            width: 1.571429rem;
+            height: 1.571429rem;
           }
         }
         .cont_text {
           flex: 1;
-          font-size: 1.285714rem;
+          font-size: 1.214286rem;
           color: #000;
         }
         .right_icon {
           font-size: 1.428571rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           color: #d2d2d2;
         }
       }
