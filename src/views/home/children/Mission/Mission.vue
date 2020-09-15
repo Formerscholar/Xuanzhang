@@ -70,9 +70,13 @@ export default {
     this.designatedTasksList = []
     this.UserDesignatedTasksData = []
     this.Designated = []
-  },
-  destroyed() {
     this.getUserDesignatedTasksData = {}
+  },
+  activated() {
+    this.$Jurisdiction('24', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
   },
   methods: {
     async deletTasks(iid) {

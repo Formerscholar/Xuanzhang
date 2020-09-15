@@ -217,6 +217,16 @@ export default {
     this.getLiquidated()
     this.getOrderList()
   },
+  activated() {
+    this.$Jurisdiction('32', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('85', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+  },
   deactivated() {},
   destroyed() {
     this.Loop = null

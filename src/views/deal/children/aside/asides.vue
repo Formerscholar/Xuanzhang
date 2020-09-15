@@ -9,7 +9,7 @@
       @scroll="clickScroll"
     >
       <van-tabs v-model="active" animated>
-        <van-tab title="入库清单" class="Delivery">
+        <van-tab title="入库清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in warehouseAccessList" :key="item.id">
             <van-swipe-cell v-if="item.to_examine != undefined && item.type == 0">
               <el-card class="box-card">
@@ -134,7 +134,7 @@
             </el-card>
           </div>
         </van-tab>
-        <van-tab title="明细列表" class="Detailed">
+        <van-tab title="明细列表" v-if="isDetailed" class="Detailed">
           <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
             <van-swipe-cell>
               <div class="coutent">
@@ -215,6 +215,8 @@ export default {
   components: { selection },
   data() {
     return {
+      isDelivery: true,
+      isDetailed: true,
       active: 0,
       warehouseAccessList: [],
       flowOrderList: [],
@@ -273,6 +275,18 @@ export default {
     this.detail = 1
     this.getDeliverLists()
     this.getFlowOrderLists()
+  },
+  activated() {
+    this.$Jurisdiction('69', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('87', this.$store.state.catearr, () => {
+      this.isDelivery = false
+    })
+    this.$Jurisdiction('88', this.$store.state.catearr, () => {
+      this.isDetailed = false
+    })
   },
   destroyed() {
     this.warehouseAccessList = []

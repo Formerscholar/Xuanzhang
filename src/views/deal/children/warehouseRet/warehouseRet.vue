@@ -225,6 +225,10 @@ export default {
     myBtns,
   },
   activated() {
+    this.$Jurisdiction('90', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
     this.getAddDeliverGood()
     // this.getMaterielLists()
   },

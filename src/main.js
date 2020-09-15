@@ -31,6 +31,9 @@ import preview from 'vue-photo-preview'
 import 'vue-photo-preview/dist/skin.css'
 Vue.use(preview)
 
+import { setJurisdiction } from '@/common/utils'
+Vue.prototype.$Jurisdiction = setJurisdiction
+
 import Vant, { Toast, Dialog } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)

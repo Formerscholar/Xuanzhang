@@ -180,6 +180,16 @@ export default {
     this.$refs.upload.clearFiles()
     this.userImg = ''
   },
+  activated() {
+    this.$Jurisdiction('26', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('110', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+  },
   computed: {
     getAddDesignatedTasksData() {
       return {

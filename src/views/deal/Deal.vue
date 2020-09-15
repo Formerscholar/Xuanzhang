@@ -30,6 +30,10 @@ export default {
     MainTabBar,
   },
   activated() {
+    this.$Jurisdiction('14', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
     this.getlogin()
     this.getleftlist()
   },
@@ -94,6 +98,8 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
+        this.$store.commit('setcatearr', res.data.userInfo[0].role.catearr)
+        this.$store.commit('setoparr', res.data.userInfo[0].role.oparr)
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {

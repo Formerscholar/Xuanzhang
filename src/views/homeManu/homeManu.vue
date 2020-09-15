@@ -11,130 +11,130 @@
     <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
       <div class="abilitys">
         <span class="titleName">审核</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in ExamineList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path  ?{'color':'black'}:''">{{item.title}}</span>
-              <div class="nums" v-if="item.nums">{{item.nums}}</div>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in ExamineList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path  ?{'color':'black'}:''">{{item.title}}</span>
+            <div class="nums" v-if="item.nums">{{item.nums}}</div>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">财务</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in financeThisList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in financeThisList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">订单</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in Tuple5OrderList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in Tuple5OrderList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">执行</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in implementList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in implementList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">采购</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in PurchaseTotalList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in PurchaseTotalList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">生产</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in productionsList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in productionsList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
       <div class="abilitys">
         <span class="titleName">计件考核</span>
-        <ul class="abilitys_item">
-          <li v-for="(item,index) in PieceworkList" :key="index">
-            <div
-              @touchstart="touchstart"
-              @touchmove="touchmove"
-              @touchend="touchend(item.path)"
-              class="abilitys_item_list"
-            >
-              <svg class="icon icons" aria-hidden="true">
-                <use :xlink:href="item.icon_Url" />
-              </svg>
-              <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="abilitys_item">
+          <div
+            v-for="(item,index) in PieceworkList"
+            :key="index"
+            @touchstart="touchstart"
+            @touchmove="touchmove"
+            @touchend="touchend(item.path)"
+            class="abilitys_item_list"
+          >
+            <svg class="icon icons" aria-hidden="true">
+              <use :xlink:href="item.icon_Url" />
+            </svg>
+            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+          </div>
+        </div>
       </div>
     </scroll>
     <van-popup v-model="popupshow" position="bottom" :style="{ height: '10%' }">
@@ -162,6 +162,11 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '工序计件',
           path: '/Processpiecework',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-30',
+          title: '简易计件',
+          path: '/Simplepiecework',
         },
       ],
       financeThisList: [
@@ -378,7 +383,6 @@ export default {
         this.isFunc = true
       }
     },
-
     blacknext() {
       this.$router.replace('/home')
     },

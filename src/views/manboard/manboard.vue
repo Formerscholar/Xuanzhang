@@ -24,7 +24,7 @@
       @scroll="clickscroll"
     >
       <van-tabs v-model="active" @click="handleClick">
-        <van-tab>
+        <van-tab v-if="isuserLists">
           <template #title>
             <div class="icon_wrap">
               <p class="tab_icon tabs_icon"></p>
@@ -77,7 +77,7 @@
             </template>
           </van-swipe-cell>
         </van-tab>
-        <van-tab>
+        <van-tab v-if="isResignation">
           <template #title>
             <div class="icon_wrap">
               <p class="tab_icon"></p>
@@ -128,8 +128,22 @@ export default {
       OllPage: 1,
       isONetwork: true,
       isTNetwork: true,
+      isuserLists: true,
+      isResignation: true,
       fmoney,
     }
+  },
+  activated() {
+    this.$Jurisdiction('17', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('105', this.$store.state.catearr, () => {
+      this.isuserLists = false
+    })
+    this.$Jurisdiction('107', this.$store.state.catearr, () => {
+      this.isResignation = false
+    })
   },
   computed: {
     getUserListData() {

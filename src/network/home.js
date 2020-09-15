@@ -148,3 +148,19 @@ export function getProcessPieceWorkWagesMoney(params) {
     params,
   })
 }
+
+export function getSimplePieceWorkWagesList(params) {
+  return request({
+    url: '/Wages/getSimplePieceWorkWagesList',
+    method: 'GET',
+    params,
+  })
+}
+
+export function addSimplePieceWorkWages(data) {
+  return request({
+    url: '/Wages/addSimplePieceWorkWages',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

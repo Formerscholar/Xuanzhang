@@ -62,3 +62,13 @@ export function fmoney(s: string, n: number): string {
     r
   )
 }
+
+export function setJurisdiction(
+  pageJur: string,
+  userJur: string,
+  func: Function
+) {
+  if (userJur.indexOf(pageJur) == -1) {
+    func()
+  }
+}

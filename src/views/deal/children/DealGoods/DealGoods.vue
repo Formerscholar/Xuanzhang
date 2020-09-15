@@ -19,6 +19,7 @@
         />
         <DealGoodsItem
           slot="Quote"
+          v-if="isQuoteList"
           :goodsLists="QuoteList"
           @editlists="editlists"
           @VoidList="VoidList"
@@ -27,6 +28,7 @@
         />
         <DealGoodsItem
           slot="MyContract"
+          v-if="iscontractOrderList"
           :goodsLists="contractOrderList"
           @editlists="editlists"
           @VoidList="VoidList"
@@ -99,6 +101,8 @@ export default {
       show: false,
       textContent: '',
       print_html: '',
+      isQuoteList: true,
+      iscontractOrderList: true,
     }
   },
   components: {
@@ -118,6 +122,18 @@ export default {
     this.getUserContractOrders()
     this.DeliveryList = []
     this.getDeliverGoodsLists()
+  },
+  activated() {
+    this.$Jurisdiction('27', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('72', this.$store.state.catearr, () => {
+      this.isQuoteList = false
+    })
+    this.$Jurisdiction('73', this.$store.state.catearr, () => {
+      this.iscontractOrderList = false
+    })
   },
   destroyed() {
     this.timer = null

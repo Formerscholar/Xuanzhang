@@ -316,7 +316,7 @@ import {
 
 import myVqr from '@/components/common/my_vqr/myVqr'
 
-import { reactive, computed } from '@vue/composition-api'
+import { reactive, computed, onActivated } from '@vue/composition-api'
 
 export default {
   components: {
@@ -338,6 +338,13 @@ export default {
       threepage: 1,
       img_url: '',
       StateList: [],
+    })
+
+    onActivated(() => {
+      root.$Jurisdiction('38', root.$store.state.catearr, () => {
+        root.$router.replace('/home')
+        root.$toast('您的账号无该模块权限!')
+      })
     })
 
     const getReimbursementListsState = computed(() => {
@@ -423,6 +430,8 @@ export default {
           message: msg,
           type: 'success',
         })
+        state.reimbursementLists = []
+        state.auditRecordLists = []
         getMyToExamineReimbursement()
         getReimburses()
       } else {

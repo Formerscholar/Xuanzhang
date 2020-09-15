@@ -39,6 +39,8 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
+        this.$store.commit('setcatearr', res.data.userInfo[0].role.catearr)
+        this.$store.commit('setoparr', res.data.userInfo[0].role.oparr)
         if (!window.localStorage) {
           alert('浏览器不支持localstorage')
         } else {

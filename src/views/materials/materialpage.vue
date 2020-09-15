@@ -146,6 +146,12 @@ export default {
     this.getMaterie()
     this.getTemporary()
   },
+  activated() {
+    this.$Jurisdiction('67', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+  },
   destroyed() {
     this.allPage = 1
     this.onePage = 1

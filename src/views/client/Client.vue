@@ -20,6 +20,7 @@
         :allArrearsCounts="allArrearsCounts"
       >
         <cardbox
+          v-if="isdistributor"
           :distributor="distributor"
           @gokhlist="gokhlist"
           :titlename="titlename"
@@ -27,6 +28,7 @@
           slot="card"
         />
         <cardbox
+          v-if="issupplier"
           :distributor="supplier"
           @refreshList="refreshLists"
           @gokhlist="gokhlists"
@@ -71,6 +73,8 @@ export default {
   },
   data() {
     return {
+      isdistributor: true,
+      issupplier: true,
       titlename: '客户',
       distributor: [],
       supplier: [],
@@ -147,6 +151,8 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
+        this.$store.commit('setcatearr', res.data.userInfo[0].role.catearr)
+        this.$store.commit('setoparr', res.data.userInfo[0].role.oparr)
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {
@@ -314,6 +320,18 @@ export default {
       this.getDistri()
       this.getSupplier()
     }
+  },
+  activated() {
+    this.$Jurisdiction('18', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('112', this.$store.state.catearr, () => {
+      this.isdistributor = false
+    })
+    this.$Jurisdiction('113', this.$store.state.catearr, () => {
+      this.issupplier = false
+    })
   },
   destroyed() {
     this.distributor = []

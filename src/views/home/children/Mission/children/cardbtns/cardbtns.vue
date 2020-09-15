@@ -6,7 +6,12 @@
       </template>
     </van-search>
     <el-tabs v-model="activeName">
-      <el-tab-pane class="first" :label="'参与'+ UserDesignatedTasksCount" name="first">
+      <el-tab-pane
+        class="first"
+        :label="'参与'+ UserDesignatedTasksCount"
+        v-if="isUserDesignatedTasksCount"
+        name="first"
+      >
         <scroll
           class="scroll-wrapper"
           ref="scrollss"
@@ -120,7 +125,12 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="second" :label="'已完成' + designatedTasksCount " name="second">
+      <el-tab-pane
+        class="second"
+        :label="'已完成' + designatedTasksCount "
+        v-if="isdesignatedTasksCount"
+        name="second"
+      >
         <scroll
           class="scroll-wrapper"
           ref="scrolls"
@@ -172,7 +182,12 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane class="third" :label="'所有' + DesignatedCount" name="fourth">
+      <el-tab-pane
+        class="third"
+        v-if="isDesignatedCount"
+        :label="'所有' + DesignatedCount"
+        name="fourth"
+      >
         <scroll
           class="scroll-wrapper"
           ref="scroll"
@@ -234,9 +249,22 @@ export default {
     return {
       activeName: 'first',
       searchValue: '',
+      isUserDesignatedTasksCount: true,
+      isdesignatedTasksCount: true,
+      isDesignatedCount: true,
     }
   },
-
+  activated() {
+    this.$Jurisdiction('108', this.$store.state.catearr, () => {
+      this.isUserDesignatedTasksCount = false
+    })
+    this.$Jurisdiction('109', this.$store.state.catearr, () => {
+      this.isdesignatedTasksCount = false
+    })
+    this.$Jurisdiction('111', this.$store.state.catearr, () => {
+      this.isDesignatedCount = false
+    })
+  },
   props: {
     designatedTasksList: {
       type: Array,

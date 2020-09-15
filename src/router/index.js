@@ -213,8 +213,11 @@ const newOtherCollection = () =>
 const Piecework = () => import('@/views/home/children/Piecework/Piecework')
 const Processwork = () =>
   import('@/views/home/children/Processwork/Processwork')
+const Simplework = () => import('@/views/home/children/Simplework/Simplework')
 const PieceworkList = () =>
   import('@/views/home/children/PieceworkList/PieceworkList')
+const Simplepiecework = () =>
+  import('@/views/home/children/Simplepiecework/Simplepiecework')
 const Processpiecework = () =>
   import('@/views/home/children/Processpiecework/Processpiecework')
 const RecordDetail = () =>
@@ -745,8 +748,16 @@ const routes = [
     component: Processwork,
   },
   {
+    path: '/Simplework',
+    component: Simplework,
+  },
+  {
     path: '/Processpiecework',
     component: Processpiecework,
+  },
+  {
+    path: '/Simplepiecework',
+    component: Simplepiecework,
   },
   {
     path: '/RecordDetail',

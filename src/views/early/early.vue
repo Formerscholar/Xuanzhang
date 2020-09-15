@@ -88,7 +88,12 @@ export default {
   created() {
     this.bestURL = bestURL
   },
-  destroyed() {},
+  activated() {
+    this.$Jurisdiction('23', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
+  },
   methods: {
     blackhome() {
       this.$router.go(-1)

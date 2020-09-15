@@ -240,6 +240,10 @@ export default {
     myBtns,
   },
   activated() {
+    this.$Jurisdiction('86', this.$store.state.catearr, () => {
+      this.$router.replace('/login')
+      this.$toast('您的账号无该模块权限!')
+    })
     this.getAddOemOrders()
   },
   computed: {
