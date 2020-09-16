@@ -77,6 +77,7 @@
       </div>
       <template #right>
         <van-button
+          v-if="iseditlists"
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="warning"
@@ -98,7 +99,7 @@
           @click="printList(item)"
         />
         <van-button
-          v-if="item.to_examine != undefined  && item.to_examine == 0"
+          v-if="item.to_examine != undefined  && item.to_examine == 0 && isControlledDelay"
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="info"
@@ -127,7 +128,6 @@ import {
 import { fmoney } from '@/common/utils'
 
 export default {
-  name: 'DealGoodsItem',
   data() {
     return {
       Loop: null,
@@ -137,6 +137,8 @@ export default {
       editData: {},
       contractOrder: {},
       listIsShow: false,
+      iseditlists: true,
+      isControlledDelay: true,
     }
   },
   props: {
@@ -145,10 +147,16 @@ export default {
       default: [],
     },
   },
-  components: {},
   created() {
     this.show = false
-    // this.getEditContractOrders()
+  },
+  activated() {
+    this.$Jurisdiction('72', this.$store.state.oparr, () => {
+      this.iseditlists = false
+    })
+    this.$Jurisdiction('73', this.$store.state.oparr, () => {
+      this.isControlledDelay = false
+    })
   },
   computed: {
     getEditContractOrderData() {

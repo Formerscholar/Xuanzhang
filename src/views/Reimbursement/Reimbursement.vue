@@ -25,7 +25,7 @@
       </div>
     </div>
     <el-tabs v-model="state.activeName">
-      <el-tab-pane label="我的报销" class="itembox" name="third">
+      <el-tab-pane label="我的报销" v-if="state.isreimbursementListss" class="itembox" name="third">
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -91,7 +91,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="我的待审" class="itembox" name="three">
+      <el-tab-pane label="我的待审" v-if="state.isauditRecordLists" class="itembox" name="three">
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -147,7 +147,13 @@
               </div>
 
               <template #right>
-                <van-button square type="primary" @click="audit_enabled(item.id)" text="审核" />
+                <van-button
+                  square
+                  type="primary"
+                  v-if="iSaudit_enabled"
+                  @click="audit_enabled(item.id)"
+                  text="审核"
+                />
               </template>
             </van-swipe-cell>
 
@@ -157,7 +163,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="全部待审" class="itembox" name="second">
+      <el-tab-pane label="全部待审" v-if="state.isreimbursementLists" class="itembox" name="second">
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -230,7 +236,7 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="全部通过" class="itembox" name="first">
+      <el-tab-pane label="全部通过" v-if="state.isreimbursementList" class="itembox" name="first">
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -296,7 +302,7 @@
         </scroll>
       </el-tab-pane>
     </el-tabs>
-    <i class="el-icon-plus" @click="newAccount"></i>
+    <i class="el-icon-plus" @click="newAccount" v-if="isnewAccount"></i>
     <van-overlay :show="state.isShow" @click="state.isShow = false">
       <div class="wrapper-qrCode">
         <myVqr :Content="state.textContent"></myVqr>
@@ -338,12 +344,40 @@ export default {
       threepage: 1,
       img_url: '',
       StateList: [],
+      isreimbursementLists: true,
+      isreimbursementList: true,
+      isreimbursementListss: true,
+      isauditRecordLists: true,
+      isnewAccount: true,
+      iSaudit_enabled: true,
+      isreimburClicks: true,
     })
 
     onActivated(() => {
       root.$Jurisdiction('38', root.$store.state.catearr, () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
+      })
+      root.$Jurisdiction('131', root.$store.state.catearr, () => {
+        state.isreimbursementLists = false
+      })
+      root.$Jurisdiction('133', root.$store.state.catearr, () => {
+        state.isreimbursementList = false
+      })
+      root.$Jurisdiction('159', root.$store.state.catearr, () => {
+        state.isreimbursementListss = false
+      })
+      root.$Jurisdiction('160', root.$store.state.catearr, () => {
+        state.isauditRecordLists = false
+      })
+      root.$Jurisdiction('52', root.$store.state.oparr, () => {
+        state.isnewAccount = false
+      })
+      root.$Jurisdiction('55', root.$store.state.oparr, () => {
+        state.iSaudit_enabled = false
+      })
+      root.$Jurisdiction('59', root.$store.state.oparr, () => {
+        state.isreimburClicks = false
       })
     })
 
@@ -482,7 +516,9 @@ export default {
       root.$router.push(`/reimburDetails/${id}`)
     }
     function reimburClicks(id) {
-      root.$router.push(`/reimburDetail/${id}`)
+      if (state.isreimburClicks) {
+        root.$router.push(`/reimburDetail/${id}`)
+      }
     }
 
     async function cancel_enabled(iid) {

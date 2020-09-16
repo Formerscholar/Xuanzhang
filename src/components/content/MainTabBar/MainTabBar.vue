@@ -1,21 +1,16 @@
 <template>
   <tab-bar>
-    <tab-bar-item path="/home" activeColor="rgb(66, 147, 200)" class="bar-item">
+    <tab-bar-item path="/home" v-if="isHome" activeColor="rgb(66, 147, 200)" class="bar-item">
       <van-icon name="wap-home-o" slot="item-icon" class="bar-item-icon" />
       <van-icon name="wap-home" slot="item-icon-active" class="bar-item-icon" />
       <div slot="item-text" class="bar-item-text">首页</div>
     </tab-bar-item>
-    <!-- <tab-bar-item path="/operation" activeColor="rgb(66, 147, 200)" class="bar-item">
-      <van-icon name="cluster-o" slot="item-icon" class="bar-item-icon" />
-      <van-icon name="cluster" slot="item-icon-active" class="bar-item-icon" />
-      <div slot="item-text" class="bar-item-text">运营</div>
-    </tab-bar-item>-->
-    <tab-bar-item path="/deal" activeColor="rgb(66, 147, 200)" class="bar-item">
+    <tab-bar-item path="/deal" v-if="isDeal" activeColor="rgb(66, 147, 200)" class="bar-item">
       <van-icon name="balance-list-o" slot="item-icon" class="bar-item-icon" />
       <van-icon name="balance-list" slot="item-icon-active" class="bar-item-icon" />
       <div slot="item-text" class="bar-item-text">交易</div>
     </tab-bar-item>
-    <tab-bar-item path="/client" activeColor="rgb(66, 147, 200)" class="bar-item">
+    <tab-bar-item path="/client" v-if="isClient" activeColor="rgb(66, 147, 200)" class="bar-item">
       <van-icon name="friends-o" slot="item-icon" class="bar-item-icon" />
       <van-icon name="friends" slot="item-icon-active" class="bar-item-icon" />
       <div slot="item-text" class="bar-item-text">客户</div>
@@ -33,9 +28,27 @@ import TabBarItem from '@/components/common/tabbar/TabBarItem'
 
 export default {
   name: 'MainTabBar',
+  data() {
+    return {
+      isHome: true,
+      isDeal: true,
+      isClient: true,
+    }
+  },
   components: {
     TabBar,
     TabBarItem,
+  },
+  created() {
+    this.$Jurisdiction('1', this.$store.state.oparr, () => {
+      this.isHome = false
+    })
+    this.$Jurisdiction('2', this.$store.state.oparr, () => {
+      this.isDeal = false
+    })
+    this.$Jurisdiction('6', this.$store.state.oparr, () => {
+      this.isClient = false
+    })
   },
 }
 </script>

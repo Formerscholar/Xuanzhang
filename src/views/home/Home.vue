@@ -180,6 +180,7 @@ export default {
           this.$router.replace('/login')
           this.$toast('您的账号无该模块权限!')
         })
+        
       } else {
         window.localStorage.removeItem('token')
         this.$store.commit('setBankCardSinfo', {})

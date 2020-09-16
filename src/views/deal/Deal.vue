@@ -34,6 +34,7 @@ export default {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
+
     this.getlogin()
     this.getleftlist()
   },

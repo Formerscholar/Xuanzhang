@@ -190,6 +190,10 @@ export default {
       state.distributors = users
     }
     onActivated(() => {
+      root.$Jurisdiction('173', root.$store.state.catearr, () => {
+        root.$router.replace('/home')
+        root.$toast('您的账号无该模块权限!')
+      })
       getAddUserList()
     })
 

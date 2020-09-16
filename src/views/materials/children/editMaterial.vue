@@ -81,7 +81,7 @@
         </div>
       </div>
     </scroll>
-    <myBtns :commitFun="submitClick" :cancelFun="clearData">
+    <myBtns :commitFun="submitClick" :cancelFun="clearData" v-if="ismyBtns">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
         <span>提交</span>
@@ -188,6 +188,7 @@ export default {
       unit_id: '',
       isWrite: false,
       attributes: 0,
+      ismyBtns: true,
     }
   },
   components: {
@@ -195,6 +196,9 @@ export default {
     myBtns,
   },
   activated() {
+    this.$Jurisdiction('28', this.$store.state.oparr, () => {
+      this.ismyBtns = false
+    })
     this.iid = this.$route.params.id
     this.type = this.$route.params.type == '1' ? true : false
     this.getEditMater()

@@ -66,6 +66,7 @@
 
               <template #right>
                 <van-button
+                  v-if="iseditTasks"
                   square
                   type="primary"
                   @click="editTasks(item.id)"
@@ -252,6 +253,7 @@ export default {
       isUserDesignatedTasksCount: true,
       isdesignatedTasksCount: true,
       isDesignatedCount: true,
+      iseditTasks: true,
     }
   },
   activated() {
@@ -263,6 +265,9 @@ export default {
     })
     this.$Jurisdiction('111', this.$store.state.catearr, () => {
       this.isDesignatedCount = false
+    })
+    this.$Jurisdiction('117', this.$store.state.oparr, () => {
+      this.iseditTasks = false
     })
   },
   props: {

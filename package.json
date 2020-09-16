@@ -16,7 +16,6 @@
     "element-china-area-data": "^5.0.1",
     "element-ui": "^2.13.2",
     "fastclick": "^1.0.6",
-    "lodash": "^4.17.19",
     "lrz": "^4.9.40",
     "vant": "^2.8.1",
     "vue": "^2.6.11",

@@ -63,7 +63,7 @@
                   </div>
                 </div>
               </el-card>
-              <template #right>
+              <template #right v-if="isControlledDelay">
                 <van-button
                   v-if="item.to_examine == 0 "
                   square
@@ -199,7 +199,12 @@
       cancel-text="取消"
       safe-area-inset-bottom
     />
-    <i class="el-icon-plus" @click="show = !show" v-if="isShow && isNewlyBuild" slot="reference"></i>
+    <i
+      class="el-icon-plus"
+      @click="show = !show"
+      v-if="isShow && isNewlyBuild && isreference"
+      slot="reference"
+    ></i>
     <i class="el-icon-plus" @click="createAddbill" v-else-if="isNewOrder"></i>
   </div>
 </template>
@@ -214,7 +219,7 @@ import {
   getleft,
 } from '@/network/deal'
 
-import { throttle, fmoney } from '@/common/utils.ts'
+import {  fmoney } from '@/common/utils.ts'
 import selection from '@/views/deal/children/selection_cont/selection_cont'
 
 export default {
@@ -234,6 +239,9 @@ export default {
       distributor_id: null,
       leftBtn: [],
       selectionList: [{ id: 0 }],
+      isreference: true,
+      isgocontractList: true,
+      isControlledDelay: true,
       fmoney,
     }
   },
@@ -244,6 +252,15 @@ export default {
     this.$Jurisdiction('28', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('85', this.$store.state.oparr, () => {
+      this.isreference = false
+    })
+    this.$Jurisdiction('87', this.$store.state.oparr, () => {
+      this.isgocontractList = false
+    })
+    this.$Jurisdiction('88', this.$store.state.oparr, () => {
+      this.isControlledDelay = false
     })
   },
   computed: {
@@ -472,7 +489,9 @@ export default {
       }
     },
     gocontractList(deliveryRecordList) {
-      this.$router.push(`/ShipmentItem/${deliveryRecordList.id}`)
+      if (this.isgocontractList) {
+        this.$router.push(`/ShipmentItem/${deliveryRecordList.id}`)
+      }
     },
     onSelect(item) {
       this.show = false

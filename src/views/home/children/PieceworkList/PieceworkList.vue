@@ -57,7 +57,7 @@
 </template>
     
 <script>
-import { reactive, computed } from '@vue/composition-api'
+import { reactive, computed, onActivated } from '@vue/composition-api'
 import { getUserValuationWagesList } from '@/network/home'
 export default {
   setup(props, { root }) {
@@ -65,6 +65,14 @@ export default {
       userValuationWagesList: [],
       allpage: 1,
     })
+
+    onActivated(() => {
+      root.$Jurisdiction('166', root.$store.state.catearr, () => {
+        root.$router.replace('/home')
+        root.$toast('您的账号无该模块权限!')
+      })
+    })
+
     function onClickLeft() {
       root.$router.replace('/home')
     }

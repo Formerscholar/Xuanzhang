@@ -124,6 +124,7 @@ export default {
       deliveryRecordItem: {},
       iid: 0,
       isShow: false,
+      iseditShip: true,
       touch: false,
       textContent: '',
       Loop: null,
@@ -143,6 +144,9 @@ export default {
     this.deliverGoodsDetail = []
   },
   activated() {
+    this.$Jurisdiction('86', this.$store.state.oparr, () => {
+      this.iseditShip = false
+    })
     this.iid = this.$route.params.id
     this.getFlowDeliverD()
   },
@@ -216,7 +220,9 @@ export default {
       })
     },
     editShip() {
-      this.$router.push(`/editShipItem/${this.deliveryRecordItem.id}`)
+      if (this.iseditShip) {
+        this.$router.push(`/editShipItem/${this.deliveryRecordItem.id}`)
+      }
     },
     blacknext() {
       this.$router.go(-1)

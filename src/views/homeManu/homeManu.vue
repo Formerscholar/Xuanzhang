@@ -16,7 +16,6 @@
             v-for="(item,index) in ExamineList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -35,7 +34,6 @@
             v-for="(item,index) in financeThisList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -53,7 +51,6 @@
             v-for="(item,index) in Tuple5OrderList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -71,7 +68,6 @@
             v-for="(item,index) in implementList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -89,7 +85,6 @@
             v-for="(item,index) in PurchaseTotalList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -107,7 +102,6 @@
             v-for="(item,index) in productionsList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -125,7 +119,6 @@
             v-for="(item,index) in PieceworkList"
             :key="index"
             @touchstart="touchstart"
-            @touchmove="touchmove"
             @touchend="touchend(item.path)"
             class="abilitys_item_list"
           >
@@ -167,6 +160,11 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-30',
           title: '简易计件',
           path: '/Simplepiecework',
+        },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-1',
+          title: '我的计件',
+          path: '/MyPiecework',
         },
       ],
       financeThisList: [
@@ -326,6 +324,12 @@ export default {
           path: '/Purchasepayment',
           nums: 0,
         },
+        {
+          icon_Url: '#icon-jinrongleiicontubiao-18',
+          title: '工资汇总',
+          path: '/Payrollsummary',
+          nums: 0,
+        },
       ],
       productionsList: [
         {
@@ -366,21 +370,13 @@ export default {
         this.isCLICK = false
       }, 500)
     },
-    touchmove() {
-      this.isFunc = false
-      clearTimeout(this.timer)
-    },
     touchend(path) {
-      if (this.isFunc) {
-        clearTimeout(this.timer)
-        if (this.isCLICK) {
-          this.jumpPage(path)
-        } else {
-          this.popupshow = true
-          this.isCLICK = true
-        }
+      clearTimeout(this.timer)
+      if (this.isCLICK) {
+        this.jumpPage(path)
       } else {
-        this.isFunc = true
+        this.popupshow = true
+        this.isCLICK = true
       }
     },
     blacknext() {

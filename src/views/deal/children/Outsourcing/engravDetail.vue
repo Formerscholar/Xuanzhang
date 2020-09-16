@@ -86,6 +86,7 @@ export default {
     return {
       metadata: {},
       isShow: false,
+      iseditShip: true,
       textContent: '',
       deliverGoodsDetail: [],
       iid: 0,
@@ -113,6 +114,9 @@ export default {
     },
   },
   activated() {
+    this.$Jurisdiction('140', this.$store.state.oparr, () => {
+      this.iseditShip = false
+    })
     this.iid = this.$route.params.id
     this.getOutsourcingDetails()
   },
@@ -164,7 +168,9 @@ export default {
       }
     },
     editShip() {
-      this.$router.push(`/OutsourcingItem/${this.metadata.id}`)
+      if (this.iseditShip) {
+        this.$router.push(`/OutsourcingItem/${this.metadata.id}`)
+      }
     },
     printShip() {
       this.textContent = `${bestURL}/Vt/view?id=${this.metadata.id}&order_type=outsourcing`

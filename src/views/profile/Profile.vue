@@ -30,7 +30,7 @@
       <Runrecord />
       <wages />
       <BankAccounts />
-      <management />
+      <management v-if="ismanagement" />
       <Reimbursementrecord :record="record" />
       <baseLogin />
       <exitLogin />
@@ -77,6 +77,7 @@ export default {
       balance: '0.00',
       Pendbalance: '0.00',
       record: 0,
+      ismanagement: true,
       fmoney,
     }
   },
@@ -102,6 +103,11 @@ export default {
     this.getUserDesignated()
     this.getUserIndexNews()
     this.getUserReimburseme()
+  },
+  activated() {
+    this.$Jurisdiction('5', this.$store.state.oparr, () => {
+      this.ismanagement = false
+    })
   },
   methods: {
     async getUserReimburseme() {

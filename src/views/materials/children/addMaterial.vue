@@ -154,7 +154,13 @@ import { bestURL, crosURl } from '@/network/baseURL'
 import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
 import myBtns from '@/components/common/my_btns/my_btns'
 
-import { reactive, onUnmounted, computed, ref } from '@vue/composition-api'
+import {
+  reactive,
+  onUnmounted,
+  computed,
+  ref,
+  onActivated,
+} from '@vue/composition-api'
 
 export default {
   components: {
@@ -210,6 +216,13 @@ export default {
       materielCategory: [],
       materielUnit: [],
       materielWarehouse: [],
+    })
+
+    onActivated(() => {
+      root.$Jurisdiction('136', root.$store.state.catearr, () => {
+        root.$router.replace('/home')
+        root.$toast('您的账号无该模块权限!')
+      })
     })
 
     onUnmounted(() => {

@@ -202,6 +202,10 @@ export default {
     myBtns,
   },
   activated() {
+    this.$Jurisdiction('152', this.$store.state.catearr, () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
     this.getAddPick()
   },
   filters: {

@@ -218,6 +218,8 @@ const PieceworkList = () =>
   import('@/views/home/children/PieceworkList/PieceworkList')
 const Simplepiecework = () =>
   import('@/views/home/children/Simplepiecework/Simplepiecework')
+const MyPiecework = () =>
+  import('@/views/home/children/MyPiecework/MyPiecework')
 const Processpiecework = () =>
   import('@/views/home/children/Processpiecework/Processpiecework')
 const RecordDetail = () =>
@@ -226,6 +228,9 @@ const RecordDetail = () =>
   )
 
 const Balancies = () => import('@/views/profile/children/Balancies/Balancies')
+
+const Payrollsummary = () =>
+  import('@/views/home/children/Payrollsummary/Payrollsummary')
 
 const routes = [
   {
@@ -760,6 +765,10 @@ const routes = [
     component: Simplepiecework,
   },
   {
+    path: '/MyPiecework',
+    component: MyPiecework,
+  },
+  {
     path: '/RecordDetail',
     name: 'data',
     component: RecordDetail,
@@ -767,6 +776,10 @@ const routes = [
   {
     path: '/Balancies',
     component: Balancies,
+  },
+  {
+    path: '/Payrollsummary',
+    component: Payrollsummary,
   },
 ]
 

@@ -14,7 +14,7 @@
       @clickScroll="clickScroll"
       @deletTasks="deletTasks"
     />
-    <i class="el-icon-plus" @click="tike"></i>
+    <i class="el-icon-plus" @click="tike" v-if="istike"></i>
   </div>
 </template>
     
@@ -43,6 +43,7 @@ export default {
       succpages: 1,
       partici: 1,
       allpage: 1,
+      istike: true,
       designatedTasksCount: 0,
       UserDesignatedTasksCount: 0,
       DesignatedCount: 0,
@@ -76,6 +77,9 @@ export default {
     this.$Jurisdiction('24', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('116', this.$store.state.oparr, () => {
+      this.istike = false
     })
   },
   methods: {

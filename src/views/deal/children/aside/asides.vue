@@ -209,7 +209,7 @@ import {
 } from '@/network/deal'
 
 import { bestURL } from '@/network/baseURL'
-import { throttle, fmoney } from '@/common/utils.ts'
+import { fmoney } from '@/common/utils.ts'
 import selection from '@/views/deal/children/selection_cont/selection_cont'
 export default {
   components: { selection },
@@ -436,24 +436,6 @@ export default {
         this.flowOrderList.push(item)
       })
     },
-    tacheClick(name, title) {
-      throttle(() => {
-        console.log(name)
-        if (name) {
-          this.detail = 1
-          this.allIndex = this.detail
-          this.isShow = false
-          this.getFlowOrderLists()
-        } else {
-          this.Library = 1
-          this.allIndex = this.Library
-          this.isShow = true
-          this.getDeliverLists()
-        }
-      }, 500)
-    },
-    openClick() {},
-    closedClick() {},
   },
 }
 </script>

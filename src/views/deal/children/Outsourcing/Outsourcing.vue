@@ -116,20 +116,7 @@
         </van-tab>
       </van-tabs>
     </scroll>
-    <i class="el-icon-plus" @click="tooutsource"></i>
-    <!-- <van-overlay :show="show" @click="show = false" lock-scroll>
-      <div id="wrapper-click">
-        <div id="block">
-          <div class="propDivItem" @click="toShipPages">收货</div>
-          <div class="propDivItem" @click="printClick">打印</div>
-        </div>
-      </div>
-    </van-overlay>
-    <van-overlay :show="isShow" @click="isShow = false">
-      <div class="wrapper-qrCode">
-        <myVqr :Content="textContent"></myVqr>
-      </div>
-    </van-overlay>-->
+    <i class="el-icon-plus" @click="tooutsource" v-if="istooutsource"></i>
   </div>
 </template>
     
@@ -159,6 +146,7 @@ export default {
       textContent: '',
       Completed: 1,
       listIsShow: false,
+      istooutsource: true,
       show: false,
       item: {},
       supplier_id: null,
@@ -172,7 +160,7 @@ export default {
     this.getLiquidated()
     this.getOrderList()
   },
-   activated() {
+  activated() {
     this.$Jurisdiction('31', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
@@ -180,6 +168,9 @@ export default {
     this.$Jurisdiction('95', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('139', this.$store.state.oparr, () => {
+      this.istooutsource = false
     })
   },
   destroyed() {

@@ -16,7 +16,7 @@
       @search="primarySearch"
     />
     <van-tabs v-model="active">
-      <van-tab title="物料列表" class="Delivery">
+      <van-tab title="物料列表" class="Delivery" v-if="ismaterielList">
         <scroll
           class="scroll-wrapper"
           ref="scroll"
@@ -49,6 +49,7 @@
             </div>
             <template #right>
               <van-button
+                v-if="istobomPage"
                 square
                 text="bom"
                 type="primary"
@@ -66,7 +67,7 @@
           </van-swipe-cell>
         </scroll>
       </van-tab>
-      <van-tab title="临时物料" class="Delivery">
+      <van-tab title="临时物料" class="Delivery" v-if="isTemporary">
         <scroll
           class="scroll-wrapper"
           ref="scrolls"
@@ -117,7 +118,7 @@
         </scroll>
       </van-tab>
     </van-tabs>
-    <i class="el-icon-plus" @click="addMaterial"></i>
+    <i class="el-icon-plus" @click="addMaterial" v-if="isaddMaterial"></i>
   </div>
 </template>
     
@@ -139,6 +140,10 @@ export default {
       bestURL: '',
       isOne: true,
       isTwo: true,
+      ismaterielList: true,
+      isTemporary: true,
+      isaddMaterial: true,
+      istobomPage: true,
     }
   },
   created() {
@@ -150,6 +155,18 @@ export default {
     this.$Jurisdiction('67', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
+    })
+    this.$Jurisdiction('137', this.$store.state.catearr, () => {
+      this.ismaterielList = false
+    })
+    this.$Jurisdiction('139', this.$store.state.catearr, () => {
+      this.isTemporary = false
+    })
+    this.$Jurisdiction('27', this.$store.state.oparr, () => {
+      this.isaddMaterial = false
+    })
+    this.$Jurisdiction('31', this.$store.state.oparr, () => {
+      this.istobomPage = false
     })
   },
   destroyed() {

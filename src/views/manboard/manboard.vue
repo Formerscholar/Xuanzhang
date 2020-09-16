@@ -60,7 +60,7 @@
             </div>
             <template #right>
               <van-button
-                v-if="!item.is_admin"
+                v-if="!item.is_admin && isquitting"
                 style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
                 square
                 type="danger"
@@ -68,6 +68,7 @@
                 @click="quitting(item.id)"
               />
               <van-button
+                v-if="iseditting"
                 style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
                 square
                 type="primary"
@@ -105,7 +106,7 @@
         </van-tab>
       </van-tabs>
     </scroll>
-    <i class="el-icon-plus" @click="addman"></i>
+    <i class="el-icon-plus" @click="addman" v-if="isaddman"></i>
   </div>
 </template>
     
@@ -130,6 +131,9 @@ export default {
       isTNetwork: true,
       isuserLists: true,
       isResignation: true,
+      isaddman: true,
+      isquitting: true,
+      iseditting: true,
       fmoney,
     }
   },
@@ -143,6 +147,15 @@ export default {
     })
     this.$Jurisdiction('107', this.$store.state.catearr, () => {
       this.isResignation = false
+    })
+    this.$Jurisdiction('11', this.$store.state.oparr, () => {
+      this.isaddman = false
+    })
+    this.$Jurisdiction('12', this.$store.state.oparr, () => {
+      this.isquitting = false
+    })
+    this.$Jurisdiction('13', this.$store.state.oparr, () => {
+      this.iseditting = false
     })
   },
   computed: {

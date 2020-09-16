@@ -10,16 +10,6 @@ export function throttle(fn: any, delay: number): void {
   }, delay)
 }
 
-// export function debounce(func, delay = 500) {
-//   let timer = null
-//   return function(...args) {
-//     if (timer) clearTimeout(timer)
-//     timer = setTimeout(() => {
-//       func.apply(this, args)
-//     }, delay)
-//   }
-// }
-
 export function TotalPriceCalc(
   pPrice: string,
   ptWeight: string,
