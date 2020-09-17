@@ -12,11 +12,10 @@
 </template>
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
 
 export default {
   name: 'gender',
-  components: { Avatar },
+  components: { Avatar:()=>import('@/components/content/Avatar/Avatar') },
   props: {
     getName: {
       type: String,

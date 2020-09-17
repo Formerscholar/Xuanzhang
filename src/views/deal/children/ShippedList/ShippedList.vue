@@ -78,7 +78,6 @@
 <script>
 import { getDeliverGoodsList } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
-import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
   data() {
@@ -91,7 +90,7 @@ export default {
       deliveryRecordList: [],
     }
   },
-  components: { myVqr },
+  components: { myVqr: () => import('@/components/common/my_vqr/myVqr') },
   created() {
     this.iid = this.$route.params.id
     this.getDeliverGoodsLists()

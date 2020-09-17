@@ -213,7 +213,6 @@
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 import { setTimerType } from '@/common/filter'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getAddContractOrder,
@@ -319,7 +318,7 @@ export default {
     }
   },
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
     this.$Jurisdiction('71', this.$store.state.catearr, () => {

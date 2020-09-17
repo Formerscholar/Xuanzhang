@@ -13,7 +13,6 @@
 <script>
 export default {
   name: 'topbar',
-  components: {},
   data() {
     return {
       input: '',

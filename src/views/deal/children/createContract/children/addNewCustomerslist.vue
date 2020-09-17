@@ -27,8 +27,6 @@
 </template>
     
 <script>
- 
-
 export default {
   data() {
     return {
@@ -38,17 +36,15 @@ export default {
       weight: '',
       product: '',
       Quantity: '',
-      Remarks: ''
+      Remarks: '',
     }
   },
-  components: {
-  },
+
   methods: {
     blacknext() {
       this.$router.go(-1)
-    }
+    },
   },
-  
 }
 </script>
     

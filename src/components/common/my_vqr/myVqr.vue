@@ -5,22 +5,21 @@
 </template>
     
 <script>
-import Vqr from 'vue-qr'
-
 export default {
-  name: 'myVqr',
   data() {
     return {
-      imageUrl: require('../../../assets/image/logo.png')
+      imageUrl: require('../../../assets/image/logo.png'),
     }
   },
   props: {
     Content: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  components: { Vqr }
+  components: {
+    Vqr: () => import('vue-qr'),
+  },
 }
 </script>
     

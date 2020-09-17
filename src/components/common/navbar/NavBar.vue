@@ -13,10 +13,7 @@
 </template>
 
 <script>
-export default {
-  name: 'NavBar',
-  components: {}
-}
+export default {}
 </script>
 
 <style >

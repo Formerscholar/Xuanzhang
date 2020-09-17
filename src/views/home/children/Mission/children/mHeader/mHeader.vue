@@ -15,7 +15,6 @@
 <script>
 export default {
   name: 'mHeader',
-  components: {},
   methods: {
     blackhome() {
       this.$router.replace('/home')

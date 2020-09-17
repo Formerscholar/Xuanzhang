@@ -23,7 +23,6 @@
     
 <script>
 export default {
-  name: 'selectTime',
   data() {
     return {
       type: '',
@@ -32,7 +31,6 @@ export default {
       currentDate: new Date(),
     }
   },
-  components: {},
   created() {
     this.type = this.$route.params.type
     console.log(this.type)

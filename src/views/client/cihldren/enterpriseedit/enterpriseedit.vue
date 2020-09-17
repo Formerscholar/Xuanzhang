@@ -93,7 +93,6 @@
     
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getDistributorUser,
@@ -112,7 +111,7 @@ import {
 import { getAddOutsourcingOrder } from '@/network/deal'
 export default {
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   data() {
     return {

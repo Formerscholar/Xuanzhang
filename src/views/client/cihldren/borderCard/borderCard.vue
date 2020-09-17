@@ -38,8 +38,6 @@
 <script>
 import { fmoney } from '@/common/utils'
 export default {
-  name: 'borderCard',
-  components: {},
   props: {
     allArrearsCount: {
       type: String,

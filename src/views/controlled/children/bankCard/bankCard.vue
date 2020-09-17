@@ -18,8 +18,7 @@
     
 <script>
 export default {
-  name: 'bankCard',
-  components: {},
+ 
   props: {
     cardinfo: {
       type: Object,

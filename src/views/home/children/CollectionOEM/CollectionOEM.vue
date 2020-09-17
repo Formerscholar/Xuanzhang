@@ -133,7 +133,6 @@
 </template>
     
 <script>
-import myVqr from '@/components/common/my_vqr/myVqr'
 import { fmoney } from '@/common/utils'
 import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
@@ -146,7 +145,7 @@ import {
 
 export default {
   components: {
-    myVqr,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   filters: {
     setOperatorName(value) {

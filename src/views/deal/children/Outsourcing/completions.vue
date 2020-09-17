@@ -62,7 +62,7 @@ import {
   getChangeOutsourcingOrder,
   changeOutsourcingOrder,
 } from '@/network/deal'
-import myBtns from '@/components/common/my_btns/my_btns'
+
 export default {
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
     }
   },
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   filters: {
     getUrl(value) {

@@ -117,8 +117,8 @@
 </template>
     
 <script>
-import Avatars from '@/components/content/Avatars/Avatars'
-import myBtns from '@/components/common/my_btns/my_btns'
+const Avatars = () => import('@/components/content/Avatars/Avatars')
+const myBtns = () => import('@/components/common/my_btns/my_btns')
 
 import {
   getDepartments,

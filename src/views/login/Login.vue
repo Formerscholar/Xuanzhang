@@ -65,12 +65,11 @@
 
 <script>
 import { getlogin, getIndex } from '@/network/login.js'
-import PuzzleVerification from '@/components/common/puzzleVerification/puzzleVerification'
 import { ruleForm } from '@/AppConfig'
 
 export default {
   name: 'Login',
-  components: { PuzzleVerification },
+  components: { PuzzleVerification:()=> import('@/components/common/puzzleVerification/puzzleVerification') },
   data() {
     return {
       MaskShow: false,

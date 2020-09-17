@@ -11,8 +11,6 @@
 </template>
     
 <script>
-import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
-
 export default {
   data() {
     return {
@@ -21,7 +19,8 @@ export default {
     }
   },
   components: {
-    SimpleCropper,
+    SimpleCropper: () =>
+      import('@/components/common/SimpleCropper/SimpleCropper'),
   },
   props: {
     PropsImg: {

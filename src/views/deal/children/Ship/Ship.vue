@@ -133,9 +133,9 @@ import {
 
 import { uploadImg } from '@/network/materials'
 import { setTimerType } from '@/common/filter'
-import myVqr from '@/components/common/my_vqr/myVqr'
+
 import { TotalPriceCalc } from '@/common/utils'
-import myBtns from '@/components/common/my_btns/my_btns'
+
 import { bestURL, crosURl } from '@/network/baseURL'
 
 export default {
@@ -208,8 +208,8 @@ export default {
     }
   },
   components: {
-    myVqr,
-    myBtns,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
     this.getAddDeliverGood()

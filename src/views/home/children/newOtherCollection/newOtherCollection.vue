@@ -139,7 +139,6 @@ import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
 import { bestURL, crosURl } from '@/network/baseURL'
 
-import myBtns from '@/components/common/my_btns/my_btns'
 import {
   getAddOemOrder,
   getReceivingInformationList,
@@ -276,7 +275,7 @@ export default {
     }
   },
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
     this.getAddOemOrders()

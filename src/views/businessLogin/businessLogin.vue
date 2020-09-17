@@ -8,14 +8,12 @@
 </template>
     
 <script>
-import companyCard from '@/views/businessLogin/children/companyCard/companyCard'
-
 import { getIndex } from '@/network/login.js'
 
 export default {
-  name: 'businessLogin',
   components: {
-    companyCard,
+    companyCard: () =>
+      import('@/views/businessLogin/children/companyCard/companyCard'),
   },
   data() {
     return {

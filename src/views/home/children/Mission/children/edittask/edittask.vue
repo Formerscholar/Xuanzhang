@@ -120,12 +120,9 @@ import {
   editDesignatedTasks,
 } from '@/network/home'
 import { setTimerType } from '@/common/filter'
-import SimpleCroppes from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { bestURL, crosURl } from '@/network/baseURL'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
-  name: 'Newtask',
   data() {
     return {
       isDatetime: false,
@@ -163,8 +160,9 @@ export default {
     }
   },
   components: {
-    SimpleCroppes,
-    myBtns,
+    SimpleCroppes: () =>
+      import('@/components/common/SimpleCroppes/SimpleCroppes'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   created() {
     this.getEditDesignated()

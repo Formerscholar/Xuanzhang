@@ -61,8 +61,6 @@
 </template>
     
 <script>
-import myBtns from '@/components/common/my_btns/my_btns'
-import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { getMaterielList } from '@/network/deal'
 import { getEditMateriel } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -87,8 +85,8 @@ export default {
     }
   },
   components: {
-    SimpleCropper,
-    myBtns,
+    SimpleCropper: () => import( '@/components/common/SimpleCroppes/SimpleCroppes'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   computed: {
     getMaterielListData() {

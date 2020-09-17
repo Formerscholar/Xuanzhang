@@ -189,12 +189,11 @@ import {
   getleft,
 } from '@/network/deal'
 
-import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL } from '@/network/baseURL'
 import { throttle, fmoney } from '@/common/utils'
 export default {
   name: 'purchase',
-  components: { myVqr },
+  components: {  myVqr: () => import('@/components/common/my_vqr/myVqr'), },
   data() {
     return {
       Loop: null,

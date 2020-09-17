@@ -10,13 +10,9 @@
 </template>
     
 <script>
-import conNavbar from '@/views/controlled/children/con_navbar/con_navbar'
-import bankCardinfo from '@/views/controlled/children/bankCardinfo/bankCardinfo'
-import cardCollection from '@/views/controlled/children/cardCollection/cardCollection'
 import { getUserIndex } from '@/network/home'
 
 export default {
-  name: 'Controlled',
   data() {
     return {
       cardCollInfos: [
@@ -39,9 +35,12 @@ export default {
     }
   },
   components: {
-    conNavbar,
-    bankCardinfo,
-    cardCollection,
+    conNavbar: () =>
+      import('@/views/controlled/children/con_navbar/con_navbar'),
+    bankCardinfo: () =>
+      import('@/views/controlled/children/bankCardinfo/bankCardinfo'),
+    cardCollection: () =>
+      import('@/views/controlled/children/cardCollection/cardCollection'),
   },
   created() {
     this.getIndexData()
@@ -52,7 +51,6 @@ export default {
       console.log(data)
     },
   },
-
 }
 </script>
     

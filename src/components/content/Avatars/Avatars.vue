@@ -11,8 +11,6 @@
 </template>
     
 <script>
-import SimpleCroppes from '@/components/common/SimpleCroppes/SimpleCroppes'
-
 export default {
   data() {
     return {
@@ -21,7 +19,8 @@ export default {
     }
   },
   components: {
-    SimpleCroppes,
+    SimpleCroppes: () =>
+      import('@/components/common/SimpleCroppes/SimpleCroppes'),
   },
   props: {
     PropsImg: {

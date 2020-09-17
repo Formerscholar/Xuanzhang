@@ -118,11 +118,9 @@
 </template>
     
 <script>
-import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
 import { bestURL, crosURl } from '@/network/baseURL'
 import { getMaterielList } from '@/network/deal'
 import { TotalPriceCalc } from '@/common/utils'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   data() {
@@ -149,8 +147,9 @@ export default {
     }
   },
   components: {
-    SimpleCropper,
-    myBtns,
+    SimpleCropper: () =>
+      import('@/components/common/SimpleCroppes/SimpleCroppes'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   filters: {
     getUrl(value) {

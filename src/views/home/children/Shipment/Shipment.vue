@@ -67,8 +67,6 @@
 </template>
     
 <script>
-import myVqr from '@/components/common/my_vqr/myVqr'
-
 import {
   getDeliverGoodsList,
   delDeliverRecord,
@@ -76,7 +74,7 @@ import {
 } from '@/network/deal'
 
 export default {
-  components: { myVqr },
+  components: { myVqr: () => import('@/components/common/my_vqr/myVqr') },
   data() {
     return {
       deliveryRecordList: [],

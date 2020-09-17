@@ -136,12 +136,10 @@ import {
   editAutonomousDeliverRecord,
 } from '@/network/deal'
 import { uploadImg } from '@/network/materials'
-import myVqr from '@/components/common/my_vqr/myVqr'
 
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
 import { bestURL, crosURl } from '@/network/baseURL'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   data() {
@@ -215,8 +213,8 @@ export default {
     }
   },
   components: {
-    myVqr,
-    myBtns,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   watch: {
     $route(to, from) {

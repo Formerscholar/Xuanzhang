@@ -9,7 +9,13 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">Payrollsummary</scroll>
+    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+      <div
+        class="items_box"
+        v-for="item in state.monthWages"
+        :key="item.id"
+      >{{item.year}}年{{item.month}}月{{item.name}}{{item.wages_money}}元{{item.operator_name}}{{item.remark}}</div>
+    </scroll>
   </div>
 </template>
 

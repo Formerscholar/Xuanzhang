@@ -4,10 +4,7 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'TabBar',
-  components: {}
-}
+export default {}
 </script>
 <style scoped>
 #tab-bar {

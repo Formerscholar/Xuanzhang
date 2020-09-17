@@ -20,7 +20,6 @@
 <script>
 export default {
   name: 'reminder',
-  components: {},
   methods: {},
   // created() {
   //   this.$bus.$on('Assembly', data => {

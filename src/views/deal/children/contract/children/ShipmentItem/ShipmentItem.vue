@@ -113,7 +113,6 @@
 </template>
     
 <script>
-import myVqr from '@/components/common/my_vqr/myVqr'
 import { bestURL, crosURl } from '@/network/baseURL'
 
 import { deleteDeliverRecord, getFlowDeliverDetail } from '@/network/deal'
@@ -132,7 +131,7 @@ export default {
     }
   },
   components: {
-    myVqr,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   deactivated() {
     this.deliveryRecordItem = {}

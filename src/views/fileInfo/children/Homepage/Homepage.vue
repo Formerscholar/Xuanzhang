@@ -20,11 +20,12 @@
 </template>
     
 <script>
-import Avatar from '@/components/content/Avatar/Avatar'
-import userName from '@/views/fileInfo/children/userName/userName'
-import gender from '@/views/fileInfo/children/gender/gender'
-import department from '@/views/fileInfo/children/department/department'
-import Roles from '@/views/fileInfo/children/Roles/Roles'
+const Avatar = () => import('@/components/content/Avatar/Avatar')
+const userName = () => import('@/views/fileInfo/children/userName/userName')
+const gender = () => import('@/views/fileInfo/children/gender/gender')
+const department = () =>
+  import('@/views/fileInfo/children/department/department')
+const Roles = () => import('@/views/fileInfo/children/Roles/Roles')
 
 export default {
   name: 'Homepage',

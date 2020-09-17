@@ -20,8 +20,7 @@
     
 <script>
 export default {
-  name: 'banktitle',
-  components: {},
+ 
 }
 </script>
     

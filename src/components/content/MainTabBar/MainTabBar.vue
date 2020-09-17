@@ -23,11 +23,7 @@
   </tab-bar>
 </template>
 <script>
-import TabBar from '@/components/common/tabbar/TabBar'
-import TabBarItem from '@/components/common/tabbar/TabBarItem'
-
 export default {
-  name: 'MainTabBar',
   data() {
     return {
       isHome: true,
@@ -36,8 +32,8 @@ export default {
     }
   },
   components: {
-    TabBar,
-    TabBarItem,
+    TabBar: () => import('@/components/common/tabbar/TabBar'),
+    TabBarItem: () => import('@/components/common/tabbar/TabBarItem'),
   },
   created() {
     this.$Jurisdiction('1', this.$store.state.oparr, () => {

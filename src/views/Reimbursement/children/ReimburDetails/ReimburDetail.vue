@@ -100,7 +100,6 @@ import {
   reimbursementDetail,
   deleteReimbursement,
 } from '@/network/Reimbursement.js'
-import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
   data() {
@@ -114,7 +113,7 @@ export default {
     }
   },
   components: {
-    myVqr,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   activated() {
     this.iid = this.$route.params.id

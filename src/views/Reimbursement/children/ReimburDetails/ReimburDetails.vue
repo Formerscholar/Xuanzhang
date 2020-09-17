@@ -98,11 +98,11 @@ import {
   reimbursementDetail,
   deleteReimbursement,
 } from '@/network/Reimbursement.js'
-import myVqr from '@/components/common/my_vqr/myVqr'
+
 import { reactive, computed, onUnmounted } from '@vue/composition-api'
 export default {
   components: {
-    myVqr,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   setup(props, { root }) {
     const state = reactive({

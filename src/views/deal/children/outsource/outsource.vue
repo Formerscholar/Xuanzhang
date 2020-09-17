@@ -120,7 +120,6 @@ import { regionData, CodeToText } from 'element-china-area-data'
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
 import { bestURL, crosURl } from '@/network/baseURL'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 import {
   getAddOutsourcingOrder,
@@ -247,7 +246,7 @@ export default {
     document.querySelector('textarea').style.border = 'none'
   },
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   computed: {
     addContractOrderData() {

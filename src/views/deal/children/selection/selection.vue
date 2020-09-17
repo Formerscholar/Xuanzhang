@@ -23,7 +23,6 @@ export default {
       default: [],
     },
   },
-  components: { BScroll },
   data() {
     return {
       currentIndex: 0,

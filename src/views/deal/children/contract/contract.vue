@@ -219,8 +219,7 @@ import {
   getleft,
 } from '@/network/deal'
 
-import {  fmoney } from '@/common/utils.ts'
-import selection from '@/views/deal/children/selection_cont/selection_cont'
+import { fmoney } from '@/common/utils.ts'
 
 export default {
   data() {
@@ -246,7 +245,8 @@ export default {
     }
   },
   components: {
-    selection,
+    selection: () =>
+      import('@/views/deal/children/selection_cont/selection_cont'),
   },
   activated() {
     this.$Jurisdiction('28', this.$store.state.catearr, () => {

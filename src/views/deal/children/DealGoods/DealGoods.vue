@@ -63,9 +63,6 @@
 </template>
     
 <script>
-import DealGoodsItem from './DealGoodsItem'
-import DealGoodsItems from './DealGoodsItems'
-import Options from '@/views/deal/children/Options/Options'
 import { throttle } from '@/common/utils'
 
 import {
@@ -75,10 +72,8 @@ import {
   getUserContractOrderList,
   getDeliverGoodsList,
 } from '@/network/deal'
-import myVqr from '@/components/common/my_vqr/myVqr'
 
 export default {
-  name: 'DealGoods',
   data() {
     return {
       timer: null,
@@ -106,10 +101,10 @@ export default {
     }
   },
   components: {
-    DealGoodsItem,
-    DealGoodsItems,
-    Options,
-    myVqr,
+    DealGoodsItem: () => import('./DealGoodsItem'),
+    DealGoodsItems: () => import('./DealGoodsItems'),
+    Options: () => import('@/views/deal/children/Options/Options'),
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   created() {
     this.goodsLists = []

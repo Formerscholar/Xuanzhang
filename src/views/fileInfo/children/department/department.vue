@@ -13,8 +13,6 @@
     
 <script>
 export default {
-  name: 'gender',
-  components: {},
   props: {
     getsex: {
       type: String,

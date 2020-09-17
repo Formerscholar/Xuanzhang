@@ -19,7 +19,6 @@
 <script>
 export default {
   name: 'BankAccounts',
-  components: {},
   methods: {
     goHrman() {
       this.$router.push('/manboard')

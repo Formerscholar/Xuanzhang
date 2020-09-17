@@ -13,8 +13,6 @@
     
 <script>
 export default {
-  name: 'companyCard',
-  components: {},
   props: {
     cardList: {
       type: Array,

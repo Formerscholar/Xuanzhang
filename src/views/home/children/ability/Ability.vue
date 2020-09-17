@@ -93,7 +93,6 @@ export default {
       ],
     }
   },
-  components: {},
   methods: {
     jumpPage(path) {
       this.$router.replace(path)

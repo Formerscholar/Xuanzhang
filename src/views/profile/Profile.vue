@@ -41,20 +41,26 @@
 </template>
 
 <script>
-import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
-import pNavBar from '@/views/profile/children/pNavBar/pNavBar'
-import pHeader from '@/views/profile/children/pHeader/pHeader'
-import versionItem from '@/views/profile/children/versionItem/versionItem'
-import BankAccounts from '@/views/profile/children/BankAccounts/BankAccounts'
-import management from '@/views/profile/children/management/management'
-import mytaskItem from '@/views/profile/children/mytaskItem/mytaskItem'
-import tobalance from '@/views/profile/children/tobalance/tobalance'
-import Pendbalance from '@/views/profile/children/Pendbalance/Pendbalance'
-import Runrecord from '@/views/profile/children/Runrecord/Runrecord'
-import wages from '@/views/profile/children/wages/wages'
-import Reimbursementrecord from '@/views/profile/children/Reimbursementrecord/Reimbursementrecord'
-import baseLogin from '@/views/profile/children/baseLogin/baseLogin'
-import exitLogin from '@/views/profile/children/exitLogin/exitLogin'
+const MainTabBar = () => import('@/components/content/MainTabBar/MainTabBar')
+const pNavBar = () => import('@/views/profile/children/pNavBar/pNavBar')
+const pHeader = () => import('@/views/profile/children/pHeader/pHeader')
+const versionItem = () =>
+  import('@/views/profile/children/versionItem/versionItem')
+const BankAccounts = () =>
+  import('@/views/profile/children/BankAccounts/BankAccounts')
+const management = () =>
+  import('@/views/profile/children/management/management')
+const mytaskItem = () =>
+  import('@/views/profile/children/mytaskItem/mytaskItem')
+const tobalance = () => import('@/views/profile/children/tobalance/tobalance')
+const Pendbalance = () =>
+  import('@/views/profile/children/Pendbalance/Pendbalance')
+const Runrecord = () => import('@/views/profile/children/Runrecord/Runrecord')
+const wages = () => import('@/views/profile/children/wages/wages')
+const Reimbursementrecord = () =>
+  import('@/views/profile/children/Reimbursementrecord/Reimbursementrecord')
+const baseLogin = () => import('@/views/profile/children/baseLogin/baseLogin')
+const exitLogin = () => import('@/views/profile/children/exitLogin/exitLogin')
 
 import { getlogin, getIndex, getAppVersion } from '@/network/login'
 import { getUserDesignatedTasks, getUserIndex } from '@/network/home'

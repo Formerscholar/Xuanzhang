@@ -210,9 +210,11 @@ import {
 
 import { bestURL } from '@/network/baseURL'
 import { fmoney } from '@/common/utils.ts'
-import selection from '@/views/deal/children/selection_cont/selection_cont'
 export default {
-  components: { selection },
+  components: {
+    selection: () =>
+      import('@/views/deal/children/selection_cont/selection_cont'),
+  },
   data() {
     return {
       isDelivery: true,

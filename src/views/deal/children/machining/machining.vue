@@ -4,8 +4,7 @@
     
 <script>
 export default {
-  name: 'machining',
-  components: {},
+ 
   activated() {
     this.$Jurisdiction('29', this.$store.state.catearr, () => {
       this.$router.replace('/home')

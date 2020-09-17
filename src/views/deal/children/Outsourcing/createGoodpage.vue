@@ -36,8 +36,6 @@
     
 <script>
 import { getAddStorageRecordSuppliers } from '@/network/deal'
-import timers from '@/components/content/timers/timers'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   data() {
@@ -55,8 +53,8 @@ export default {
     }
   },
   components: {
-    timers,
-    myBtns,
+    timers:()=>import('@/components/content/timers/timers'),
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   created() {
     this.getAddDeliverGood()

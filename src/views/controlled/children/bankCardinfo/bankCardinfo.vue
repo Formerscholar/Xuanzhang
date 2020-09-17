@@ -8,14 +8,10 @@
 </template>
     
 <script>
-import banktitle from '@/views/controlled/children/banktitle/banktitle'
-import bankCard from '@/views/controlled/children/bankCard/bankCard'
 export default {
-  name: 'bankCardinfo',
-  components: {},
   components: {
-    banktitle,
-    bankCard,
+    banktitle: () => import('@/views/controlled/children/banktitle/banktitle'),
+    bankCard: () => import('@/views/controlled/children/bankCard/bankCard'),
   },
   data() {
     return {

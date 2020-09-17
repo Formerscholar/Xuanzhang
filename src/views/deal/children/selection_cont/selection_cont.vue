@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
 import { bestURL, crosURl } from '@/network/baseURL'
+import BScroll from 'better-scroll'
 
 export default {
   name: 'selection',
@@ -28,7 +28,6 @@ export default {
       default: [],
     },
   },
-  components: { BScroll },
   created() {
     this.$nextTick(() => {
       this._initPics()

@@ -51,12 +51,7 @@
 </template>
     
 <script>
-import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
-
-import clientheader from '@/views/client/cihldren/clientheader/clientheader'
-import borderCard from '@/views/client/cihldren/borderCard/borderCard'
 import { getlogin, getIndex } from '@/network/login'
-import cardbox from '@/views/client/cihldren/cardbox/cardbox'
 import {
   getDistributors,
   getSuppliers,
@@ -66,10 +61,11 @@ import { getAddOutsourcingOrder } from '@/network/deal'
 
 export default {
   components: {
-    clientheader,
-    borderCard,
-    cardbox,
-    MainTabBar,
+    clientheader: () =>
+      import('@/views/client/cihldren/clientheader/clientheader'),
+    borderCard: () => import('@/views/client/cihldren/borderCard/borderCard'),
+    cardbox: () => import('@/views/client/cihldren/cardbox/cardbox'),
+    MainTabBar: () => import('@/components/content/MainTabBar/MainTabBar'),
   },
   data() {
     return {

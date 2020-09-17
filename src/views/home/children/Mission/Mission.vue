@@ -19,8 +19,7 @@
 </template>
     
 <script>
-import mHeader from '@/views/home/children/Mission/children/mHeader/mHeader'
-import cardbtns from '@/views/home/children/Mission/children/cardbtns/cardbtns'
+
 
 import {
   getUserDesignatedTasks,
@@ -29,10 +28,9 @@ import {
   deleteDesignatedTasks,
 } from '@/network/home'
 export default {
-  name: 'Mission',
   components: {
-    mHeader,
-    cardbtns,
+    mHeader:()=>import('@/views/home/children/Mission/children/mHeader/mHeader'),
+    cardbtns:()=>import( '@/views/home/children/Mission/children/cardbtns/cardbtns'),
   },
   data() {
     return {

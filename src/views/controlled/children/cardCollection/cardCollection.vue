@@ -8,10 +8,10 @@
 </template>
     
 <script>
-import bankCard from '@/views/controlled/children/bankCard/bankCard'
 export default {
-  name: 'cardCollection',
-  components: { bankCard },
+  components: {
+    bankCard: () => import('@/views/controlled/children/bankCard/bankCard'),
+  },
   props: {
     cardCollInfos: {
       type: Array,

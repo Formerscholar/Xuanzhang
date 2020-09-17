@@ -12,7 +12,6 @@
           @goEarly="goEarly"
         />
         <Ability />
-        <!-- <reminder /> -->
         <div id="container" style="width: 100%;height:15.714286rem;"></div>
       </div>
     </scroll>
@@ -32,12 +31,6 @@
 </template>
 
 <script>
-import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
-import topbar from '@/views/home/children/topbar/topbar'
-import myHeader from '@/views/home/children/myHeader/myHeader'
-import Ability from '@/views/home/children/ability/Ability'
-import reminder from '@/views/home/children/reminder/reminder'
-
 import { getUserDesignatedTasks, getUserIndex } from '@/network/home'
 import { getlogin, getIndex } from '@/network/login'
 
@@ -95,11 +88,11 @@ export default {
     }
   },
   components: {
-    topbar,
-    myHeader,
-    Ability,
-    reminder,
-    MainTabBar,
+    Ability: () => import('@/views/home/children/ability/Ability'),
+    topbar: () => import('@/views/home/children/topbar/topbar'),
+    myHeader: () => import('@/views/home/children/myHeader/myHeader'),
+    reminder: () => import('@/views/home/children/reminder/reminder'),
+    MainTabBar: () => import('@/components/content/MainTabBar/MainTabBar'),
   },
   activated() {
     this.getlogin()
@@ -180,7 +173,6 @@ export default {
           this.$router.replace('/login')
           this.$toast('您的账号无该模块权限!')
         })
-        
       } else {
         window.localStorage.removeItem('token')
         this.$store.commit('setBankCardSinfo', {})

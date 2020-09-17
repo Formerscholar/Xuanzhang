@@ -118,11 +118,10 @@ import {
   getProcessPieceWorkWagesMoney,
 } from '@/network/home'
 import { setTimerType } from '@/common/filter'
-import myBtns from '@/components/common/my_btns/my_btns'
 
 export default {
   components: {
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   setup(props, { root }) {
     const state = reactive({

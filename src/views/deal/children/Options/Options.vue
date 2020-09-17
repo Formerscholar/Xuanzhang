@@ -22,8 +22,7 @@
     
 <script>
 export default {
-  name: 'Options',
-  components: {},
+  
   data() {
     return {
       active: 0,

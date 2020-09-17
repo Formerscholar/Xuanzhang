@@ -11,11 +11,9 @@
 </template>
 
 <script>
-import MainTabBar from '@/components/content/MainTabBar/MainTabBar'
-
-import selection from '@/views/deal/children/selection/selection'
 import { getleft } from '@/network/deal'
 import { getlogin, getIndex } from '@/network/login'
+
 export default {
   data() {
     return {
@@ -26,15 +24,14 @@ export default {
     }
   },
   components: {
-    selection,
-    MainTabBar,
+    selection: () => import('@/views/deal/children/selection/selection'),
+    MainTabBar: () => import('@/components/content/MainTabBar/MainTabBar'),
   },
   activated() {
     this.$Jurisdiction('14', this.$store.state.catearr, () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-
     this.getlogin()
     this.getleftlist()
   },

@@ -151,9 +151,8 @@
 <script>
 import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
-import SimpleCropper from '@/components/common/SimpleCropper/SimpleCropper'
-import myBtns from '@/components/common/my_btns/my_btns'
-
+const SimpleCropper = () =>
+  import('@/components/common/SimpleCropper/SimpleCropper')
 import {
   reactive,
   onUnmounted,
@@ -165,7 +164,7 @@ import {
 export default {
   components: {
     SimpleCropper,
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   setup(props, { root }) {
     const cropper = ref(null)

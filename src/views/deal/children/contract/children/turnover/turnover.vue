@@ -180,8 +180,11 @@ import {
   toExamineDeliveryRecord,
   cancelToExamineDeliveryRecord,
 } from '@/network/deal'
-import selection from '@/views/deal/children/selection_cont/selection_cont'
 export default {
+  components: {
+    selection: () =>
+      import('@/views/deal/children/selection_cont/selection_cont'),
+  },
   data() {
     return {
       active: 0,
@@ -227,9 +230,7 @@ export default {
       return '×' + value
     },
   },
-  components: {
-    selection,
-  },
+
   methods: {
     gocontractList(deliveryRecordList) {
       this.$router.push(`/ShipmentItem/${deliveryRecordList.id}`)

@@ -320,13 +320,11 @@ import {
   cancelToExamineReimbursement,
 } from '@/network/Reimbursement'
 
-import myVqr from '@/components/common/my_vqr/myVqr'
-
 import { reactive, computed, onActivated } from '@vue/composition-api'
 
 export default {
   components: {
-    myVqr,
+    myVqr: () => import('@/components/common/my_vqr/myVqr'),
   },
   setup(props, { root }) {
     const state = reactive({

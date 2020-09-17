@@ -4,23 +4,19 @@
     <o-topbar />
     <!-- header -->
     <oHeader />
-   
   </div>
 </template>
 
 <script>
-import oTopbar from '@/views/operation/children/oTopbar/oTopbar'
-import oHeader from '@/views/operation/children/oHeader/oHeader'
-
-
+const oTopbar = () => import('@/views/operation/children/oTopbar/oTopbar')
+const oHeader = () => import('@/views/operation/children/oHeader/oHeader')
 
 export default {
   name: 'Operation',
   components: {
-    
     oTopbar,
-    oHeader
-  }
+    oHeader,
+  },
 }
 </script>
 

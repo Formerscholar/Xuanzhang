@@ -132,8 +132,8 @@
 <script>
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
-import SimpleCropper from '@/components/common/SimpleCroppes/SimpleCroppes'
-import myBtns from '@/components/common/my_btns/my_btns'
+const SimpleCropper = () =>
+  import('@/components/common/SimpleCroppes/SimpleCroppes')
 
 export default {
   name: 'addMaterial',
@@ -193,7 +193,7 @@ export default {
   },
   components: {
     SimpleCropper,
-    myBtns,
+    myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
     this.$Jurisdiction('28', this.$store.state.oparr, () => {
