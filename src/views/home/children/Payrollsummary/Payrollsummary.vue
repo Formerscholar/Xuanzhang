@@ -162,6 +162,23 @@ export default {
     })
 
     function onClickLeft() {
+      state.monthWages = []
+      state.popupshow = false
+      state.isPicker = false
+      state.namePicker = false
+      state.searchName = ''
+      state.message = ''
+      state.columns = []
+      state.users = []
+      state.year = ''
+      state.month = ''
+      state.user_id = ''
+      state.allPage = 1
+      state.value1 = 0
+      state.option1 = []
+      state.dropdownYear = null
+      state.dropdownMonth = null
+      state.dropdownUser_id = 0
       root.$router.replace('/home')
     }
 
@@ -290,14 +307,14 @@ export default {
         generate_month: state.month,
         remark: state.message,
       })
+
       if (code == 200) {
         root.$message({
           showClose: true,
           message: msg,
           type: 'success',
         })
-        state.monthWages = []
-        getMonthList()
+        scroll()
       } else {
         root.$message({
           showClose: true,
@@ -308,11 +325,12 @@ export default {
     }
 
     function scroll() {
+      state.searchName = ''
+      state.message = ''
       state.value1 = 0
       state.dropdownUser_id = 0
       state.dropdownYear = null
       state.dropdownMonth = null
-
       state.allPage = 1
       state.monthWages = []
       getMonthList()

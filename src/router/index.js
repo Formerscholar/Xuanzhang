@@ -232,6 +232,8 @@ const Balancies = () => import('@/views/profile/children/Balancies/Balancies')
 const Payrollsummary = () =>
   import('@/views/home/children/Payrollsummary/Payrollsummary')
 
+const MySalary = () => import('@/views/profile/MySalary/MySalary')
+
 const routes = [
   {
     path: '/',
@@ -780,6 +782,10 @@ const routes = [
   {
     path: '/Payrollsummary',
     component: Payrollsummary,
+  },
+  {
+    path: '/MySalary',
+    component: MySalary,
   },
 ]
 

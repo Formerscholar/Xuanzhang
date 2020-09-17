@@ -315,6 +315,7 @@ export default {
           icon_Url: '#icon-jinrongleiicontubiao-21',
           title: '其他收款',
           path: '/OtherCollection',
+          nums: 0,
         },
         {
           icon_Url: '#icon-jinrongleiicontubiao-7',
@@ -362,8 +363,8 @@ export default {
   activated() {
     this.getSettlementRecord()
     this.getPaymenList()
-    this.getMonthList()
     this.getOtherSettlementList()
+    this.getMonthList()
   },
   methods: {
     async getOtherSettlementList() {

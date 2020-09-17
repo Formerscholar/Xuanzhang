@@ -1,5 +1,5 @@
 <template>
-  <div class="options_profile_item d-flex">
+  <div class="options_profile_item d-flex" @click="handleClick">
     <div class="image_options">
       <svg class="icon icons" aria-hidden="true">
         <use xlink:href="#icon-baogao" />
@@ -22,9 +22,13 @@ import { reactive } from '@vue/composition-api'
 export default {
   setup(props, { root }) {
     const state = reactive({})
+    function handleClick() {
+      root.$router.push('/MySalary')
+    }
 
     return {
       state,
+      handleClick,
     }
   },
 }
