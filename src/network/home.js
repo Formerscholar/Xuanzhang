@@ -197,3 +197,34 @@ export function getMonthWagesList(params) {
   })
 }
 
+export function delMonthWages(data) {
+  return request({
+    url: '/Wages/delMonthWages',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function toExamine(data) {
+  return request({
+    url: '/Wages/toExamine',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function cacnelToExamine(data) {
+  return request({
+    url: '/Wages/cacnelToExamine',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}
+
+export function addMonthWages(data) {
+  return request({
+    url: '/Wages/addMonthWages',
+    method: 'POST',
+    data: Qs.stringify(data),
+  })
+}

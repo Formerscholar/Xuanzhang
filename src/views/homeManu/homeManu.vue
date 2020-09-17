@@ -139,8 +139,12 @@
 </template>
     
 <script>
-import { getSettlementRecordList, getPaymentRecordList } from '@/network/deal'
-
+import {
+  getSettlementRecordList,
+  getPaymentRecordList,
+  getOtherSettlementRecordList,
+} from '@/network/deal'
+import { getMonthWagesList } from '@/network/home'
 export default {
   data() {
     return {
@@ -358,8 +362,44 @@ export default {
   activated() {
     this.getSettlementRecord()
     this.getPaymenList()
+    this.getMonthList()
+    this.getOtherSettlementList()
   },
   methods: {
+    async getOtherSettlementList() {
+      const { data } = await getOtherSettlementRecordList({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        distributor_name: null,
+        start_date: null,
+        end_date: null,
+        _: new Date().getTime(),
+      })
+      const { count } = data
+      this.ExamineList.map((item) => {
+        if (item.title == '其他收款') {
+          item.nums = count
+        }
+      })
+    },
+    async getMonthList() {
+      const { data } = await getMonthWagesList({
+        token: this.$store.state.token,
+        page: 1,
+        offset: 20,
+        user_id: 0,
+        year: null,
+        month: null,
+        _: new Date().getTime(),
+      })
+      const { count } = data
+      this.ExamineList.map((item) => {
+        if (item.title == '工资汇总') {
+          item.nums = count
+        }
+      })
+    },
     popupClick() {
       this.popupshow = false
     },
