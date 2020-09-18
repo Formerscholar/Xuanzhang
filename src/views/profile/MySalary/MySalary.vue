@@ -15,24 +15,22 @@
       @pullingUp="pullingUp"
     >
       <div class="context_box">
-        <div
-          v-for="item in state.monthWages"
-          :key="item.id"
-          :class="[item.deleted_at?'items_box bg_delect':'items_box']"
-        >
-          <div class="top_box">
-            <div class="timers">{{item.year}}年{{item.month}}月</div>
-            <div class="pierpoe">{{item.name}}</div>
-            <div class="money">{{item.wages_money}}元</div>
-          </div>
-          <div class="bot_box">
-            <div class="caozuo">操作人:{{item.operator_name}}</div>
-            <div class="remarks">
-              <div
-                v-for="items in item.auditRecord"
-                :key="items.user_id"
-                :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
-              ></div>
+        <div v-for="item in state.monthWages" :key="item.id">
+          <div v-if="!item.deleted_at" :class="[item.deleted_at?'items_box bg_delect':'items_box']">
+            <div class="top_box">
+              <div class="timers">{{item.year}}年{{item.month}}月</div>
+              <div class="pierpoe">{{item.name}}</div>
+              <div class="money">{{item.wages_money}}元</div>
+            </div>
+            <div class="bot_box">
+              <div class="caozuo">操作人:{{item.operator_name}}</div>
+              <div class="remarks">
+                <div
+                  v-for="items in item.auditRecord"
+                  :key="items.user_id"
+                  :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                ></div>
+              </div>
             </div>
           </div>
         </div>

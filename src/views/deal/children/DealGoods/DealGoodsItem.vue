@@ -85,6 +85,7 @@
           @click="editlists(item)"
         />
         <van-button
+          v-if="isVoidList"
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="danger"
@@ -92,6 +93,7 @@
           @click="VoidList(item)"
         />
         <van-button
+          v-if="isprintList"
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="primary"
@@ -139,6 +141,8 @@ export default {
       listIsShow: false,
       iseditlists: true,
       isControlledDelay: true,
+      isVoidList: true,
+      isprintList: true,
     }
   },
   props: {
@@ -156,6 +160,12 @@ export default {
     })
     this.$Jurisdiction('73', this.$store.state.oparr, () => {
       this.isControlledDelay = false
+    })
+    this.$Jurisdiction('225', this.$store.state.oparr, () => {
+      this.isVoidList = false
+    })
+    this.$Jurisdiction('271', this.$store.state.oparr, () => {
+      this.isprintList = false
     })
   },
   computed: {

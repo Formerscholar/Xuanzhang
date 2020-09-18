@@ -91,7 +91,7 @@
           </el-timeline>
         </div>
       </scroll>
-      <div id="submit">
+      <div id="submit" v-if="issubmit">
         <div id="confirm"></div>
         <div id="reject"></div>
       </div>
@@ -163,16 +163,15 @@ export default {
       canceltext: '',
       completeVisible: false,
       completetext: '',
+      issubmit: true,
     }
   },
   activated() {
     this.iid = this.$route.params.iid
     this.getdealitem()
-    document
-      .querySelectorAll('.content .Process .el-timeline-item__timestamp')
-      .forEach((item) => {
-        item.style.fontSize = ' 1.142857rem !important'
-      })
+    this.$Jurisdiction('269', this.$store.state.oparr, () => {
+      this.issubmit = false
+    })
   },
   deactivated() {
     this.activeName = '1'
@@ -665,7 +664,8 @@ export default {
       margin-top: 0.714286rem;
       font-size: 1rem;
       padding: 0.357143rem 0.857143rem;
-      .el-timeline {
+
+      /deep/.el-timeline {
         font-size: 1rem;
         margin-top: 0.857143rem;
         .el-timeline-item {

@@ -74,6 +74,7 @@
                   text="编辑"
                 />
                 <van-button
+                  v-if="isdeletTasks"
                   @click="deletTasks(item.id)"
                   style="height:100%;"
                   square
@@ -254,6 +255,7 @@ export default {
       isdesignatedTasksCount: true,
       isDesignatedCount: true,
       iseditTasks: true,
+      isdeletTasks: true,
     }
   },
   activated() {
@@ -268,6 +270,9 @@ export default {
     })
     this.$Jurisdiction('117', this.$store.state.oparr, () => {
       this.iseditTasks = false
+    })
+    this.$Jurisdiction('267', this.$store.state.oparr, () => {
+      this.isdeletTasks = false
     })
   },
   props: {

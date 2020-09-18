@@ -33,7 +33,7 @@
     >
       <div class="context_box">
         <van-swipe-cell v-for="item in state.monthWages" :key="item.id">
-          <div :class="[item.deleted_at?'items_box bg_delect':'items_box']">
+          <div :class="[item.deleted_at?'items_box bg_delect':'items_box']" v-if="!item.deleted_at">
             <div class="top_box">
               <div class="timers">{{item.year}}年{{item.month}}月</div>
               <div class="pierpoe">{{item.name}}</div>
