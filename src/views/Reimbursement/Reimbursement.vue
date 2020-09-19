@@ -150,7 +150,7 @@
                 <van-button
                   square
                   type="primary"
-                  v-if="iSaudit_enabled"
+                  v-if="state.iSaudit_enabled"
                   @click="audit_enabled(item.id)"
                   text="审核"
                 />
@@ -302,7 +302,7 @@
         </scroll>
       </el-tab-pane>
     </el-tabs>
-    <i class="el-icon-plus" @click="newAccount" v-if="isnewAccount"></i>
+    <i class="el-icon-plus" @click="newAccount" v-if="state.isnewAccount"></i>
     <van-overlay :show="state.isShow" @click="state.isShow = false">
       <div class="wrapper-qrCode">
         <myVqr :Content="state.textContent"></myVqr>

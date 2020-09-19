@@ -58,7 +58,7 @@ export function setJurisdiction(
   userJur: string,
   func: Function
 ) {
-  if (userJur.indexOf(pageJur) == -1) {
+  if (userJur.indexOf(',' + pageJur + ',') == -1) {
     func()
   }
 }

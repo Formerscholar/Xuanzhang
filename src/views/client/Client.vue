@@ -147,8 +147,7 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
-        this.$store.commit('setcatearr', res.data.userInfo[0].role.catearr)
-        this.$store.commit('setoparr', res.data.userInfo[0].role.oparr)
+
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {
@@ -318,14 +317,14 @@ export default {
     }
   },
   activated() {
-    this.$Jurisdiction('18', this.$store.state.catearr, () => {
+    this.$Jurisdiction('18', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('112', this.$store.state.catearr, () => {
+    this.$Jurisdiction('112', localStorage.getItem('catearr'), () => {
       this.isdistributor = false
     })
-    this.$Jurisdiction('113', this.$store.state.catearr, () => {
+    this.$Jurisdiction('113', localStorage.getItem('catearr'), () => {
       this.issupplier = false
     })
   },

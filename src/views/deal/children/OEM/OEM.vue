@@ -239,7 +239,7 @@ export default {
     myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
-    this.$Jurisdiction('86', this.$store.state.catearr, () => {
+    this.$Jurisdiction('86', localStorage.getItem('catearr'), () => {
       this.$router.replace('/login')
       this.$toast('您的账号无该模块权限!')
     })

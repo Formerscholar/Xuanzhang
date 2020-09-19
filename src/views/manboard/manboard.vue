@@ -138,23 +138,23 @@ export default {
     }
   },
   activated() {
-    this.$Jurisdiction('17', this.$store.state.catearr, () => {
+    this.$Jurisdiction('17', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('105', this.$store.state.catearr, () => {
+    this.$Jurisdiction('105', localStorage.getItem('catearr'), () => {
       this.isuserLists = false
     })
-    this.$Jurisdiction('107', this.$store.state.catearr, () => {
+    this.$Jurisdiction('107', localStorage.getItem('catearr'), () => {
       this.isResignation = false
     })
-    this.$Jurisdiction('11', this.$store.state.oparr, () => {
+    this.$Jurisdiction('11', localStorage.getItem('oparr'), () => {
       this.isaddman = false
     })
-    this.$Jurisdiction('12', this.$store.state.oparr, () => {
+    this.$Jurisdiction('12', localStorage.getItem('oparr'), () => {
       this.isquitting = false
     })
-    this.$Jurisdiction('13', this.$store.state.oparr, () => {
+    this.$Jurisdiction('13', localStorage.getItem('oparr'), () => {
       this.iseditting = false
     })
   },

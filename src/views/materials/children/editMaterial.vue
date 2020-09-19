@@ -196,7 +196,7 @@ export default {
     myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   activated() {
-    this.$Jurisdiction('28', this.$store.state.oparr, () => {
+    this.$Jurisdiction('28', localStorage.getItem('oparr'), () => {
       this.ismyBtns = false
     })
     this.iid = this.$route.params.id

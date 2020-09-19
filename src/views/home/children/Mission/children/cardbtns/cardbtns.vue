@@ -259,19 +259,19 @@ export default {
     }
   },
   activated() {
-    this.$Jurisdiction('108', this.$store.state.catearr, () => {
+    this.$Jurisdiction('108', localStorage.getItem('catearr'), () => {
       this.isUserDesignatedTasksCount = false
     })
-    this.$Jurisdiction('109', this.$store.state.catearr, () => {
+    this.$Jurisdiction('109', localStorage.getItem('catearr'), () => {
       this.isdesignatedTasksCount = false
     })
-    this.$Jurisdiction('111', this.$store.state.catearr, () => {
+    this.$Jurisdiction('111', localStorage.getItem('catearr'), () => {
       this.isDesignatedCount = false
     })
-    this.$Jurisdiction('117', this.$store.state.oparr, () => {
+    this.$Jurisdiction('117', localStorage.getItem('oparr'), () => {
       this.iseditTasks = false
     })
-    this.$Jurisdiction('267', this.$store.state.oparr, () => {
+    this.$Jurisdiction('267', localStorage.getItem('oparr'), () => {
       this.isdeletTasks = false
     })
   },

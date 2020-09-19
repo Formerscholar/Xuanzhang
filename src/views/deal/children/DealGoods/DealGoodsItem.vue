@@ -155,16 +155,16 @@ export default {
     this.show = false
   },
   activated() {
-    this.$Jurisdiction('72', this.$store.state.oparr, () => {
+    this.$Jurisdiction('72', localStorage.getItem('oparr'), () => {
       this.iseditlists = false
     })
-    this.$Jurisdiction('73', this.$store.state.oparr, () => {
+    this.$Jurisdiction('73', localStorage.getItem('oparr'), () => {
       this.isControlledDelay = false
     })
-    this.$Jurisdiction('225', this.$store.state.oparr, () => {
+    this.$Jurisdiction('225', localStorage.getItem('oparr'), () => {
       this.isVoidList = false
     })
-    this.$Jurisdiction('271', this.$store.state.oparr, () => {
+    this.$Jurisdiction('271', localStorage.getItem('oparr'), () => {
       this.isprintList = false
     })
   },

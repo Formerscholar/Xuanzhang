@@ -22,10 +22,6 @@ const state = {
   Address: {},
   // 产品数据
   productData: [],
-  // catearr
-  catearr: '',
-  // oparr
-  oparr: '',
 }
 
 export default {

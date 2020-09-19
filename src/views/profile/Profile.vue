@@ -111,7 +111,7 @@ export default {
     this.getUserReimburseme()
   },
   activated() {
-    this.$Jurisdiction('5', this.$store.state.oparr, () => {
+    this.$Jurisdiction('5', localStorage.getItem('oparr'), () => {
       this.ismanagement = false
     })
   },
@@ -178,8 +178,7 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
-        this.$store.commit('setcatearr', res.data.userInfo[0].role.catearr)
-        this.$store.commit('setoparr', res.data.userInfo[0].role.oparr)
+
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {

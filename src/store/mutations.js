@@ -26,12 +26,6 @@ const mutations = {
   setproductData(state, palyload) {
     state.productData = palyload
   },
-  setcatearr(state, palyload) {
-    state.catearr = palyload
-  },
-  setoparr(state, palyload) {
-    state.oparr = palyload
-  },
 }
 
 export default mutations
