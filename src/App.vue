@@ -81,7 +81,6 @@ export default {
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
-
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {

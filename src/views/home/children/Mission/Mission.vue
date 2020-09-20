@@ -16,7 +16,6 @@
     <i class="el-icon-plus" @click="tike" v-if="istike"></i>
   </div>
 </template>
-
 <script>
 import {
   getUserDesignatedTasks,
