@@ -160,15 +160,15 @@ export default {
     this.getOrderList()
   },
   activated() {
-    this.$Jurisdiction('31', this.$store.state.catearr, () => {
+    this.$Jurisdiction('31', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('95', this.$store.state.catearr, () => {
+    this.$Jurisdiction('95', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('139', this.$store.state.oparr, () => {
+    this.$Jurisdiction('139', localStorage.getItem('oparr'), () => {
       this.istooutsource = false
     })
   },

@@ -169,7 +169,7 @@ export default {
   activated() {
     this.iid = this.$route.params.iid
     this.getdealitem()
-    this.$Jurisdiction('269', this.$store.state.oparr, () => {
+    this.$Jurisdiction('269', localStorage.getItem('oparr'), () => {
       this.issubmit = false
     })
   },

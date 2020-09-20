@@ -249,17 +249,17 @@ export default {
       import('@/views/deal/children/selection_cont/selection_cont'),
   },
   activated() {
-    this.$Jurisdiction('28', this.$store.state.catearr, () => {
+    this.$Jurisdiction('28', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('85', this.$store.state.oparr, () => {
+    this.$Jurisdiction('85', localStorage.getItem('oparr'), () => {
       this.isreference = false
     })
-    this.$Jurisdiction('87', this.$store.state.oparr, () => {
+    this.$Jurisdiction('87', localStorage.getItem('oparr'), () => {
       this.isgocontractList = false
     })
-    this.$Jurisdiction('88', this.$store.state.oparr, () => {
+    this.$Jurisdiction('88', localStorage.getItem('oparr'), () => {
       this.isControlledDelay = false
     })
   },

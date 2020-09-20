@@ -69,7 +69,10 @@ import { ruleForm } from '@/AppConfig'
 
 export default {
   name: 'Login',
-  components: { PuzzleVerification:()=> import('@/components/common/puzzleVerification/puzzleVerification') },
+  components: {
+    PuzzleVerification: () =>
+      import('@/components/common/puzzleVerification/puzzleVerification'),
+  },
   data() {
     return {
       MaskShow: false,
@@ -130,12 +133,14 @@ export default {
                   JSON.parse(JSON.stringify(res1.data.userInfo))
                 )
                 this.$store.commit('setToken', res1.data.token)
-                this.$store.commit(
-                  'setcatearr',
-                  res1.data.userInfo[0].role.catearr
+                storage.setItem(
+                  'oparr',
+                  ',' + res1.data.userInfo[0].role.oparr + ','
                 )
-                this.$store.commit('setoparr', res1.data.userInfo[0].role.oparr)
-
+                storage.setItem(
+                  'catearr',
+                  ',' + res1.data.userInfo[0].role.catearr + ','
+                )
                 if (!window.localStorage) {
                   alert('浏览器不支持localstorage')
                 } else {

@@ -279,14 +279,14 @@ export default {
     this.getFlowOrderLists()
   },
   activated() {
-    this.$Jurisdiction('69', this.$store.state.catearr, () => {
+    this.$Jurisdiction('69', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('87', this.$store.state.catearr, () => {
+    this.$Jurisdiction('87', localStorage.getItem('catearr'), () => {
       this.isDelivery = false
     })
-    this.$Jurisdiction('88', this.$store.state.catearr, () => {
+    this.$Jurisdiction('88', localStorage.getItem('catearr'), () => {
       this.isDetailed = false
     })
   },

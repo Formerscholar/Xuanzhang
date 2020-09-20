@@ -19,8 +19,6 @@
 </template>
     
 <script>
-
-
 import {
   getUserDesignatedTasks,
   getDesignatedTasks,
@@ -29,8 +27,10 @@ import {
 } from '@/network/home'
 export default {
   components: {
-    mHeader:()=>import('@/views/home/children/Mission/children/mHeader/mHeader'),
-    cardbtns:()=>import( '@/views/home/children/Mission/children/cardbtns/cardbtns'),
+    mHeader: () =>
+      import('@/views/home/children/Mission/children/mHeader/mHeader'),
+    cardbtns: () =>
+      import('@/views/home/children/Mission/children/cardbtns/cardbtns'),
   },
   data() {
     return {
@@ -72,11 +72,11 @@ export default {
     this.getUserDesignatedTasksData = {}
   },
   activated() {
-    this.$Jurisdiction('24', this.$store.state.catearr, () => {
+    this.$Jurisdiction('24', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('116', this.$store.state.oparr, () => {
+    this.$Jurisdiction('116', localStorage.getItem('oparr'), () => {
       this.istike = false
     })
   },

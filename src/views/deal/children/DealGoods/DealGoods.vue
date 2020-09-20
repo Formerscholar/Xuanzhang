@@ -119,14 +119,14 @@ export default {
     this.getDeliverGoodsLists()
   },
   activated() {
-    this.$Jurisdiction('27', this.$store.state.catearr, () => {
+    this.$Jurisdiction('27', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('72', this.$store.state.catearr, () => {
+    this.$Jurisdiction('72', localStorage.getItem('catearr'), () => {
       this.isQuoteList = false
     })
-    this.$Jurisdiction('73', this.$store.state.catearr, () => {
+    this.$Jurisdiction('73', localStorage.getItem('catearr'), () => {
       this.iscontractOrderList = false
     })
   },

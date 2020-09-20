@@ -36,13 +36,13 @@ export default {
     TabBarItem: () => import('@/components/common/tabbar/TabBarItem'),
   },
   created() {
-    this.$Jurisdiction('1', this.$store.state.oparr, () => {
+    this.$Jurisdiction('12', localStorage.getItem('catearr'), () => {
       this.isHome = false
     })
-    this.$Jurisdiction('2', this.$store.state.oparr, () => {
+    this.$Jurisdiction('14', localStorage.getItem('catearr'), () => {
       this.isDeal = false
     })
-    this.$Jurisdiction('6', this.$store.state.oparr, () => {
+    this.$Jurisdiction('112', localStorage.getItem('catearr'), () => {
       this.isClient = false
     })
   },

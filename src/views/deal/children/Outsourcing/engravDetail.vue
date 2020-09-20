@@ -113,7 +113,7 @@ export default {
     },
   },
   activated() {
-    this.$Jurisdiction('140', this.$store.state.oparr, () => {
+    this.$Jurisdiction('140', localStorage.getItem('oparr'), () => {
       this.iseditShip = false
     })
     this.iid = this.$route.params.id

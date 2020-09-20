@@ -152,20 +152,20 @@ export default {
     this.getTemporary()
   },
   activated() {
-    this.$Jurisdiction('67', this.$store.state.catearr, () => {
+    this.$Jurisdiction('67', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
-    this.$Jurisdiction('137', this.$store.state.catearr, () => {
+    this.$Jurisdiction('137', localStorage.getItem('catearr'), () => {
       this.ismaterielList = false
     })
-    this.$Jurisdiction('139', this.$store.state.catearr, () => {
+    this.$Jurisdiction('139', localStorage.getItem('catearr'), () => {
       this.isTemporary = false
     })
-    this.$Jurisdiction('27', this.$store.state.oparr, () => {
+    this.$Jurisdiction('27', localStorage.getItem('oparr'), () => {
       this.isaddMaterial = false
     })
-    this.$Jurisdiction('31', this.$store.state.oparr, () => {
+    this.$Jurisdiction('31', localStorage.getItem('oparr'), () => {
       this.istobomPage = false
     })
   },

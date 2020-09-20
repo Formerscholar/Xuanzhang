@@ -156,7 +156,7 @@ export default {
     this.getRolesList()
   },
   activated() {
-    this.$Jurisdiction('106', this.$store.state.catearr, () => {
+    this.$Jurisdiction('106', localStorage.getItem('catearr'), () => {
       this.$router.replace('/home')
       this.$toast('您的账号无该模块权限!')
     })
