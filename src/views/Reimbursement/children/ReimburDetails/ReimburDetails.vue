@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>报销编号:{{state.iid}}</span>
+        <span>报销编号:{{ state.iid }}</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -14,45 +14,57 @@
         <div class="logo">
           <div class="leftbox">
             <div class="picter">
-              <img v-if="state.userInfo.img_url" :src="state.userInfo.img_url.substr(1)" alt="logo" />
+              <img
+                v-if="state.userInfo.img_url"
+                :src="state.userInfo.img_url.substr(1)"
+                alt="logo"
+              />
               <img v-else src="@/assets/image/dpng.png" />
             </div>
             <div class="text">
-              <em>{{state.userInfo.name}}</em>
-              <p>{{state.userInfo.department_name}}-{{state.userInfo.display_name}}</p>
+              <em>{{ state.userInfo.name }}</em>
+              <p>
+                {{ state.userInfo.department_name }}-{{
+                  state.userInfo.display_name
+                }}
+              </p>
             </div>
           </div>
         </div>
         <el-card class="box-card Cause">
           <div class="title">
             <span>报销事由</span>
-            <em style="text-align: right; color:#000;">{{state.reimbursement.category_name}}</em>
+            <em style="text-align: right; color:#000;">{{
+              state.reimbursement.category_name
+            }}</em>
           </div>
           <div class="content">
             <div class="item">
-              <h4>{{state.reimbursement.reason}}</h4>
+              <h4>{{ state.reimbursement.reason }}</h4>
             </div>
           </div>
           <div class="title">
             <em>创建日期</em>
-            <em style="text-align: right;">{{state.reimbursement.created_at}}</em>
+            <em style="text-align: right;">{{
+              state.reimbursement.created_at
+            }}</em>
           </div>
         </el-card>
         <div class="Details">
           <div class="title">报销明细</div>
           <el-card
             class="box-card detail"
-            v-for="(item,index) in state.reimbursementDetail"
+            v-for="(item, index) in state.reimbursementDetail"
             :key="index"
           >
             <div class="newDail">
               <div class="left_box">
-                <div>{{item.reason_time}}</div>
+                <div>{{ item.reason_time }}</div>
                 <div class="CNY">CNY</div>
               </div>
               <div class="right_box">
-                <div>{{item.reason}}</div>
-                <div class="money">{{item.money}}</div>
+                <div>{{ item.reason }}</div>
+                <div class="money">{{ item.money }}</div>
               </div>
             </div>
           </el-card>
@@ -64,14 +76,14 @@
             </div>
             <div class="item timer">
               <span class="moneny">累计报销金额</span>
-              <em>{{state.reimbursement.money}}</em>
+              <em>{{ state.reimbursement.money }}</em>
             </div>
           </el-card>
 
           <el-card class="box-card detail">
             <div class="item date Reimburser">
               <span>报销人</span>
-              <em>{{state.reimbursement.reimburser_name}}</em>
+              <em>{{ state.reimbursement.reimburser_name }}</em>
             </div>
           </el-card>
         </div>
@@ -83,7 +95,12 @@
       <div class="printShip" @click="printShip">打印</div>
       <div class="editShips" @click="editShip">编辑</div>
       <div class="editShip" @click="editShip"></div>
-      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+      <img
+        class="Print"
+        src="@/assets/image/Print.png"
+        alt="Print"
+        @click="printShip"
+      />
     </div>
     <van-overlay :show="state.isShow" @click="state.isShow = false">
       <div class="wrapper-qrCode">
@@ -92,7 +109,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import {
   reimbursementDetail,
@@ -151,7 +168,6 @@ export default {
       }
     }
     function printShip() {
-      console.log('打印')
       state.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${state.reimbursement.id}`
       state.isShow = true
     }
@@ -166,7 +182,6 @@ export default {
       state.reimbursement = data.reimbursement
       state.reimbursementDetail = data.reimbursementDetail
       state.userInfo = data.reimburser[0]
-      console.log('reimbursementDetail', data)
     }
     state.iid = root.$route.params.id
     getreimbursementDetail()
@@ -180,7 +195,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #ReimburDetails {
   padding-top: 5.428571rem;

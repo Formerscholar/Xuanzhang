@@ -10,13 +10,18 @@
                 <i>{{ item.name }}</i>
               </span>
               <span
-                v-for="(item1,index1) in item.auditRecord"
+                v-for="(item1, index1) in item.auditRecord"
                 :key="index1"
-                :class="item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                :class="
+                  item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'
+                "
               ></span>
             </div>
           </div>
-          <div class="topRight layout" @click.stop="CompanyBtn(item.distributor_id)">
+          <div
+            class="topRight layout"
+            @click.stop="CompanyBtn(item.distributor_id)"
+          >
             <div class="Company">{{ item.Company }}</div>
           </div>
         </div>
@@ -58,7 +63,7 @@
           @click="printList(item)"
         />
         <van-button
-          v-if="item.to_examine != undefined  && item.to_examine == 0"
+          v-if="item.to_examine != undefined && item.to_examine == 0"
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="info"
@@ -106,7 +111,6 @@ export default {
   },
   asidesItem() {
     this.show = false
-    // this.getEditContractOrders()
   },
   computed: {
     getEditContractOrderData() {
@@ -194,28 +198,22 @@ export default {
       }
     },
     editlists(item) {
-      console.log(item)
       this.$emit('editlists', {
         data: item,
       })
     },
     VoidList(item) {
-      console.log(item)
-
       this.$emit('VoidList', {
         data: item,
       })
     },
     printList(item) {
-      console.log(item)
-
       this.$emit('printList', {
         showed: this.show,
         data: item,
       })
     },
     async getEditContractOrders() {
-      console.log('dealgoodsitems')
       const { data } = await getEditContractOrder(this.getEditContractOrderData)
       this.editData = data
       this.contractOrder = data.contractOrder
@@ -249,8 +247,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style lang="scss" scoped>
 .goodsListItem {

@@ -13,13 +13,13 @@
       </div>
       <ul id="demo-list">
         <li v-for="item in listItem" :key="item.id" @click="handleClick(item)">
-          <span>{{item.name}}</span>
+          <span>{{ item.name }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
-    
+
 <script>
 import { filterList } from '@/common/my_search'
 import {
@@ -41,7 +41,7 @@ export default {
   },
   activated() {
     this.iid = this.$route.query.searchID
-    console.log(this.iid, this.listItem)
+
     if (!this.iid) {
       this.getAddContract()
     } else {
@@ -95,13 +95,13 @@ export default {
     },
     async handleChange() {
       const { data } = await getSuppliers(this.getDistributorsData)
-      console.log(data.supplier)
+
       this.$bus.$emit('cardsearch', data.supplier)
       this.blacknext()
     },
     async handleChanges() {
       const { data } = await getDistributors(this.getDistributorsData)
-      console.log(data.distributor)
+
       this.$bus.$emit('cardsearch', data.distributor)
       this.blacknext()
     },
@@ -112,7 +112,7 @@ export default {
       this.itemData = { ...item }
       this.value = item.name
       this.inputID = item.id
-      console.log(item)
+
       if (!this.iid) {
         this.handleChanges()
       } else {
@@ -130,7 +130,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #cardsearch {
   .bg {
@@ -185,7 +185,6 @@ export default {
       border-bottom: 1px solid #fff;
       span {
         color: #000;
-        // font-family: Arial, Helvetica, sans-serif;
         font-size: 11px;
         text-decoration: none;
       }

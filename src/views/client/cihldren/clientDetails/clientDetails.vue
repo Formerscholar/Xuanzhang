@@ -1,6 +1,5 @@
 <template>
   <div id="clientDetails">
-    <!-- header -->
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="callbackbtn">
         <i class="el-icon-arrow-left"></i>
@@ -10,8 +9,12 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <!-- body -->
-    <scroll class="scroll-wrapper" :probeType="3" :pullUpLoad="true" @scroll="pullingUp">
+    <scroll
+      class="scroll-wrapper"
+      :probeType="3"
+      :pullUpLoad="true"
+      @scroll="pullingUp"
+    >
       <div class="body">
         <div class="title_warp">
           <div class="left">
@@ -20,18 +23,18 @@
             </svg>
           </div>
           <div class="right">
-            <div class="clientName">{{clientName}}</div>
-            <div class="clientAderss">{{clientAderss}}</div>
+            <div class="clientName">{{ clientName }}</div>
+            <div class="clientAderss">{{ clientAderss }}</div>
           </div>
         </div>
         <div class="info_three">
           <div class="left">
             <div class="title">简称</div>
-            <div class="info">{{clientIdCard}}</div>
+            <div class="info">{{ clientIdCard }}</div>
           </div>
           <div class="con_box">
             <div class="title">税率</div>
-            <div class="info">{{tariff}}%</div>
+            <div class="info">{{ tariff }}%</div>
           </div>
           <div class="right">
             <div class="title">最近交易</div>
@@ -39,28 +42,44 @@
           </div>
         </div>
         <div class="tos_text">
-          <div class="blue_box" v-for="item in distributorContractScheme" :key="item.id">
-            <div class="left_title">{{item.order_type | setOrderType}}</div>
+          <div
+            class="blue_box"
+            v-for="item in distributorContractScheme"
+            :key="item.id"
+          >
+            <div class="left_title">{{ item.order_type | setOrderType }}</div>
             <van-notice-bar
               class="right_info"
               v-if="item.pay_method_type == 1"
               scrollable
               background="#f2f7fd"
-              :text="'按月付款，付款金额允许不包含最近' +item.pay_method_content+'个月的发货款'"
+              :text="
+                '按月付款，付款金额允许不包含最近' +
+                  item.pay_method_content +
+                  '个月的发货款'
+              "
             />
             <van-notice-bar
               class="right_info"
               v-if="item.pay_method_type == 2"
               scrollable
               background="#f2f7fd"
-              :text="'按月循环付款，每次付总货款的'+item.pay_method_content.split(',')[0]+'%,允许不包含最近'+item.pay_method_content.split(',')[1]+'个月的发货款'"
+              :text="
+                '按月循环付款，每次付总货款的' +
+                  item.pay_method_content.split(',')[0] +
+                  '%,允许不包含最近' +
+                  item.pay_method_content.split(',')[1] +
+                  '个月的发货款'
+              "
             />
             <van-notice-bar
               class="right_info"
               v-if="item.pay_method_type == 3"
               scrollable
               background="#f2f7fd"
-              :text="'即时付款，允许最大欠款金额为'+item.pay_method_content+'元'"
+              :text="
+                '即时付款，允许最大欠款金额为' + item.pay_method_content + '元'
+              "
             />
           </div>
         </div>
@@ -89,46 +108,38 @@
           </div>
         </div>
 
-        <!-- <div class="clientTable">
-          <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="date" label="联系人" width="70"></el-table-column>
-            <el-table-column prop="job" label="职务" width="80"></el-table-column>
-            <el-table-column prop="phone" label="电话" width="100"></el-table-column>
-            <el-table-column prop="email" label="邮箱"></el-table-column>
-          </el-table>
-        </div>-->
         <div class="box-card botcard">
           <div class="title_box">发票抬头</div>
           <div class="info_box">
             <div class="title_info_box">名称</div>
-            <div class="title_text">{{name}}</div>
+            <div class="title_text">{{ name }}</div>
           </div>
           <div class="info_box">
             <div class="title_info_box">税号</div>
-            <div class="title_text">{{TaxID}}</div>
+            <div class="title_text">{{ TaxID }}</div>
           </div>
           <div class="info_box">
             <div class="title_info_box">单位地址</div>
-            <div class="title_text">{{address}}</div>
+            <div class="title_text">{{ address }}</div>
           </div>
           <div class="info_box">
             <div class="title_info_box">电话号码</div>
-            <div class="title_text">{{phone}}</div>
+            <div class="title_text">{{ phone }}</div>
           </div>
           <div class="info_box">
             <div class="title_info_box">开户银行</div>
-            <div class="title_text">{{Bank}}</div>
+            <div class="title_text">{{ Bank }}</div>
           </div>
           <div class="info_box">
             <div class="title_info_box">银行账户</div>
-            <div class="title_text">{{account}}</div>
+            <div class="title_text">{{ account }}</div>
           </div>
         </div>
       </div>
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { getEditDistributor, getEditSupplier } from '@/network/client'
 export default {
@@ -217,7 +228,7 @@ export default {
         token: this.$store.state.token,
         _: new Date().getTime(),
       })
-      console.log('getEditDistributor', data)
+
       const { distributor, distributorContractScheme } = data
       this.paramsData = { ...distributor }
       this.distributorContractScheme = [...distributorContractScheme]
@@ -253,7 +264,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #clientDetails {
   padding-top: 5.428571rem;

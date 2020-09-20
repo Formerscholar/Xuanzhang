@@ -7,9 +7,7 @@
       <div class="center" slot="center" style="color: #646566;">
         <span>补全物料信息</span>
       </div>
-      <div slot="right">
-        <!-- <van-icon name="success" /> -->
-      </div>
+      <div slot="right"></div>
     </navbar>
     <div class="content">
       <van-field v-model="materialName" label="物料名称" />
@@ -50,7 +48,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import { getEditMaterielStatus, editMaterielStatus } from '@/network/materials'
 
@@ -130,7 +128,7 @@ export default {
     },
     async getEditMateriel() {
       const { data } = await getEditMaterielStatus(this.getEditMaterielData)
-      console.log('getEditMaterielStatus', data)
+
       this.materialName = data.materiel[0].name
       this.materials = data.materiel[0].specification
       if (data.materiel[0].attribute == 'product') {
@@ -153,16 +151,14 @@ export default {
         this.UnitComponentoptions.push(obj)
       })
     },
-    submitClick() {
-      console.log('ok')
-    },
+    submitClick() {},
     clearData() {
       this.$router.go(-1)
     },
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #because {
   padding-top: 5.428571rem;

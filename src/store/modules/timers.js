@@ -1,6 +1,5 @@
 const timers = {
   state: {
-    // 全局时间集合
     timers: {
       Sign: '',
       ShipTimes: '',

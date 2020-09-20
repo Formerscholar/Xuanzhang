@@ -16,22 +16,26 @@
         </div>
         <div class="product_box">
           <div class="left_img" @click="imgClick">
-            <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
             <img
-              v-else-if="img_url_lin && img_url_lin != 0 "
+              v-if="img_URL && img_URL != 0"
+              :src="img_URL | getUrl"
+              alt="logo"
+            />
+            <img
+              v-else-if="img_url_lin && img_url_lin != 0"
               class="img"
-              :src="img_url_lin  | getUrl"
+              :src="img_url_lin | getUrl"
             />
             <img src="@/assets/image/Default.png" v-else />
           </div>
           <div class="right_box">
             <div class="right_name" @click.stop="focusClick">
-              <span v-if="state">{{state}}</span>
+              <span v-if="state">{{ state }}</span>
               <span v-else class="pltext">请选择产品名称</span>
               <van-icon name="arrow" />
             </div>
             <div class="right_model" v-if="isfouck" @click.stop="focusClick">
-              <span v-if="Products">{{Products}}</span>
+              <span v-if="Products">{{ Products }}</span>
               <span v-else class="pltext">请选择产品型号</span>
               <van-icon name="arrow" />
             </div>
@@ -44,8 +48,13 @@
             />
           </div>
         </div>
-        <div class="nums">库存数量:{{nums}}</div>
-        <van-field v-model="digit" placeholder="请输入最终数量" class="newStyle leftINPUT" type="digit" />
+        <div class="nums">库存数量:{{ nums }}</div>
+        <van-field
+          v-model="digit"
+          placeholder="请输入最终数量"
+          class="newStyle leftINPUT"
+          type="digit"
+        />
       </el-card>
     </scroll>
     <myBtns :commitFun="commite" :cancelFun="onClickLeft">
@@ -54,10 +63,14 @@
         <span>确认</span>
       </span>
     </myBtns>
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <simple-cropper
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    />
   </div>
 </template>
-    
+
 <script>
 import { getMaterielList, addInventory } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -78,7 +91,8 @@ export default {
     }
   },
   components: {
-    SimpleCropper: () => import('@/components/common/SimpleCroppes/SimpleCroppes'),
+    SimpleCropper: () =>
+      import('@/components/common/SimpleCroppes/SimpleCroppes'),
     myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   computed: {
@@ -97,6 +111,10 @@ export default {
     },
   },
   activated() {
+    this.$Jurisdiction('302', localStorage.getItem('oparr'), () => {
+      this.$router.replace('/home')
+      this.$toast('您的账号无该模块权限!')
+    })
     this.getMaterielLists()
   },
   methods: {
@@ -146,11 +164,9 @@ export default {
       for (const key in this.listItem) {
         this.listItems.push(this.listItem[key])
       }
-      console.log(this.listItems)
     },
     uploadHandle(data) {
       this.img_URL = data
-      console.log(this.img_URL)
     },
     imgClick() {
       this.$refs['cropper'].upload()
@@ -177,7 +193,6 @@ export default {
       })
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
           this.nums = 0
@@ -210,7 +225,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Inventory {
   padding-top: 5.428571rem;

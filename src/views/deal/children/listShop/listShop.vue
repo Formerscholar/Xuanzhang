@@ -38,16 +38,40 @@
           <el-row class="PartyContract line">
             <em>合同号</em>
             <div>
-              <el-input v-model="PartyContract" placeholder="请输入内容"></el-input>
+              <el-input
+                v-model="PartyContract"
+                placeholder="请输入内容"
+              ></el-input>
             </div>
           </el-row>
         </el-card>
         <el-card class="box-card item1">
-          <el-table :data="tableData" border style="width: 100%" @row-click="rowClick">
-            <el-table-column prop="title" label="标题" width="80"></el-table-column>
-            <el-table-column prop="model" label="规格" width="80"></el-table-column>
-            <el-table-column prop="nums" label="数量" width="60"></el-table-column>
-            <el-table-column prop="addNums" label="待发" width="60"></el-table-column>
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            @row-click="rowClick"
+          >
+            <el-table-column
+              prop="title"
+              label="标题"
+              width="80"
+            ></el-table-column>
+            <el-table-column
+              prop="model"
+              label="规格"
+              width="80"
+            ></el-table-column>
+            <el-table-column
+              prop="nums"
+              label="数量"
+              width="60"
+            ></el-table-column>
+            <el-table-column
+              prop="addNums"
+              label="待发"
+              width="60"
+            ></el-table-column>
             <el-table-column label="发货数量" width="140">
               <van-stepper
                 @plus="plustype"
@@ -64,14 +88,25 @@
           <el-row class="contractAmount line">
             <em>发货金额</em>
             <div>
-              <el-input v-model="contractAmount" placeholder="请输入内容"></el-input>
+              <el-input
+                v-model="contractAmount"
+                placeholder="请输入内容"
+              ></el-input>
             </div>
           </el-row>
-          <timers class="Sign" type="ShipTimes" title="日期" :valueData="timersList.ShipTimes" />
+          <timers
+            class="Sign"
+            type="ShipTimes"
+            title="日期"
+            :valueData="timersList.ShipTimes"
+          />
           <el-row class="OtherInstructions line">
             <em>发货备注</em>
             <div>
-              <el-input v-model="OtherInstructions" placeholder="请输入内容"></el-input>
+              <el-input
+                v-model="OtherInstructions"
+                placeholder="请输入内容"
+              ></el-input>
             </div>
           </el-row>
         </el-card>
@@ -82,7 +117,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import {
   getAddDeliverGoodsDistributors,
@@ -121,7 +156,6 @@ export default {
       this.timersList.ShipTimes = this.$store.state.timers.timers.ShipTimes
     }
     this.paramsData = this.$route.query.data
-    console.log('this.paramsData', this.paramsData)
 
     this.state = this.paramsData.contractOrder.distributor_name
     this.PartyContract = this.paramsData.contractOrder.order_number
@@ -199,7 +233,7 @@ export default {
       const { data } = await getAddDeliverGoodsDistributors(
         this.getAddDeliverGoodsDistributorData
       )
-      console.log('getAddDeliverGoodsDistributors', data)
+
       data.distributors.map((item, index) => {
         this.restaurants.push({
           value: item.name,
@@ -218,7 +252,6 @@ export default {
       this.$router.go(-1)
     },
     handleSelects(val) {
-      console.log(val)
       this.selectedID = val.address
     },
     createStateFilter(queryString) {
@@ -251,7 +284,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #listShop {
   padding-top: 5.428571rem;

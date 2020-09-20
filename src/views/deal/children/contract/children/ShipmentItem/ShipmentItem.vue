@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{deliveryRecordItem.order_number | setOrderNumber }}</span>
+        <span>{{ deliveryRecordItem.order_number | setOrderNumber }}</span>
       </div>
       <div class="right" slot="right">
         <span></span>
@@ -19,11 +19,13 @@
           </svg>
           <div class="text_box">
             <div class="Company">
-              <span>{{deliveryRecordItem.name }}</span>
+              <span>{{ deliveryRecordItem.name }}</span>
             </div>
             <div class="itembox">
-              <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
-              <span>{{deliveryRecordItem.operator_name }}</span>
+              <span>{{
+                deliveryRecordItem.created_at | setRecordItemCreated
+              }}</span>
+              <span>{{ deliveryRecordItem.operator_name }}</span>
             </div>
           </div>
         </div>
@@ -37,50 +39,60 @@
           <span>流水发货单产品明细</span>
         </div>
 
-        <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
+        <div
+          class="wrap_item"
+          v-for="(item, index) in deliverGoodsDetail"
+          :key="index"
+        >
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
               <img
-                v-if="item.img_url && item.img_url != 0 "
+                v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url  | getUrl"
+                :src="item.img_url | getUrl"
               />
               <img
-                v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                v-else-if="item.img_url_lin && item.img_url_lin != 0"
                 class="img"
-                :src="item.img_url_lin  | getUrl"
+                :src="item.img_url_lin | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.product_name}}</p>
+                <p>{{ item.product_name }}</p>
                 <div class="funds">
                   <span>￥</span>
-                  <span>{{item.total_funds}}</span>
+                  <span>{{ item.total_funds }}</span>
                 </div>
               </div>
-              <p class="model">{{item.product_model}}</p>
+              <p class="model">{{ item.product_model }}</p>
               <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <span
+                  >({{ item.unit_price }}×{{ item.weight }}+{{
+                    item.process_cost
+                  }})×{{ item.number }}</span
+                >
               </div>
             </div>
           </div>
         </div>
         <div
           class="product_price"
-          v-if="deliveryRecordItem.total_money != deliveryRecordItem.total_funds"
+          v-if="
+            deliveryRecordItem.total_money != deliveryRecordItem.total_funds
+          "
         >
           <div class="total_price">
             <div class="title">合计</div>
-            <span>￥{{deliveryRecordItem.total_money}}</span>
+            <span>￥{{ deliveryRecordItem.total_money }}</span>
           </div>
           <div class="After_price">
             <div class="title">折后</div>
             <span>
               ￥
-              <em>{{deliveryRecordItem.total_funds.split('.')[0]}}</em>
-              .{{deliveryRecordItem.total_funds.split('.')[1]}}
+              <em>{{ deliveryRecordItem.total_funds.split('.')[0] }}</em>
+              .{{ deliveryRecordItem.total_funds.split('.')[1] }}
             </span>
           </div>
         </div>
@@ -89,8 +101,8 @@
             <div class="title">合计</div>
             <span>
               ￥
-              <em>{{deliveryRecordItem.total_money.split('.')[0]}}</em>
-              .{{deliveryRecordItem.total_money.split('.')[1]}}
+              <em>{{ deliveryRecordItem.total_money.split('.')[0] }}</em>
+              .{{ deliveryRecordItem.total_money.split('.')[1] }}
             </span>
           </div>
         </div>
@@ -102,7 +114,12 @@
       <div class="printShip" @click="printShip">打印</div>
       <div class="editShips" @click="editShip">编辑</div>
       <div class="editShip" @click="editShip"></div>
-      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+      <img
+        class="Print"
+        src="@/assets/image/Print.png"
+        alt="Print"
+        @click="printShip"
+      />
     </div>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
@@ -111,7 +128,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 
@@ -207,12 +224,10 @@ export default {
     },
     async getFlowDeliverD() {
       const { data } = await getFlowDeliverDetail(this.getFlowDeliverData)
-      console.log('getFlowDeliverDetail', data)
+
       this.deliverGoodsDetail = data.deliverGoodsDetail
       this.deliveryRecordItem = data.deliver
-      console.log(this.deliveryRecordItem)
 
-      // data.deliver
       this.$once('hook:destroyed', () => {
         this.iid = 0
         this.deliverGoodsDetail = []
@@ -246,7 +261,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #ShipmentItem {
   padding-top: 5.428571rem;

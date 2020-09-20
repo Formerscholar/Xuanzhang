@@ -2,12 +2,14 @@
   <div class="selection wrapper bg-primary my_header" ref="wrapper">
     <ul class="list text-white" ref="list">
       <li
-        v-for="(item,index) in selectionList"
+        v-for="(item, index) in selectionList"
         class="mui-control-item"
-        :class="{mui_active:index == currentIndex}"
+        :class="{ mui_active: index == currentIndex }"
         :key="item.id"
-        @click="selectionClick(item.id,index)"
-      >{{item.title}}</li>
+        @click="selectionClick(item.id, index)"
+      >
+        {{ item.title }}
+      </li>
     </ul>
   </div>
 </template>
@@ -45,7 +47,7 @@ export default {
       let itemWidth = 90
       let margin = 6
       let width = (itemWidth + margin) * 6 - margin
-      console.log(width)
+
       this.$refs.list.style.width = width + 'px'
       this.$nextTick(() => {
         if (!this.picScroll) {
@@ -61,7 +63,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 .wrapper {
   width: 100%;

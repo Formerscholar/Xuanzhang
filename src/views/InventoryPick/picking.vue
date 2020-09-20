@@ -12,30 +12,42 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="body">
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+          <el-row
+            class="tanle line"
+            style="border-bottom: .714286rem solid #f2f2f2;"
+          >
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span class="wrap_right_text">×{{item.nums}}</span>
+                        <span class="wrap_right_text">×{{ item.nums }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -56,13 +68,19 @@
         <el-card class="box-card item1">
           <div class="DeliveryDate van-cell" @click="isShip = true">
             <span class="lable">提货人</span>
-            <span class="time">{{Shipment}}</span>
+            <span class="time">{{ Shipment }}</span>
           </div>
-          <van-field v-model="Amounts" disabled class="newStyle" type="number" label="操作人" />
+          <van-field
+            v-model="Amounts"
+            disabled
+            class="newStyle"
+            type="number"
+            label="操作人"
+          />
 
           <el-row class="DeliveryDate van-cell">
             <span class="lable">日期</span>
-            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+            <span class="time" @click="tiemrClick">{{ DeliveryDate }}</span>
           </el-row>
           <van-field
             v-model="DeliveryNotes"
@@ -111,7 +129,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -272,18 +290,17 @@ export default {
           this.picking_id = item.id
         }
       })
-      console.log(value, index, this.picking_id)
+
       this.isShip = false
     },
     async getAddPick() {
       const { data } = await getAddPicking(this.getAddDeliverData)
-      console.log('getAddPicking', data)
+
       this.Amounts = data.userInfo[0].name
       this.users = data.users
       this.users.forEach((item) => {
         this.Shipcolumns.push(item.name)
       })
-      // Shipcolumns
     },
     cancel() {
       this.isDatetime = false
@@ -297,7 +314,6 @@ export default {
     },
 
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -357,26 +373,7 @@ export default {
       this.product_img = ''
       this.$router.replace('/home')
     },
-    // querySearchAsync(queryString, cb) {
-    //   var restaurants = this.restaurants
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
-    // querySearchAsyncs(queryString, cb) {
-    //   var restaurants = this.restaurant
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
+
     createStateFilter(queryString) {
       return (state) => {
         return (
@@ -388,7 +385,6 @@ export default {
       this.$router.push('/InventorySelectPd')
       this.$bus.$off('InventorySelectPd')
       this.$bus.$on('InventorySelectPd', (item) => {
-        console.log(item)
         this.productId = item.allData.id
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
@@ -444,7 +440,6 @@ export default {
             newArr.push(this.quantity)
             newArr.push(this.productId)
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
 
             this.states = ''
             this.Products = ''
@@ -482,7 +477,6 @@ export default {
         newArr.push(this.quantity)
         newArr.push(this.productId)
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
 
         this.states = ''
         this.Products = ''
@@ -503,7 +497,6 @@ export default {
       const { code, msg, data } = await addMaterielReturn(
         this.addAutonomousData
       )
-      console.log('addPicking', data)
 
       if (code == 200) {
         this.$message({
@@ -523,7 +516,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Ship {
   padding-top: 5.428571rem;

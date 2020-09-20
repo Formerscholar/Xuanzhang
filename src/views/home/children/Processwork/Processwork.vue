@@ -9,7 +9,12 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+    <scroll
+      class="scroll-wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+    >
       <van-field
         v-model="state.state"
         label="员工姓名"
@@ -57,20 +62,42 @@
         class="newStyle"
         @input="changeInput"
       />
-      <van-field v-model="state.UnitpricedeductionO" label="扣损单价" class="newStyle" readonly />
+      <van-field
+        v-model="state.UnitpricedeductionO"
+        label="扣损单价"
+        class="newStyle"
+        readonly
+      />
       <van-field
         v-model="state.Nonprimaryscrap"
         label="非主报废"
         class="newStyle"
         @input="changeInput"
       />
-      <van-field v-model="state.UnitpricedeductionT" label="扣损单价" class="newStyle" readonly />
+      <van-field
+        v-model="state.UnitpricedeductionT"
+        label="扣损单价"
+        class="newStyle"
+        readonly
+      />
       <el-row class="DeliveryDate van-cell">
         <span class="lable">日期</span>
-        <span class="time" @click="state.isDatetime = true">{{state.timersList.SigningDate}}</span>
+        <span class="time" @click="state.isDatetime = true">{{
+          state.timersList.SigningDate
+        }}</span>
       </el-row>
-      <van-field v-model="state.contractAmount" label="工资" class="newStyle" readonly />
-      <van-field v-model="state.textarea" type="textarea" label="备注" class="newStyle" />
+      <van-field
+        v-model="state.contractAmount"
+        label="工资"
+        class="newStyle"
+        readonly
+      />
+      <van-field
+        v-model="state.textarea"
+        type="textarea"
+        label="备注"
+        class="newStyle"
+      />
     </scroll>
     <myBtns :commitFun="quoteclick" :cancelFun="onClickLeft">
       <span slot="cancel-btn">取消</span>
@@ -109,7 +136,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { reactive, onActivated, computed } from '@vue/composition-api'
 import {
@@ -182,14 +209,14 @@ export default {
         token: root.$store.state.token,
         _: new Date().getTime(),
       })
-      console.log('getAddProcessPieceWorkWages', data)
+
       const { materiel, users } = data
       state.valuationWages = materiel
       state.OrderMode = materiel.map((item) => item.name)
       state.distributors = users
     }
     onActivated(() => {
-      root.$Jurisdiction('173', root.$store.state.catearr, () => {
+      root.$Jurisdiction('173', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
       })
@@ -205,7 +232,6 @@ export default {
       })
       root.$bus.$off('nameSupplier')
       root.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           state.state = item
         } else {
@@ -230,7 +256,7 @@ export default {
         _: new Date().getTime(),
       })
       const { processPieceWorkWages } = data
-      console.log(processPieceWorkWages)
+
       state.consumablesState = processPieceWorkWages.cname
       state.valuation_id = processPieceWorkWages.consume_materiel_id
       state.Unitpriceperpiece = processPieceWorkWages.synthesis_price
@@ -329,7 +355,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Piecework {
   padding-top: 5.428571rem;

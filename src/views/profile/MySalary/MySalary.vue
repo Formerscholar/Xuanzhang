@@ -1,7 +1,11 @@
 <template>
   <div id="MySalary">
     <navbar class="Controlled_root">
-      <i class="el-icon-arrow-left text-primary" slot="left" @click="callBack"></i>
+      <i
+        class="el-icon-arrow-left text-primary"
+        slot="left"
+        @click="callBack"
+      ></i>
       <div class="title text-black" slot="center">
         <span>我的工资</span>
       </div>
@@ -16,19 +20,26 @@
     >
       <div class="context_box">
         <div v-for="item in state.monthWages" :key="item.id">
-          <div v-if="!item.deleted_at" :class="[item.deleted_at?'items_box bg_delect':'items_box']">
+          <div
+            v-if="!item.deleted_at"
+            :class="[item.deleted_at ? 'items_box bg_delect' : 'items_box']"
+          >
             <div class="top_box">
-              <div class="timers">{{item.year}}年{{item.month}}月</div>
-              <div class="pierpoe">{{item.name}}</div>
-              <div class="money">{{item.wages_money}}元</div>
+              <div class="timers">{{ item.year }}年{{ item.month }}月</div>
+              <div class="pierpoe">{{ item.name }}</div>
+              <div class="money">{{ item.wages_money }}元</div>
             </div>
             <div class="bot_box">
-              <div class="caozuo">操作人:{{item.operator_name}}</div>
+              <div class="caozuo">操作人:{{ item.operator_name }}</div>
               <div class="remarks">
                 <div
                   v-for="items in item.auditRecord"
                   :key="items.user_id"
-                  :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                  :class="
+                    items.status == 0
+                      ? 'examines-bg examines-bg-pramiry'
+                      : 'examines-bg examines-bg-info'
+                  "
                 ></div>
               </div>
             </div>
@@ -67,7 +78,7 @@ export default {
 
     async function getMonthList() {
       const { data } = await getMonthWagesList(getMonthData.value)
-      console.log('getMonthList', data)
+
       state.monthWages = [...state.monthWages, ...data.monthWages]
     }
 

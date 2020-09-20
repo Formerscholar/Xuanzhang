@@ -17,7 +17,10 @@
       @pullingUp="loadMore"
     >
       <div class="content">
-        <van-swipe-cell v-for="(item, index) in deliveryRecordList" :key="index">
+        <van-swipe-cell
+          v-for="(item, index) in deliveryRecordList"
+          :key="index"
+        >
           <el-card class="box-card">
             <div>
               <div class="topbox">
@@ -30,21 +33,24 @@
               <div class="botbox">
                 <span
                   :class="item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                >￥{{ item.total_funds }}</span>
+                  >￥{{ item.total_funds }}</span
+                >
                 <em>发货时间:{{ item.created_at }}</em>
               </div>
             </div>
           </el-card>
           <template #right>
             <van-button
-              @click="repealClick({
-                id:item.id,
-                type:item.deleted_at
-              })"
+              @click="
+                repealClick({
+                  id: item.id,
+                  type: item.deleted_at,
+                })
+              "
               style="height:100%;"
               square
               type="danger"
-              :text="item.deleted_at == null ? '作废':'取消'"
+              :text="item.deleted_at == null ? '作废' : '取消'"
             />
             <van-button
               @click="printClick(item.print_html)"
@@ -57,8 +63,7 @@
         </van-swipe-cell>
       </div>
     </scroll>
-    <i class="el-icon-plus" @click="addContractDelivery
-"></i>
+    <i class="el-icon-plus" @click="addContractDelivery"></i>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapr">
         <myVqr :Content="textContent"></myVqr>
@@ -66,7 +71,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import {
   getDeliverGoodsList,
@@ -103,7 +108,6 @@ export default {
     },
     printClick(html) {
       if (html != null) {
-        console.log('打印二维码', html)
         this.isShow = true
         this.textContent = html
       } else {
@@ -167,7 +171,7 @@ export default {
     },
     async getDeliverGoods() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodData)
-      console.log('getDeliverGoodsList', data)
+
       if (data.deliveryRecordList.length) {
         data.deliveryRecordList.map((item) => {
           this.deliveryRecordList.push(item)

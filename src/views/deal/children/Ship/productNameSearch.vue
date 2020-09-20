@@ -14,14 +14,14 @@
       </div>
       <ul id="demo-list">
         <li v-for="item in listItem" :key="item.id" @click="handleClick(item)">
-          <span>{{item.name}}</span>
-          <span>{{item.specification}}</span>
+          <span>{{ item.name }}</span>
+          <span>{{ item.specification }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
-    
+
 <script>
 import { filterList } from '@/common/my_search'
 export default {
@@ -34,7 +34,7 @@ export default {
   },
   activated() {
     this.listItem = { ...this.$route.query.data }
-    console.log(this.listItem)
+
     filterList(
       document.getElementById('form'),
       document.getElementById('demo-list')
@@ -60,7 +60,6 @@ export default {
     handleClick(item) {
       this.itemData = { ...item }
       this.value = item.name
-      console.log(item)
     },
     blacknext() {
       this.listItem = []
@@ -71,7 +70,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #outSearch {
   .bg {
@@ -134,7 +133,6 @@ export default {
       align-items: center;
       span {
         color: #000;
-        // font-family: Arial, Helvetica, sans-serif;
         font-size: 0.785714rem;
         text-decoration: none;
       }

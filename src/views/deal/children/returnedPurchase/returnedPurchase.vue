@@ -23,37 +23,51 @@
           />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+          <el-row
+            class="tanle line"
+            style="border-bottom: .714286rem solid #f2f2f2;"
+          >
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
 
                       <div class="wrap_right">
-                        <span
-                          class="wrap_right_text"
-                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="wrap_right_text"
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                         <span class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -67,11 +81,21 @@
         </el-card>
 
         <el-card class="box-card item1">
-          <van-field v-model="Shipment" type="number" class="newStyle" label="退货金额" />
-          <van-field v-model="Amounts" type="number" class="newStyle" label="折后金额" />
+          <van-field
+            v-model="Shipment"
+            type="number"
+            class="newStyle"
+            label="退货金额"
+          />
+          <van-field
+            v-model="Amounts"
+            type="number"
+            class="newStyle"
+            label="折后金额"
+          />
           <el-row class="DeliveryDate">
             <span class="lable">日期</span>
-            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+            <span class="time" @click="tiemrClick">{{ DeliveryDate }}</span>
           </el-row>
           <van-uploader
             style="padding: .714286rem 1.142857rem;"
@@ -95,7 +119,7 @@
     <myBtns :commitFun="SubmitNow" :cancelFun="PendingNow">
       <span slot="cancel-btn">提交待核</span>
       <span slot="commit-btn">
-        ￥-{{Amounts}}
+        ￥-{{ Amounts }}
         <span>立即提交</span>
       </span>
     </myBtns>
@@ -119,7 +143,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -225,8 +249,6 @@ export default {
       }
     },
     addAutonomousData() {
-      console.log(this.isFlowingShow)
-      console.log('this.FlowingProducts', this.FlowingProducts)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
@@ -240,8 +262,6 @@ export default {
       }
     },
     addAutonomousDatas() {
-      console.log(this.isFlowingShow)
-      console.log('this.FlowingProducts', this.FlowingProducts)
       return {
         distributor_id: this.distributor_id,
         shipping_details: this.shippingData,
@@ -278,7 +298,6 @@ export default {
       this.img_url_Arr.splice(detail.index, 1)
     },
     async afterRead(file) {
-      console.log(file)
       lrz(file.content, {
         quality: 0.6,
         fieldName: 'user_file',
@@ -287,12 +306,11 @@ export default {
           user_image: rst.base64,
           token: this.$store.state.token,
         })
-        console.log(data.url)
+
         this.img_url_Arr.push(data.url)
       })
     },
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -312,7 +330,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     focusClick() {
@@ -324,7 +341,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -337,7 +353,7 @@ export default {
       const { data } = await getAddDeliverGoodsDistributors(
         this.getAddDeliverData
       )
-      console.log('getAddDeliverGoodsDistributors', data)
+
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
@@ -403,7 +419,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -459,12 +474,10 @@ export default {
             newArr.push(this.productPrice)
             newArr.push(this.ProductNotes)
             newArr.push(this.productWeight)
-            // newArr.push(this.isTemporary) // 零时库
-            newArr.push(this.processCost) //加工费
-            // newArr.push(this.product_img) // 一张图片URL
+            newArr.push(this.processCost)
             newArr.push(this.FlowingProducts)
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
+
             let allmonpement = 0
             this.tableData.forEach((item) => {
               allmonpement += parseFloat(item.totalPrice)
@@ -509,12 +522,10 @@ export default {
         newArr.push(this.productPrice)
         newArr.push(this.ProductNotes)
         newArr.push(this.productWeight)
-        // newArr.push(this.isTemporary) // 零时库
-        newArr.push(this.processCost) //加工费
-        // newArr.push(this.product_img) // 一张图片URL
+        newArr.push(this.processCost)
         newArr.push(this.FlowingProducts)
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
+
         let allmonpement = 0
         this.tableData.forEach((item) => {
           allmonpement += parseFloat(item.totalPrice)
@@ -541,7 +552,7 @@ export default {
       const { code, msg, data } = await addAutonomousReturnRecord(
         this.addAutonomousData
       )
-      console.log('addAutonomousDeliverRecord', data)
+
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -562,7 +573,7 @@ export default {
       const { code, msg, data } = await addAutonomousReturnRecord(
         this.addAutonomousDatas
       )
-      console.log('addAutonomousDeliverRecord', data)
+
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -582,7 +593,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Ship {
   padding-top: 5.428571rem;

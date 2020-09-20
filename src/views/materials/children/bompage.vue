@@ -33,7 +33,7 @@
     </el-card>
   </div>
 </template>
-    
+
 <script>
 import {
   getAddSpareParts,
@@ -138,7 +138,7 @@ export default {
     },
     async getMaterielbom() {
       const { data } = await getMaterielBoom(this.getMaterielBoomData)
-      console.log('getMaterielBoom', data)
+
       data.getMaterielBoom.forEach((item) => {
         let obj = {
           date: item.id,
@@ -151,7 +151,7 @@ export default {
     },
     async getAddSpare() {
       const { data } = await getAddSpareParts(this.getAddSpareData)
-      console.log('getAddSpareParts', data)
+
       data.materielSpareParts.forEach((item) => {
         let obj = {
           address: item.id,
@@ -182,14 +182,12 @@ export default {
       }
     },
     handleSelect(item) {
-      console.log(item)
       this.inputID = item.address
-      console.log(this.inputID)
     },
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #bompage {
   padding-top: 5.428571rem;

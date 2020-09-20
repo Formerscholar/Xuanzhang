@@ -10,13 +10,18 @@
                 <i>{{ item.name }}</i>
               </span>
               <span
-                v-for="(item1,index1) in item.auditRecord"
+                v-for="(item1, index1) in item.auditRecord"
                 :key="index1"
-                :class="item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                :class="
+                  item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'
+                "
               ></span>
             </div>
           </div>
-          <div class="topRight layout" @click.stop="CompanyBtn(item.distributor_id)">
+          <div
+            class="topRight layout"
+            @click.stop="CompanyBtn(item.distributor_id)"
+          >
             <div class="Company">{{ item.Company }}</div>
           </div>
         </div>
@@ -35,7 +40,7 @@
               :format="formatTwo"
               :text-inside="true"
               :stroke-width="16"
-              :percentage="item.schedule.Ship  * 1"
+              :percentage="item.schedule.Ship * 1"
               :status="item.schedule.Ship * 1 < 100 ? null : 'warning'"
             ></el-progress>
           </div>
@@ -55,12 +60,14 @@
               plain
               v-if="item.isIndex"
               :type="item.business_status | tagsType"
-            >{{item.business_status | setbusiness_status}}</van-tag>
+              >{{ item.business_status | setbusiness_status }}</van-tag
+            >
             <van-tag
               plain
               v-if="item.isIndex"
-              :type="item.che_status  ? 'success' : 'warning'"
-            >{{item.che_status ? '整装待发' : '生产中'}}</van-tag>
+              :type="item.che_status ? 'success' : 'warning'"
+              >{{ item.che_status ? '整装待发' : '生产中' }}</van-tag
+            >
           </div>
           <div class="topLeft layout">
             <div class="Amount">
@@ -101,7 +108,11 @@
           @click="printList(item)"
         />
         <van-button
-          v-if="item.to_examine != undefined  && item.to_examine == 0 && isControlledDelay"
+          v-if="
+            item.to_examine != undefined &&
+              item.to_examine == 0 &&
+              isControlledDelay
+          "
           style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
           square
           type="info"
@@ -270,7 +281,6 @@ export default {
       })
     },
     async getEditContractOrders() {
-      console.log('dealgoodsitem')
       const { data } = await getEditContractOrder(this.getEditContractOrderData)
       this.editData = data
       this.contractOrder = data.contractOrder
@@ -304,8 +314,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style lang="scss" scoped>
 .goodsListItem {

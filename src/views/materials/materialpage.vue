@@ -25,7 +25,7 @@
           @pullingUp="loadMores"
           @scroll="clickscroll"
         >
-          <van-swipe-cell v-for="(item,index) in materielList" :key="index">
+          <van-swipe-cell v-for="(item, index) in materielList" :key="index">
             <div @click="editClick(item.id)">
               <el-card class="box-card">
                 <div class="content_box_card">
@@ -35,12 +35,19 @@
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />
-                  <img v-else class="left_card" src="@/assets/image/Default.png" alt="defaultLogo" />
+                  <img
+                    v-else
+                    class="left_card"
+                    src="@/assets/image/Default.png"
+                    alt="defaultLogo"
+                  />
                   <div class="right_card">
-                    <span class="right_card_name">{{item.name}}</span>
-                    <span class="right_card_model">{{item.specification}}</span>
+                    <span class="right_card_name">{{ item.name }}</span>
+                    <span class="right_card_model">{{
+                      item.specification
+                    }}</span>
                     <span>
-                      {{item.stock}}
+                      {{ item.stock }}
                       <em>当前库存</em>
                     </span>
                   </div>
@@ -76,7 +83,7 @@
           @pullingUp="loadMores"
           @scroll="clickscroll"
         >
-          <van-swipe-cell v-for="(item,index) in Temporary" :key="index">
+          <van-swipe-cell v-for="(item, index) in Temporary" :key="index">
             <div>
               <el-card class="box-card">
                 <div class="content_box_card">
@@ -86,12 +93,19 @@
                     :src="bestURL + item.img_url"
                     alt="logo"
                   />
-                  <img v-else class="left_card" src="@/assets/image/Default.png" alt="defaultLogo" />
+                  <img
+                    v-else
+                    class="left_card"
+                    src="@/assets/image/Default.png"
+                    alt="defaultLogo"
+                  />
                   <div class="right_card">
-                    <span class="right_card_name">{{item.name}}</span>
-                    <span class="right_card_model">{{item.specification}}</span>
+                    <span class="right_card_name">{{ item.name }}</span>
+                    <span class="right_card_model">{{
+                      item.specification
+                    }}</span>
                     <span>
-                      {{item.stock}}
+                      {{ item.stock }}
                       <em>当前库存</em>
                     </span>
                   </div>
@@ -121,7 +135,7 @@
     <i class="el-icon-plus" @click="addMaterial" v-if="isaddMaterial"></i>
   </div>
 </template>
-    
+
 <script>
 import { getMaterielList } from '@/network/materials'
 import { bestURL } from '@/network/baseURL'
@@ -260,33 +274,7 @@ export default {
       this.$router.push(`/bompage/${id}`)
     },
     uses(iid) {
-      console.log(iid)
       this.$router.push(`/because/${iid}`)
-      // const { code, msg } = await editMaterielStatus({
-      //   token: this.$store.state.token,
-      //   id: data.id,
-      //   materiel_status: 'normal',
-      //   name: data.name,
-      //   specification: data.specification,
-      //   attribute: data.attribute,
-      //   materiel_category_id: 8,
-      //   unit_id: 9,
-      // })
-      // if (code == 200) {
-      //   this.getMaterie()
-      //   this.getTemporary()
-      //   this.$message({
-      //     showClose: true,
-      //     message: msg,
-      //     type: 'success',
-      //   })
-      // } else {
-      //   this.$message({
-      //     showClose: true,
-      //     message: msg,
-      //     type: 'error',
-      //   })
-      // }
     },
     async Abandonedss(data) {
       const { code, msg } = await editMaterielStatus({
@@ -350,7 +338,7 @@ export default {
     },
     async getMaterie() {
       const { data } = await getMaterielList(this.getMaterielData)
-      console.log('getMaterielList', data)
+
       if (data.materielList.length) {
         data.materielList.map((item) => {
           this.materielList.push(item)
@@ -361,7 +349,7 @@ export default {
     },
     async getTemporary() {
       const { data } = await getMaterielList(this.getTemporaryData)
-      console.log('Temporary', data)
+
       if (data.materielList.length) {
         data.materielList.map((item) => {
           this.Temporary.push(item)
@@ -373,16 +361,11 @@ export default {
     onClickLeft() {
       this.$router.replace('/home')
     },
-    onClickRight() {
-      console.log('搜索')
-    },
+    onClickRight() {},
   },
 }
 </script>
 
-
-
-    
 <style scoped lang="scss">
 #materialpage {
   padding-top: 5.428571rem;
@@ -458,57 +441,8 @@ export default {
               font-weight: 700;
             }
           }
-          .right_card_name {
-            // overflow: hidden;
-            // text-overflow: ellipsis;
-            // white-space: nowrap;
-          }
-          .right_card_model {
-            // overflow: hidden;
-            // text-overflow: ellipsis;
-            // white-space: nowrap;
-          }
         }
       }
-      // .topbox {
-      //   display: flex;
-      //   justify-content: space-between;
-      //   align-items: flex-end;
-      //   span {
-      //     font-size: 0.857143rem;
-      //     color: #ff9d17;
-      //     font-weight: 700;
-      //     em {
-      //       color: #acacac;
-      //       padding-left: 0.571429rem;
-      //       font-weight: normal;
-      //     }
-      //   }
-      //   i {
-      //     font-size: 1rem;
-      //     font-weight: 700;
-      //     color: #000;
-      //   }
-      // }
-      // .botbox {
-      //   display: flex;
-      //   justify-content: space-between;
-      //   align-items: flex-end;
-      //   font-size: 0.857143rem;
-      //   margin-top: 0.714286rem;
-      //   span {
-      //     font-weight: 700;
-      //   }
-      //   .black {
-      //     color: #000000;
-      //   }
-      //   .red {
-      //     color: red;
-      //   }
-      //   em {
-      //     color: #acacac;
-      //   }
-      // }
     }
   }
   .el-icon-plus {

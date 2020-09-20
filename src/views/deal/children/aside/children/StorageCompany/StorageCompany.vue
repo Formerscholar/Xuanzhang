@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{distributorNew.name}}</span>
+        <span>{{ distributorNew.name }}</span>
       </div>
       <div class="right" slot="right">
         <van-icon @click="newAccount" name="orders-o" />
@@ -18,69 +18,85 @@
             <ul>
               <li>
                 <span>总金额</span>
-                <em>{{distributorNew.notInvoiceMoney }}</em>
+                <em>{{ distributorNew.notInvoiceMoney }}</em>
               </li>
               <li>
                 <span>总欠款</span>
-                <em>{{distributorNew.actualNotSettlementMoney}}</em>
+                <em>{{ distributorNew.actualNotSettlementMoney }}</em>
               </li>
               <li>
                 <span>已结算</span>
-                <em>{{distributorNew.settlementMoney}}</em>
+                <em>{{ distributorNew.settlementMoney }}</em>
               </li>
               <li>
                 <span>已开票</span>
-                <em>{{distributorNew.invoiceMoney}}</em>
+                <em>{{ distributorNew.invoiceMoney }}</em>
               </li>
             </ul>
           </el-card>
         </div>
         <div v-for="(item, index) in orderList" :key="item.id" class="Delivery">
-          <van-swipe-cell v-if="item.to_examine != undefined ">
+          <van-swipe-cell v-if="item.to_examine != undefined">
             <el-card class="box-card">
               <div
                 @click="gocontractList(orderList[index])"
-                :class="item.deleted_at && 'color_break ' "
+                :class="item.deleted_at && 'color_break '"
               >
                 <div class="title">
                   <div class="title_text">
                     <span
-                      :class="item.deleted_at ? 'color_break model' :' model'"
-                    >{{ item.order_number }}</span>
-                    <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+                      :class="item.deleted_at ? 'color_break model' : ' model'"
+                      >{{ item.order_number }}</span
+                    >
+                    <span
+                      :class="item.deleted_at ? 'color_break name' : ' name'"
+                      >{{ item.name }}</span
+                    >
                   </div>
 
                   <div class="ControlledDelaybox">
                     <span
-                      v-for="(item,index) in item.auditRecord"
+                      v-for="(item, index) in item.auditRecord"
                       :key="index"
-                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                      :class="
+                        item.status == 0
+                          ? 'glyphicon pramary'
+                          : 'glyphicon info'
+                      "
                     ></span>
                   </div>
                 </div>
-                <!-- <div class="itemlist" v-if="item.detail.length">
-                  <div class="items">
-                    <selection :selectionList="item.detail" />
-                  </div>
-                  <div class="right_box">
-                    <em :class="item.deleted_at && 'color_break ' ">共</em>
-                    <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                    <em :class="item.deleted_at && 'color_break ' ">种</em>
-                  </div>
-                </div>-->
+
                 <div class="time_box">
                   <span
-                    :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                  >{{item.created_at | setCommitmentPeriod}}</span>
-                  <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                    :class="
+                      item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                    "
+                    >{{ item.created_at | setCommitmentPeriod }}</span
+                  >
+                  <span
+                    :class="
+                      item.deleted_at
+                        ? 'color_break time_pircle'
+                        : ' time_pircle'
+                    "
+                  >
                     <el-tag
-                      :class="item.deleted_at ? 'color_break ' :' '"
+                      :class="item.deleted_at ? 'color_break ' : ' '"
                       :type="item.type == 0 ? '' : 'danger'"
                       effect="plain"
-                    >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                      >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                    >
                     <em
-                      :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                    >￥{{item.total_price}}</em>
+                      :class="
+                        item.deleted_at
+                          ? 'color_break '
+                          : item.total_price.indexOf('-') == -1
+                          ? 'black'
+                          : 'red'
+                      "
+                      >￥{{ item.total_price }}</em
+                    >
                   </span>
                 </div>
               </div>
@@ -107,46 +123,58 @@
           <el-card class="box-card" v-else>
             <div
               @click="gocontractList(orderList[index])"
-              :class="item.deleted_at && 'color_break ' "
+              :class="item.deleted_at && 'color_break '"
             >
               <div class="title">
                 <div class="title_text">
                   <span
-                    :class="item.deleted_at ? 'color_break model' :' model'"
-                  >{{ item.order_number }}</span>
-                  <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+                    :class="item.deleted_at ? 'color_break model' : ' model'"
+                    >{{ item.order_number }}</span
+                  >
+                  <span
+                    :class="item.deleted_at ? 'color_break name' : ' name'"
+                    >{{ item.name }}</span
+                  >
                 </div>
                 <div class="ControlledDelaybox">
                   <span
-                    v-for="(item,index) in item.auditRecord"
+                    v-for="(item, index) in item.auditRecord"
                     :key="index"
-                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    :class="
+                      item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'
+                    "
                   ></span>
                 </div>
               </div>
-              <!-- <div class="itemlist" v-if="item.detail.length">
-                <div class="items">
-                  <selection :selectionList="item.detail" />
-                </div>
-                <div class="right_box">
-                  <em :class="item.deleted_at && 'color_break ' ">共</em>
-                  <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                  <em :class="item.deleted_at && 'color_break ' ">种</em>
-                </div>
-              </div>-->
+
               <div class="time_box">
                 <span
-                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >{{item.created_at | setCommitmentPeriod}}</span>
-                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                  :class="
+                    item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                  "
+                  >{{ item.created_at | setCommitmentPeriod }}</span
+                >
+                <span
+                  :class="
+                    item.deleted_at ? 'color_break time_pircle' : ' time_pircle'
+                  "
+                >
                   <el-tag
-                    :class="item.deleted_at ? 'color_break ' :' '"
+                    :class="item.deleted_at ? 'color_break ' : ' '"
                     :type="item.type == 0 ? '' : 'danger'"
                     effect="plain"
-                  >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                    >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                  >
                   <em
-                    :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                  >￥{{item.total_price}}</em>
+                    :class="
+                      item.deleted_at
+                        ? 'color_break '
+                        : item.total_price.indexOf('-') == -1
+                        ? 'black'
+                        : 'red'
+                    "
+                    >￥{{ item.total_price }}</em
+                  >
                 </span>
               </div>
             </div>
@@ -156,7 +184,7 @@
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { getSupplierDetail } from '@/network/deal'
 
@@ -206,25 +234,22 @@ export default {
   },
   methods: {
     gocontractList(deliveryRecordList) {
-      console.log(deliveryRecordList)
       this.$router.push(`/asidesItem/${deliveryRecordList.id}`)
     },
     blackhome() {
       this.$router.go(-1)
     },
-    newAccount() {
-      console.log('----------------')
-    },
+    newAccount() {},
     async getDistributor() {
       const { data } = await getSupplierDetail(this.getDistributorDate)
-      console.log('getDistributor', data)
+
       this.distributorNew = data.supplierNew
       this.orderList = data.orderList
     },
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #StorageCompany {
   padding-top: 5.428571rem;

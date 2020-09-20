@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{distributorNew.name}}</span>
+        <span>{{ distributorNew.name }}</span>
       </div>
       <div class="right" slot="right" @click="tike">
         <i class="el-icon-circle-check"></i>
@@ -19,19 +19,19 @@
               <ul>
                 <li>
                   <span>总金额</span>
-                  <em>{{distributorNew.orderMoney}}</em>
+                  <em>{{ distributorNew.orderMoney }}</em>
                 </li>
                 <li @click="goShipped">
                   <span>已发货</span>
-                  <em>{{distributorNew.deliveryMoney}}</em>
+                  <em>{{ distributorNew.deliveryMoney }}</em>
                 </li>
                 <li @click="goSettlement">
                   <span>已结算</span>
-                  <em>{{distributorNew.settlementMoney}}</em>
+                  <em>{{ distributorNew.settlementMoney }}</em>
                 </li>
                 <li @click="goInvoice">
                   <span>已开票</span>
-                  <em>{{distributorNew.invoiceMoney}}</em>
+                  <em>{{ distributorNew.invoiceMoney }}</em>
                 </li>
               </ul>
             </el-card>
@@ -51,9 +51,11 @@
                 </div>
                 <div class="topRight layout">
                   <div
-                    v-for="(item1,index1) in item.auditRecord"
+                    v-for="(item1, index1) in item.auditRecord"
                     :key="index1"
-                    :class="item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    :class="
+                      item1.status == 0 ? 'glyphicon pramary' : 'glyphicon info'
+                    "
                   ></div>
                 </div>
               </div>
@@ -64,7 +66,9 @@
                     :text-inside="true"
                     :stroke-width="16"
                     :percentage="item.settlement_progress * 1"
-                    :status="item.settlement_progress * 1 < 100 ? null : 'warning'"
+                    :status="
+                      item.settlement_progress * 1 < 100 ? null : 'warning'
+                    "
                   ></el-progress>
                 </div>
                 <div class="Downitem">
@@ -72,8 +76,10 @@
                     :format="formatTwo"
                     :text-inside="true"
                     :stroke-width="16"
-                    :percentage="item.delivery_schedule  * 1"
-                    :status="item.delivery_schedule * 1 < 100 ? null : 'warning'"
+                    :percentage="item.delivery_schedule * 1"
+                    :status="
+                      item.delivery_schedule * 1 < 100 ? null : 'warning'
+                    "
                   ></el-progress>
                 </div>
                 <div class="Downitem">
@@ -88,14 +94,14 @@
               </div>
               <div class="itemdondon">
                 <div class="tags">
+                  <van-tag plain :type="item.business_status | tagsType">{{
+                    item.business_status | setbusiness_status
+                  }}</van-tag>
                   <van-tag
                     plain
-                    :type="item.business_status | tagsType"
-                  >{{item.business_status | setbusiness_status}}</van-tag>
-                  <van-tag
-                    plain
-                    :type="item.che_status  ? 'success' : 'warning'"
-                  >{{item.che_status ? '整装待发' : '生产中'}}</van-tag>
+                    :type="item.che_status ? 'success' : 'warning'"
+                    >{{ item.che_status ? '整装待发' : '生产中' }}</van-tag
+                  >
                 </div>
                 <div class="topLeft layout">
                   <div class="Amount">
@@ -133,7 +139,7 @@
                 @click="printList(item)"
               />
               <van-button
-                v-if="item.to_examine != undefined  && item.to_examine == 0"
+                v-if="item.to_examine != undefined && item.to_examine == 0"
                 style="height:100%; margin:0 auto;width:2.785714rem;line-height:1.714286rem;"
                 square
                 type="info"
@@ -155,7 +161,7 @@
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { getDistributorDetail } from '@/network/deal'
 
@@ -236,12 +242,10 @@ export default {
     blackhome() {
       this.$router.go(-1)
     },
-    tike() {
-      console.log('------tike------')
-    },
+    tike() {},
     async getDistributor() {
       const { data } = await getDistributorDetail(this.getDistributorDate)
-      console.log('getDistributor', data)
+
       this.distributorNew = data.distributorNew
       this.orderList = data.orderList
     },
@@ -257,7 +261,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #selfConcordat {
   padding-top: 5.428571rem;

@@ -8,12 +8,17 @@
         <van-field v-model="searchData" left-icon="search" />
       </div>
     </navbar>
-    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+    <scroll
+      class="scroll-wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+    >
       <div class="abilitys">
         <span class="titleName">审核</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in ExamineList"
+            v-for="(item, index) in ExamineList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -22,8 +27,10 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path  ?{'color':'black'}:''">{{item.title}}</span>
-            <div class="nums" v-if="item.nums">{{item.nums}}</div>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
+            <div class="nums" v-if="item.nums">{{ item.nums }}</div>
           </div>
         </div>
       </div>
@@ -31,7 +38,7 @@
         <span class="titleName">财务</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in financeThisList"
+            v-for="(item, index) in financeThisList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -40,7 +47,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -48,7 +57,7 @@
         <span class="titleName">订单</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in Tuple5OrderList"
+            v-for="(item, index) in Tuple5OrderList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -57,7 +66,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -65,7 +76,7 @@
         <span class="titleName">执行</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in implementList"
+            v-for="(item, index) in implementList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -74,7 +85,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -82,7 +95,7 @@
         <span class="titleName">采购</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in PurchaseTotalList"
+            v-for="(item, index) in PurchaseTotalList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -91,7 +104,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -99,7 +114,7 @@
         <span class="titleName">生产</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in productionsList"
+            v-for="(item, index) in productionsList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -108,7 +123,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -116,7 +133,7 @@
         <span class="titleName">计件考核</span>
         <div class="abilitys_item">
           <div
-            v-for="(item,index) in PieceworkList"
+            v-for="(item, index) in PieceworkList"
             :key="index"
             @touchstart="touchstart"
             @touchend="touchend(item.path)"
@@ -125,7 +142,9 @@
             <svg class="icon icons" aria-hidden="true">
               <use :xlink:href="item.icon_Url" />
             </svg>
-            <span :style="item.path?{'color':'black'}:''">{{item.title}}</span>
+            <span :style="item.path ? { color: 'black' } : ''">{{
+              item.title
+            }}</span>
           </div>
         </div>
       </div>
@@ -137,7 +156,7 @@
     </van-popup>
   </div>
 </template>
-    
+
 <script>
 import {
   getSettlementRecordList,
@@ -438,7 +457,7 @@ export default {
         _: new Date().getTime(),
       })
       const { paymentO, paymentM } = data
-      console.log(paymentO, paymentM)
+
       this.ExamineList.map((item) => {
         if (item.title == '委外付款') {
           item.nums = paymentO
@@ -459,7 +478,7 @@ export default {
         _: new Date().getTime(),
       })
       const { settlementC, settlementF, settlementO } = data
-      console.log(settlementC, settlementF, settlementO)
+
       this.ExamineList.map((item) => {
         if (item.title == '合同收款') {
           item.nums = settlementC
@@ -473,7 +492,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #homeManu {
   padding-top: 5.428571rem;

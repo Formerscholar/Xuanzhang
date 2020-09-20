@@ -12,7 +12,12 @@
       <el-card class="box-card">
         <div class="img_upload van-cell DeliveryDate">
           <span class="lable">上传图片</span>
-          <img class="img_box" v-if="state.img_URL" :src="state.img_URL" @click="imgClick" />
+          <img
+            class="img_box"
+            v-if="state.img_URL"
+            :src="state.img_URL"
+            @click="imgClick"
+          />
           <div v-else class="img_box" @click="imgClick"></div>
         </div>
         <van-field
@@ -28,15 +33,18 @@
         <div @click="propertiesClick" class="newStyle DeliveryDate van-cell">
           <span class="lable">物料属性</span>
           <span>
-            {{state.value}}
+            {{ state.value }}
             <van-icon name="arrow" />
           </span>
         </div>
 
-        <div @click="MaterialPropertiesClick" class="newStyle DeliveryDate van-cell">
+        <div
+          @click="MaterialPropertiesClick"
+          class="newStyle DeliveryDate van-cell"
+        >
           <span class="lable">物料分类</span>
           <span>
-            {{state.values}}
+            {{ state.values }}
             <van-icon name="arrow" />
           </span>
         </div>
@@ -51,7 +59,7 @@
         <div @click="BasicUnitClick" class="newStyle DeliveryDate van-cell">
           <span class="lable">基本单位</span>
           <span>
-            {{state.valuess}}
+            {{ state.valuess }}
             <van-icon name="arrow" />
           </span>
         </div>
@@ -84,7 +92,7 @@
         <div @click="DeWarehouseClick" class="newStyle DeliveryDate van-cell">
           <span class="lable">默认仓库</span>
           <span>
-            {{state.valuesss}}
+            {{ state.valuesss }}
             <van-icon name="arrow" />
           </span>
         </div>
@@ -96,8 +104,11 @@
           label="库位号"
         />
       </el-card>
-      <div v-for="(item,index) in state.materielField" :key="item.id">
-        <van-field v-model="state.SetMaterialFlags[index]" :label="item.field_name" />
+      <div v-for="(item, index) in state.materielField" :key="item.id">
+        <van-field
+          v-model="state.SetMaterialFlags[index]"
+          :label="item.field_name"
+        />
       </div>
     </scroll>
 
@@ -108,7 +119,11 @@
       </span>
     </myBtns>
 
-    <simple-cropper :initParam="state.uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <simple-cropper
+      :initParam="state.uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    />
     <van-picker
       class="datetime"
       v-if="state.isproperties"
@@ -147,7 +162,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { getAddMateriel, addMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -218,7 +233,7 @@ export default {
     })
 
     onActivated(() => {
-      root.$Jurisdiction('136', root.$store.state.catearr, () => {
+      root.$Jurisdiction('136', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
       })
@@ -276,7 +291,6 @@ export default {
     })
 
     const addMaterielData = computed(() => {
-      console.log(state.SetMaterialFlags)
       let field_data = ''
       state.SetMaterialFlags.map((item) => {
         field_data += ',' + item
@@ -304,13 +318,11 @@ export default {
     function uploadHandle(data) {
       state.img_URL = data.substr(1)
       state.PropsImg = state.img_URL.split(bestURL)[1]
-      console.log(state.img_URL, state.PropsImg)
     }
     function imgClick() {
       cropper.value.upload()
     }
     async function afterRead(file) {
-      console.log(file)
       const { data } = await uploadImg({
         user_image: file.content,
         token: root.$store.state.token,
@@ -336,7 +348,7 @@ export default {
     }
     async function getAddMater() {
       const { data } = await getAddMateriel(getAddMaterielData.value)
-      console.log('getAddMateriel', data)
+
       state.materielField = data.materielField
       state.materielCategory = data.materielCategory
       state.materielUnit = data.materielUnit
@@ -351,9 +363,7 @@ export default {
         state.optionssss.push(item.warehouse_name)
       })
     }
-    function handleChange(val) {
-      console.log(val)
-    }
+    function handleChange(val) {}
     function onClickLeft() {
       root.$router.replace('/materialpage')
     }
@@ -439,7 +449,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #addMaterial {
   padding-top: 5.428571rem;

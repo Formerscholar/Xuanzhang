@@ -20,16 +20,26 @@
             placeholder="点击检索客户名称"
             right-icon="arrow"
           />
-          <van-field v-model="PartyContract" label="对方合同" placeholder="请输入内容" class="newStyle" />
+          <van-field
+            v-model="PartyContract"
+            label="对方合同"
+            placeholder="请输入内容"
+            class="newStyle"
+          />
           <el-row class="DeliveryDate van-cell">
             <span class="lable">签约日期</span>
-            <span class="time" @click="tiemrClick">{{Sign}}</span>
+            <span class="time" @click="tiemrClick">{{ Sign }}</span>
           </el-row>
           <el-row class="DeliveryDate van-cell">
             <span class="lable">承诺交期</span>
-            <span class="time" @click="tiemrClicks">{{committed}}</span>
+            <span class="time" @click="tiemrClicks">{{ committed }}</span>
           </el-row>
-          <van-field v-model="CompanyContact" label="公司联系" placeholder="请输入内容" class="newStyle" />
+          <van-field
+            v-model="CompanyContact"
+            label="公司联系"
+            placeholder="请输入内容"
+            class="newStyle"
+          />
           <van-field
             v-model="CompanyNumber"
             type="digit"
@@ -37,7 +47,12 @@
             placeholder="请输入内容"
             class="newStyle"
           />
-          <van-field v-model="CustomerContact" label="客户联系" placeholder="请输入内容" class="newStyle" />
+          <van-field
+            v-model="CustomerContact"
+            label="客户联系"
+            placeholder="请输入内容"
+            class="newStyle"
+          />
           <van-field
             v-model="CustomerNumber"
             type="digit"
@@ -48,36 +63,50 @@
         </el-card>
 
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+          <el-row
+            class="tanle line"
+            style="border-bottom: .714286rem solid #f2f2f2;"
+          >
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span
-                          class="wrap_right_text"
-                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="wrap_right_text"
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                         <span class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -90,22 +119,47 @@
           </el-row>
         </el-card>
         <el-card class="box-card item1">
-          <van-field v-model="contractAmount" class="newStyle" type="number" label="合同金额" />
-          <van-field v-model="DiscountedAmount" class="newStyle" type="number" label="折后金额" />
-          <van-field v-model="TermsPaymentInput" class="newStyle" type="number" label="付款方式" />
+          <van-field
+            v-model="contractAmount"
+            class="newStyle"
+            type="number"
+            label="合同金额"
+          />
+          <van-field
+            v-model="DiscountedAmount"
+            class="newStyle"
+            type="number"
+            label="折后金额"
+          />
+          <van-field
+            v-model="TermsPaymentInput"
+            class="newStyle"
+            type="number"
+            label="付款方式"
+          />
 
           <el-row
             class="ContractField1 line"
-            v-for="(item,index) in ContractField1Input"
+            v-for="(item, index) in ContractField1Input"
             :key="index"
           >
-            <em>{{item.field_name}}</em>
+            <em>{{ item.field_name }}</em>
             <div>
               <van-field v-model="item.field_content" class="newStyle" />
             </div>
           </el-row>
-          <van-field v-model="TransportationAssume" class="newStyle" type="number" label="运输承担" />
-          <van-field v-model="WarrantyTime" class="newStyle" type="number" label="质保时间" />
+          <van-field
+            v-model="TransportationAssume"
+            class="newStyle"
+            type="number"
+            label="运输承担"
+          />
+          <van-field
+            v-model="WarrantyTime"
+            class="newStyle"
+            type="number"
+            label="质保时间"
+          />
           <van-field
             v-model="OtherInstructions"
             autosize
@@ -122,18 +176,18 @@
             </van-uploader>
           </el-row>
         </el-card>
-        <el-card class="box-card item1" v-if="addressData.name ">
+        <el-card class="box-card item1" v-if="addressData.name">
           <div class="address" @click.stop="addressClick">
             <div class="lefticon">
               <span>收</span>
             </div>
             <div class="cententbox">
               <div class="nametell">
-                <span>{{addressData.name}}</span>
-                <em>{{addressData.tel}}</em>
+                <span>{{ addressData.name }}</span>
+                <em>{{ addressData.tel }}</em>
               </div>
               <div class="NEWSaddress">
-                <span>{{addressData.address}}</span>
+                <span>{{ addressData.address }}</span>
               </div>
             </div>
             <div class="righticon">
@@ -147,7 +201,7 @@
     <myBtns :commitFun="formalClick" :cancelFun="quoteclick">
       <span slot="cancel-btn">报价合同</span>
       <span slot="commit-btn">
-        ￥{{DiscountedAmount}}
+        ￥{{ DiscountedAmount }}
         <span>正式合同</span>
       </span>
     </myBtns>
@@ -174,42 +228,9 @@
       @confirm="confirmss"
       @cancel="cancel"
     />
-    <!-- <van-overlay :show="overlayshow">
-      <div class="overlaywrapper">
-        <div class="overlayblock" id="block">
-          <div class="title">
-            <span></span>
-            <span class="title_text">选择地址</span>
-            <van-icon name="cross" @click.stop="overlayshow = false" />
-          </div>
-          <div
-            class="items"
-            v-for="item in listData"
-            :key="item.id"
-            @click="addressItemClick(item)"
-          >
-            <div class="info">
-              <div class="adderss_top">
-                <span>{{item.consignee_address}}</span>
-              </div>
-              <div class="infos_bto">
-                <span class="name">{{item.consignee}}</span>
-                <span class="phone">{{item.consignee_tel}}</span>
-              </div>
-            </div>
-            <van-icon name="edit" class="edit" @click.stop="editAddress(item.id)" />
-          </div>
-
-          <div class="btn" @click.stop="newAddress">
-            <van-icon name="add-o" class="add" />
-            <span>新增收货地址</span>
-          </div>
-        </div>
-      </div>
-    </van-overlay>-->
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 import { setTimerType } from '@/common/filter'
@@ -410,14 +431,11 @@ export default {
     },
   },
   methods: {
-    editAddress(iid) {
-      console.log(iid, this.contractOrder.distributor_id)
-    },
+    editAddress(iid) {},
     newAddress() {
       this.$router.push(`/addressEdit/${this.contractOrder.distributor_id}`)
     },
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -437,7 +455,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     cancel() {
@@ -483,7 +500,6 @@ export default {
       this.shippingData.push(newArr)
     },
     handchange(value) {
-      console.log('shippingValue', value)
       this.shippingValue = value
     },
     async getMateriel() {
@@ -549,7 +565,6 @@ export default {
       this.imgUrl = data.url
     },
     addressClick() {
-      console.log('跳转合同操作页面')
       this.$router.push(`/addressList/${this.selectedID}`)
       this.$bus.$off('waitNoChange')
       this.$bus.$on(
@@ -574,7 +589,6 @@ export default {
       for (let i = 0; i < this.form.selectedOptions.length; i++) {
         loc += CodeToText[this.form.selectedOptions[i]]
       }
-      console.log(loc)
     },
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-3)
@@ -645,7 +659,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -691,7 +704,7 @@ export default {
     },
     async getContractOrders() {
       const { data } = await getContractOrder(this.getContractOrderData)
-      console.log('getContractOrder', data)
+
       this.contractOrder = { ...data.contractOrder }
       this.CompanyContact = this.contractOrder.self_lxr
       this.CompanyNumber = this.contractOrder.self_lxr_tel
@@ -701,7 +714,7 @@ export default {
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)
-      console.log('getReceivingInformationList', data)
+
       this.listData = data.receivingInformationList
       this.addressData.name = this.listData[0].consignee
       this.addressData.id = this.listData[0].id
@@ -779,7 +792,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -795,9 +807,8 @@ export default {
     },
     async getAddContract() {
       const { data } = await getAddContractOrder(this.getAddContractOrderData)
-      console.log('getAddContractOrder', data)
+
       this.distributors = data.distributors
-      // this.CompanyContact = data.userInfo[0].name
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -808,7 +819,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #createContract {
   .drawer_my {
@@ -1018,26 +1029,7 @@ export default {
           margin-left: 0.357143rem;
         }
       }
-      // .line {
-      //   display: flex;
-      //   justify-content: space-between;
-      //   align-items: center;
-      //   border-bottom: 1px solid #f8f7f5;
-      //   padding: 0.428571rem 1.428571rem;
-      //   em {
-      //     display: block;
-      //     font-size: 1rem;
-      //     color: #585858;
-      //     width: 6.357143rem;
-      //     text-align: left;
-      //   }
-      //   div {
-      //     display: block;
-      //     font-size: 1.142857rem;
-      //     text-align: left;
-      //     flex: 1;
-      //   }
-      // }
+
       .AddProduct {
         display: flex;
         justify-content: center;

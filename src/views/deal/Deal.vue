@@ -1,8 +1,10 @@
 <template>
   <div id="deal">
-    <!-- selection -->
-    <selection v-if="isShow" :selectionList="selectionList" @selectionClick="selectionClick" />
-    <!-- goods -->
+    <selection
+      v-if="isShow"
+      :selectionList="selectionList"
+      @selectionClick="selectionClick"
+    />
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -39,7 +41,7 @@ export default {
     $route(to, from) {
       const fromDepths = from.path
       const toDepths = to.path
-      console.log(toDepths, fromDepths)
+
       if (fromDepths == '/deal' || toDepths == '/deal') {
         this.isRelocation = true
         this.isShow = false
@@ -90,7 +92,6 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
-        console.log('登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
@@ -112,7 +113,7 @@ export default {
     },
     async getleftlist() {
       const { data } = await getleft(this.getleftData)
-      console.log('getleftlist', data)
+
       data.map((item, index) => {
         let obj = {
           id: item.id,

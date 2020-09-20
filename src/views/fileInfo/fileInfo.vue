@@ -25,7 +25,7 @@
           <span>姓名</span>
         </div>
         <div class="itemContent">
-          <span>{{getname}}</span>
+          <span>{{ getname }}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -36,7 +36,7 @@
           <span>性别</span>
         </div>
         <div class="itemContent">
-          <span>{{getSex}}</span>
+          <span>{{ getSex }}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -48,7 +48,7 @@
           <span>部门</span>
         </div>
         <div class="itemContent">
-          <span>{{userInfo.department.name}}</span>
+          <span>{{ userInfo.department.name }}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -59,7 +59,7 @@
           <span>职务</span>
         </div>
         <div class="itemContent">
-          <span>{{userInfo.role.display_name}}</span>
+          <span>{{ userInfo.role.display_name }}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -70,7 +70,7 @@
           <span>登录账号</span>
         </div>
         <div class="itemContent">
-          <span>{{username}}</span>
+          <span>{{ username }}</span>
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
@@ -85,7 +85,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 
@@ -135,13 +135,11 @@ export default {
     passwordInfo(data) {
       this.passwordData = data
     },
-    emailInfo(data) {
-      console.log(data)
-    },
+    emailInfo(data) {},
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #fileInfo {
   padding-top: 5.428571rem;

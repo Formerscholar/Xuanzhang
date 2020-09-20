@@ -120,9 +120,7 @@ export default {
           _: new Date().getTime(),
         }
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
   },
   methods: {
@@ -132,14 +130,14 @@ export default {
     },
     async getechIndex() {
       const { data } = await getUserIndex(this.getUserIndexData)
-      console.log('getUserIndex', data)
+
       let arr = []
       let month = []
       for (let k = 11; k >= 0; k--) {
         arr.push(parseInt(data.OrderStatus.flowingWater[k].sale))
         month.push(data.OrderStatus.flowingWater[k].month.split('月')[0])
       }
-      console.log(arr, month)
+
       this.options.series[0].data = arr
       this.options.xAxis.categories = month
       Highcharts.chart('container', this.options)
@@ -152,7 +150,6 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
-        console.log('home定时登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
@@ -222,7 +219,6 @@ export default {
   },
 }
 </script>
-
 
 <style lang="scss" scoped>
 #home {

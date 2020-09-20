@@ -21,7 +21,13 @@
             v-model="email"
             type="text"
             placeholder="请输入邮地址箱"
-            :rules="[{ required: true,pattern:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, message: '请填写正确邮箱' }]"
+            :rules="[
+              {
+                required: true,
+                pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                message: '请填写正确邮箱',
+              },
+            ]"
           />
         </van-form>
       </div>
@@ -29,7 +35,6 @@
   </div>
 </template>
 
-    
 <script>
 import { editUser } from '@/network/home'
 
@@ -45,7 +50,6 @@ export default {
       this.$router.go(-1)
     },
     async editEmail() {
-      console.log(this.email)
       const { code } = await editUser(this.editUserData)
       if (code == 200) {
         this.$router.go(-1)
@@ -81,7 +85,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 .fileInfoList {
   padding-top: 5.428571rem;

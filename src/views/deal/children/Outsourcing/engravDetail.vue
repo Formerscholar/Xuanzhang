@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{metadata.order_number | setOrderNumber }}</span>
+        <span>{{ metadata.order_number | setOrderNumber }}</span>
       </div>
       <div class="right" slot="right">
         <span></span>
@@ -14,46 +14,50 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="content_wrap">
         <div class="Company">
-          <span>{{metadata.name }}</span>
+          <span>{{ metadata.name }}</span>
           <span>
             <em>￥</em>
-            {{metadata.amount_of_discount }}
+            {{ metadata.amount_of_discount }}
           </span>
         </div>
         <div class="itembox">
-          <span>{{metadata.created_at | setRecordItemCreated}}</span>
-          <span>{{metadata.operator_name |setOperatorName }}</span>
+          <span>{{ metadata.created_at | setRecordItemCreated }}</span>
+          <span>{{ metadata.operator_name | setOperatorName }}</span>
         </div>
       </el-card>
       <el-card class="product_box">
-        <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
+        <div
+          class="wrap_item"
+          v-for="(item, index) in deliverGoodsDetail"
+          :key="index"
+        >
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
               <img
-                v-if="item.img_url && item.img_url != 0 "
+                v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url  | getUrl"
+                :src="item.img_url | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.product_name}}</p>
+                <p>{{ item.product_name }}</p>
                 <div>
                   <span>￥</span>
-                  <span class="funds">{{item.total_price}}</span>
+                  <span class="funds">{{ item.total_price }}</span>
                 </div>
               </div>
-              <p class="model">{{item.product_model}}</p>
+              <p class="model">{{ item.product_model }}</p>
               <div class="wrap_right">
                 <span v-if="item.weight || item.process_cost">
-                  ({{item.unit_price}}
-                  <span v-if="item.weight">×{{item.weight}}</span>
-                  <span v-if="item.process_cost">+{{item.process_cost}}</span>
+                  ({{ item.unit_price }}
+                  <span v-if="item.weight">×{{ item.weight }}</span>
+                  <span v-if="item.process_cost">+{{ item.process_cost }}</span>
                   )
                 </span>
-                <span v-else>{{item.unit_price}}</span>
-                ×{{item.number}}
+                <span v-else>{{ item.unit_price }}</span>
+                ×{{ item.number }}
               </div>
             </div>
           </div>
@@ -66,7 +70,12 @@
       <div class="printShip" @click="printShip">打印</div>
       <div class="editShips" @click="editShip">编辑</div>
       <div class="editShip" @click="editShip"></div>
-      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+      <img
+        class="Print"
+        src="@/assets/image/Print.png"
+        alt="Print"
+        @click="printShip"
+      />
     </div>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
@@ -75,7 +84,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 import { getOutsourcingDetail, delOutsourcingOrder } from '@/network/deal'
@@ -153,7 +162,7 @@ export default {
       const { code, data, msg } = await getOutsourcingDetail(
         this.getOutsourcingDetailData
       )
-      console.log('getOutsourcingDetail', data)
+
       if (code == 200) {
         this.metadata = data.outsourcing
         this.deliverGoodsDetail = data.outsourcingDetail
@@ -208,7 +217,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #engravDetail {
   padding-top: 5.428571rem;

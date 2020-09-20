@@ -19,43 +19,52 @@
       @pullingUp="loadMore"
     >
       <div class="context">
-        <van-swipe-cell v-for="item in state.userValuationWagesList" :key="item.id">
-          <div :class="item.status == 1? 'item_warp' :'item_warp warp_color'">
+        <van-swipe-cell
+          v-for="item in state.userValuationWagesList"
+          :key="item.id"
+        >
+          <div :class="item.status == 1 ? 'item_warp' : 'item_warp warp_color'">
             <div class="items">
               <span>员工</span>
-              <em>{{item.user_name}}</em>
+              <em>{{ item.user_name }}</em>
             </div>
             <div class="items">
               <span>计件物料</span>
-              <em>{{item.materiel_name}}</em>
+              <em>{{ item.materiel_name }}</em>
             </div>
             <div class="items">
               <span>工资</span>
-              <em>{{item.money}}</em>
+              <em>{{ item.money }}</em>
             </div>
             <div class="items">
               <span>日期</span>
-              <em>{{item.apply_time}}</em>
+              <em>{{ item.apply_time }}</em>
             </div>
             <div class="items">
               <span>操作人</span>
-              <em>{{item.operator_name}}</em>
+              <em>{{ item.operator_name }}</em>
             </div>
             <div class="items">
               <span>备注</span>
-              <em>{{item.remark}}</em>
+              <em>{{ item.remark }}</em>
             </div>
           </div>
           <template #right>
-            <van-button style="height:100%;" square type="danger" text="编辑" />
+            <van-button
+              style="height:100%;"
+              square
+              type="danger"
+              text="编辑"
+              v-if="state.isdanger"
+            />
           </template>
         </van-swipe-cell>
       </div>
     </scroll>
-    <i class="el-icon-plus" @click="addClick"></i>
+    <i class="el-icon-plus" @click="addClick" v-if="state.isaddClick"></i>
   </div>
 </template>
-    
+
 <script>
 import { reactive, computed, onActivated } from '@vue/composition-api'
 import { getSimplePieceWorkWagesList } from '@/network/home'
@@ -64,11 +73,19 @@ export default {
     const state = reactive({
       userValuationWagesList: [],
       allpage: 1,
+      isaddClick: true,
+      isdanger: true,
     })
     onActivated(() => {
-      root.$Jurisdiction('168', root.$store.state.catearr, () => {
+      root.$Jurisdiction('168', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
+      })
+      root.$Jurisdiction('320', localStorage.getItem('oparr'), () => {
+        state.isaddClick = false
+      })
+      root.$Jurisdiction('322', localStorage.getItem('oparr'), () => {
+        state.isdanger = false
       })
     })
     function onClickLeft() {
@@ -88,13 +105,12 @@ export default {
 
     async function getUserValuaList() {
       const { data } = await getSimplePieceWorkWagesList(getUserValuaData.value)
-      console.log('getSimplePieceWorkWagesList', data)
+
       const { simplePieceWorkWages } = data
       state.userValuationWagesList = [
         ...state.userValuationWagesList,
         ...simplePieceWorkWages,
       ]
-      console.log(state.userValuationWagesList)
     }
 
     function clickScroll() {
@@ -121,7 +137,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #PieceworkList {
   padding-top: 5.428571rem;

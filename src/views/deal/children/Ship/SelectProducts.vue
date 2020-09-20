@@ -17,11 +17,11 @@
         <div class="product_box">
           <div class="right_box">
             <div class="right_name" @click.stop="focusClick">
-              <span v-if="state">{{state}}</span>
+              <span v-if="state">{{ state }}</span>
               <span v-else class="pltext">请选择产品名称</span>
             </div>
             <div class="right_model" v-if="isfouck" @click.stop="focusClick">
-              <span v-if="Products">{{Products}}</span>
+              <span v-if="Products">{{ Products }}</span>
               <span v-else class="pltext">请选择产品型号</span>
             </div>
             <van-field
@@ -33,11 +33,15 @@
             />
           </div>
           <div class="left_img" @click="imgClick">
-            <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
             <img
-              v-else-if="img_url_lin && img_url_lin != 0 "
+              v-if="img_URL && img_URL != 0"
+              :src="img_URL | getUrl"
+              alt="logo"
+            />
+            <img
+              v-else-if="img_url_lin && img_url_lin != 0"
               class="img"
-              :src="img_url_lin  | getUrl"
+              :src="img_url_lin | getUrl"
             />
             <img src="@/assets/image/Default.png" v-else />
           </div>
@@ -73,8 +77,8 @@
           @input="SubtotalFocus"
         />
         <van-field
-          v-for="(item,index) in isFlowingShow"
-          v-model="FlowingProducts[index+1]"
+          v-for="(item, index) in isFlowingShow"
+          v-model="FlowingProducts[index + 1]"
           :key="item.id"
           :data-id="item.id"
           class="newStyle"
@@ -91,7 +95,9 @@
 
         <el-row class="DeliveryDate van-cell">
           <span class="lable">小计</span>
-          <span class="time" style="color:#ea6e33;">￥{{ProductSubtotal}}</span>
+          <span class="time" style="color:#ea6e33;"
+            >￥{{ ProductSubtotal }}</span
+          >
         </el-row>
 
         <van-field
@@ -108,15 +114,19 @@
     <myBtns :commitFun="commite" :cancelFun="blacknext">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        ￥{{ProductSubtotal}}
+        ￥{{ ProductSubtotal }}
         <span>提交订单</span>
       </span>
     </myBtns>
 
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <simple-cropper
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    />
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 import { getMaterielList } from '@/network/deal'
@@ -170,7 +180,6 @@ export default {
   },
   methods: {
     stepperChange(value) {
-      console.log(value)
       this.ProductSubtotal = TotalPriceCalc(
         this.productPrice,
         this.productWeight,
@@ -193,7 +202,6 @@ export default {
       for (const key in this.listItem) {
         this.listItems.push(this.listItem[key])
       }
-      console.log(this.listItems)
     },
     imgClick() {
       this.$refs['cropper'].upload()
@@ -201,7 +209,6 @@ export default {
     uploadHandle(data) {
       this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
-      console.log(this.img_URL, this.PropsImg)
     },
     commite() {
       let selectData = {
@@ -246,7 +253,6 @@ export default {
       })
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
           this.state = item
@@ -266,7 +272,6 @@ export default {
           for (const key in this.listItem) {
             this.listItems.push(this.listItem[key])
           }
-          console.log(this.listItems)
         }
       })
     },
@@ -295,7 +300,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #SelectProducts {
   padding-top: 5.428571rem;

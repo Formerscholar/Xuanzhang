@@ -21,10 +21,18 @@
       <mytaskItem :doQuantity="doQuantity" />
 
       <tobalance
-        :balance="balance.indexOf('-') == -1? fmoney(balance): '-' + fmoney(balance.substr(1))"
+        :balance="
+          balance.indexOf('-') == -1
+            ? fmoney(balance)
+            : '-' + fmoney(balance.substr(1))
+        "
       />
       <Pendbalance
-        :Pendbalance=" Pendbalance.indexOf('-') == -1? fmoney(Pendbalance): '-' + fmoney(Pendbalance.substr(1))"
+        :Pendbalance="
+          Pendbalance.indexOf('-') == -1
+            ? fmoney(Pendbalance)
+            : '-' + fmoney(Pendbalance.substr(1))
+        "
       />
 
       <Runrecord />
@@ -172,7 +180,6 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
-        console.log('登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
@@ -209,7 +216,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 #Profile {
   padding-top: 5.428571rem;
   .scroll_wrapper {

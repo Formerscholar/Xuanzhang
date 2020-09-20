@@ -20,7 +20,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
@@ -33,7 +33,6 @@ export default {
   },
   created() {
     this.type = this.$route.params.type
-    console.log(this.type)
   },
   destroyed() {},
   methods: {
@@ -53,7 +52,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #selectTime {
   padding-top: 5.428571rem;

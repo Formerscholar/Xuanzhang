@@ -21,11 +21,7 @@
 export default {
   name: 'reminder',
   methods: {},
-  // created() {
-  //   this.$bus.$on('Assembly', data => {
-  //     console.log(data)
-  //   })
-  // }
+  
 }
 </script>
     

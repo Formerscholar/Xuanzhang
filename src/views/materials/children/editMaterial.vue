@@ -16,26 +16,26 @@
           <div class="left_box">
             <span>
               库存:
-              <em>{{stock}}</em> 件
+              <em>{{ stock }}</em> 件
             </span>
           </div>
           <div class="right_box">
-            <div class="codings">编码:{{MaterialCode}}</div>
+            <div class="codings">编码:{{ MaterialCode }}</div>
             <div class="reload-inventorys">
               <span>库存不足</span>
             </div>
           </div>
         </div>
         <div class="names_box">
-          <div class="name_box">{{MaterialName}}</div>
-          <div class="model_box">{{specification}}</div>
+          <div class="name_box">{{ MaterialName }}</div>
+          <div class="model_box">{{ specification }}</div>
         </div>
       </div>
       <div class="listItems">
         <div class="morebox" @click="valueClick">
           <span class="name">物料属性</span>
           <div class="contents">
-            <span>{{value}}</span>
+            <span>{{ value }}</span>
             <van-icon name="arrow" />
           </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="morebox" @click="valuesClick">
           <span class="name">物料分类</span>
           <div class="contents">
-            <span>{{values}}</span>
+            <span>{{ values }}</span>
             <van-icon name="arrow" />
           </div>
         </div>
@@ -51,27 +51,26 @@
         <div class="morebox" @click="valuessClick">
           <span class="name">基本单位</span>
           <div class="contents">
-            <span>{{valuess}}</span>
+            <span>{{ valuess }}</span>
             <van-icon name="arrow" />
           </div>
         </div>
         <div class="morebox" @click="valuesssClick">
           <span class="name">默认仓库</span>
           <div class="contents">
-            <span>{{valuesss}}</span>
+            <span>{{ valuesss }}</span>
             <van-icon name="arrow" />
           </div>
         </div>
 
-        <van-field class="newStyle" v-model="LocationNum" placeholder="请输入库位号" label="库位编号" />
+        <van-field
+          class="newStyle"
+          v-model="LocationNum"
+          placeholder="请输入库位号"
+          label="库位编号"
+        />
 
         <div v-for="item in materielExtra" :key="item.id">
-          <!-- <Lists
-            :name="item.field_name"
-            route="WLNumber"
-            :data="item.field_content"
-            @listhandleClick="listhandleClick"
-          />-->
           <van-field
             class="newStyle"
             v-model="item.field_content"
@@ -128,7 +127,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { editMateriel, getEditMateriel, uploadImg } from '@/network/materials'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -205,7 +204,6 @@ export default {
   },
   computed: {
     addMaterielData() {
-      console.log(this.materielExtra)
       let field_data = ''
       if (this.materielExtra.length) {
         this.materielExtra.map((item) => {
@@ -252,7 +250,7 @@ export default {
     valueConfirm(value, index) {
       this.value = value
       this.attribute = index ? 'spare_parts' : 'product'
-      console.log(value, index, this.attribute)
+
       this.valuepicker = false
     },
     valuesClick() {
@@ -265,7 +263,7 @@ export default {
           this.category_id = item.id
         }
       })
-      console.log(value, index, this.category_id)
+
       this.valuespicker = false
     },
     valuessClick() {
@@ -278,7 +276,7 @@ export default {
           this.unit_id = item.id
         }
       })
-      console.log(value, index, this.unit_id)
+
       this.valuesspicker = false
     },
     valuesssClick() {
@@ -291,7 +289,7 @@ export default {
           this.warehouse_id = item.id
         }
       })
-      console.log(value, index, this.warehouse_id)
+
       this.valuessspicker = false
     },
     submitClick() {
@@ -309,7 +307,6 @@ export default {
         })
     },
     listhandleClick(data) {
-      console.log('跳转数据处理页面 $bus返回处理后数据', data.route)
       this.$router.push({
         path: '/' + data.route,
         query: {
@@ -321,12 +318,10 @@ export default {
       })
       this.$bus.$off('listbusData')
       this.$bus.$on('listbusData', (item) => {
-        console.log('$bus.$on(listbusData,')
         if (!this.isWrite) {
           this.isWrite = item.state
-          console.log(this.isWrite)
         }
-        console.log(item)
+
         if (item.route == 'Mproperties') {
           this.value = item.data
           this.attribute = item.value
@@ -366,7 +361,7 @@ export default {
     async uploadHandle(data) {
       this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
-      console.log(this.img_URL, this.PropsImg)
+
       const { code, msg } = await editMateriel(this.addMaterielData)
       if (code == 200) {
         this.$message({
@@ -386,13 +381,10 @@ export default {
       this.$refs.croppers.upload()
     },
     async afterReads(file) {
-      console.log(file)
       const { data } = await uploadImg({
         user_image: file.content,
         token: this.$store.state.token,
       })
-      // this.PropsImg = data.url.split(bestURL)[1]
-      // console.log(this.PropsImg)
     },
     async afterReadsss(file) {
       const { data } = await uploadImg({
@@ -408,18 +400,10 @@ export default {
       })
       this.Propsdesign = data.url.split(bestURL)[1]
     },
-    // async afterRead(file) {
-    //   console.log(file)
-    //   const { data } = await uploadImg({
-    //     user_image: file.content,
-    //     token: this.$store.state.token
-    //   })
-    //   this.PropsImg = data.url.split(bestURL)[1]
-    //   console.log(this.PropsImg)
-    // },
+
     async getEditMater() {
       const { data } = await getEditMateriel(this.getEditMaterData)
-      console.log('getEditMateriel', data)
+
       this.materielExtra = data.materielExtra
       this.materielField = data.materielField
       this.itemData = { ...data.materiel[0] }
@@ -462,7 +446,6 @@ export default {
         })
         this.LocationNum = item.warehouse_position
         if (item.img_url) {
-          // this.fileList.push({ url: bestURL + item.img_url })
           this.img_URL = bestURL + item.img_url
           this.PropsImg = item.img_url
         }
@@ -484,7 +467,6 @@ export default {
       this.warehouse_id = value
     },
     async onsubmit() {
-      console.log(this.addMaterielData)
       const { code, msg } = await editMateriel(this.addMaterielData)
       if (code == 200) {
         this.$message({
@@ -501,9 +483,7 @@ export default {
         })
       }
     },
-    handleChange(val) {
-      console.log(val)
-    },
+    handleChange(val) {},
     clearData() {
       this.itemData = {}
       this.fileLists = []
@@ -554,7 +534,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #addMaterial {
   .p_root_box {

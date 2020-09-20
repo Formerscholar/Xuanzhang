@@ -28,7 +28,10 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <el-table :data="tableData" style="width: 100%; font-size: .714286rem;">
+            <el-table
+              :data="tableData"
+              style="width: 100%; font-size: .714286rem;"
+            >
               <el-table-column prop="goods" label="品名"></el-table-column>
               <el-table-column prop="model" label="型号"></el-table-column>
               <el-table-column prop="nums" label="数量"></el-table-column>
@@ -60,21 +63,34 @@
           </el-row>
           <van-field v-model="Products" label="规格" />
           <van-field
-            v-model="FlowingProducts[index+1]"
-            v-for="(item,index) in isFlowingShow"
+            v-model="FlowingProducts[index + 1]"
+            v-for="(item, index) in isFlowingShow"
             :key="index"
-            :data-id="index+1"
+            :data-id="index + 1"
             label="字段"
           />
           <van-field v-model="productPrice" type="number" label="价格" />
-          <van-field v-model="productWeight" v-if="isWeightShow" type="number" label="变量" />
+          <van-field
+            v-model="productWeight"
+            v-if="isWeightShow"
+            type="number"
+            label="变量"
+          />
           <van-field v-model="quantity" type="number" label="数量" />
           <van-field v-model="LocationSubtotal" type="number" label="库位号" />
           <van-field v-model="ProductSubtotal" type="number" label="编码" />
           <van-field v-model="ProductNotes" label="备注" />
           <div class="btns">
-            <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-            <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
+            <van-button
+              @click="cancelClick"
+              color="linear-gradient(to right, #ccc, #666)"
+              >取消</van-button
+            >
+            <van-button
+              @click="AddClick"
+              color="linear-gradient(to right, #4bb0ff, #6149f6)"
+              >添加</van-button
+            >
           </div>
         </el-card>
 
@@ -85,7 +101,7 @@
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -224,7 +240,7 @@ export default {
   methods: {
     async getEditWarehouse() {
       const { data } = await getEditWarehouseEnter(this.getEditWarehousData)
-      console.log('getEditWarehouseEnter', data)
+
       this.state = data.warehouseAccess.name
       this.DeliveryNotes = data.warehouseAccess.remark
       this.supplier_id = data.warehouseAccess.supplier_id
@@ -266,7 +282,7 @@ export default {
     },
     async getAddDeliverGood() {
       const { data } = await getAddWarehouseEnter(this.getAddDeliverData)
-      console.log('getAddWarehouseEnter', data)
+
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
@@ -320,7 +336,6 @@ export default {
     },
     handleSelect(value) {
       this.shippingValue = value.address
-      console.log(this.shippingValue)
 
       this.materiel.map((item, index) => {
         if (item.id == this.shippingValue) {
@@ -333,7 +348,6 @@ export default {
     },
     handchange(value) {
       this.shippingValue = value
-      console.log(this.shippingValue)
     },
     addNewProduct() {
       this.isShowed = true
@@ -351,7 +365,6 @@ export default {
     },
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
-      console.log(data)
 
       if (data.isExistence == 0) {
         Dialog.confirm({
@@ -400,7 +413,7 @@ export default {
     },
     async SubmitNow() {
       const res = await editWarehouseOut(this.addAutonomousData)
-      console.log('editWarehouseOut', res)
+
       if (res.code == 200) {
         this.blacknext()
       }
@@ -408,7 +421,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Ship {
   padding-top: 5.428571rem;

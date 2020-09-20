@@ -15,17 +15,22 @@
           <img src="@/assets/image/dpng.png" v-else alt="logo" />
           <div class="info">
             <div class="name">
-              <div>{{state.titleName.name}}</div>
-              <div class="span">{{state.titleName.roleName}}</div>
-              <div class="phone">{{state.titleName.phone}}</div>
+              <div>{{ state.titleName.name }}</div>
+              <div class="span">{{ state.titleName.roleName }}</div>
+              <div class="phone">{{ state.titleName.phone }}</div>
             </div>
-            <div class="companys">{{state.titleName.compserName}}</div>
+            <div class="companys">{{ state.titleName.compserName }}</div>
           </div>
         </div>
       </div>
     </div>
     <el-tabs v-model="state.activeName">
-      <el-tab-pane label="我的报销" v-if="state.isreimbursementListss" class="itembox" name="third">
+      <el-tab-pane
+        label="我的报销"
+        v-if="state.isreimbursementListss"
+        class="itembox"
+        name="third"
+      >
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -34,33 +39,44 @@
           @pullingUp="loadMore"
         >
           <div class="body_box">
-            <van-swipe-cell v-for="item in state.reimbursementListss" :key="item.id">
+            <van-swipe-cell
+              v-for="item in state.reimbursementListss"
+              :key="item.id"
+            >
               <div class="cardmoney" @click="reimburClicks(item.id)">
                 <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                        <em style="margin-left: .714286rem;">{{
+                          item.operator_name
+                        }}</em>
                       </span>
                       <div class="examines">
                         <div
                           v-for="items in item.auditRecord"
                           :key="items.user_id"
-                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                          :class="
+                            items.status == 0
+                              ? 'examines-bg examines-bg-pramiry'
+                              : 'examines-bg examines-bg-info'
+                          "
                         ></div>
                       </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
-                        <span>{{item.created_at | setTimerType}}</span>
+                        <span>{{ item.created_at | setTimerType }}</span>
                         <i class="el-icon-arrow-right"></i>
                       </div>
                     </div>
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;"
+                        >【{{ item.category_name }}】</span
+                      >
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -68,12 +84,12 @@
                   </el-row>
                   <el-row class="item2">
                     <div class="leftbox">
-                      <span>{{item.reason}}</span>
+                      <span>{{ item.reason }}</span>
                     </div>
                     <div class="rightbox">
                       <span>
                         ￥
-                        <em>{{item.money}}</em>
+                        <em>{{ item.money }}</em>
                       </span>
                     </div>
                   </el-row>
@@ -81,7 +97,12 @@
               </div>
 
               <template #right>
-                <van-button square type="primary" @click="printH5(item.id)" text="打印" />
+                <van-button
+                  square
+                  type="primary"
+                  @click="printH5(item.id)"
+                  text="打印"
+                />
               </template>
             </van-swipe-cell>
 
@@ -91,7 +112,12 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="我的待审" v-if="state.isauditRecordLists" class="itembox" name="three">
+      <el-tab-pane
+        label="我的待审"
+        v-if="state.isauditRecordLists"
+        class="itembox"
+        name="three"
+      >
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -100,33 +126,44 @@
           @pullingUp="loadMores"
         >
           <div class="body_box">
-            <van-swipe-cell v-for="item in state.auditRecordLists" :key="item.id">
+            <van-swipe-cell
+              v-for="item in state.auditRecordLists"
+              :key="item.id"
+            >
               <div class="cardmoney" @click="reimburClicks(item.id)">
                 <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                        <em style="margin-left: .714286rem;">{{
+                          item.operator_name
+                        }}</em>
                       </span>
                       <div class="examines">
                         <div
                           v-for="items in item.auditRecord"
                           :key="items.user_id"
-                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                          :class="
+                            items.status == 0
+                              ? 'examines-bg examines-bg-pramiry'
+                              : 'examines-bg examines-bg-info'
+                          "
                         ></div>
                       </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
-                        <span>{{item.created_at | setTimerType}}</span>
+                        <span>{{ item.created_at | setTimerType }}</span>
                         <i class="el-icon-arrow-right"></i>
                       </div>
                     </div>
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;"
+                        >【{{ item.category_name }}】</span
+                      >
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -134,12 +171,12 @@
                   </el-row>
                   <el-row class="item2">
                     <div class="leftbox">
-                      <span>{{item.reason}}</span>
+                      <span>{{ item.reason }}</span>
                     </div>
                     <div class="rightbox">
                       <span>
                         ￥
-                        <em>{{item.money}}</em>
+                        <em>{{ item.money }}</em>
                       </span>
                     </div>
                   </el-row>
@@ -163,7 +200,12 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="全部待审" v-if="state.isreimbursementLists" class="itembox" name="second">
+      <el-tab-pane
+        label="全部待审"
+        v-if="state.isreimbursementLists"
+        class="itembox"
+        name="second"
+      >
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -172,33 +214,47 @@
           @pullingUp="loadMoress"
         >
           <div class="body_box">
-            <van-swipe-cell v-for="item in state.reimbursementLists" :key="item.id">
-              <div class="cardmoney" @click="JudgmentReview(item.to_examine,item.id)">
+            <van-swipe-cell
+              v-for="item in state.reimbursementLists"
+              :key="item.id"
+            >
+              <div
+                class="cardmoney"
+                @click="JudgmentReview(item.to_examine, item.id)"
+              >
                 <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                        <em style="margin-left: .714286rem;">{{
+                          item.operator_name
+                        }}</em>
                       </span>
                       <div class="examines">
                         <div
                           v-for="items in item.auditRecord"
                           :key="items.user_id"
-                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                          :class="
+                            items.status == 0
+                              ? 'examines-bg examines-bg-pramiry'
+                              : 'examines-bg examines-bg-info'
+                          "
                         ></div>
                       </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
-                        <span>{{item.created_at | setTimerType}}</span>
+                        <span>{{ item.created_at | setTimerType }}</span>
                         <i class="el-icon-arrow-right"></i>
                       </div>
                     </div>
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;"
+                        >【{{ item.category_name }}】</span
+                      >
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -206,12 +262,12 @@
                   </el-row>
                   <el-row class="item2">
                     <div class="leftbox">
-                      <span>{{item.reason}}</span>
+                      <span>{{ item.reason }}</span>
                     </div>
                     <div class="rightbox">
                       <span>
                         ￥
-                        <em>{{item.money}}</em>
+                        <em>{{ item.money }}</em>
                       </span>
                     </div>
                   </el-row>
@@ -226,7 +282,13 @@
                   @click="cancel_enabled(item.id)"
                   text="取消审核"
                 />
-                <van-button v-else square type="primary" @click="audit_enabled(item.id)" text="审核" />
+                <van-button
+                  v-else
+                  square
+                  type="primary"
+                  @click="audit_enabled(item.id)"
+                  text="审核"
+                />
               </template>
             </van-swipe-cell>
 
@@ -236,7 +298,12 @@
           </div>
         </scroll>
       </el-tab-pane>
-      <el-tab-pane label="全部通过" v-if="state.isreimbursementList" class="itembox" name="first">
+      <el-tab-pane
+        label="全部通过"
+        v-if="state.isreimbursementList"
+        class="itembox"
+        name="first"
+      >
         <scroll
           class="scroll-wrapper"
           :probeType="3"
@@ -245,33 +312,44 @@
           @pullingUp="loadMoresss"
         >
           <div class="body_box">
-            <van-swipe-cell v-for="(item,index) in state.reimbursementList" :key="index">
+            <van-swipe-cell
+              v-for="(item, index) in state.reimbursementList"
+              :key="index"
+            >
               <div class="cardmoney" @click="reimburClicks(item.id)">
                 <div class="box-card">
                   <el-row class="item1" style="margin-bottom: .357143rem;">
                     <div class="leftbox">
                       <span>
                         <i class="el-icon-s-custom" style="color:#6898ef"></i>
-                        <em style="margin-left: .714286rem;">{{item.operator_name}}</em>
+                        <em style="margin-left: .714286rem;">{{
+                          item.operator_name
+                        }}</em>
                       </span>
                       <div class="examines">
                         <div
                           v-for="items in item.auditRecord"
                           :key="items.user_id"
-                          :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                          :class="
+                            items.status == 0
+                              ? 'examines-bg examines-bg-pramiry'
+                              : 'examines-bg examines-bg-info'
+                          "
                         ></div>
                       </div>
                     </div>
                     <div class="rightbox">
                       <div class="timer">
-                        <span>{{item.created_at | setTimerType}}</span>
+                        <span>{{ item.created_at | setTimerType }}</span>
                         <i class="el-icon-arrow-right"></i>
                       </div>
                     </div>
                   </el-row>
                   <el-row class="item1">
                     <div class="leftbox">
-                      <span style="margin-left: -5px;">【{{item.category_name}}】</span>
+                      <span style="margin-left: -5px;"
+                        >【{{ item.category_name }}】</span
+                      >
                     </div>
                     <div class="rightbox">
                       <div class="timer"></div>
@@ -279,19 +357,24 @@
                   </el-row>
                   <el-row class="item2">
                     <div class="leftbox">
-                      <span>{{item.reason}}</span>
+                      <span>{{ item.reason }}</span>
                     </div>
                     <div class="rightbox">
                       <span>
                         ￥
-                        <em>{{item.money}}</em>
+                        <em>{{ item.money }}</em>
                       </span>
                     </div>
                   </el-row>
                 </div>
               </div>
               <template #right>
-                <van-button square type="primary" @click="cancel_enabled(item.id)" text="取消审核" />
+                <van-button
+                  square
+                  type="primary"
+                  @click="cancel_enabled(item.id)"
+                  text="取消审核"
+                />
               </template>
             </van-swipe-cell>
 
@@ -310,7 +393,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import {
   getReimbursementList,
@@ -352,29 +435,29 @@ export default {
     })
 
     onActivated(() => {
-      root.$Jurisdiction('38', root.$store.state.catearr, () => {
+      root.$Jurisdiction('38', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
       })
-      root.$Jurisdiction('131', root.$store.state.catearr, () => {
+      root.$Jurisdiction('131', localStorage.getItem('catearr'), () => {
         state.isreimbursementLists = false
       })
-      root.$Jurisdiction('133', root.$store.state.catearr, () => {
+      root.$Jurisdiction('133', localStorage.getItem('catearr'), () => {
         state.isreimbursementList = false
       })
-      root.$Jurisdiction('159', root.$store.state.catearr, () => {
+      root.$Jurisdiction('159', localStorage.getItem('catearr'), () => {
         state.isreimbursementListss = false
       })
-      root.$Jurisdiction('160', root.$store.state.catearr, () => {
+      root.$Jurisdiction('160', localStorage.getItem('catearr'), () => {
         state.isauditRecordLists = false
       })
-      root.$Jurisdiction('52', root.$store.state.oparr, () => {
+      root.$Jurisdiction('52', localStorage.getItem('oparr'), () => {
         state.isnewAccount = false
       })
-      root.$Jurisdiction('55', root.$store.state.oparr, () => {
+      root.$Jurisdiction('55', localStorage.getItem('oparr'), () => {
         state.iSaudit_enabled = false
       })
-      root.$Jurisdiction('59', root.$store.state.oparr, () => {
+      root.$Jurisdiction('59', localStorage.getItem('oparr'), () => {
         state.isreimburClicks = false
       })
     })
@@ -429,7 +512,7 @@ export default {
       const { data } = await getMyToExamineReimbursementList(
         getMyToExamineReimbursementListData.value
       )
-      console.log('getMyToExamineReimbursementList', data)
+
       state.auditRecordLists = [
         ...state.auditRecordLists,
         ...data.auditRecordLists,
@@ -439,19 +522,17 @@ export default {
       const { data } = await getUserReimbursementList(
         getUserReimbursementListData.value
       )
-      console.log('getUserReimbursementList', data)
+
       state.reimbursementListss = [
         ...state.reimbursementListss,
         ...data.reimbursementList,
       ]
     }
     function printH5(iid) {
-      console.log('print', iid)
       state.textContent = `http://219.83.161.11:8030/view/html/accountment/reimbursementPrint.php?id=${iid}`
       state.isShow = true
     }
     async function audit_enabled(id) {
-      console.log('审核', id)
       const { code, msg } = await toExamineReimbursement({
         id: [id],
         token: root.$store.state.token,
@@ -485,7 +566,7 @@ export default {
       const { data } = await getReimbursementList(
         getReimbursementListsState.value
       )
-      console.log('reimbursementList', data)
+
       state.img_url = data.userInfo[0]?.img_url.substr(1)
       state.StateList = data.is_verified
       state.reimbursementList = [
@@ -503,14 +584,13 @@ export default {
       const { data } = await getReimbursementList(
         getReimbursementListsStates.value
       )
-      console.log('reimbursementList', data)
+
       state.reimbursementLists = [
         ...state.reimbursementLists,
         ...data.reimbursementList,
       ]
     }
     function reimburClick(id) {
-      console.log('-----ReimburDetails--------')
       root.$router.push(`/reimburDetails/${id}`)
     }
     function reimburClicks(id) {
@@ -529,7 +609,7 @@ export default {
       const { code, msg } = await cancelToExamineReimbursement(
         cancelToExamineReimbursementData.value
       )
-      console.log('cancelToExamineReimbursement', code, msg)
+
       if (code == 200) {
         root.$message({
           showClose: true,
@@ -548,7 +628,6 @@ export default {
     }
 
     function JudgmentReview(to_examine, iid) {
-      console.log(to_examine, iid)
       if (to_examine) {
         reimburClicks(iid)
       } else {
@@ -624,7 +703,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Reimbursement {
   padding-top: 5.428571rem;
@@ -739,7 +818,6 @@ export default {
           .ltext {
             width: 19.285714rem;
             background-color: #fff;
-            // line-height: 3.142857rem;
             height: 3.142857rem;
             border-radius: 5px;
             display: flex;

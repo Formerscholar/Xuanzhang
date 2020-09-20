@@ -1,12 +1,15 @@
 <template>
   <div id="manboard">
     <navbar class="Controlled_root">
-      <i class="el-icon-arrow-left text-primary" slot="left" @click="callBack"></i>
+      <i
+        class="el-icon-arrow-left text-primary"
+        slot="left"
+        @click="callBack"
+      ></i>
       <div class="title text-black" slot="center">
         <span>账户</span>
       </div>
     </navbar>
-    <!-- <van-search v-model="searchValue" /> -->
     <el-autocomplete
       class="search"
       v-model="searchValue"
@@ -33,28 +36,38 @@
           </template>
           <div class="bg"></div>
 
-          <van-swipe-cell v-for="(item,index) in userLists" :key="index">
+          <van-swipe-cell v-for="(item, index) in userLists" :key="index">
             <div class="box-card">
               <img
                 v-if="item.img_url"
                 class="img"
-                :src=" item.img_url.substr(0,1) == '#' ?  item.img_url.substr(1) : item.img_url"
+                :src="
+                  item.img_url.substr(0, 1) == '#'
+                    ? item.img_url.substr(1)
+                    : item.img_url
+                "
                 alt="logo"
               />
 
               <div v-else class="imgs"></div>
               <div class="text">
                 <div class="title">
-                  <div class="title_left">{{item.name}}</div>
+                  <div class="title_left">{{ item.name }}</div>
                   <div
                     v-if="isBalance"
                     class="title_right"
-                    :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                  >￥{{item.balance.indexOf('-') == -1? fmoney(item.balance): '-' + fmoney(item.balance.substr(1))}}</div>
+                    :style="{ color: item.balance > 0 ? '#a8a8a8' : '#ff7675' }"
+                  >
+                    ￥{{
+                      item.balance.indexOf('-') == -1
+                        ? fmoney(item.balance)
+                        : '-' + fmoney(item.balance.substr(1))
+                    }}
+                  </div>
                 </div>
                 <div class="body">
-                  <div class="body_phone">{{item.username}}</div>
-                  <div class="body_tip">{{item.display_name}}</div>
+                  <div class="body_phone">{{ item.username }}</div>
+                  <div class="body_tip">{{ item.display_name }}</div>
                 </div>
               </div>
             </div>
@@ -86,20 +99,35 @@
             </div>
           </template>
           <div class="bg"></div>
-          <div class="box-card" v-for="(item,index) in Resignation" :key="index">
-            <img v-if="item.img_url" class="img" :src="item.img_url.substr(1)" alt="logo" />
+          <div
+            class="box-card"
+            v-for="(item, index) in Resignation"
+            :key="index"
+          >
+            <img
+              v-if="item.img_url"
+              class="img"
+              :src="item.img_url.substr(1)"
+              alt="logo"
+            />
             <div v-else class="imgs"></div>
             <div class="text">
               <div class="title">
-                <div class="title_left">{{item.name}}</div>
+                <div class="title_left">{{ item.name }}</div>
                 <div
                   class="title_right"
-                  :style="{color: item.balance > 0 ? '#a8a8a8' :'#ff7675'}"
-                >￥{{item.balance.indexOf('-') == -1? fmoney(item.balance): '-' + fmoney(item.balance.substr(1))}}</div>
+                  :style="{ color: item.balance > 0 ? '#a8a8a8' : '#ff7675' }"
+                >
+                  ￥{{
+                    item.balance.indexOf('-') == -1
+                      ? fmoney(item.balance)
+                      : '-' + fmoney(item.balance.substr(1))
+                  }}
+                </div>
               </div>
               <div class="body">
-                <div class="body_phone">{{item.username}}</div>
-                <div class="body_tip">{{item.display_name}}</div>
+                <div class="body_phone">{{ item.username }}</div>
+                <div class="body_tip">{{ item.display_name }}</div>
               </div>
             </div>
           </div>
@@ -109,7 +137,7 @@
     <i class="el-icon-plus" @click="addman" v-if="isaddman"></i>
   </div>
 </template>
-    
+
 <script>
 import { getUserList, editUserStatus } from '@/network/login'
 import { fmoney } from '@/common/utils'
@@ -193,14 +221,11 @@ export default {
           ? false
           : true
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
   },
   methods: {
     editting(iid) {
-      console.log(iid)
       this.$router.push(`/editting/${iid}`)
     },
     async quitting(iid) {
@@ -287,12 +312,11 @@ export default {
       this.$router.go(-1)
     },
     handleClick(tab) {
-      console.log(tab)
       this.restaurants = this.loadAll()
     },
     async getUserLists() {
       const { data } = await getUserList(this.getUserListData)
-      console.log('getUserList', data)
+
       if (data.userLists.length) {
         this.userLists = [...data.userLists]
         this.useroption = data.userLists.map((item) => {
@@ -312,7 +336,7 @@ export default {
     },
     async getResignation() {
       const { data } = await getUserList(this.getResignationData)
-      console.log('getUserList', data)
+
       if (data.userLists.length) {
         data.userLists.forEach((item) => {
           this.Resignation.push(item)
@@ -333,7 +357,6 @@ export default {
       this.$router.push('/staffEntry')
     },
     handleSelect(item) {
-      console.log(item)
       this.inputID = item.value
       this.handleChange()
     },
@@ -352,8 +375,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style scoped lang="scss">
 #manboard {

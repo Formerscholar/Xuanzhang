@@ -26,40 +26,54 @@
       @scroll="clickScroll"
       @pullingUp="pullingUp"
     >
-      <div v-for="(item ) in state.settlementRecordList" :key="item.id">
-        <van-swipe-cell v-if="item.to_examine != undefined ">
+      <div v-for="item in state.settlementRecordList" :key="item.id">
+        <van-swipe-cell v-if="item.to_examine != undefined">
           <div class="box-card">
-            <div :class="item.deleted_at && 'color_break ' ">
+            <div :class="item.deleted_at && 'color_break '">
               <div class="title">
                 <div class="title_text">
                   <span
-                    :class="item.deleted_at ? 'color_break model' :' model'"
-                  >{{ item.order_number }}</span>
+                    :class="item.deleted_at ? 'color_break model' : ' model'"
+                    >{{ item.order_number }}</span
+                  >
                   <div class="ControlledDelaybox">
                     <span
-                      v-for="(item,index) in item.auditRecord"
+                      v-for="(item, index) in item.auditRecord"
                       :key="index"
-                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                      :class="
+                        item.status == 0
+                          ? 'glyphicon pramary'
+                          : 'glyphicon info'
+                      "
                     ></span>
                   </div>
                 </div>
               </div>
-              <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+              <span :class="item.deleted_at ? 'color_break name' : ' name'">{{
+                item.name
+              }}</span>
               <div class="time_box">
                 <span
-                  :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                >{{item.created_at }}</span>
-                <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                  <em
-                    :class="item.deleted_at ? 'color_break ' : 'orgin' "
-                  >￥{{fmoney(item.settlement_money,2)}}</em>
+                  :class="
+                    item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                  "
+                  >{{ item.created_at }}</span
+                >
+                <span
+                  :class="
+                    item.deleted_at ? 'color_break time_pircle' : ' time_pircle'
+                  "
+                >
+                  <em :class="item.deleted_at ? 'color_break ' : 'orgin'"
+                    >￥{{ fmoney(item.settlement_money, 2) }}</em
+                  >
                 </span>
               </div>
             </div>
           </div>
           <template #right v-if="!item.deleted_at">
             <van-button
-              v-if="item.to_examine == 0 "
+              v-if="item.to_examine == 0"
               square
               type="primary"
               style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
@@ -67,7 +81,7 @@
               @click.stop="ControlledDelay(item.id)"
             />
             <van-button
-              v-if="item.to_examine == 1 "
+              v-if="item.to_examine == 1"
               style="height:100%; margin:0 auto;width:5.14286rem;line-height:1.714286rem;"
               square
               type="danger"
@@ -92,30 +106,42 @@
           </template>
         </van-swipe-cell>
         <div class="box-card" v-else>
-          <div :class="item.deleted_at && 'color_break ' ">
+          <div :class="item.deleted_at && 'color_break '">
             <div class="title">
               <div class="title_text">
                 <span
-                  :class="item.deleted_at ? 'color_break model' :' model'"
-                >{{ item.order_number }}</span>
+                  :class="item.deleted_at ? 'color_break model' : ' model'"
+                  >{{ item.order_number }}</span
+                >
                 <div class="ControlledDelaybox">
                   <span
-                    v-for="(item,index) in item.auditRecord"
+                    v-for="(item, index) in item.auditRecord"
                     :key="index"
-                    :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                    :class="
+                      item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'
+                    "
                   ></span>
                 </div>
               </div>
             </div>
-            <span :class="item.deleted_at ? 'color_break name' :' name'">{{item.name}}</span>
+            <span :class="item.deleted_at ? 'color_break name' : ' name'">{{
+              item.name
+            }}</span>
             <div class="time_box">
               <span
-                :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-              >{{item.created_at}}</span>
-              <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
-                <em
-                  :class="item.deleted_at ? 'color_break ' : 'orgin'"
-                >￥{{ fmoney(item.settlement_money,2)}}</em>
+                :class="
+                  item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                "
+                >{{ item.created_at }}</span
+              >
+              <span
+                :class="
+                  item.deleted_at ? 'color_break time_pircle' : ' time_pircle'
+                "
+              >
+                <em :class="item.deleted_at ? 'color_break ' : 'orgin'"
+                  >￥{{ fmoney(item.settlement_money, 2) }}</em
+                >
               </span>
             </div>
           </div>
@@ -131,7 +157,7 @@
     <i class="el-icon-plus" @click="goSellAccept"></i>
   </div>
 </template>
-    
+
 <script>
 import { fmoney } from '@/common/utils'
 import { reactive, computed, onActivated } from '@vue/composition-api'
@@ -310,7 +336,6 @@ export default {
     }
 
     function onCancel() {
-      console.log('onCancel')
       state.searchValue = ''
       state.distributor_id = '0'
       state.page = 1
@@ -320,7 +345,6 @@ export default {
     }
 
     function focusClick() {
-      console.log('focusClick')
       root.$router.push({
         path: '/nameSearch',
         query: {
@@ -329,7 +353,6 @@ export default {
       })
       root.$bus.$off('nameSupplier')
       root.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           state.searchValue = item
         } else {
@@ -369,7 +392,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #ContractCollection {
   padding-top: 5.428571rem;

@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div id="OEM">
     <navbar class="p_root_box">
       <div class="left" slot="left" @click="blacknext">
@@ -23,33 +23,46 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                         <div class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </div>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span>({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -60,61 +73,27 @@
               <em>添加产品</em>
             </div>
           </el-row>
-          <!-- <div class="box-card item1" v-show="isShowed">
-            <van-field v-model="productName" label="名称" />
-            <van-field v-model="Products" label="型号" />
-            <van-field
-              v-model="FlowingProducts[index+1]"
-              v-for="(item,index) in isFlowingShow"
-              :key="index"
-              :data-id="index+1"
-              label="委外产品"
-            />
-            <van-field v-model="productPrice" type="number" label="价格" />
-            <van-field v-model="quantity" v-if="isWeightShow" type="number" label="重量" />
-            <van-field v-model="productNum" type="number" label="数量" />
-            <van-field @focus="calcPrice" v-model="productSubtotal" type="number" label="金额" />
-            <van-field v-model="ProductNotes" label="备注" />
-            <div class="btns">
-              <van-button @click="cancelClick" color="linear-gradient(to right, #ccc, #666)">取消</van-button>
-              <van-button @click="AddClick" color="linear-gradient(to right, #4bb0ff, #6149f6)">添加</van-button>
-            </div>
-          </div>-->
+
           <van-field v-model="contractAmount" type="number" label="合同金额" />
-          <van-field v-model="DiscountedAmount" type="number" label="折后金额" />
+          <van-field
+            v-model="DiscountedAmount"
+            type="number"
+            label="折后金额"
+          />
         </el-card>
-        <!-- <el-card class="box-card item1">
-          <div class="address" @click="addressClick">
-            <div class="lefticon">
-              <van-icon name="location" />
-            </div>
-            <div class="cententbox">
-              <div class="nametell">
-                <span>{{addressData.name}}</span>
-                <em>{{addressData.tel}}</em>
-              </div>
-              <div class="NEWSaddress">
-                <span>{{addressData.address}}</span>
-              </div>
-            </div>
-            <div class="righticon">
-              <van-icon name="arrow" />
-            </div>
-          </div>
-        </el-card>-->
       </div>
     </scroll>
 
     <myBtns :commitFun="quoteclick" :cancelFun="quxiaoClick">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        ￥{{DiscountedAmount}}
+        ￥{{ DiscountedAmount }}
         <span>立即提交</span>
       </span>
     </myBtns>
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 import { setTimerType } from '@/common/filter'
@@ -306,7 +285,6 @@ export default {
       })
       this.$bus.$off('outSupplier')
       this.$bus.$on('outSupplier', (item) => {
-        console.log(item)
         this.states = item.name
         this.userId = item.id
       })
@@ -320,7 +298,6 @@ export default {
       })
       this.$bus.$off('outSupplier')
       this.$bus.$on('outSupplier', (item) => {
-        console.log(item)
         this.state = item.name
         this.selectedID = item.id
       })
@@ -364,15 +341,9 @@ export default {
     },
     async getAddOemOrders() {
       const { data } = await getAddOutsourcingOrder(this.getAddOemOrderData)
-      console.log('getAddOutsourcingOrder', data)
+
       this.distributors = data.suppliers
-      // this.distributors.forEach((item, index) => {
-      //   let obj = {
-      //     value: item.name,
-      //     address: item.id,
-      //   }
-      //   this.restaurants.push(obj)
-      // })
+
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -393,7 +364,6 @@ export default {
       for (let i = 0; i < this.form.selectedOptions.length; i++) {
         loc += CodeToText[this.form.selectedOptions[i]]
       }
-      console.log(loc)
     },
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-3)
@@ -409,7 +379,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -466,12 +435,12 @@ export default {
       newArr.push(this.productPrice)
       newArr.push(this.ProductNotes)
       newArr.push(this.productWeight)
-      newArr.push(this.isTemporary) // 零时库
-      newArr.push(this.processCost) //加工费
-      newArr.push(this.product_img) // 一张图片URL
+      newArr.push(this.isTemporary)
+      newArr.push(this.processCost)
+      newArr.push(this.product_img)
       newArr.push(this.FlowingProducts)
       this.shippingData.push(newArr)
-      console.log(this.shippingData)
+
       let allmonpement = 0
       this.tableData.forEach((item) => {
         allmonpement += parseFloat(item.totalPrice)
@@ -551,7 +520,7 @@ export default {
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)
-      console.log('getReceivingInformationList', data)
+
       this.listData = data.receivingInformationList
       this.addressData.name = this.listData[0].consignee
       this.addressData.id = this.listData[0].id
@@ -574,7 +543,7 @@ export default {
     },
     handleSelect(val) {
       this.selectedID = val.address
-      console.log(this.selectedID)
+
       this.getReceiving()
     },
     handleSelectss(val) {
@@ -616,7 +585,6 @@ export default {
       this.Addresslog = false
       this.productlog = false
       this.loading = false
-      // document.querySelector('#createContract .nav-bar').style.display = 'flex'
     },
     cancelForm() {
       this.loading = false
@@ -625,7 +593,6 @@ export default {
       this.productlog = false
       this.radio = '0'
       clearTimeout(this.timer)
-      // document.querySelector('#createContract .nav-bar').style.display = 'flex'
     },
     addressClick() {
       this.$router.push({
@@ -645,7 +612,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #OEM {
   padding-top: 5.428571rem;

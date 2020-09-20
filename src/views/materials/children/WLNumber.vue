@@ -5,19 +5,19 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <div class="content">
       <el-row class="row">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
         <el-input v-model="input" clearable @change="handleChange"></el-input>
       </el-row>
     </div>
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
@@ -34,7 +34,6 @@ export default {
     this.name = this.$route.query.data.name
     this.route = this.$route.query.data.route
     this.input = this.data
-    console.log(this.data, this.name, this.route)
   },
   destroyed() {
     let data = {
@@ -44,7 +43,7 @@ export default {
       state: this.state,
     }
     this.$bus.$emit('listbusData', data)
-    console.log(this.data, this.name, this.route)
+
     this.data = null
     this.name = null
     this.route = null
@@ -53,7 +52,6 @@ export default {
   },
   methods: {
     handleChange(value) {
-      console.log(value)
       if (value != this.data) {
         this.state = true
         this.data = value
@@ -65,7 +63,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #WLNumber {
   padding-top: 5.428571rem;

@@ -1,10 +1,8 @@
 <template>
   <div class="busbtnbox">
-    <!-- <div class="title">扬州日吨食品实业发展有限公司</div> -->
     <el-button v-for="(item,index) in cardList" :key="index" @click="btnclick(item.id)">
       <em>
         <h5>{{item.name}}</h5>
-        <!-- <h6>geixb@1255.com</h6> -->
       </em>
       <i class="el-icon-arrow-right el-icon--right"></i>
     </el-button>

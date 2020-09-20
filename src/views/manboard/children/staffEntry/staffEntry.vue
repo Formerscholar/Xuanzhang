@@ -1,7 +1,11 @@
 <template>
   <div id="staffEntry">
     <navbar class="Controlled_root">
-      <i class="el-icon-arrow-left text-primary" slot="left" @click="callBack"></i>
+      <i
+        class="el-icon-arrow-left text-primary"
+        slot="left"
+        @click="callBack"
+      ></i>
       <div class="title text-black" slot="center">
         <span>入职增加</span>
       </div>
@@ -27,32 +31,45 @@
         />
         <el-row class="DeliveryDate van-cell">
           <span class="lable">性别</span>
-          <van-radio-group v-model="radio" direction="horizontal" class="time van-field__body">
+          <van-radio-group
+            v-model="radio"
+            direction="horizontal"
+            class="time van-field__body"
+          >
             <van-radio name="1">男</van-radio>
             <van-radio name="2">女</van-radio>
           </van-radio-group>
         </el-row>
 
-        <div @click="isproperties = true" class="newStyle DeliveryDate van-cell">
+        <div
+          @click="isproperties = true"
+          class="newStyle DeliveryDate van-cell"
+        >
           <span class="lable">部门</span>
           <span>
-            {{ContractValue}}
+            {{ ContractValue }}
             <van-icon name="arrow" />
           </span>
         </div>
 
-        <div @click="ispropertiess = true" class="newStyle DeliveryDate van-cell">
+        <div
+          @click="ispropertiess = true"
+          class="newStyle DeliveryDate van-cell"
+        >
           <span class="lable">主管</span>
           <span>
-            {{ContractValuse}}
+            {{ ContractValuse }}
             <van-icon name="arrow" />
           </span>
         </div>
 
-        <div @click="ispropertiesss = true" class="newStyle DeliveryDate van-cell">
+        <div
+          @click="ispropertiesss = true"
+          class="newStyle DeliveryDate van-cell"
+        >
           <span class="lable">职务</span>
           <span>
-            {{jobValue}}
+            {{ jobValue }}
             <van-icon name="arrow" />
           </span>
         </div>
@@ -115,7 +132,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { getDepartments, getRoles, addUser } from '@/network/login'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -191,7 +208,7 @@ export default {
           this.jobValuetest = item.id
         }
       })
-      console.log(this.jobValuetest)
+
       this.ispropertiesss = false
     },
     propertiesonConfirms(value, index) {
@@ -254,13 +271,13 @@ export default {
     },
     async getDepartment() {
       const { data } = await getDepartments(this.getDepartmentData)
-      console.log('getDepartments', data)
+
       this.getDepartments = data.getDepartments
       this.ContractOptions = data.getDepartments.map((item) => item.name)
     },
     async getRolesList() {
       const { data } = await getRoles(this.getDepartmentData)
-      console.log('getRoles', data)
+
       this.roles = data.roles
       this.jobOptions = data.roles.map((item, index) => item.display_name)
     },

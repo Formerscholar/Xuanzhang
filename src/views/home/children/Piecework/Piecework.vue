@@ -9,7 +9,12 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <scroll class="scroll-wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+    <scroll
+      class="scroll-wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+    >
       <van-field
         v-model="state.OrderModeState"
         label="计价模式"
@@ -31,10 +36,17 @@
       />
       <el-row class="DeliveryDate van-cell">
         <span class="lable">日期</span>
-        <span class="time" @click="state.isDatetime = true">{{state.timersList.SigningDate}}</span>
+        <span class="time" @click="state.isDatetime = true">{{
+          state.timersList.SigningDate
+        }}</span>
       </el-row>
       <van-field v-model="state.contractAmount" label="工资" class="newStyle" />
-      <van-field v-model="state.textarea" type="textarea" label="备注" class="newStyle" />
+      <van-field
+        v-model="state.textarea"
+        type="textarea"
+        label="备注"
+        class="newStyle"
+      />
     </scroll>
     <myBtns :commitFun="quoteclick" :cancelFun="onClickLeft">
       <span slot="cancel-btn">取消</span>
@@ -64,7 +76,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { reactive, onActivated, computed } from '@vue/composition-api'
 import { getAddUserValuationWages, addUserValuationWages } from '@/network/home'
@@ -115,14 +127,14 @@ export default {
         token: root.$store.state.token,
         _: new Date().getTime(),
       })
-      console.log('getAddUserValuationWages', data)
+
       const { valuationWages, users } = data
       state.valuationWages = valuationWages
       state.OrderMode = valuationWages.map((item) => item.valuation_name)
       state.distributors = users
     }
     onActivated(() => {
-      root.$Jurisdiction('167', root.$store.state.catearr, () => {
+      root.$Jurisdiction('167', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
       })
@@ -138,7 +150,6 @@ export default {
       })
       root.$bus.$off('nameSupplier')
       root.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           state.state = item
         } else {
@@ -205,7 +216,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Piecework {
   padding-top: 5.428571rem;

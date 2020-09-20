@@ -16,22 +16,26 @@
         </div>
         <div class="product_box">
           <div class="left_img" @click="imgClick">
-            <img v-if="img_URL && img_URL != 0 " :src="img_URL | getUrl" alt="logo" />
             <img
-              v-else-if="img_url_lin && img_url_lin != 0 "
+              v-if="img_URL && img_URL != 0"
+              :src="img_URL | getUrl"
+              alt="logo"
+            />
+            <img
+              v-else-if="img_url_lin && img_url_lin != 0"
               class="img"
-              :src="img_url_lin  | getUrl"
+              :src="img_url_lin | getUrl"
             />
             <img src="@/assets/image/Default.png" v-else />
           </div>
           <div class="right_box">
             <div class="right_name" @click.stop="focusClick">
-              <span v-if="state">{{state}}</span>
+              <span v-if="state">{{ state }}</span>
               <span v-else class="pltext">请选择产品名称</span>
               <van-icon name="arrow" />
             </div>
             <div class="right_model" v-if="isfouck" @click.stop="focusClick">
-              <span v-if="Products">{{Products}}</span>
+              <span v-if="Products">{{ Products }}</span>
               <span v-else class="pltext">请选择产品型号</span>
               <van-icon name="arrow" />
             </div>
@@ -44,7 +48,7 @@
             />
           </div>
         </div>
-        <div class="nums">库存数量:{{nums}}</div>
+        <div class="nums">库存数量:{{ nums }}</div>
       </el-card>
 
       <el-card class="box-card item1">
@@ -71,10 +75,14 @@
       </span>
     </myBtns>
 
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper" />
+    <simple-cropper
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    />
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 import { getMaterielList } from '@/network/deal'
@@ -105,7 +113,8 @@ export default {
     }
   },
   components: {
-    SimpleCropper: () => import('@/components/common/SimpleCroppes/SimpleCroppes'),
+    SimpleCropper: () =>
+      import('@/components/common/SimpleCroppes/SimpleCroppes'),
     myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   filters: {
@@ -127,7 +136,6 @@ export default {
   },
   methods: {
     stepperChange(value) {
-      console.log(value)
       this.ProductSubtotal = TotalPriceCalc(
         this.productPrice,
         this.productWeight,
@@ -149,7 +157,6 @@ export default {
       for (const key in this.listItem) {
         this.listItems.push(this.listItem[key])
       }
-      console.log(this.listItems)
     },
     imgClick() {
       this.$refs['cropper'].upload()
@@ -157,7 +164,6 @@ export default {
     uploadHandle(data) {
       this.img_URL = data
       this.PropsImg = this.img_URL.split(bestURL)[1]
-      console.log(this.img_URL, this.PropsImg)
     },
     commite() {
       let selectData = {
@@ -202,7 +208,6 @@ export default {
       })
       this.$bus.$off('productNameSearch')
       this.$bus.$on('productNameSearch', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.isfouck = false
           this.nums = 0
@@ -224,7 +229,6 @@ export default {
           for (const key in this.listItem) {
             this.listItems.push(this.listItem[key])
           }
-          console.log(this.listItems)
         }
       })
     },
@@ -253,7 +257,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #SelectProducts {
   padding-top: 5.428571rem;

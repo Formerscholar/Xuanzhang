@@ -1,23 +1,33 @@
 <template>
   <div id="cardbox">
-    <van-swipe-cell v-for="(item,index) in distributor" :key="index">
+    <van-swipe-cell v-for="(item, index) in distributor" :key="index">
       <div class="box-card">
         <div class="content" @click="gokhlist(item)">
           <div class="title">
-            <span class="kh_name">{{item.name}}</span>
-            <span
-              class="kh_moneny"
-            >￥{{item.arrearsCount.indexOf('-') == -1? fmoney(item.arrearsCount): '-' + fmoney(item.arrearsCount.substr(1))}}</span>
+            <span class="kh_name">{{ item.name }}</span>
+            <span class="kh_moneny"
+              >￥{{
+                item.arrearsCount.indexOf('-') == -1
+                  ? fmoney(item.arrearsCount)
+                  : '-' + fmoney(item.arrearsCount.substr(1))
+              }}</span
+            >
           </div>
           <div class="body">
-            <span class="kh_address">{{item.province}}{{item.contacts_address}}</span>
+            <span class="kh_address"
+              >{{ item.province }}{{ item.contacts_address }}</span
+            >
           </div>
           <div class="btn_box">
             <span class="kh_phone">
-              <i>{{item.contacts.length != 0 ?item.contacts[0].contacts:''}}</i>
-              <em>{{item.contacts.length != 0 ?item.contacts[0].contacts_tel:''}}</em>
+              <i>{{
+                item.contacts.length != 0 ? item.contacts[0].contacts : ''
+              }}</i>
+              <em>{{
+                item.contacts.length != 0 ? item.contacts[0].contacts_tel : ''
+              }}</em>
             </span>
-            <span class="kh_created">{{item.created_at | getCreatedAt}}</span>
+            <span class="kh_created">{{ item.created_at | getCreatedAt }}</span>
           </div>
         </div>
       </div>
@@ -30,19 +40,12 @@
             style=" height: 100%;"
             @click="editClick(item)"
           />
-          <!-- <van-button
-            square
-            text="删除"
-            type="danger"
-            style=" height: 100%;"
-            @click="delelClick(item.id)"
-          />-->
         </div>
       </template>
     </van-swipe-cell>
   </div>
 </template>
-    
+
 <script>
 import { deleteDistributor, deleteSupplier } from '@/network/client'
 import { fmoney } from '@/common/utils'
@@ -70,18 +73,17 @@ export default {
   },
   methods: {
     editClick(item) {
-      console.log(item)
       if (this.titlename == '客户') {
         if (item.status == 1) {
-          this.$router.push(`/enterpriseedit/client/${item.id}`) //企业客户
+          this.$router.push(`/enterpriseedit/client/${item.id}`)
         } else if (item.status == 2) {
-          this.$router.push(`/clientedit/client/${item.id}`) //个人客户
+          this.$router.push(`/clientedit/client/${item.id}`)
         }
       } else if (this.titlename == '供应商') {
         if (item.status == 1) {
-          this.$router.push(`/enterpriseedit/supplier/${item.id}`) //企业客户
+          this.$router.push(`/enterpriseedit/supplier/${item.id}`)
         } else if (item.status == 2) {
-          this.$router.push(`/clientedit/supplier/${item.id}`) //个人客户
+          this.$router.push(`/clientedit/supplier/${item.id}`)
         }
       }
     },
@@ -129,7 +131,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #cardbox {
   padding: 0 1.571429rem;

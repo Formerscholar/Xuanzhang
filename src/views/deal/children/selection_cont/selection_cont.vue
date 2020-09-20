@@ -9,7 +9,7 @@
           :src="item.img_url_lin  | getUrl"
         />
         <img src="@/assets/image/Default.png" class="img" v-else />
-        <!-- <div v-else class="img"></div> -->
+        
         <div class="text">{{item.product_name || item.materiel_name}}</div>
       </li>
     </ul>

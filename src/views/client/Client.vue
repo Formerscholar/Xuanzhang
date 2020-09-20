@@ -5,7 +5,12 @@
         <span>客户</span>
       </div>
     </navbar>
-    <van-search v-model="searchValue" show-action @focus="focusClick" @cancel="onCancel" />
+    <van-search
+      v-model="searchValue"
+      show-action
+      @focus="focusClick"
+      @cancel="onCancel"
+    />
     <scroll
       class="scroll-wrapper"
       ref="scroll"
@@ -49,7 +54,7 @@
     <MainTabBar />
   </div>
 </template>
-    
+
 <script>
 import { getlogin, getIndex } from '@/network/login'
 import {
@@ -141,7 +146,6 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
-        console.log('登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
@@ -165,16 +169,11 @@ export default {
       return phone.substr(0, 3) + '****' + phone.substr(7, 11)
     },
     onCancel() {
-      console.log('onCancel')
       this.isSearch = false
       this.searchValue = ''
       if (!this.searchID) {
-        console.log('个人客户')
-
         this.getDistri()
       } else {
-        console.log('企业客户')
-
         this.getSupplier()
       }
     },
@@ -188,7 +187,6 @@ export default {
       })
       this.$bus.$off('cardsearch')
       this.$bus.$on('cardsearch', (item) => {
-        console.log(item)
         this.searchValue = item[0].name
         if (!this.searchID) {
           this.distributor = item
@@ -222,7 +220,6 @@ export default {
       this.$router.push(`/clientdetails/supplier/${item.id}`)
     },
     tabListTach(e) {
-      console.log(e)
       this.searchID = e
       if (e == 0) {
         this.titlename = '客户'
@@ -236,7 +233,6 @@ export default {
           this.onePage += 1
           this.allPage = this.onePage
           this.getDistri()
-          console.log('客户+1')
         } else {
           this.$toast('没有更多数据了')
         }
@@ -245,7 +241,6 @@ export default {
           this.twoPage += 1
           this.allPage = this.twoPage
           this.getSupplier()
-          console.log('供应商+1')
         } else {
           this.$toast('没有更多数据了')
         }
@@ -280,7 +275,6 @@ export default {
         data.distributor.forEach((item) => {
           this.distributor.push(item)
         })
-        console.log('Distri', this.distributor)
       } else {
         this.isOneNetwork = false
       }
@@ -292,7 +286,6 @@ export default {
         data.supplier.forEach((item) => {
           this.supplier.push(item)
         })
-        console.log('getSuppliers', this.supplier)
       } else {
         this.isTwoNetwork = false
       }
@@ -344,7 +337,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Client {
   padding-top: 5.428571rem;

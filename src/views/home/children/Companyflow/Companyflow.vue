@@ -55,23 +55,29 @@
           </div>
           <div class="right_box">
             <div class="TypeAmount">
-              <div
-                class="type"
-              >{{item.money_type == 'bank' ?'银行卡':'现金余额' }}-{{state.types[item.type]}}</div>
+              <div class="type">
+                {{ item.money_type == 'bank' ? '银行卡' : '现金余额' }}-{{
+                  state.types[item.type]
+                }}
+              </div>
               <div
                 class="Amount"
-                :style="item.sign == '+' ? {color:'green'} : {color:'red'}"
-              >{{item.sign}}{{ fmoney(item.money,2) }}</div>
+                :style="
+                  item.sign == '+' ? { color: 'green' } : { color: 'red' }
+                "
+              >
+                {{ item.sign }}{{ fmoney(item.money, 2) }}
+              </div>
             </div>
-            <div class="CategoryReason">{{item.remark}}</div>
-            <div class="timers">{{item.created_at}}</div>
+            <div class="CategoryReason">{{ item.remark }}</div>
+            <div class="timers">{{ item.created_at }}</div>
           </div>
         </div>
       </div>
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { reactive, computed } from '@vue/composition-api'
 import {
@@ -121,7 +127,7 @@ export default {
 
     async function getMyMoneyList() {
       const { data } = await getUserMoneyLogLists(getMyMoneyLogListData.value)
-      console.log('getMyMoneyList', data)
+
       state.userMoneyLogLists = [
         ...state.userMoneyLogLists,
         ...data.userMoneyLogLists,
@@ -161,7 +167,7 @@ export default {
 
     async function getUserMoneyList() {
       const { data } = await getUserMoneyLogAccountsList(getUserMoneyData.value)
-      console.log('getUserMoneyLogAccountsList', data)
+
       const { customerBankList } = data
       state.option2 = []
       state.option2 = customerBankList.map((item, index) => {
@@ -180,7 +186,6 @@ export default {
     }
 
     function searchClick() {
-      console.log(state.value1, state.value2)
       state.userMoneyLogLists = []
       getMyMoneyList()
     }
@@ -208,7 +213,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Recordlist {
   padding-top: 5.428571rem;

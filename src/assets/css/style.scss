@@ -615,7 +615,6 @@ i {
   }
 }
 
-//bg text color
 
 $color: ('primary': rgb(66, 147, 200),
   'black': black,
@@ -635,7 +634,6 @@ $value in $color {
   }
 }
 
-// text layout
 
 @each $val in (left, center, right) {
   .text-#{$val} {
@@ -643,7 +641,6 @@ $value in $color {
   }
 }
 
-// flex
 
 .d-flex {
   display: flex;
@@ -657,7 +654,6 @@ $value in $color {
   flex: 1;
 }
 
-// jc-center
 
 $flex-jc: ('start': flex-start,
   'end': flex-end,
@@ -669,13 +665,11 @@ $flex-jc: ('start': flex-start,
 @each $jcKey,
 $jcVal in $flex-jc {
 
-  // jc-center
   .jc-#{$jcKey} {
     justify-content: $jcVal;
   }
 }
 
-// ai-center
 
 $flex-ai: ('start': flex-start,
   'end': flex-end,
@@ -689,7 +683,6 @@ $aiVal in $flex-ai {
   }
 }
 
-// text size
 
 $text-size-base: 1rem;
 
@@ -706,7 +699,6 @@ $val in $text-size {
   }
 }
 
-// margin padding mt  mx m
 
 $spacing-types: (m: margin,
   p: padding,
@@ -775,7 +767,6 @@ $val in $text-weight {
   }
 }
 
-// position
 
 .pos-a {
   position: absolute;

@@ -25,7 +25,7 @@ export default {
     $route(to, from) {
       const fromDepths = from.path
       const toDepths = to.path
-      console.log(toDepths, fromDepths)
+
       if (
         (fromDepths === '/home' ||
           fromDepths === '/deal/sales' ||
@@ -76,13 +76,12 @@ export default {
       form.append('company_id', storage.getItem('ChooseCompany'))
       const res = await getIndex(form)
       if (res.code == 200) {
-        console.log('登录次数+1')
         this.$store.commit(
           'setUserInfo',
           JSON.parse(JSON.stringify(res.data.userInfo))
         )
         this.$store.commit('setToken', res.data.token)
-     
+
         if (!window.localStorage) {
           storage.setItem('token', JSON.stringify(this.$store.state.token))
         } else {
@@ -105,50 +104,36 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  max-width: 73.142857rem;
-
   .slide-enter,
-  .slide-enter-active,
-  .slide-enter-to,
-  .slide-leave,
-  .slide-leave-active,
-  .slide-leave-to {
-    transition: all 0.382s ease;
+  .slide-leave {
     opacity: 0;
   }
-
-  // 退出
-  .quit-enter,//定义进入过渡的开始状态
-  .quit-enter-active ,//定义进入过渡生效时的状态
-  .quit-enter-to {
-    //定义进入过渡的结束状态
+  .slide-enter-active,
+  .slide-leave-active {
     transition: all 0.382s ease;
+  }
+
+  .quit-leave,
+  .quit-enter {
     transform: translateX(-100%);
     opacity: 0;
   }
 
-  .quit-leave, //定义离开过渡的开始状态
-  .quit-leave-active, //定义离开过渡生效时的状态
-  .quit-leave-to {
-    //定义离开过渡的结束状态
+  .quit-leave-active,
+  .quit-enter-active {
     transition: all 0.382s ease;
     transform: translateX(100%);
     opacity: 0;
   }
-  // 进入
-  .entry-enter,//定义进入过渡的开始状态
-  .entry-enter-active,//定义进入过渡生效时的状态
-  .entry-enter-to {
-    //定义进入过渡的结束状态
-    transition: all 0.382s ease;
+
+  .entry-leave,
+  .entry-enter {
     opacity: 0;
     transform: translateX(100%);
   }
 
-  .entry-leave,//定义离开过渡的开始状态
-  .entry-leave-active, //定义离开过渡生效时的状态
-  .entry-leave-to {
-    //定义离开过渡的结束状态
+  .entry-leave-active,
+  .entry-enter-active {
     transition: all 0.382s ease;
     opacity: 0;
     transform: translateX(-100%);

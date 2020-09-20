@@ -11,28 +11,38 @@
       <van-tabs v-model="active" animated>
         <van-tab title="入库清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in warehouseAccessList" :key="item.id">
-            <van-swipe-cell v-if="item.to_examine != undefined && item.type == 0">
+            <van-swipe-cell
+              v-if="item.to_examine != undefined && item.type == 0"
+            >
               <el-card class="box-card">
                 <div
                   @click="gocontractList(warehouseAccessList[index])"
-                  :class="item.deleted_at && 'color_break ' "
+                  :class="item.deleted_at && 'color_break '"
                 >
                   <div class="title">
                     <div class="title_text">
                       <span
-                        :class="item.deleted_at ? 'color_break model' :' model'"
-                      >{{ item.order_number }}</span>
+                        :class="
+                          item.deleted_at ? 'color_break model' : ' model'
+                        "
+                        >{{ item.order_number }}</span
+                      >
                       <span
-                        :class="item.deleted_at ? 'color_break name' :' name'"
+                        :class="item.deleted_at ? 'color_break name' : ' name'"
                         @click.stop="gotodetails(item.supplier_id)"
-                      >{{item.name}}</span>
+                        >{{ item.name }}</span
+                      >
                     </div>
 
                     <div class="ControlledDelaybox">
                       <span
-                        v-for="(item,index) in item.auditRecord"
+                        v-for="(item, index) in item.auditRecord"
                         :key="index"
-                        :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                        :class="
+                          item.status == 0
+                            ? 'glyphicon pramary'
+                            : 'glyphicon info'
+                        "
                       ></span>
                     </div>
                   </div>
@@ -41,31 +51,56 @@
                       <selection :selectionList="item.detail" />
                     </div>
                     <div class="right_box">
-                      <em :class="item.deleted_at && 'color_break ' ">共</em>
-                      <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                      <em :class="item.deleted_at && 'color_break ' ">种</em>
+                      <em :class="item.deleted_at && 'color_break '">共</em>
+                      <em :class="item.deleted_at && 'color_break '">{{
+                        item.detail.length
+                      }}</em>
+                      <em :class="item.deleted_at && 'color_break '">种</em>
                     </div>
                   </div>
                   <div class="time_box">
                     <span
-                      :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                    >{{item.created_at | setCommitmentPeriod}}</span>
-                    <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                      :class="
+                        item.deleted_at
+                          ? 'color_break timer_text'
+                          : ' timer_text'
+                      "
+                      >{{ item.created_at | setCommitmentPeriod }}</span
+                    >
+                    <span
+                      :class="
+                        item.deleted_at
+                          ? 'color_break time_pircle'
+                          : ' time_pircle'
+                      "
+                    >
                       <el-tag
-                        :class="item.deleted_at ? 'color_break ' :' '"
+                        :class="item.deleted_at ? 'color_break ' : ' '"
                         :type="item.type == 0 ? '' : 'danger'"
                         effect="plain"
-                      >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                        >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                      >
                       <em
-                        :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                      >￥{{item.total_price.indexOf('-') == -1? fmoney(item.total_price): '-' + fmoney(item.total_price.substr(1))}}</em>
+                        :class="
+                          item.deleted_at
+                            ? 'color_break '
+                            : item.total_price.indexOf('-') == -1
+                            ? 'black'
+                            : 'red'
+                        "
+                        >￥{{
+                          item.total_price.indexOf('-') == -1
+                            ? fmoney(item.total_price)
+                            : '-' + fmoney(item.total_price.substr(1))
+                        }}</em
+                      >
                     </span>
                   </div>
                 </div>
               </el-card>
               <template #right>
                 <van-button
-                  v-if="item.to_examine == 0 "
+                  v-if="item.to_examine == 0"
                   square
                   type="primary"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
@@ -73,7 +108,7 @@
                   @click.stop="ControlledDelay(item.id)"
                 />
                 <van-button
-                  v-if="item.to_examine == 1 "
+                  v-if="item.to_examine == 1"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
                   square
                   type="danger"
@@ -85,23 +120,29 @@
             <el-card class="box-card" v-else>
               <div
                 @click="gocontractList(warehouseAccessList[index])"
-                :class="item.deleted_at && 'color_break ' "
+                :class="item.deleted_at && 'color_break '"
               >
                 <div class="title">
                   <div class="title_text">
                     <span
-                      :class="item.deleted_at ? 'color_break model' :' model'"
-                    >{{ item.order_number }}</span>
+                      :class="item.deleted_at ? 'color_break model' : ' model'"
+                      >{{ item.order_number }}</span
+                    >
                     <span
-                      :class="item.deleted_at ? 'color_break name' :' name'"
+                      :class="item.deleted_at ? 'color_break name' : ' name'"
                       @click.stop="gotodetails(item.supplier_id)"
-                    >{{item.name}}</span>
+                      >{{ item.name }}</span
+                    >
                   </div>
                   <div class="ControlledDelaybox">
                     <span
-                      v-for="(item,index) in item.auditRecord"
+                      v-for="(item, index) in item.auditRecord"
                       :key="index"
-                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                      :class="
+                        item.status == 0
+                          ? 'glyphicon pramary'
+                          : 'glyphicon info'
+                      "
                     ></span>
                   </div>
                 </div>
@@ -110,24 +151,47 @@
                     <selection :selectionList="item.detail" />
                   </div>
                   <div class="right_box">
-                    <em :class="item.deleted_at && 'color_break ' ">共</em>
-                    <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                    <em :class="item.deleted_at && 'color_break ' ">种</em>
+                    <em :class="item.deleted_at && 'color_break '">共</em>
+                    <em :class="item.deleted_at && 'color_break '">{{
+                      item.detail.length
+                    }}</em>
+                    <em :class="item.deleted_at && 'color_break '">种</em>
                   </div>
                 </div>
                 <div class="time_box">
                   <span
-                    :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                  >{{item.created_at | setCommitmentPeriod}}</span>
-                  <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                    :class="
+                      item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                    "
+                    >{{ item.created_at | setCommitmentPeriod }}</span
+                  >
+                  <span
+                    :class="
+                      item.deleted_at
+                        ? 'color_break time_pircle'
+                        : ' time_pircle'
+                    "
+                  >
                     <el-tag
-                      :class="item.deleted_at ? 'color_break ' :' '"
+                      :class="item.deleted_at ? 'color_break ' : ' '"
                       :type="item.type == 0 ? '' : 'danger'"
                       effect="plain"
-                    >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                      >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                    >
                     <em
-                      :class="item.deleted_at ? 'color_break ' : item.total_price.indexOf('-') == -1 ? 'black' : 'red'"
-                    >￥{{item.total_price.indexOf('-') == -1? fmoney(item.total_price): '-' + fmoney(item.total_price.substr(1))}}</em>
+                      :class="
+                        item.deleted_at
+                          ? 'color_break '
+                          : item.total_price.indexOf('-') == -1
+                          ? 'black'
+                          : 'red'
+                      "
+                      >￥{{
+                        item.total_price.indexOf('-') == -1
+                          ? fmoney(item.total_price)
+                          : '-' + fmoney(item.total_price.substr(1))
+                      }}</em
+                    >
                   </span>
                 </div>
               </div>
@@ -135,7 +199,11 @@
           </div>
         </van-tab>
         <van-tab title="明细列表" v-if="isDetailed" class="Detailed">
-          <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
+          <el-card
+            class="box-card items"
+            v-for="(item, index) in flowOrderList"
+            :key="index"
+          >
             <van-swipe-cell>
               <div class="coutent">
                 <div class="leftbox">
@@ -143,21 +211,25 @@
                 </div>
                 <div class="rightbox">
                   <div class="timer">
-                    <div class="leftitem">{{item.order_number}}</div>
+                    <div class="leftitem">{{ item.order_number }}</div>
                     <div
                       class="rightitem"
                       @click="RetrieveData(item.distributor_id)"
-                    >{{item.name_alias}}</div>
+                    >
+                      {{ item.name_alias }}
+                    </div>
                   </div>
                   <div class="timers">
-                    <div class="rightitem">{{item.created_at |setCommitmentPeriod}}</div>
+                    <div class="rightitem">
+                      {{ item.created_at | setCommitmentPeriod }}
+                    </div>
                   </div>
                   <div class="article">
-                    <div class="leftitem">{{item.materiel_name}}</div>
+                    <div class="leftitem">{{ item.materiel_name }}</div>
                   </div>
                   <div class="literature">
-                    <div class="leftitem">{{item.materiel_model}}</div>
-                    <div class="rightitem">{{item.number | setNumber}}</div>
+                    <div class="leftitem">{{ item.materiel_model }}</div>
+                    <div class="rightitem">{{ item.number | setNumber }}</div>
                   </div>
                 </div>
               </div>
@@ -194,11 +266,16 @@
       cancel-text="取消"
       safe-area-inset-bottom
     />
-    <i class="el-icon-plus" @click="show = !show" v-if="isShow" slot="reference"></i>
+    <i
+      class="el-icon-plus"
+      @click="show = !show"
+      v-if="isShow"
+      slot="reference"
+    ></i>
     <i class="el-icon-plus" @click="createAddbill" v-else></i>
   </div>
 </template>
-    
+
 <script>
 import {
   getWarehouseLists,
@@ -353,7 +430,6 @@ export default {
       this.getFlowOrderLists()
     },
     gocontractList(deliveryRecordList) {
-      console.log(deliveryRecordList)
       this.$router.push(`/asidesItem/${deliveryRecordList.id}`)
     },
     editlists() {
@@ -376,7 +452,7 @@ export default {
         this.listIsShow = false
       } else {
         this.listIsShow = false
-        console.log(item)
+
         this.overlayShow = true
       }
     },
@@ -416,14 +492,14 @@ export default {
     },
     async getDeliverListssss() {
       const { data } = await getWarehouseLists(this.getDeliverGoodsListData)
-      console.log('getWarehouseLists', data)
+
       data.warehouseAccessList.map((item) => {
         this.warehouseAccessList.push(item)
       })
     },
     async getDeliverLists() {
       const { data } = await getWarehouseLists(this.getDeliverGoodsListData)
-      console.log('getWarehouseLists', data)
+
       this.warehouseAccessList = data.warehouseAccessList
     },
     createAddbill() {
@@ -433,7 +509,7 @@ export default {
       const { data } = await getWarehouseDetailList(
         this.getDeliverGoodsListData
       )
-      console.log('getFlowOrderList', data)
+
       data.warehouseAccessList.map((item) => {
         this.flowOrderList.push(item)
       })
@@ -441,7 +517,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #aside {
   #wrapper-click {

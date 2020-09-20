@@ -1,8 +1,6 @@
 <template>
   <div class="bankCardinfo">
-    <!-- banktitle -->
     <banktitle />
-    <!-- bankCard -->
     <bankCard :cardinfo="cardinfo" />
   </div>
 </template>

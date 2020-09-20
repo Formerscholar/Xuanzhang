@@ -18,8 +18,19 @@
         <el-card class="box-card item1">产品</el-card>
         <el-card class="box-card item1">
           <van-field v-model="removeFromInventory" label="入库金额" />
-          <timers class="delivery" type="delivery" title="入库日期" :valueData="timersList.delivery" />
-          <van-field v-model="treasuryYields" rows="1" autosize label="入库备注" type="textarea" />
+          <timers
+            class="delivery"
+            type="delivery"
+            title="入库日期"
+            :valueData="timersList.delivery"
+          />
+          <van-field
+            v-model="treasuryYields"
+            rows="1"
+            autosize
+            label="入库备注"
+            type="textarea"
+          />
         </el-card>
       </div>
     </scroll>
@@ -27,13 +38,13 @@
     <myBtns :commitFun="quoteclick" :cancelFun="quxiaoClick">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        ￥{{removeFromInventory}}
+        ￥{{ removeFromInventory }}
         <span>立即提交</span>
       </span>
     </myBtns>
   </div>
 </template>
-    
+
 <script>
 import { getAddStorageRecordSuppliers } from '@/network/deal'
 
@@ -53,13 +64,13 @@ export default {
     }
   },
   components: {
-    timers:()=>import('@/components/content/timers/timers'),
+    timers: () => import('@/components/content/timers/timers'),
     myBtns: () => import('@/components/common/my_btns/my_btns'),
   },
   created() {
     this.getAddDeliverGood()
     this.source = { ...this.$route.query.data }
-    console.log(this.source)
+
     this.contractor = this.source.order_number
     this.state = this.source.name
     this.selectedID = this.source.supplier_id
@@ -79,7 +90,7 @@ export default {
       const { data } = await getAddStorageRecordSuppliers(
         this.getAddDeliverGoodData
       )
-      console.log('getAddStorageRecordSuppliers', data)
+
       this.distributors = [...data.suppliers]
     },
     focusClick() {
@@ -91,7 +102,6 @@ export default {
       })
       this.$bus.$off('outSupplier')
       this.$bus.$on('outSupplier', (item) => {
-        console.log(item)
         this.state = item.name
         this.selectedID = item.id
       })
@@ -102,7 +112,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #createGoodpage {
   padding-top: 5.428571rem;

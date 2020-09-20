@@ -6,7 +6,7 @@
     <companyCard :cardList="companyList" @btnclick="btnclick" />
   </div>
 </template>
-    
+
 <script>
 import { getIndex } from '@/network/login.js'
 
@@ -29,7 +29,7 @@ export default {
       form.append('password', storage.getItem('password'))
       form.append('company_id', id)
       const res = await getIndex(form)
-      console.log('index/index : ', res)
+
       if (res.code == 200) {
         storage.setItem('ChooseCompany', id)
         this.$store.commit(
@@ -58,7 +58,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss">
 #businessLogin {
   background-color: #ededed;

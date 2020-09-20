@@ -11,28 +11,38 @@
       <van-tabs v-model="active" animated @click="tacheClick">
         <van-tab title="发货清单" v-if="isDelivery" class="Delivery">
           <div v-for="(item, index) in deliveryRecordList" :key="item.id">
-            <van-swipe-cell v-if="item.to_examine != undefined  && item.type == 0">
+            <van-swipe-cell
+              v-if="item.to_examine != undefined && item.type == 0"
+            >
               <el-card class="box-card">
                 <div
                   @click="gocontractList(deliveryRecordList[index])"
-                  :class="item.deleted_at && 'color_break ' "
+                  :class="item.deleted_at && 'color_break '"
                 >
                   <div class="title">
                     <div class="title_text">
                       <span
-                        :class="item.deleted_at ? 'color_break model' :' model'"
-                      >{{ item.order_number }}</span>
+                        :class="
+                          item.deleted_at ? 'color_break model' : ' model'
+                        "
+                        >{{ item.order_number }}</span
+                      >
                       <span
-                        :class="item.deleted_at ? 'color_break name' :' name'"
+                        :class="item.deleted_at ? 'color_break name' : ' name'"
                         @click.stop="gotodetails(item.distributor_id)"
-                      >{{item.name}}</span>
+                        >{{ item.name }}</span
+                      >
                     </div>
 
                     <div class="ControlledDelaybox">
                       <span
-                        v-for="(item,index) in item.auditRecord"
+                        v-for="(item, index) in item.auditRecord"
                         :key="index"
-                        :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                        :class="
+                          item.status == 0
+                            ? 'glyphicon pramary'
+                            : 'glyphicon info'
+                        "
                       ></span>
                     </div>
                   </div>
@@ -41,31 +51,56 @@
                       <selection :selectionList="item.detail" />
                     </div>
                     <div class="right_box">
-                      <em :class="item.deleted_at && 'color_break ' ">共</em>
-                      <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                      <em :class="item.deleted_at && 'color_break ' ">种</em>
+                      <em :class="item.deleted_at && 'color_break '">共</em>
+                      <em :class="item.deleted_at && 'color_break '">{{
+                        item.detail.length
+                      }}</em>
+                      <em :class="item.deleted_at && 'color_break '">种</em>
                     </div>
                   </div>
                   <div class="time_box">
                     <span
-                      :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                    >{{item.created_at | setCommitmentPeriod}}</span>
-                    <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                      :class="
+                        item.deleted_at
+                          ? 'color_break timer_text'
+                          : ' timer_text'
+                      "
+                      >{{ item.created_at | setCommitmentPeriod }}</span
+                    >
+                    <span
+                      :class="
+                        item.deleted_at
+                          ? 'color_break time_pircle'
+                          : ' time_pircle'
+                      "
+                    >
                       <el-tag
-                        :class="item.deleted_at ? 'color_break ' :' '"
+                        :class="item.deleted_at ? 'color_break ' : ' '"
                         :type="item.type == 0 ? '' : 'danger'"
                         effect="plain"
-                      >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                        >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                      >
                       <em
-                        :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                      >￥{{item.total_funds.indexOf('-') == -1? fmoney(item.total_funds): '-' + fmoney(item.total_funds.substr(1))}}</em>
+                        :class="
+                          item.deleted_at
+                            ? 'color_break '
+                            : item.total_funds.indexOf('-') == -1
+                            ? 'black'
+                            : 'red'
+                        "
+                        >￥{{
+                          item.total_funds.indexOf('-') == -1
+                            ? fmoney(item.total_funds)
+                            : '-' + fmoney(item.total_funds.substr(1))
+                        }}</em
+                      >
                     </span>
                   </div>
                 </div>
               </el-card>
               <template #right v-if="isControlledDelay">
                 <van-button
-                  v-if="item.to_examine == 0 "
+                  v-if="item.to_examine == 0"
                   square
                   type="primary"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
@@ -73,7 +108,7 @@
                   @click.stop="ControlledDelay(item.id)"
                 />
                 <van-button
-                  v-if="item.to_examine == 1 "
+                  v-if="item.to_examine == 1"
                   style="height:100%; margin:0 auto;width:2.142857rem;line-height:1.714286rem;"
                   square
                   type="danger"
@@ -85,23 +120,29 @@
             <el-card class="box-card" v-else>
               <div
                 @click="gocontractList(deliveryRecordList[index])"
-                :class="item.deleted_at && 'color_break ' "
+                :class="item.deleted_at && 'color_break '"
               >
                 <div class="title">
                   <div class="title_text">
                     <span
-                      :class="item.deleted_at ? 'color_break model' :' model'"
-                    >{{ item.order_number }}</span>
+                      :class="item.deleted_at ? 'color_break model' : ' model'"
+                      >{{ item.order_number }}</span
+                    >
                     <span
-                      :class="item.deleted_at ? 'color_break name' :' name'"
+                      :class="item.deleted_at ? 'color_break name' : ' name'"
                       @click.stop="gotodetails(item.distributor_id)"
-                    >{{item.name}}</span>
+                      >{{ item.name }}</span
+                    >
                   </div>
                   <div class="ControlledDelaybox">
                     <span
-                      v-for="(item,index) in item.auditRecord"
+                      v-for="(item, index) in item.auditRecord"
                       :key="index"
-                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon info'"
+                      :class="
+                        item.status == 0
+                          ? 'glyphicon pramary'
+                          : 'glyphicon info'
+                      "
                     ></span>
                   </div>
                 </div>
@@ -110,24 +151,47 @@
                     <selection :selectionList="item.detail" />
                   </div>
                   <div class="right_box">
-                    <em :class="item.deleted_at && 'color_break ' ">共</em>
-                    <em :class="item.deleted_at && 'color_break ' ">{{item.detail.length}}</em>
-                    <em :class="item.deleted_at && 'color_break ' ">种</em>
+                    <em :class="item.deleted_at && 'color_break '">共</em>
+                    <em :class="item.deleted_at && 'color_break '">{{
+                      item.detail.length
+                    }}</em>
+                    <em :class="item.deleted_at && 'color_break '">种</em>
                   </div>
                 </div>
                 <div class="time_box">
                   <span
-                    :class="item.deleted_at ? 'color_break timer_text' :' timer_text'"
-                  >{{item.created_at | setCommitmentPeriod}}</span>
-                  <span :class="item.deleted_at ? 'color_break time_pircle' :' time_pircle'">
+                    :class="
+                      item.deleted_at ? 'color_break timer_text' : ' timer_text'
+                    "
+                    >{{ item.created_at | setCommitmentPeriod }}</span
+                  >
+                  <span
+                    :class="
+                      item.deleted_at
+                        ? 'color_break time_pircle'
+                        : ' time_pircle'
+                    "
+                  >
                     <el-tag
-                      :class="item.deleted_at ? 'color_break ' :' '"
+                      :class="item.deleted_at ? 'color_break ' : ' '"
                       :type="item.type == 0 ? '' : 'danger'"
                       effect="plain"
-                    >{{item.type == 0 ? '正常' : '待审'}}</el-tag>
+                      >{{ item.type == 0 ? '正常' : '待审' }}</el-tag
+                    >
                     <em
-                      :class="item.deleted_at ? 'color_break ' : item.total_funds.indexOf('-') == -1 ? 'black' : 'red'"
-                    >￥{{item.total_funds.indexOf('-') == -1? fmoney(item.total_funds): '-' + fmoney(item.total_funds.substr(1))}}</em>
+                      :class="
+                        item.deleted_at
+                          ? 'color_break '
+                          : item.total_funds.indexOf('-') == -1
+                          ? 'black'
+                          : 'red'
+                      "
+                      >￥{{
+                        item.total_funds.indexOf('-') == -1
+                          ? fmoney(item.total_funds)
+                          : '-' + fmoney(item.total_funds.substr(1))
+                      }}</em
+                    >
                   </span>
                 </div>
               </div>
@@ -135,7 +199,11 @@
           </div>
         </van-tab>
         <van-tab title="订单列表" class="Detailed">
-          <el-card class="box-card items" v-for="(item,index) in flowOrderList" :key="index">
+          <el-card
+            class="box-card items"
+            v-for="(item, index) in flowOrderList"
+            :key="index"
+          >
             <van-swipe-cell>
               <div class="coutent">
                 <div class="leftbox">
@@ -143,21 +211,25 @@
                 </div>
                 <div class="rightbox">
                   <div class="timer">
-                    <div class="leftitem">{{item.order_number}}</div>
+                    <div class="leftitem">{{ item.order_number }}</div>
                     <div
                       class="rightitem"
                       @click="RetrieveData(item.distributor_id)"
-                    >{{item.distributor_name}}</div>
+                    >
+                      {{ item.distributor_name }}
+                    </div>
                   </div>
                   <div class="timers">
-                    <div class="rightitem">{{item.created_at |setCommitmentPeriod}}</div>
+                    <div class="rightitem">
+                      {{ item.created_at | setCommitmentPeriod }}
+                    </div>
                   </div>
                   <div class="article">
-                    <div class="leftitem">{{item.product_name}}</div>
+                    <div class="leftitem">{{ item.product_name }}</div>
                   </div>
                   <div class="literature">
-                    <div class="leftitem">{{item.product_model}}</div>
-                    <div class="rightitem">{{item.number | setNumber}}</div>
+                    <div class="leftitem">{{ item.product_model }}</div>
+                    <div class="rightitem">{{ item.number | setNumber }}</div>
                   </div>
                 </div>
               </div>
@@ -256,7 +328,7 @@ export default {
     this.$Jurisdiction('85', localStorage.getItem('oparr'), () => {
       this.isreference = false
     })
-    this.$Jurisdiction('87', localStorage.getItem('oparr'), () => {
+    this.$Jurisdiction('86', localStorage.getItem('oparr'), () => {
       this.isgocontractList = false
     })
     this.$Jurisdiction('88', localStorage.getItem('oparr'), () => {
@@ -292,9 +364,7 @@ export default {
           }) + 1
         )
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
     isDetailed: {
       get() {
@@ -304,9 +374,7 @@ export default {
           }) + 1
         )
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
     isNewOrder: {
       get() {
@@ -316,9 +384,7 @@ export default {
           }) + 1
         )
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
     isNewlyBuild: {
       get() {
@@ -331,9 +397,7 @@ export default {
           })
         )
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
   },
   filters: {
@@ -387,7 +451,7 @@ export default {
         left: 28,
       })
       this.leftBtn = data
-      console.log('getleft', this.leftBtn)
+
       this.leftBtn.map((item) => {
         if (item.id == '79') {
           this.actions.push({
@@ -400,7 +464,6 @@ export default {
           })
         }
       })
-      //
     },
     async unlockyoursidekick(iid) {
       const { code, msg } = await cancelToExamineDeliveryRecord({
@@ -481,7 +544,7 @@ export default {
       from.append('token', this.$store.state.token)
       from.append('id', id)
       const { code, data, msg } = await deleteFlowOrderProduct(from)
-      console.log('deleteFlowOrderProduct', data)
+
       if (code == 200) {
         this.$message.success(msg)
       } else {
@@ -542,7 +605,6 @@ export default {
   },
 }
 </script>
-
 
 <style scoped lang="scss">
 #contract {

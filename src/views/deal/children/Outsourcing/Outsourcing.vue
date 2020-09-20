@@ -10,48 +10,61 @@
     >
       <van-tabs v-model="active">
         <van-tab class="first" title="进行中">
-          <van-swipe-cell v-for="(item,index) in outsourcingOrderList" :key="index">
+          <van-swipe-cell
+            v-for="(item, index) in outsourcingOrderList"
+            :key="index"
+          >
             <el-card class="box-card">
               <div @click.stop="mkvongoing(item)">
                 <div class="info">
                   <span>
-                    {{item.order_number}}
-                    <em>{{item.salesperson_name | setSalespersonName}}</em>
+                    {{ item.order_number }}
+                    <em>{{ item.salesperson_name | setSalespersonName }}</em>
                   </span>
                   <div class="ControlledDelaybox">
                     <span
-                      v-for="(item,index) in item.auditRecord"
+                      v-for="(item, index) in item.auditRecord"
                       :key="index"
-                      :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                      :class="
+                        item.status == 0
+                          ? 'glyphicon pramary'
+                          : 'glyphicon infos'
+                      "
                     ></span>
-                    <i @click="Retrieve(item.supplier_id)">{{item.name}}</i>
+                    <i @click="Retrieve(item.supplier_id)">{{ item.name }}</i>
                   </div>
                 </div>
                 <el-row class="schedule">
                   <div class="item">
                     <el-progress
                       :format="formatTwo"
-                      :status="item.delivery_schedule<100?null:'warning'"
+                      :status="item.delivery_schedule < 100 ? null : 'warning'"
                       :text-inside="true"
                       :stroke-width="16"
-                      :show-text="item.delivery_schedule<30?false:true"
+                      :show-text="item.delivery_schedule < 30 ? false : true"
                       :percentage="item.delivery_schedule * 1"
                     ></el-progress>
                   </div>
                   <div class="item">
                     <el-progress
                       :format="formatOne"
-                      :status="item.warehousing_progress<100?null:'warning'"
+                      :status="
+                        item.warehousing_progress < 100 ? null : 'warning'
+                      "
                       :text-inside="true"
                       :stroke-width="16"
-                      :show-text="item.warehousing_progress<30?false:true"
+                      :show-text="item.warehousing_progress < 30 ? false : true"
                       :percentage="item.warehousing_progress * 1"
                     ></el-progress>
                   </div>
                 </el-row>
                 <el-row class="timer">
-                  <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
-                  <div class="Settlement">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+                  <div class="Delivery">
+                    {{ item.commitment_period | setCommitmentPeriode }}
+                  </div>
+                  <div class="Settlement">
+                    {{ item.amount_of_discount | setAmountOfDiscount }}
+                  </div>
                 </el-row>
               </div>
             </el-card>
@@ -64,35 +77,47 @@
                   type="primary"
                   text="完工"
                 />
-                <van-button v-else @click="createGoods(item)" square type="danger" text="收货" />
+                <van-button
+                  v-else
+                  @click="createGoods(item)"
+                  square
+                  type="danger"
+                  text="收货"
+                />
               </div>
             </template>
           </van-swipe-cell>
         </van-tab>
         <van-tab class="second" title="已完工">
-          <el-card class="box-card" v-for="(item,index) in outsourcingOrderListed" :key="index">
+          <el-card
+            class="box-card"
+            v-for="(item, index) in outsourcingOrderListed"
+            :key="index"
+          >
             <div class="info">
               <span>
-                {{item.order_number}}
-                <em>{{item.salesperson_name | setSalespersonName}}</em>
+                {{ item.order_number }}
+                <em>{{ item.salesperson_name | setSalespersonName }}</em>
               </span>
 
               <div class="ControlledDelaybox">
                 <span
-                  v-for="(item,index) in item.auditRecord"
+                  v-for="(item, index) in item.auditRecord"
                   :key="index"
-                  :class="item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'"
+                  :class="
+                    item.status == 0 ? 'glyphicon pramary' : 'glyphicon infos'
+                  "
                 ></span>
-                <i>{{item.name}}</i>
+                <i>{{ item.name }}</i>
               </div>
             </div>
             <el-row class="schedule">
               <div class="item">
                 <el-progress
                   :format="formatTwo"
-                  :status="item.delivery_schedule<100?null:'warning'"
+                  :status="item.delivery_schedule < 100 ? null : 'warning'"
                   :text-inside="true"
-                  :show-text="item.delivery_schedule<30?false:true"
+                  :show-text="item.delivery_schedule < 30 ? false : true"
                   :stroke-width="16"
                   :percentage="item.delivery_schedule * 1"
                 ></el-progress>
@@ -100,17 +125,21 @@
               <div class="item">
                 <el-progress
                   :format="formatOne"
-                  :status="item.warehousing_progress<100?null:'warning'"
+                  :status="item.warehousing_progress < 100 ? null : 'warning'"
                   :text-inside="true"
                   :stroke-width="16"
-                  :show-text="item.warehousing_progress<30?false:true"
+                  :show-text="item.warehousing_progress < 30 ? false : true"
                   :percentage="item.warehousing_progress * 1"
                 ></el-progress>
               </div>
             </el-row>
             <el-row class="timer">
-              <div class="Delivery">{{item.commitment_period | setCommitmentPeriode}}</div>
-              <div class="Settlement">{{item.amount_of_discount | setAmountOfDiscount}}</div>
+              <div class="Delivery">
+                {{ item.commitment_period | setCommitmentPeriode }}
+              </div>
+              <div class="Settlement">
+                {{ item.amount_of_discount | setAmountOfDiscount }}
+              </div>
             </el-row>
           </el-card>
         </van-tab>
@@ -119,7 +148,7 @@
     <i class="el-icon-plus" @click="tooutsource" v-if="istooutsource"></i>
   </div>
 </template>
-    
+
 <script>
 import {
   getUndischargedOutsourcingOrderList,
@@ -298,7 +327,6 @@ export default {
     },
     handleClick(tab, event) {
       throttle(() => {
-        console.log(tab, event)
         this.indexTab = tab
         if (this.indexTab) {
           this.outsourcingOrderListed = []
@@ -333,7 +361,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Outsourcing {
   #wrapper-click {

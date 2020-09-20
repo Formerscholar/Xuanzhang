@@ -58,14 +58,22 @@
               <td>单价</td>
               <td>操作</td>
             </tr>
-            <tr v-for="(item,index) in tableData" :key="index" class="contentbox">
-              <td>{{item.name}}</td>
-              <td>{{item.specification}}</td>
+            <tr
+              v-for="(item, index) in tableData"
+              :key="index"
+              class="contentbox"
+            >
+              <td>{{ item.name }}</td>
+              <td>{{ item.specification }}</td>
               <td>
-                <van-field v-model="num[index]" type="digit" @input="numschange" />
+                <van-field
+                  v-model="num[index]"
+                  type="digit"
+                  @input="numschange"
+                />
               </td>
-              <td>{{item.weight}}</td>
-              <td>{{item.price}}</td>
+              <td>{{ item.weight }}</td>
+              <td>{{ item.price }}</td>
               <td>
                 <i @click="deleteItem(index)">删</i>
               </td>
@@ -74,14 +82,25 @@
         </el-row>
         <el-row>
           <van-field v-model="Shipmentprice" type="number" label="发货金额" />
-          <timers class="Sign" type="Shipdata" title="日期" :valueData="timersList.Shipdata" />
-          <van-field v-model="Shipmentmessage" rows="1" autosize label="发货备注" type="textarea" />
+          <timers
+            class="Sign"
+            type="Shipdata"
+            title="日期"
+            :valueData="timersList.Shipdata"
+          />
+          <van-field
+            v-model="Shipmentmessage"
+            rows="1"
+            autosize
+            label="发货备注"
+            type="textarea"
+          />
         </el-row>
       </el-card>
     </div>
   </div>
 </template>
-    
+
 <script>
 import {
   getAddDeliverGoodsDistributors,
@@ -175,7 +194,7 @@ export default {
         order_id: value,
         _: new Date().getTime(),
       })
-      console.log('getAddDeliverGoodsProduct', data)
+
       this.tableData = []
       this.orderProducts = data.orderProducts
       data.orderProducts.map((item) => {
@@ -191,7 +210,7 @@ export default {
       const { data } = await getAddDeliverGoodsDistributors(
         this.getAddDeliverGoodData
       )
-      console.log('getAddDeliverGoodsDistributors', data)
+
       data.distributors.map((item) => {
         this.restaurants.push({
           address: item.id,
@@ -228,7 +247,7 @@ export default {
         order_type: this.pageType,
         _: new Date().getTime(),
       })
-      console.log('getAddDeliverGoods', data)
+
       data.orderList.map((item) => {
         this.Contractoptions.push({
           value: item.id,
@@ -245,7 +264,7 @@ export default {
     this.pageType = this.$route.params.type
     if (this.$route.query.data != null) {
       this.itemList = this.$route.query.data
-      console.log(this.itemList, this.pageType)
+
       this.inputvalue = this.itemList.name
       this.distributor = this.itemList.distributor_id
       this.handleSelect({ address: this.distributor })
@@ -271,7 +290,6 @@ export default {
 }
 </style>
 
-    
 <style scoped lang="scss">
 #TotalShipment {
   padding-top: 5.428571rem;

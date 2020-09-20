@@ -59,8 +59,19 @@
           </div>
         </el-row>
         <van-field v-model="CreditAmount" type="digit" label="入账金额" />
-        <timers class="Sign" type="CreditDate" title="入账日期" :valueData="timersList.CreditDate" />
-        <van-field v-model="Remarks" rows="1" autosize label="备注" type="textarea" />
+        <timers
+          class="Sign"
+          type="CreditDate"
+          title="入账日期"
+          :valueData="timersList.CreditDate"
+        />
+        <van-field
+          v-model="Remarks"
+          rows="1"
+          autosize
+          label="备注"
+          type="textarea"
+        />
       </el-card>
       <div class="btns">
         <van-button type="info">提交</van-button>
@@ -68,7 +79,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
@@ -96,7 +107,6 @@ export default {
       item.style.border = 'none'
     })
     this.paramsData = this.$route.query.data
-    console.log('this.paramsData', this.paramsData)
   },
   destroyed() {
     this.paramsData = {}
@@ -123,23 +133,19 @@ export default {
       }
     },
     handleSelects(val) {
-      console.log(val)
       this.selectedID = val.address
     },
   },
 }
 </script>
 
-
-<style  >
+<style>
 .van-cell {
   padding: 0 !important;
 }
 </style>
 
-
-
-<style scoped  lang="scss">
+<style scoped lang="scss">
 #keepmoneypage {
   .p_root_box {
     color: #747474;

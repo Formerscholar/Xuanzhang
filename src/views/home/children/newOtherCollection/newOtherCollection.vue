@@ -13,36 +13,7 @@
       <div class="body">
         <div class="box-card item1">
           <van-field v-model="state" label="款项来源" class="newStyle" />
-          <!-- <van-field
-            v-model="state"
-            label="客户名称"
-            @focus="focusClick"
-            class="newStyle"
-            @click-right-icon="focusClick"
-            placeholder="点击检索客户名称"
-            right-icon="arrow"
-          />
-          <van-field
-            v-model="OrderModeState"
-            label="订单模式"
-            readonly
-            @click-input="OrderModeClick"
-            class="newStyle"
-            @click-right-icon="OrderModeClick"
-            placeholder="点击选择订单模式"
-            right-icon="arrow"
-          />
-          <van-field
-            v-if="isShowContractNo"
-            v-model="ContractNoState"
-            label="合同号"
-            readonly
-            @click-input="isContractNo = true"
-            class="newStyle"
-            @click-right-icon="isContractNo = true"
-            placeholder="点击选择合同号"
-            right-icon="arrow"
-          />-->
+
           <van-field
             v-model="ChooseChannelsStates"
             label="选择渠道"
@@ -63,12 +34,23 @@
             placeholder="点击选择渠道"
             right-icon="arrow"
           />
-          <van-field v-model="contractAmount" label="入账金额" class="newStyle" />
+          <van-field
+            v-model="contractAmount"
+            label="入账金额"
+            class="newStyle"
+          />
           <el-row class="DeliveryDate van-cell">
             <span class="lable">入账日期</span>
-            <span class="time" @click="tiemrClick">{{timersList.SigningDate}}</span>
+            <span class="time" @click="tiemrClick">{{
+              timersList.SigningDate
+            }}</span>
           </el-row>
-          <van-field v-model="contractegg" type="textarea" label="备注" class="newStyle" />
+          <van-field
+            v-model="contractegg"
+            type="textarea"
+            label="备注"
+            class="newStyle"
+          />
         </div>
       </div>
     </scroll>
@@ -133,7 +115,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
@@ -282,7 +264,6 @@ export default {
   },
   computed: {
     addContractOrderData() {
-      console.log(this.variable_id)
       let from = new FormData()
       from.append('token', this.$store.state.token)
       from.append('settlement_type', this.settlement_type)
@@ -328,9 +309,7 @@ export default {
       this.SettlementChannelstates = value
       this.variable.map((item, index1) => {
         if (index1 == index) {
-          console.log(item)
           this.variable_id = item.id || item.user_id
-          console.log(this.variable_id)
         }
       })
       this.isSettlementChannel = false
@@ -346,11 +325,9 @@ export default {
       this.SettlementChannel = []
       this.variable = data.variable
       if (index) {
-        console.log('bank', data.variable)
         this.settlement_type = 'bank'
         this.SettlementChannel = data.variable.map((item) => item.bank_account)
       } else {
-        console.log('user', data.variable)
         this.settlement_type = 'user'
         this.SettlementChannel = data.variable.map((item) => item.user_name)
       }
@@ -359,7 +336,6 @@ export default {
       this.ContractNoState = value
       this.orderList.map((item, index1) => {
         if (index1 == index) {
-          console.log(item)
           this.order_id = item.id
         }
       })
@@ -385,7 +361,6 @@ export default {
       this.isOrderMode = true
     },
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -405,7 +380,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     arrowheadConfirm(value, index) {
@@ -415,7 +389,6 @@ export default {
     },
     arrowheadradiatorClick() {
       this.isarrowhead = true
-      console.log('arrowheadradiatorClick')
     },
     cancel() {
       this.isDatetime = false
@@ -440,7 +413,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -470,7 +442,7 @@ export default {
       const { data } = await getAddSettlementRecordDistributors(
         this.getAddOemOrderData
       )
-      console.log('getAddSettlementRecordDistributors', data)
+
       this.distributors = data.distributors
       let newArr = Object.values(data.companyOrderType)
       newArr.shift()
@@ -484,7 +456,6 @@ export default {
       for (let i = 0; i < this.form.selectedOptions.length; i++) {
         loc += CodeToText[this.form.selectedOptions[i]]
       }
-      console.log(loc)
     },
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-3)
@@ -500,7 +471,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.productName = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -557,7 +527,7 @@ export default {
             newArr.push(this.productWeight)
             newArr.push([null, 1])
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
+
             let allmonpement = 0
             this.tableData.forEach((item) => {
               allmonpement += parseFloat(item.totalPrice)
@@ -603,7 +573,7 @@ export default {
         newArr.push(this.productWeight)
         newArr.push([null, 1])
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
+
         let allmonpement = 0
         this.tableData.forEach((item) => {
           allmonpement += parseFloat(item.totalPrice)
@@ -705,7 +675,7 @@ export default {
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)
-      console.log('getReceivingInformationList', data)
+
       this.listData = data.receivingInformationList
       this.addressData.name = this.listData[0].consignee
       this.addressData.id = this.listData[0].id
@@ -731,7 +701,7 @@ export default {
     },
     handleSelect(val) {
       this.selectedID = val.address
-      console.log(this.selectedID)
+
       this.getReceiving()
     },
     handleSelectss(val) {
@@ -767,7 +737,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #OEM {
   padding-top: 5.428571rem;

@@ -61,7 +61,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { throttle } from '@/common/utils'
 
@@ -259,7 +259,7 @@ export default {
       const { data } = await getUserContractOrderList(
         this.getUserContractOrderListDatas
       )
-      console.log('getUserContractOrderList', data)
+
       if (data.contractOrderList.length != 0) {
         data.contractOrderList.forEach((item) => {
           this.MyOfferList.push({
@@ -290,7 +290,7 @@ export default {
       const { data } = await getUserContractOrderList(
         this.getUserContractOrderListData
       )
-      console.log('getUserContractOrderList', data)
+
       if (data.contractOrderList.length != 0) {
         data.contractOrderList.forEach((item) => {
           this.contractOrderList.push({
@@ -318,7 +318,6 @@ export default {
       }
     },
     async printList(datas) {
-      console.log('dealgoods')
       this.show = datas.showed
       const { code, data, msg } = await getEditContractOrder({
         id: datas.data.id,
@@ -361,7 +360,6 @@ export default {
       }, 500)
     },
     loadMore() {
-      console.log('loadMore', this.pageIndex)
       switch (this.pageIndex) {
         case 0:
           if (this.request) {
@@ -421,7 +419,7 @@ export default {
     },
     async getOrderList(id) {
       const { data } = await getContractOrderList(this.getOrderData(id))
-      console.log('getContractOrderList', data)
+
       if (id == 0) {
         if (data.contractOrderList.length != 0) {
           data.contractOrderList.forEach((item) => {
@@ -478,7 +476,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 .goodslist {
   #wrapper-click {

@@ -20,18 +20,31 @@
               <div class="right">
                 <div class="title">
                   <span>
-                    {{designatedTasks.operator_name}}
-                    <em>【{{jobTitle}}】</em>
+                    {{ designatedTasks.operator_name }}
+                    <em>【{{ jobTitle }}】</em>
                   </span>
                 </div>
                 <div class="end_timer">
-                  <span>{{designatedTasks.created_at}}</span>
+                  <span>{{ designatedTasks.created_at }}</span>
                   <span>
                     状态 -
                     <em>
                       <el-tag
-                        :type="setTextStatus('type',designatedTasks.status,designatedTasks.user_status)"
-                      >{{setTextStatus('text',designatedTasks.status,designatedTasks.user_status)}}</el-tag>
+                        :type="
+                          setTextStatus(
+                            'type',
+                            designatedTasks.status,
+                            designatedTasks.user_status
+                          )
+                        "
+                        >{{
+                          setTextStatus(
+                            'text',
+                            designatedTasks.status,
+                            designatedTasks.user_status
+                          )
+                        }}</el-tag
+                      >
                     </em>
                   </span>
                 </div>
@@ -39,29 +52,34 @@
             </div>
             <div class="cc">
               <span>
-                <img class="bgt" src="@/assets/image/smol_picter.fw.png" alt="logo" /> 抄送范围:
-                <em>{{designatedTasks.users_ccs}}</em>
+                <img
+                  class="bgt"
+                  src="@/assets/image/smol_picter.fw.png"
+                  alt="logo"
+                />
+                抄送范围:
+                <em>{{ designatedTasks.users_ccs }}</em>
               </span>
             </div>
             <div class="timer">
               <div class="left">
                 <span>
                   任务截至日期:
-                  <em>{{designatedTasks.end_time}}</em>
+                  <em>{{ designatedTasks.end_time }}</em>
                 </span>
               </div>
               <div class="right">
                 <span>
-                  <el-tag
-                    :type="setAttr('type',designatedTasks.attribute)"
-                  >{{setAttr('text',designatedTasks.attribute)}}</el-tag>
+                  <el-tag :type="setAttr('type', designatedTasks.attribute)">{{
+                    setAttr('text', designatedTasks.attribute)
+                  }}</el-tag>
                 </span>
               </div>
             </div>
           </div>
           <div class="botbox">
             <div class="title">
-              <span>{{designatedTasks.title}}</span>
+              <span>{{ designatedTasks.title }}</span>
             </div>
             <div id="content"></div>
           </div>
@@ -72,19 +90,22 @@
             <el-timeline-item
               :timestamp="item.updated_at"
               placement="top"
-              v-for="(item,index) in designatedTasksDetail"
+              v-for="(item, index) in designatedTasksDetail"
               :key="index"
             >
               <el-card body-style="padding:.714286rem;">
-                <p
-                  style="margin:0; margin-bottom: .357143rem;"
-                >{{item.operator_name}} 提交于 {{item.created_at}}</p>
+                <p style="margin:0; margin-bottom: .357143rem;">
+                  {{ item.operator_name }} 提交于 {{ item.created_at }}
+                </p>
                 <h4 style="margin:0;">
                   <el-tag
                     style=" border: none; background-color: #fff; font-size: 1rem; padding: 0;"
-                    :type="setTextStatus('type',item.status,item.user_status)"
-                  >{{setTextStatus('text',item.status,item.user_status)}}</el-tag>
-                  {{item.remark}}
+                    :type="setTextStatus('type', item.status, item.user_status)"
+                    >{{
+                      setTextStatus('text', item.status, item.user_status)
+                    }}</el-tag
+                  >
+                  {{ item.remark }}
                 </h4>
               </el-card>
             </el-timeline-item>
@@ -95,45 +116,103 @@
         <div id="confirm"></div>
         <div id="reject"></div>
       </div>
-      <el-dialog title="驳回理由" :visible.sync="centerDialogVisible" width="90%" center>
-        <el-input type="textarea" autosize placeholder="请输入内容" v-model="textareatext"></el-input>
+      <el-dialog
+        title="驳回理由"
+        :visible.sync="centerDialogVisible"
+        width="90%"
+        center
+      >
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="textareatext"
+        ></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="Dismissed">取 消</el-button>
-          <el-button type="primary" @click="RejectConfirmation">确 定</el-button>
+          <el-button type="primary" @click="RejectConfirmation"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
-      <el-dialog title="确认理由" :visible.sync="confirmDialogVisible" width="90%" center>
-        <el-input type="textarea" autosize placeholder="请输入内容" v-model="confirmtext"></el-input>
+      <el-dialog
+        title="确认理由"
+        :visible.sync="confirmDialogVisible"
+        width="90%"
+        center
+      >
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="confirmtext"
+        ></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="confirmDismissed">取 消</el-button>
-          <el-button type="primary" @click="confirmConfirmation">确 定</el-button>
+          <el-button type="primary" @click="confirmConfirmation"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
-      <el-dialog title="提交理由" :visible.sync="referVisible" width="90%" center>
-        <el-input type="textarea" autosize placeholder="请输入内容" v-model="refertext"></el-input>
+      <el-dialog
+        title="提交理由"
+        :visible.sync="referVisible"
+        width="90%"
+        center
+      >
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="refertext"
+        ></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="referDismissed">取 消</el-button>
           <el-button type="primary" @click="referConfirmation">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="取消理由" :visible.sync="cancelVisible" width="90%" center>
-        <el-input type="textarea" autosize placeholder="请输入内容" v-model="canceltext"></el-input>
+      <el-dialog
+        title="取消理由"
+        :visible.sync="cancelVisible"
+        width="90%"
+        center
+      >
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="canceltext"
+        ></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="cancelDismissed">取 消</el-button>
-          <el-button type="primary" @click="cancelConfirmation">确 定</el-button>
+          <el-button type="primary" @click="cancelConfirmation"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
-      <el-dialog title="完成理由" :visible.sync="completeVisible" width="90%" center>
-        <el-input type="textarea" autosize placeholder="请输入内容" v-model="completetext"></el-input>
+      <el-dialog
+        title="完成理由"
+        :visible.sync="completeVisible"
+        width="90%"
+        center
+      >
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="completetext"
+        ></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="completeDismissed">取 消</el-button>
-          <el-button type="primary" @click="completeConfirmation">确 定</el-button>
+          <el-button type="primary" @click="completeConfirmation"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
     </div>
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 import {
@@ -319,7 +398,7 @@ export default {
       document.querySelector('#content').innerHTML = str
       this.$previewRefresh()
       this.data = data
-      console.log('this.data', this.data)
+
       let html = ''
       html = ''
       if (this.data.designatedTasks.user_id == this.data.userInfo[0].id) {
@@ -409,84 +488,73 @@ export default {
           .removeEventListener('click', this.setDataTrueO)
       })
     },
-    //驳回确认
     async RejectConfirmation(e) {
       const res = await checkDesignatedTasksStatus(
         this.checkDesignatedTasksStatusData
       )
-      console.log('checkDesignatedTasksStatus', res)
+
       if (res.code == 200) {
         this.$router.go(-1)
       }
       this.textareatext = ''
       this.centerDialogVisible = false
     },
-    //驳回取消
     Dismissed() {
       this.textareatext = ''
       this.centerDialogVisible = false
     },
-    //确认确认
     async confirmConfirmation(e) {
       const res = await checkDesignatedTasksStatus(this.confirmData)
-      console.log('checkDesignatedTasksStatus', res)
+
       if (res.code == 200) {
         this.$router.go(-1)
       }
       this.confirmtext = ''
       this.confirmDialogVisible = false
     },
-    //确认取消
     confirmDismissed() {
       this.confirmtext = ''
       this.confirmDialogVisible = false
     },
-    //提交确认
     async referConfirmation(e) {
       const res = await checkDesignatedTasksUserStatus(this.referData)
-      console.log('checkDesignatedTasksStatus', res)
+
       if (res.code == 200) {
         this.$router.go(-1)
       }
       this.refertext = ''
       this.referVisible = false
     },
-    //提交取消
     referDismissed() {
       this.refertext = ''
       this.referVisible = false
     },
-    // 取消确认
     async cancelConfirmation(e) {
       const res = await checkDesignatedTasksUserStatus(this.cancelData)
-      console.log('checkDesignatedTasksStatus', res)
+
       if (res.code == 200) {
         this.$router.go(-1)
       }
       this.canceltext = ''
       this.cancelVisible = false
     },
-    //提交取消
     cancelDismissed() {
       this.canceltext = ''
       this.cancelVisible = false
     },
-    // 取消确认
     async completeConfirmation(e) {
       const res = await checkDesignatedTasksStatus(this.completeData)
-      console.log('checkDesignatedTasksStatus', res)
+
       if (res.code == 200) {
         this.$router.go(-1)
       }
       this.completetext = ''
       this.completeVisible = false
     },
-    //提交取消
     completeDismissed() {
       this.completetext = ''
       this.completeVisible = false
     },
-    // 清除按钮
     clierbtn() {
       document.querySelector('#confirm').innerHTML = ''
       document.querySelector('#reject').innerHTML = ''
@@ -530,7 +598,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Details {
   padding-top: 5.571429rem;

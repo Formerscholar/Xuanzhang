@@ -13,13 +13,13 @@
       </div>
       <ul id="demo-list">
         <li v-for="item in listItem" :key="item.id" @click="handleClick(item)">
-          <span>{{item.name}}</span>
+          <span>{{ item.name }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
-    
+
 <script>
 import { filterList } from '@/common/my_search'
 export default {
@@ -49,7 +49,7 @@ export default {
     handleClick(item) {
       this.itemData = { ...item }
       this.value = item.name
-      console.log(item)
+
       this.$bus.$emit('outSupplier', item)
       this.blacknext()
     },
@@ -59,7 +59,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #outSearch {
   .bg {
@@ -114,7 +114,6 @@ export default {
       border-bottom: 1px solid #fff;
       span {
         color: #000;
-        // font-family: Arial, Helvetica, sans-serif;
         font-size: 11px;
         text-decoration: none;
       }

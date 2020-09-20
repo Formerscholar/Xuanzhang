@@ -8,12 +8,15 @@
         <span>收据</span>
       </div>
       <div class="right" slot="right">
-        <span>{{allmonty.toFixed(2) | setAllmonty}}</span>
+        <span>{{ allmonty.toFixed(2) | setAllmonty }}</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="content_box">
-        <van-swipe-cell v-for="(item,index) in deliveryRecordList" :key="index">
+        <van-swipe-cell
+          v-for="(item, index) in deliveryRecordList"
+          :key="index"
+        >
           <div class="row">
             <div class="left_box">
               <div class="top_img">
@@ -25,29 +28,29 @@
                 <div class="left">
                   <span>
                     票号:
-                    <em class="receipt">{{item.order_number}}</em>
+                    <em class="receipt">{{ item.order_number }}</em>
                   </span>
                 </div>
                 <div class="right">
                   <span>
-                    <em>{{item.created_at | setCreatedAt}}</em>
+                    <em>{{ item.created_at | setCreatedAt }}</em>
                   </span>
                 </div>
               </div>
               <div class="childrow mgdata">
                 <div class="left">
                   <span>
-                    <em>{{item.order_number | setOrderNumber}}</em>
+                    <em>{{ item.order_number | setOrderNumber }}</em>
                   </span>
                 </div>
                 <div class="right"></div>
               </div>
               <div class="childrow">
                 <div class="left">
-                  <span class="black">{{item.name}}</span>
+                  <span class="black">{{ item.name }}</span>
                 </div>
                 <div class="right">
-                  <span>{{item.amount_of_invoice | setAmountOfInvoice}}</span>
+                  <span>{{ item.amount_of_invoice | setAmountOfInvoice }}</span>
                 </div>
               </div>
             </div>
@@ -71,7 +74,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { getCollectInvoiceRecordList } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -129,18 +132,16 @@ export default {
       const { data } = await getCollectInvoiceRecordList(
         this.getDeliverGoodData
       )
-      console.log('getCollectInvoiceRecordList', data)
+
       this.deliveryRecordList = data.invoiceRecordList
       this.deliveryRecordList.map((item, index) => {
         this.allmonty += parseFloat(item.amount_of_invoice)
       })
     },
     PrintClick(item) {
-      console.log(item)
       if (item.print_html != null) {
         this.isShow = true
         this.textContent = item.print_html
-        console.log(this.textContent)
       } else {
         this.$message({
           showClose: true,
@@ -155,9 +156,6 @@ export default {
   },
 }
 </script>
-    
-
-
 
 <style scoped lang="scss">
 #invoicelist {

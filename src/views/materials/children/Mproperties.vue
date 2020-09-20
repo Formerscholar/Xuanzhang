@@ -5,13 +5,13 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <div class="content">
       <el-row class="row">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
         <el-select v-model="value" @change="handleChange">
           <el-option
             v-for="item in options"
@@ -24,7 +24,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
@@ -50,7 +50,7 @@ export default {
     this.data = this.$route.query.data.data
     this.name = this.$route.query.data.name
     this.route = this.$route.query.data.route
-    console.log(this.data, this.name, this.route)
+
     if (this.data == '产品') {
       this.value = '1'
     } else {
@@ -66,7 +66,7 @@ export default {
       state: this.state,
     }
     this.$bus.$emit('listbusData', data)
-    console.log(this.data, this.name, this.route)
+
     this.data = null
     this.name = null
     this.route = null
@@ -91,7 +91,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Mproperties {
   padding-top: 5.428571rem;

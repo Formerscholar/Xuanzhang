@@ -1,8 +1,6 @@
 <template>
   <div id="Operation">
-    <!-- topbar -->
     <o-topbar />
-    <!-- header -->
     <oHeader />
   </div>
 </template>

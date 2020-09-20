@@ -20,18 +20,23 @@
           label="报销类别"
           right-icon="arrow"
         />
-        <van-field class="newStyle" v-model="Reasons" label="报销事由" placeholder="请输入内容" />
+        <van-field
+          class="newStyle"
+          v-model="Reasons"
+          label="报销事由"
+          placeholder="请输入内容"
+        />
       </div>
       <div class="ChargeDetails">
         <div class="title">费用明细</div>
 
-        <van-swipe-cell v-for="(item,index) in NewCost" :key="index">
+        <van-swipe-cell v-for="(item, index) in NewCost" :key="index">
           <div class="item1">
             <div class="top">
               <div class="left">
                 <i class="el-icon-s-flag"></i>
-                <span>{{item.title}}</span>
-                <em class="timer">{{item.timer}}</em>
+                <span>{{ item.title }}</span>
+                <em class="timer">{{ item.timer }}</em>
               </div>
               <div class="right">
                 <span>CNY</span>
@@ -39,11 +44,11 @@
             </div>
             <div class="bot">
               <div class="left">
-                <span>{{item.detailed}}</span>
+                <span>{{ item.detailed }}</span>
               </div>
               <div class="right">
-                <span>{{item.Whole }}</span>
-                <em>.{{item.Loose}}</em>
+                <span>{{ item.Whole }}</span>
+                <em>.{{ item.Loose }}</em>
               </div>
             </div>
           </div>
@@ -60,16 +65,14 @@
         </van-swipe-cell>
 
         <div class="Manual" @click="gotoDetails">
-          <span>
-            <i class="el-icon-discount"></i>手动添加费用
-          </span>
+          <span> <i class="el-icon-discount"></i>手动添加费用 </span>
         </div>
       </div>
       <div class="Summary">
         <div class="title">汇总</div>
         <div class="item1">
           <span>累计报销金额</span>
-          <em>￥{{apply==undefined?'0':apply | setTwo}}</em>
+          <em>￥{{ apply == undefined ? '0' : apply | setTwo }}</em>
         </div>
       </div>
       <div class="picker" v-if="ispicker">
@@ -83,11 +86,13 @@
       </div>
     </scroll>
     <div class="item4">
-      <el-button type="primary" class="blue" @click="goBtnClick">提交</el-button>
+      <el-button type="primary" class="blue" @click="goBtnClick"
+        >提交</el-button
+      >
     </div>
   </div>
 </template>
-    
+
 <script>
 import {
   getAddReimbursement,
@@ -136,7 +141,6 @@ export default {
       this.ispicker = true
     },
     onConfirm(value, index) {
-      console.log(`当前值：${value}, 当前索引：${index}`)
       this.picker = value
       this.options.forEach((item, index1) => {
         if (index1 == index) {
@@ -144,17 +148,14 @@ export default {
         }
       })
       this.ispicker = false
-      console.log(this.picker, this.pickerID)
     },
     onCancel() {
       this.picker = ''
       this.pickerID = 0
       this.ispicker = false
-      console.log(this.picker, this.pickerID)
     },
     setNewCost() {
       let rootData = this.$store.state.AddDetailsData
-      console.log(this.$store.state.AddDetailsData)
 
       if (rootData.apply != undefined) {
         let newObj = {}
@@ -181,11 +182,11 @@ export default {
           newArr[3] = youWant1
           newArr[4] = ''
         }
-        console.log(newArr)
+
         this.reimbursement_detail.push(newArr)
-        console.log(this.reimbursement_detail)
+
         this.NewCost.push(newObj)
-        console.log(this.NewCost)
+
         this.$store.commit('setAddDetailsData', {})
       }
     },
@@ -211,7 +212,7 @@ export default {
     },
     async getAddReimbursementData() {
       const { data } = await getAddReimbursement(this.$store.state.token)
-      console.log('getAddReimbursement', data)
+
       this.user_id = data.userInfo[0].id
       this.type = data.type
       this.token = data.token
@@ -262,7 +263,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #newAccount {
   .p_root_box {

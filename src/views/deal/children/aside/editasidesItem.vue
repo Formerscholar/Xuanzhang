@@ -24,40 +24,51 @@
         </el-card>
         <el-card class="box-card item1">
           <el-row class="tanle line">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img
-                      v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                      v-else-if="item.img_url_lin && item.img_url_lin != 0"
                       class="img"
-                      :src="item.img_url_lin  | getUrl"
+                      :src="item.img_url_lin | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span
-                          class="wrap_right_text"
-                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="wrap_right_text"
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                         <span class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -74,15 +85,9 @@
         <el-card class="box-card item1">
           <el-row class="DeliveryDate">
             <span class="lable">日期</span>
-            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+            <span class="time" @click="tiemrClick">{{ DeliveryDate }}</span>
           </el-row>
-          <!-- <van-uploader
-            style="padding: .714286rem 1.142857rem;"
-            v-model="fileList"
-            multiple
-            @delete="filedelete"
-            :after-read="afterRead"
-          />-->
+
           <van-field
             v-model="DeliveryNotes"
             autosize
@@ -121,7 +126,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -234,22 +239,10 @@ export default {
     },
   },
   created() {
-    // 进入只执行一次
     if (this.isEdit) {
-      // this.getAddDeliverGood()
       this.iid = this.$route.params.id
       this.getEditDelive()
     }
-
-    // this.getAddDeliverGood()
-    // this.deliveryRecordItem = this.$route.query.data
-    // console.log(this.deliveryRecordItem)
-    // const { id, distributor_id } = this.deliveryRecordItem
-    // this.distributor_id = distributor_id
-    // this.iid = id
-    // this.getEditDelive()
-
-    //
   },
   computed: {
     getAddDeliverData() {
@@ -260,8 +253,6 @@ export default {
       }
     },
     addAutonomousData() {
-      console.log(this.isFlowingShow)
-      console.log('this.FlowingProducts', this.FlowingProducts)
       return {
         apply_time: this.DeliveryDate,
         id: this.iid,
@@ -301,7 +292,6 @@ export default {
       this.img_url_Arr.splice(detail.index, 1)
     },
     async afterRead(file) {
-      console.log(file)
       lrz(file.content, {
         quality: 0.6,
         fieldName: 'user_file',
@@ -310,12 +300,11 @@ export default {
           user_image: rst.base64,
           token: this.$store.state.token,
         })
-        console.log(data.url)
+
         this.img_url_Arr.push(data.url)
       })
     },
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -335,7 +324,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     async getEditDelive() {
@@ -346,7 +334,6 @@ export default {
         this.$message.error(msg)
         this.$router.replace('/deal/contract')
       } else {
-        console.log('getEditWarehouseEnter', data)
         this.flowDelivery = data.warehouseAccess
         const {
           name,
@@ -391,9 +378,9 @@ export default {
           newArr.push(item.unit_price)
           newArr.push(item.remark)
           newArr.push(item.weight)
-          newArr.push(0) // 零时库
-          newArr.push(item.process_cost) //加工费
-          newArr.push(item.img_url_lin) // 一张图片URL
+          newArr.push(0)
+          newArr.push(item.process_cost)
+          newArr.push(item.img_url_lin)
           newArr.push(item.extra)
           this.shippingData.push(newArr)
         })
@@ -406,18 +393,6 @@ export default {
         if (data.customerProductExtraField.length > 0) {
           this.isFlowingShow = data.customerProductExtraField
         }
-        // data.flowDeliveryImg.forEach((item) => {
-        //   let url = item.img_url
-        //   if (item.img_url.indexOf(bestURL) == -1) {
-        //     url = bestURL + item.img_url
-        //   }
-        //   let obj = {
-        //     url,
-        //   }
-        //   this.fileList.push(obj)
-        //   this.img_url_Arr.push(url)
-        //   console.log(this.img_url_Arr)
-        // })
       }
     },
     focusClick() {
@@ -429,7 +404,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -440,7 +414,7 @@ export default {
     },
     async getAddDeliverGood() {
       const { data } = await getEditWarehouseEnter(this.getAddDeliverData)
-      console.log('getEditWarehouseEnter', data)
+
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
@@ -485,26 +459,7 @@ export default {
       this.radio = '0'
       this.$router.replace('/deal/contract')
     },
-    // querySearchAsync(queryString, cb) {
-    //   var restaurants = this.restaurants
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
-    // querySearchAsyncs(queryString, cb) {
-    //   var restaurants = this.restaurant
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
+
     createStateFilter(queryString) {
       return (state) => {
         return (
@@ -513,10 +468,8 @@ export default {
       }
     },
     handleSelect(item) {
-      // 转数字类型
       this.shippingValue = item.value
       let nums = parseInt(item.address)
-      console.log(nums)
     },
     handchange(value) {
       this.shippingValue = value
@@ -532,7 +485,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -591,12 +543,12 @@ export default {
             newArr.push(this.productPrice)
             newArr.push(this.ProductNotes)
             newArr.push(this.productWeight)
-            newArr.push(this.isTemporary) // 零时库
-            newArr.push(this.processCost) //加工费
-            newArr.push(this.product_img) // 一张图片URL
+            newArr.push(this.isTemporary)
+            newArr.push(this.processCost)
+            newArr.push(this.product_img)
             newArr.push(this.FlowingProducts)
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
+
             let allmonpement = 0
             this.tableData.forEach((item) => {
               allmonpement += parseFloat(item.totalPrice)
@@ -642,12 +594,12 @@ export default {
         newArr.push(this.productPrice)
         newArr.push(this.ProductNotes)
         newArr.push(this.productWeight)
-        newArr.push(this.isTemporary) // 零时库
-        newArr.push(this.processCost) //加工费
-        newArr.push(this.product_img) // 一张图片URL
+        newArr.push(this.isTemporary)
+        newArr.push(this.processCost)
+        newArr.push(this.product_img)
         newArr.push(this.FlowingProducts)
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
+
         let allmonpement = 0
         this.tableData.forEach((item) => {
           allmonpement += parseFloat(item.totalPrice)
@@ -672,7 +624,7 @@ export default {
     },
     async SubmitNow() {
       const { code, msg, data } = await editWarehouseOut(this.addAutonomousData)
-      console.log('editWarehouseOut', data)
+
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -692,7 +644,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #editShipItem {
   padding-top: 5.428571rem;

@@ -1,6 +1,5 @@
 <template>
   <div class="cardCollection">
-    <!-- bankCard -->
     <div v-for="(item,index) in cardCollInfos" :key="index" class="card_content">
       <bankCard :cardinfo="item" />
     </div>

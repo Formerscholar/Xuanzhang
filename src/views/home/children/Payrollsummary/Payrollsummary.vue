@@ -7,7 +7,12 @@
       <div class="center" slot="center">
         <span>工资汇总</span>
       </div>
-      <div class="right" slot="right" @click="state.isPicker = true">
+      <div
+        class="right"
+        slot="right"
+        v-if="state.isisPicker"
+        @click="state.isPicker = true"
+      >
         <van-icon name="bookmark-o" />
       </div>
     </navbar>
@@ -19,8 +24,16 @@
         @change="dropChange"
       />
       <van-dropdown-item title="日期" ref="item" @close="dropClose">
-        <van-field v-model="state.dropdownYear" type="digit" placeholder="请输入年份" />
-        <van-field v-model="state.dropdownMonth" type="digit" placeholder="请输入月份" />
+        <van-field
+          v-model="state.dropdownYear"
+          type="digit"
+          placeholder="请输入年份"
+        />
+        <van-field
+          v-model="state.dropdownMonth"
+          type="digit"
+          placeholder="请输入月份"
+        />
       </van-dropdown-item>
     </van-dropdown-menu>
     <scroll
@@ -33,26 +46,33 @@
     >
       <div class="context_box">
         <van-swipe-cell v-for="item in state.monthWages" :key="item.id">
-          <div :class="[item.deleted_at?'items_box bg_delect':'items_box']" v-if="!item.deleted_at">
+          <div
+            :class="[item.deleted_at ? 'items_box bg_delect' : 'items_box']"
+            v-if="!item.deleted_at"
+          >
             <div class="top_box">
-              <div class="timers">{{item.year}}年{{item.month}}月</div>
-              <div class="pierpoe">{{item.name}}</div>
-              <div class="money">{{item.wages_money}}元</div>
+              <div class="timers">{{ item.year }}年{{ item.month }}月</div>
+              <div class="pierpoe">{{ item.name }}</div>
+              <div class="money">{{ item.wages_money }}元</div>
             </div>
             <div class="bot_box">
-              <div class="caozuo">操作人:{{item.operator_name}}</div>
+              <div class="caozuo">操作人:{{ item.operator_name }}</div>
               <div class="remarks">
                 <div
                   v-for="items in item.auditRecord"
                   :key="items.user_id"
-                  :class="items.status == 0 ? 'examines-bg examines-bg-pramiry' : 'examines-bg examines-bg-info'"
+                  :class="
+                    items.status == 0
+                      ? 'examines-bg examines-bg-pramiry'
+                      : 'examines-bg examines-bg-info'
+                  "
                 ></div>
               </div>
             </div>
           </div>
           <template #right>
             <van-button
-              v-if="!item.to_examine"
+              v-if="!item.to_examine && state.approvalitem"
               square
               type="primary"
               style="height:100%;"
@@ -60,7 +80,9 @@
               @click="approvalitem(item.id)"
             />
             <van-button
-              v-else-if="!item.deleted_at || item.to_examine"
+              v-else-if="
+                !item.deleted_at || (item.to_examine && state.approvalitem)
+              "
               square
               type="info"
               style="height:100%;"
@@ -68,7 +90,7 @@
               @click="NoApprovalitem(item.id)"
             />
             <van-button
-              v-if="!item.deleted_at && !item.to_examine"
+              v-if="!item.deleted_at && !item.to_examine && state.to_examine"
               square
               type="danger"
               style="height:100%;"
@@ -79,6 +101,7 @@
         </van-swipe-cell>
       </div>
     </scroll>
+
     <van-datetime-picker
       class="datetime"
       v-if="state.isPicker"
@@ -128,7 +151,7 @@
 </template>
 
 <script>
-import { reactive, computed } from '@vue/composition-api'
+import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
   getMonthWagesList,
   delMonthWages,
@@ -159,6 +182,21 @@ export default {
       dropdownYear: null,
       dropdownMonth: null,
       dropdownUser_id: 0,
+      isisPicker: true,
+      to_examine: true,
+      approvalitem: true,
+    })
+
+    onActivated(() => {
+      root.$Jurisdiction('327', localStorage.getItem('oparr'), () => {
+        state.isisPicker = false
+      })
+      root.$Jurisdiction('328', localStorage.getItem('oparr'), () => {
+        state.to_examine = false
+      })
+      root.$Jurisdiction('332', localStorage.getItem('oparr'), () => {
+        state.approvalitem = false
+      })
     })
 
     function onClickLeft() {
@@ -197,7 +235,7 @@ export default {
     async function getMonthList() {
       const { data } = await getMonthWagesList(MonthList.value)
       state.monthWages = [...state.monthWages, ...data.monthWages]
-      console.log('getMonthList', state.monthWages)
+
       state.users = [...data.users]
       state.columns = state.users.map((item) => item.name)
       state.option1 = state.users.map((item) => {
@@ -349,7 +387,6 @@ export default {
     }
 
     function dropClose() {
-      console.log(state.dropdownYear, state.dropdownMonth)
       state.allPage = 1
       state.monthWages = []
       getMonthList()

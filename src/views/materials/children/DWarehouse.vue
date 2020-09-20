@@ -5,13 +5,13 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
       </div>
       <div slot="right"></div>
     </navbar>
     <div class="content">
       <el-row class="row">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
         <el-select v-model="value" @change="handleChange">
           <el-option
             v-for="item in options"
@@ -24,7 +24,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
@@ -42,7 +42,7 @@ export default {
     this.name = this.$route.query.data.name
     this.route = this.$route.query.data.route
     this.options = [...this.$route.query.optionssss]
-    console.log(this.data, this.name, this.route, this.options)
+
     this.options.forEach((item, index) => {
       if (item.label == this.data) {
         this.value = item.value
@@ -58,7 +58,7 @@ export default {
       state: this.state,
     }
     this.$bus.$emit('listbusData', data)
-    console.log(this.data, this.name, this.route)
+
     this.data = null
     this.name = null
     this.route = null
@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     handleChange(value) {
-      console.log(value)
       this.options.forEach((item, index) => {
         if (item.value == value) {
           this.data = item.label
@@ -84,7 +83,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #DWarehouse {
   padding-top: 5.428571rem;

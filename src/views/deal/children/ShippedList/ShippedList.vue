@@ -8,12 +8,15 @@
         <span>发货</span>
       </div>
       <div class="right" slot="right">
-        <span>收入￥{{allmonty.toFixed(2)}}</span>
+        <span>收入￥{{ allmonty.toFixed(2) }}</span>
       </div>
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="content_box">
-        <van-swipe-cell v-for="(item,index) in deliveryRecordList" :key="index">
+        <van-swipe-cell
+          v-for="(item, index) in deliveryRecordList"
+          :key="index"
+        >
           <div class="row">
             <div class="left_box">
               <div class="top_img">
@@ -25,13 +28,13 @@
                 <div class="left">
                   <span>
                     发货单号:
-                    <em class="receipt">{{item.order_number}}</em>
+                    <em class="receipt">{{ item.order_number }}</em>
                   </span>
                 </div>
                 <div class="right">
                   <span>
                     日期:
-                    <em>{{item.created_at}}</em>
+                    <em>{{ item.created_at }}</em>
                   </span>
                 </div>
               </div>
@@ -39,17 +42,17 @@
                 <div class="left">
                   <span>
                     合同号:
-                    <em>{{item.contract_order_number}}</em>
+                    <em>{{ item.contract_order_number }}</em>
                   </span>
                 </div>
                 <div class="right"></div>
               </div>
               <div class="childrow">
                 <div class="left">
-                  <span class="black">{{item.name}}</span>
+                  <span class="black">{{ item.name }}</span>
                 </div>
                 <div class="right">
-                  <span>￥{{item.total_funds}}</span>
+                  <span>￥{{ item.total_funds }}</span>
                 </div>
               </div>
             </div>
@@ -67,14 +70,13 @@
       </div>
     </scroll>
     <van-overlay :show="isShow" @click="closeOverlay">
-      <!-- @click.stop -->
       <div class="wrap">
         <myVqr :Content="textContent"></myVqr>
       </div>
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { getDeliverGoodsList } from '@/network/deal'
 import { bestURL, crosURl } from '@/network/baseURL'
@@ -116,18 +118,16 @@ export default {
     },
     async getDeliverGoodsLists() {
       const { data } = await getDeliverGoodsList(this.getDeliverGoodData)
-      console.log('getDeliverGoodsList', data)
+
       this.deliveryRecordList = data.deliveryRecordList
       this.deliveryRecordList.map((item, index) => {
         this.allmonty += parseFloat(item.total_funds)
       })
     },
     PrintClick(item) {
-      console.log(item)
       if (item.print_html != null) {
         this.isShow = true
         this.textContent = item.print_html
-        console.log(this.textContent)
       } else {
         this.$message({
           showClose: true,
@@ -142,8 +142,6 @@ export default {
   },
 }
 </script>
-    
-
 
 <style scoped lang="scss">
 #shippedlist {

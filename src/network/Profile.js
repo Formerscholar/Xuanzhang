@@ -17,13 +17,7 @@ export function getUserMoneyLogLists(params) {
   })
 }
 
-// export function getEditMaterielStatus(data) {
-//   return request({
-//     url: '/materiel/getEditMaterielStatus',
-//     method: 'POST',
-//     data: Qs.stringify(data),
-//   })
-// }
+
 
 export function getUserMoneyLogAccountsList(params) {
   return request({

@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{titleText}}</span>
+        <span>{{ titleText }}</span>
       </div>
       <div slot="right"></div>
     </navbar>
@@ -13,7 +13,12 @@
       <div class="firm_box-card jl_box">
         <van-field class="newStyle" v-model="companyName" label="公司名称" />
         <van-field class="newStyle" v-model="Abbreviation" label="简称" />
-        <van-field class="newStyle" v-model="tariff" label="税率" right-icon="warning-o" />
+        <van-field
+          class="newStyle"
+          v-model="tariff"
+          label="税率"
+          right-icon="warning-o"
+        />
         <van-field class="newStyle" v-model="Address" label="详细地址" />
         <van-field
           class="newStyle"
@@ -26,15 +31,15 @@
         />
       </div>
       <div class="firm_box-card jl_box">
-        <van-swipe-cell v-for="(item,index) in tableData" :key="index">
+        <van-swipe-cell v-for="(item, index) in tableData" :key="index">
           <div class="contacts">
             <div class="namejob">
-              <div class="name">{{item.name}}</div>
-              <div class="job">{{item.jobe}}</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="job">{{ item.jobe }}</div>
             </div>
             <div class="telemail">
-              <div class="phone">{{item.phone}}</div>
-              <div class="email">{{item.email}}</div>
+              <div class="phone">{{ item.phone }}</div>
+              <div class="email">{{ item.email }}</div>
             </div>
           </div>
           <template #right>
@@ -50,7 +55,12 @@
         <div class="addusersClick" @click="popupshow = true">添加联系方式</div>
       </div>
       <div class="Billing_card jl_box">
-        <van-field class="newStyle" v-model="Billing.name" label="名称" placeholder="公司名称" />
+        <van-field
+          class="newStyle"
+          v-model="Billing.name"
+          label="名称"
+          placeholder="公司名称"
+        />
         <van-field class="newStyle" v-model="Billing.taxnum" label="税号" />
         <van-field class="newStyle" v-model="Billing.address" label="地址" />
         <van-field class="newStyle" v-model="Billing.phone" label="电话" />
@@ -90,7 +100,7 @@
     </van-popup>
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -284,9 +294,7 @@ export default {
         )
       }
     },
-    handleSelect(item) {
-      console.log(item)
-    },
+    handleSelect(item) {},
     addSalesHeader() {
       this.SalesOptions.map((item) => {
         if (item.value == this.SalesHeader) {
@@ -366,7 +374,7 @@ export default {
     },
     async getDistributor() {
       const { data } = await getDistributorUser()
-      console.log('getDistributorUser', data)
+
       this.id_number = data.userInfo[0].id_number
       this.user = data.users
       data.users.map((item) => {
@@ -387,8 +395,6 @@ export default {
       for (let i = 0; i < this.selectedOptions.length; i++) {
         loc += CodeToText[this.selectedOptions[i]]
       }
-      console.log(loc)
-      console.log(this.countryOptions)
     },
     showInput() {
       this.inputVisible = true
@@ -423,7 +429,7 @@ export default {
     },
     async getEditDistr() {
       const { data } = await getEditDistributor(this.getEditDistrData)
-      console.log('getEditDistributor', data)
+
       const list = data.distributor
       this.companyName = list.name
       this.Abbreviation = list.id_number
@@ -460,7 +466,7 @@ export default {
     },
     async getEditSupplie() {
       const { data } = await getEditSupplier(this.getEditDistrData)
-      console.log('getEditSupplier', data)
+
       const list = data.supplier
       this.companyName = list.name
       this.Abbreviation = list.id_number
@@ -562,9 +568,6 @@ export default {
   },
 }
 </script>
-
-
-
 
 <style scoped lang="scss">
 #clientedit {

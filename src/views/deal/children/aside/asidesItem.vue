@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="center" slot="center">
-        <span>{{deliveryRecordItem.order_number | setOrderNumber }}</span>
+        <span>{{ deliveryRecordItem.order_number | setOrderNumber }}</span>
       </div>
       <div class="right" slot="right">
         <span></span>
@@ -14,52 +14,57 @@
     <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="content_wrap">
         <div class="Company">
-          <span>{{deliveryRecordItem.name }}</span>
+          <span>{{ deliveryRecordItem.name }}</span>
           <span>
             <em>￥</em>
-            {{deliveryRecordItem.total_price }}
+            {{ deliveryRecordItem.total_price }}
           </span>
         </div>
-        <!-- <div class="Numbers">{{deliveryRecordItem.order_number | setOrderNumber }}</div> -->
         <div class="itembox">
-          <span>{{deliveryRecordItem.created_at | setRecordItemCreated}}</span>
-          <span>{{deliveryRecordItem.operator_name |setOperatorName }}</span>
+          <span>{{
+            deliveryRecordItem.created_at | setRecordItemCreated
+          }}</span>
+          <span>{{ deliveryRecordItem.operator_name | setOperatorName }}</span>
         </div>
       </el-card>
       <el-card class="product_box">
-        <div class="wrap_item" v-for="(item,index) in deliverGoodsDetail" :key="index">
+        <div
+          class="wrap_item"
+          v-for="(item, index) in deliverGoodsDetail"
+          :key="index"
+        >
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
               <img
-                v-if="item.img_url && item.img_url != 0 "
+                v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url  | getUrl"
+                :src="item.img_url | getUrl"
               />
               <img
-                v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                v-else-if="item.img_url_lin && item.img_url_lin != 0"
                 class="img"
-                :src="item.img_url_lin  | getUrl"
+                :src="item.img_url_lin | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.materiel_name}}</p>
+                <p>{{ item.materiel_name }}</p>
                 <div>
                   <span>￥</span>
-                  <span class="funds">{{item.total_price}}</span>
+                  <span class="funds">{{ item.total_price }}</span>
                 </div>
               </div>
-              <p class="model">{{item.materiel_model}}</p>
+              <p class="model">{{ item.materiel_model }}</p>
               <div class="wrap_right">
                 <span v-if="item.weight || item.process_cost">
-                  ({{item.unit_price}}
-                  <span v-if="item.weight">×{{item.weight}}</span>
-                  <span v-if="item.process_cost">+{{item.process_cost}}</span>
+                  ({{ item.unit_price }}
+                  <span v-if="item.weight">×{{ item.weight }}</span>
+                  <span v-if="item.process_cost">+{{ item.process_cost }}</span>
                   )
                 </span>
-                <span v-else>{{item.unit_price}}</span>
-                ×{{item.number}}
+                <span v-else>{{ item.unit_price }}</span>
+                ×{{ item.number }}
               </div>
             </div>
           </div>
@@ -72,7 +77,12 @@
       <div class="printShip" @click="printShip">打印</div>
       <div class="editShips" @click="editShip">编辑</div>
       <div class="editShip" @click="editShip"></div>
-      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="printShip" />
+      <img
+        class="Print"
+        src="@/assets/image/Print.png"
+        alt="Print"
+        @click="printShip"
+      />
     </div>
     <van-overlay :show="isShow" @click="isShow = false">
       <div class="wrapper-qrCode">
@@ -81,7 +91,7 @@
     </van-overlay>
   </div>
 </template>
-    
+
 <script>
 import { bestURL, crosURl } from '@/network/baseURL'
 import { delWarehouseRecord, getWarehouseDetail } from '@/network/deal'
@@ -171,12 +181,10 @@ export default {
     },
     async getFlowDeliverD() {
       const { data } = await getWarehouseDetail(this.getFlowDeliverData)
-      console.log('getWarehouseDetail', data)
+
       this.deliverGoodsDetail = data.warehouseDetail
       this.deliveryRecordItem = data.warehouse
-      console.log(this.deliveryRecordItem)
 
-      // data.deliver
       this.$once('hook:destroyed', () => {
         this.iid = 0
         this.deliverGoodsDetail = []
@@ -208,7 +216,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #ShipmentItem {
   padding-top: 5.428571rem;

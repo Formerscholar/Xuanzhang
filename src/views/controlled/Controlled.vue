@@ -1,14 +1,11 @@
 <template>
   <div id="Controlled">
-    <!-- navbar -->
     <conNavbar />
-    <!-- bankCardinfo -->
     <bankCardinfo />
-    <!-- cardCollection -->
     <cardCollection :cardCollInfos="cardCollInfos" />
   </div>
 </template>
-    
+
 <script>
 import { getUserIndex } from '@/network/home'
 
@@ -48,12 +45,11 @@ export default {
   methods: {
     async getIndexData() {
       const { data } = await getUserIndex(this.$store.state.token)
-      console.log(data)
     },
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Controlled {
   padding-top: 5.428571rem;

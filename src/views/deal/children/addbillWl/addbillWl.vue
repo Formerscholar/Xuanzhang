@@ -23,36 +23,50 @@
           />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+          <el-row
+            class="tanle line"
+            style="border-bottom: .714286rem solid #f2f2f2;"
+          >
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span
-                          class="wrap_right_text"
-                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="wrap_right_text"
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                         <span class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -68,7 +82,7 @@
         <el-card class="box-card item1">
           <el-row class="DeliveryDate">
             <span class="lable">日期</span>
-            <span class="time" @click="tiemrClick">{{DeliveryDate}}</span>
+            <span class="time" @click="tiemrClick">{{ DeliveryDate }}</span>
           </el-row>
           <van-field
             v-model="DeliveryNotes"
@@ -107,7 +121,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
 
@@ -192,7 +206,6 @@ export default {
   },
   created() {
     this.getAddDeliverGood()
-    // this.getMaterielLists()
   },
   filters: {
     getUrl(value) {
@@ -245,23 +258,13 @@ export default {
     filedelete(file, detail) {
       this.img_url_Arr.splice(detail.index, 1)
     },
-    // async getMaterielLists() {
-    //   const { data } = await getMaterielList(this.getMaterielListData)
-    //   this.materiel = data
-    //   this.materiel.map((item, index) => {
-    //     let obj = {
-    //       value: item.name,
-    //       address: item.id,
-    //     }
-    //     this.restaurant.push(obj)
-    //   })
-    // },
+
     inputchanges(value) {
       this.distributor_id = value.address
     },
     async getAddDeliverGood() {
       const { data } = await getAddWarehouseEnter(this.getAddDeliverData)
-      console.log('getAddWarehouseEnter', data)
+
       if (data.customerProductExtraField.length > 0) {
         this.isFlowingShow = data.customerProductExtraField
       }
@@ -278,7 +281,6 @@ export default {
       })
     },
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -298,7 +300,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     focusClick() {
@@ -310,7 +311,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -354,26 +354,7 @@ export default {
       this.radio = '0'
       this.$router.replace('/deal/aside')
     },
-    // querySearchAsync(queryString, cb) {
-    //   var restaurants = this.restaurants
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
-    // querySearchAsyncs(queryString, cb) {
-    //   var restaurants = this.restaurant
-    //   var results = queryString
-    //     ? restaurants.filter(this.createStateFilter(queryString))
-    //     : restaurants
-    //   clearTimeout(this.timeout)
-    //   this.timeout = setTimeout(() => {
-    //     cb(results)
-    //   }, 3000 * Math.random())
-    // },
+
     createStateFilter(queryString) {
       return (state) => {
         return (
@@ -382,7 +363,6 @@ export default {
       }
     },
     addNewProduct() {
-      console.log(this.isFlowingShow)
       this.$router.push({
         path: '/SelectProducts',
         query: {
@@ -393,7 +373,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.shippingValue = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -412,22 +391,9 @@ export default {
       this.isShow = false
       this.blacknext()
     },
-    // handleSelect(value) {
-    //   this.shippingValue = value.address
-    //   console.log(this.shippingValue)
 
-    //   this.materiel.map((item, index) => {
-    //     if (item.id == this.shippingValue) {
-    //       this.Products = item.specification
-    //       this.productPrice = item.out_price
-    //       this.ProductSubtotal = item.scope_of_business
-    //       this.LocationSubtotal = item.warehouse_position
-    //     }
-    //   })
-    // },
     handchange(value) {
       this.shippingValue = value
-      console.log(this.shippingValue)
     },
     cancelClick() {
       this.states = ''
@@ -442,7 +408,7 @@ export default {
     },
     async AddClick() {
       const { data } = await getMateriel(this.getMaterieldata)
-      console.log(data)
+
       let iid = data.id
 
       if (data.isExistence == 0) {
@@ -479,19 +445,13 @@ export default {
             this.tableData.push(addproductdata)
 
             let newArr = []
-            // newArr.push(iid)
             newArr.push(this.shippingValue)
             newArr.push(this.Products)
             newArr.push(this.quantity)
             newArr.push(this.productPrice)
-            // newArr.push(this.ProductNotes)
-            // newArr.push(this.productWeight)
-            // newArr.push(this.isTemporary)
-            // newArr.push(this.processCost) //加工费
-            // newArr.push(this.product_img) // 一张图片URL
-            // newArr.push(this.FlowingProducts)
+
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
+
             let allmonpement = 0
             this.tableData.forEach((item) => {
               allmonpement += parseFloat(item.totalPrice)
@@ -530,19 +490,13 @@ export default {
         this.tableData.push(addproductdata)
 
         let newArr = []
-        // newArr.push(iid)
         newArr.push(this.shippingValue)
         newArr.push(this.Products)
         newArr.push(this.quantity)
         newArr.push(this.productPrice)
-        // newArr.push(this.ProductNotes)
-        // newArr.push(this.productWeight)
-        // newArr.push(this.isTemporary)
-        // newArr.push(this.processCost) //加工费
-        // newArr.push(this.product_img) // 一张图片URL
-        // newArr.push(this.FlowingProducts)
+
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
+
         let allmonpement = 0
         this.tableData.forEach((item) => {
           allmonpement += parseFloat(item.totalPrice)
@@ -569,7 +523,7 @@ export default {
       const { code, data, msg } = await addWarehouseOrder(
         this.addAutonomousData
       )
-      console.log('addWarehouseOrder', code)
+
       if (code == 200) {
         this.$message({
           showClose: true,
@@ -589,7 +543,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Ship {
   padding-top: 5.428571rem;

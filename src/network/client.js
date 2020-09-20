@@ -121,7 +121,6 @@ export function addPersonSupplier(data) {
 }
 
 export function addCompanySupplier(data) {
-  // addCompanySupplier 新增 供应商 公司
   return request({
     url: '/CustomerMarketing/addCompanySupplier',
     method: 'POST',
@@ -129,7 +128,6 @@ export function addCompanySupplier(data) {
   })
 }
 export function editCompanySupplier(data) {
-  // editCompanySupplier 编辑 供应商 公司
   return request({
     url: '/CustomerMarketing/editCompanySupplier',
     method: 'POST',
@@ -137,7 +135,6 @@ export function editCompanySupplier(data) {
   })
 }
 export function editCompanyDistributor(data) {
-  // editCompanyDistributor 编辑 客户 公司
   return request({
     url: '/CustomerMarketing/editCompanyDistributor',
     method: 'POST',
@@ -145,7 +142,6 @@ export function editCompanyDistributor(data) {
   })
 }
 export function addCompanyDistributor(data) {
-  // addCompanyDistributor 新增 客户 公司
   return request({
     url: '/CustomerMarketing/addCompanyDistributor',
     method: 'POST',

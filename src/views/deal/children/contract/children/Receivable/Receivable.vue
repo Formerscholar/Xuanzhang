@@ -85,7 +85,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import {
   getAddSettlementRecordDistributors,
@@ -122,7 +122,7 @@ export default {
   created() {
     this.getAddSettlementRecord()
     this.deliveryRecordItem = this.$route.query.data
-    console.log(this.deliveryRecordItem)
+
     const {
       distributor_id,
       distributor_name,
@@ -178,7 +178,7 @@ export default {
       const { data } = await getAddSettlementRecordDistributors(
         this.getAddSettlementData
       )
-      console.log('getAddSettlementRecordDistributors', data)
+
       let arr = [
         {
           value: data.companyOrderType.contract,
@@ -205,7 +205,6 @@ export default {
     },
     async SubmitNow() {
       const { data } = await addSettlementRecord(this.addSettlementRecordData)
-      console.log('addSettlementRecord', data)
     },
     blacknext() {
       this.$router.replace('/deal/contract')
@@ -278,13 +277,12 @@ export default {
       })
     },
     async channelinputchanges(value) {
-      console.log(value.address)
       if (value.address == 0) {
         this.settlement_type = 'user'
         const { data } = await getSettlementVariable(
           this.getSettlementVariableData
         )
-        console.log('getSettlementVariable', data)
+
         data.variable.map((item) => {
           this.restaurantsssss.push({
             value: item.user_name,
@@ -297,18 +295,15 @@ export default {
         const { data } = await getSettlementVariable(
           this.getSettlementVariableDatas
         )
-        console.log('getSettlementVariable', data)
       }
     },
     Settlementinputchanges(value) {
-      console.log(value)
-
       this.variable_id = value.address * 1
     },
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Receivable {
   padding-top: 5.428571rem;

@@ -12,15 +12,17 @@
       <div class="content_wrap">
         <div class="timers">
           <div class="icons"></div>
-          <span>{{contractOrder.commitment_period | setTimerTypes}}</span>
+          <span>{{ contractOrder.commitment_period | setTimerTypes }}</span>
         </div>
         <div class="seller">
           <div class="lefttTitle">卖方</div>
           <div class="rightbox">
-            <div class="Companies">{{$store.state.userInfo[0].user_compser_name}}</div>
+            <div class="Companies">
+              {{ $store.state.userInfo[0].user_compser_name }}
+            </div>
             <div class="infos">
-              <div class="name">{{contractOrder.self_lxr}}</div>
-              <div class="phonle">{{contractOrder.self_lxr_tel}}</div>
+              <div class="name">{{ contractOrder.self_lxr }}</div>
+              <div class="phonle">{{ contractOrder.self_lxr_tel }}</div>
             </div>
           </div>
         </div>
@@ -28,10 +30,10 @@
         <div class="buyer">
           <div class="lefttTitle">买方</div>
           <div class="rightbox">
-            <div class="Companies">{{contractOrder.distributor_name}}</div>
+            <div class="Companies">{{ contractOrder.distributor_name }}</div>
             <div class="infos">
-              <div class="name">{{contractOrder.kehu_lxr}}</div>
-              <div class="phonle">{{contractOrder.kehu_lxr_tel}}</div>
+              <div class="name">{{ contractOrder.kehu_lxr }}</div>
+              <div class="phonle">{{ contractOrder.kehu_lxr_tel }}</div>
             </div>
           </div>
         </div>
@@ -42,33 +44,37 @@
 
         <div
           class="wrap_item"
-          v-for="(item,index) in contractOrder.contractOrderProduct"
+          v-for="(item, index) in contractOrder.contractOrderProduct"
           :key="index"
         >
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
               <img
-                v-if="item.img_url && item.img_url != 0 "
+                v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url  | getUrl"
+                :src="item.img_url | getUrl"
               />
               <img
-                v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+                v-else-if="item.img_url_lin && item.img_url_lin != 0"
                 class="img"
-                :src="item.img_url_lin  | getUrl"
+                :src="item.img_url_lin | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.product_name}}</p>
+                <p>{{ item.product_name }}</p>
               </div>
-              <p class="model">{{item.product_model}}</p>
+              <p class="model">{{ item.product_model }}</p>
               <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <span
+                  >({{ item.unit_price }}×{{ item.weight }}+{{
+                    item.process_cost
+                  }})×{{ item.number }}</span
+                >
                 <div class="funds">
                   <span>￥</span>
-                  <span>{{item.total_price}}</span>
+                  <span>{{ item.total_price }}</span>
                 </div>
               </div>
             </div>
@@ -77,18 +83,20 @@
 
         <div
           class="product_price"
-          v-if="contractOrder.contract_amount != contractOrder.amount_of_discount"
+          v-if="
+            contractOrder.contract_amount != contractOrder.amount_of_discount
+          "
         >
           <div class="total_price">
             <div class="title">合计</div>
-            <span>￥{{contractOrder.contract_amount}}</span>
+            <span>￥{{ contractOrder.contract_amount }}</span>
           </div>
           <div class="After_price">
             <div class="title">折后</div>
             <span>
               ￥
-              <em>{{contractOrder.amount_of_discount.split('.')[0]}}</em>
-              .{{contractOrder.amount_of_discount.split('.')[1]}}
+              <em>{{ contractOrder.amount_of_discount.split('.')[0] }}</em>
+              .{{ contractOrder.amount_of_discount.split('.')[1] }}
             </span>
           </div>
         </div>
@@ -97,8 +105,8 @@
             <div class="title">合计</div>
             <span>
               ￥
-              <em>{{contractOrder.contract_amount.split('.')[0]}}</em>
-              .{{contractOrder.contract_amount.split('.')[1]}}
+              <em>{{ contractOrder.contract_amount.split('.')[0] }}</em>
+              .{{ contractOrder.contract_amount.split('.')[1] }}
             </span>
           </div>
         </div>
@@ -107,15 +115,17 @@
         <div class="informations">合同信息</div>
         <div class="informations_item">
           <div class="title">付款方式</div>
-          <span>{{contractOrder.pay_method_content | SetPayMethodContent}}</span>
+          <span>{{
+            contractOrder.pay_method_content | SetPayMethodContent
+          }}</span>
         </div>
         <div class="informations_item">
           <div class="title">合同交期</div>
-          <span>{{contractOrder.updated_at }}</span>
+          <span>{{ contractOrder.updated_at }}</span>
         </div>
         <div class="informations_item">
           <div class="title">其他要素</div>
-          <span>{{contractOrder.remark }}</span>
+          <span>{{ contractOrder.remark }}</span>
         </div>
       </div>
     </scroll>
@@ -126,11 +136,16 @@
       <div class="printShip" @click="toShop">发货</div>
       <div class="editShips">开票</div>
       <div class="editShip"></div>
-      <img class="Print" src="@/assets/image/Print.png" alt="Print" @click="toShop" />
+      <img
+        class="Print"
+        src="@/assets/image/Print.png"
+        alt="Print"
+        @click="toShop"
+      />
     </div>
   </div>
 </template>
-    
+
 <script>
 import { getEditContractOrder } from '@/network/deal'
 
@@ -214,12 +229,10 @@ export default {
       this.$router.go(-1)
     },
     async getEditContractOrders() {
-      console.log('ContractDetails')
       const { code, data, msg } = await getEditContractOrder(
         this.getEditContractOrderData
       )
       if (code == 200) {
-        console.log('getEditContractOrder', data)
         this.editData = data
         this.contractOrder = data.contractOrder
       } else {
@@ -234,7 +247,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #ContractDetails {
   padding-top: 5.428571rem;

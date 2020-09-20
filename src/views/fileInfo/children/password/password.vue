@@ -29,7 +29,6 @@
   </div>
 </template>
 
-    
 <script>
 import { editUser } from '@/network/home'
 import { logout } from '@/network/login'
@@ -47,7 +46,6 @@ export default {
       this.$router.go(-1)
     },
     async editEmail() {
-      console.log(this.email)
       const { code } = await editUser(this.editUserData)
       if (code == 200) {
         const { code } = await logout()
@@ -96,7 +94,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 .fileInfoList {
   padding-top: 5.428571rem;

@@ -11,15 +11,13 @@
     </navbar>
   </div>
 </template>
-    
+
 <script>
 import { reactive } from '@vue/composition-api'
 
 export default {
   setup(props, { root }) {
-    function goSetup() {
-      console.log('---')
-    }
+    function goSetup() {}
 
     return {
       goSetup,
@@ -27,7 +25,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #pNavBar {
   .p_root_box {

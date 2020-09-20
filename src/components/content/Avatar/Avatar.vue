@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      uploadParam: 4, // 相对手机屏幕放大的倍数: 4倍
+      uploadParam: 4, 
       userImg: '',
     }
   },
@@ -29,11 +29,9 @@ export default {
     },
   },
   methods: {
-    // 上传头像
     upload() {
       this.$refs['cropper'].upload()
     },
-    // 上传头像成功回调
     uploadHandle(data) {
       this.userImg = data.substr(1)
       this.$emit('ObtainUrl', data.substr(1))

@@ -9,18 +9,13 @@ const state = {
     phone: '13665200888',
     Balance: '8888.88',
   },
-  // 登录后的数据
   loginDate: {},
-  // 用户信息
   userInfo: [],
   token: '',
-  // detailsdata
   detailsdata: {},
   AddDetailsData: {},
-  // 地址新增/修改
   AddressID: 0,
   Address: {},
-  // 产品数据
   productData: [],
 }
 

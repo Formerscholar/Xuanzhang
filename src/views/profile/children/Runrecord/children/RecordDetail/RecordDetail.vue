@@ -8,7 +8,12 @@
         <span>账单详情</span>
       </div>
     </navbar>
-    <scroll class="scroll_wrapper" ref="scroll" :probe-type="3" :pull-up-load="true">
+    <scroll
+      class="scroll_wrapper"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+    >
       <div class="title_info">
         <div class="title_icon">
           <svg class="icon icons" aria-hidden="true">
@@ -22,19 +27,21 @@
       <div class="info_card">
         <div class="channel item_box">
           <span class="title">渠道</span>
-          <span class="text">{{state.DetailData.money_type == 'user' ? '现金余额' :'银行卡'}}</span>
+          <span class="text">{{
+            state.DetailData.money_type == 'user' ? '现金余额' : '银行卡'
+          }}</span>
         </div>
         <div class="channel item_box">
           <span class="title">资金账户</span>
-          <span class="text">{{state.DetailData.variable_account }}</span>
+          <span class="text">{{ state.DetailData.variable_account }}</span>
         </div>
         <div class="channel item_box">
           <span class="title">账户所属人</span>
-          <span class="text">{{state.DetailData.happen_user_name}}</span>
+          <span class="text">{{ state.DetailData.happen_user_name }}</span>
         </div>
         <div class="channel item_box">
           <span class="title">流水单号</span>
-          <span class="text">{{state.DetailData.id}}</span>
+          <span class="text">{{ state.DetailData.id }}</span>
         </div>
       </div>
       <div class="footer_card">
@@ -44,11 +51,11 @@
         </div>
         <div class="item_box">
           <div class="title">操作人</div>
-          <div class="text">{{state.DetailData.action_user_name}}</div>
+          <div class="text">{{ state.DetailData.action_user_name }}</div>
         </div>
         <div class="item_box">
           <div class="title">创建日期</div>
-          <div class="text">{{state.DetailData.created_at}}</div>
+          <div class="text">{{ state.DetailData.created_at }}</div>
         </div>
       </div>
     </scroll>
@@ -83,7 +90,6 @@ export default {
       state.DetailData = {
         ...root.$route.query.data,
       }
-      console.log(state.DetailData)
     })
 
     function goBack() {

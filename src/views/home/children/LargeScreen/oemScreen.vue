@@ -54,45 +54,54 @@
         </div>
         <div
           class="box-card"
-          v-for="(item,index) in ProductListss"
+          v-for="(item, index) in ProductListss"
           :key="index"
           style="margin-bottom:.357143rem;"
         >
           <div
             class="background_box"
-            :style="{width:Math.round(((item.number - item.surplus_number) / item.number)*100) + '%'}"
+            :style="{
+              width:
+                Math.round(
+                  ((item.number - item.surplus_number) / item.number) * 100
+                ) + '%',
+            }"
           ></div>
           <div class="content_box" @click="pageHandleClick(item)">
             <div class="title_box">
               <div class="left_title">
-                <span>{{item.order_number}}</span>
-                <span>{{item.name_alias}}</span>
+                <span>{{ item.order_number }}</span>
+                <span>{{ item.name_alias }}</span>
               </div>
               <div class="right_title">
-                <span>{{item.surplus_number | setSurplusNumber}}</span>
+                <span>{{ item.surplus_number | setSurplusNumber }}</span>
               </div>
             </div>
             <div class="content_child">
               <div class="left_box">
                 <div class="img"></div>
                 <div class="left_box_content">
-                  <span>{{item.product_name}}</span>
-                  <span>{{item.product_model}}</span>
-                  <span>{{item.commitment_period | setCommitmentPeriod}}</span>
+                  <span>{{ item.product_name }}</span>
+                  <span>{{ item.product_model }}</span>
+                  <span>{{
+                    item.commitment_period | setCommitmentPeriod
+                  }}</span>
                 </div>
               </div>
               <div class="right_box">
                 <div class="child_right">
                   <van-tag
                     :type="item.business_status | omesstatus"
-                    :color="item.business_status == 1 ? '#FFCC33':'' "
-                  >{{item.business_status | omesName}}</van-tag>
+                    :color="item.business_status == 1 ? '#FFCC33' : ''"
+                    >{{ item.business_status | omesName }}</van-tag
+                  >
                 </div>
                 <div @click.stop="changeProduct(item.id)" class="child_right">
                   <van-tag
                     :type="item.status | setchestatus"
-                    :color="item.status == 0 ? '#FFCC33':'' "
-                  >{{item.status | setcheName}}</van-tag>
+                    :color="item.status == 0 ? '#FFCC33' : ''"
+                    >{{ item.status | setcheName }}</van-tag
+                  >
                 </div>
               </div>
             </div>
@@ -102,7 +111,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import { getCompleteOrderProduct, changeProductStatus } from '@/network/home'
 
@@ -174,15 +183,9 @@ export default {
     }
   },
   created() {
-    // this.ProductList = []
-    // this.getlargeAcreen()
-    // this.ProductLists = []
-    // this.getlargeAcreens()
     this.ProductListss = []
     this.getlargeAcreenss()
     this.allpage = 1
-    // this.Opage = 1
-    // this.Tpage = 1
     this.Spage = 1
   },
   computed: {
@@ -214,9 +217,7 @@ export default {
           _: new Date().getTime(),
         }
       },
-      set(newValue) {
-        console.log(newValue)
-      },
+      set(newValue) {},
     },
   },
   filters: {
@@ -281,21 +282,17 @@ export default {
     businesChange(value) {
       this.business_status = value
       this.getLargeAcreenNEW(this.tipe)
-      console.log(value)
     },
     omesChange(value) {
       this.business_status = value
       this.getLargeAcreenNEW(this.tipe)
-      console.log(value)
     },
     workshopChange(value) {
       this.che_status = value
       this.getLargeAcreenNEW(this.tipe)
-      console.log(value)
     },
     focushandle(i) {
       this.tipe = i
-      console.log(i)
     },
     async getLargeAcreenNEW(i) {
       const { data } = await getCompleteOrderProduct({
@@ -308,7 +305,7 @@ export default {
         distributor_id: null,
         _: new Date().getTime(),
       })
-      console.log('getCompleteOrderProduct', data)
+
       if (i == 0) {
         this.ProductList = []
         data.unfinishedOrderProductList.forEach((item) => {
@@ -352,40 +349,6 @@ export default {
           message: '是否更改状态?',
         })
         .then(async () => {
-          // let order_type
-          // if (this.isOShow && this.isTShow && this.isSShow) {
-          //   if (this.active == 0) {
-          //     order_type = 'contract'
-          //   }
-          //   if (this.active == 1) {
-          //     order_type = 'flow'
-          //   }
-          //   if (this.active == 2) {
-          //     order_type = 'oem'
-          //   }
-          // } else if (!this.isOShow && this.isTShow && this.isSShow) {
-          //   if (this.active == 0) {
-          //     order_type = 'flow'
-          //   }
-          //   if (this.active == 1) {
-          //     order_type = 'oem'
-          //   }
-          // } else if (this.isOShow && !this.isTShow && this.isSShow) {
-          //   if (this.active == 0) {
-          //     order_type = 'contract'
-          //   }
-          //   if (this.active == 1) {
-          //     order_type = 'oem'
-          //   }
-          // } else if (this.isOShow && this.isTShow && !this.isSShow) {
-          //   if (this.active == 0) {
-          //     order_type = 'contract'
-          //   }
-          //   if (this.active == 1) {
-          //     order_type = 'flow'
-          //   }
-          // }
-
           const { code } = await changeProductStatus({
             token: this.$store.state.token,
             order_type: this.order_type,
@@ -393,7 +356,6 @@ export default {
             _: new Date().getTime(),
           })
           if (code == 200) {
-            console.log(this.active)
             if (this.active == 0) {
               this.ProductList = []
               this.getlargeAcreen()
@@ -408,9 +370,7 @@ export default {
             }
           }
         })
-        .catch(() => {
-          // on cancel
-        })
+        .catch(() => {})
     },
     loadMoress() {
       if (this.IsTpIsTpagessages) {
@@ -470,20 +430,19 @@ export default {
       } else if (title == '代工订单') {
         this.order_type = 'oem'
       }
-      console.log(name, title)
     },
     async getlargeAcreen() {
       const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderData
       )
-      console.log('getlargeAcreenOrderProduct', data)
+
       this.titleArr[0] = data.companyOrderType.contract
       this.titleArr[1] = data.companyOrderType.flow
       this.titleArr[2] = data.companyOrderType.oem
       this.order_typeArr[0] = 'contract'
       this.order_typeArr[1] = 'flow'
       this.order_typeArr[2] = 'oem'
-      console.log(this.titleArr)
+
       if (this.Opage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpages = false
@@ -502,7 +461,7 @@ export default {
       const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderDatas
       )
-      console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
+
       if (this.Tpage > 1) {
         if (!data.unfinishedOrderProductList.length) {
           this.IsTpage = false
@@ -521,7 +480,6 @@ export default {
       const { data } = await getCompleteOrderProduct(
         this.getlargeAcreenOrderDatass
       )
-      console.log('getlargeAcreenOrderProduct', data.unfinishedOrderProductList)
 
       if (this.Spage > 1) {
         if (!data.unfinishedOrderProductList.length) {
@@ -540,7 +498,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #LargeScreen {
   padding-top: 5.428571rem;

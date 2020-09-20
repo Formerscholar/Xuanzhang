@@ -1,3 +1,12 @@
+# 9.20 更新内容
+
+```
+1. 修复 权限获取文件
+2. 新增 对接操作权限
+&. 修复 已知 BUG
+
+```
+
 # 9.19 更新内容
 
 ```
@@ -713,25 +722,6 @@ code = 444 密码错误 重新登录
 &. 修复 已知 BUG
 ```
 
-```
-// 自定义全局指令
- Vue.directive('focus', {
-   inserted: function(el) {
-     el.focus()
-   },
- })
-
-
-//局部自定义指令
- directives: {
-    focus: {
-      inserted: function(el) {
-        el.focus()
-      }
-    }
-  },
-```
-
 # 7.21 更新内容
 
 ```
@@ -754,36 +744,6 @@ code = 444 密码错误 重新登录
 6. 新增 HOOK生命周期 销毁 监听事件 释放内存
 7. 修复 银行账户+人事管理 顶部距离问题
 &. 修复 已知 BUG
-```
-
-```
-闭包它的最大用处有两个，一个是可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。
-```
-
-```
-   HOOK 子组件生命周期
-//  Parent.vue
-<Child @hook:mounted="doSomething" ></Child>
-
-doSomething() {
-   console.log('父组件监听到 mounted 钩子函数 ...');
-},
-
-//  Child.vue
-mounted(){
-   console.log('子组件触发 mounted 钩子函数 ...');
-},
-
-// 以上输出顺序为：
-// 子组件触发 mounted 钩子函数 ...
-// 父组件监听到 mounted 钩子函数 ...
-```
-
-```
-   HOOK 当前组件生命周期
-this.$once('hook:deactivated', () => {
-  console.log('hook:deactivated')
-})
 ```
 
 # 7.18 更新内容
@@ -814,89 +774,8 @@ this.$once('hook:deactivated', () => {
 
 ```
 
-LargeScreen.vue 练习知识
-
-```
-
-vue ：
-
-    computed 的 get set
-
-     firstName: {
-       get: function() {
-         return this.firstNames
-       },
-       set: function(newValue) {
-         this.firstNames = newValue
-       }
-     }
 
 
-    watch vue监听
-
-     watch: {
-      allpage(olddata, newdata) {
-        console.log(olddata, newdata)
-      }
-     },
-
-    vue 过滤器
-
-    	全局：
-
-    		import * as filter from './common/filter'
-    		Object.keys(filter).forEach((item) => {
-    			Vue.filter(item, filter[item])
-    		})
-
-    	局部：
-
-    		<span>{{cardinfo.Balance | Balance}}</span>
-
-    		filters: {
-    			Balance(value) {
-    			  return `余额:${value}元`
-    			}
-    		}
-
-    vue3.0
-
-原生 js：
-
-    Object对象扩展
-
-    深度复制对象   ...运算符
-
-    遍历对象
-     1.	Object.keys(obj)  属性名
-    	Object.values(obj) 属性值
-
-     2. for (const key in this.twoOBJ) {
-    		console.log('属性名' + key)
-    		console.log('属性值' + this.twoOBJ[key])
-    	}
-
-
-    fun函数 内 this指向
-
-    	当前运行环境 前端环境是 window
-
-    变量作用域 var let const 区别
-
-    js动画
-
-react：
-
-    react 生命周期
-
-    react HOOKs 销毁 回调
-
-    useEffect(() => {
-    	queryHandler();
-    	return componentWillUnmount;
-    }, []);
-
-```
 
 # 7.16 更新内容
 
@@ -1556,8 +1435,6 @@ react：
 ```
 
 1. 更新交易页面及子页面
-
-```
 
 ```
 ````

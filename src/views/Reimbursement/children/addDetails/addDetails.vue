@@ -11,36 +11,29 @@
     </navbar>
     <div class="isolation"></div>
     <div class="body">
-      <van-field class="newStyle" v-model="apply" type="number" label="报销金额" placeholder="￥请输入内容" />
+      <van-field
+        class="newStyle"
+        v-model="apply"
+        type="number"
+        label="报销金额"
+        placeholder="￥请输入内容"
+      />
       <div class="newStyle DeliveryDate van-cell">
         <span class="lable">发生时间</span>
-        <span class="time" @click="tiemrClick">{{end_time}}</span>
+        <span class="time" @click="tiemrClick">{{ end_time }}</span>
       </div>
-      <van-field class="newStyle" v-model="description" label="费用明细" placeholder="请输入内容" />
-      <!-- <div class="upload">
-        <div class="left">
-          <div class="upload">
-            <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img  width="100%" :src="dialogImageUrl" alt />
-            </el-dialog>
-          </div>
-        </div>
-      </div>-->
+      <van-field
+        class="newStyle"
+        v-model="description"
+        label="费用明细"
+        placeholder="请输入内容"
+      />
     </div>
-
     <el-row class="Feecollection">
       <div class="left">
         <span class="fee">费用合计</span>
         <span class="amount">
-          <em>{{apply==''?'0.00':apply}}</em>
+          <em>{{ apply == '' ? '0.00' : apply }}</em>
           CNY
         </span>
       </div>
@@ -61,7 +54,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { getAddReimbursement } from '@/network/Reimbursement.js'
 import { setTimerType } from '@/common/filter'
@@ -116,9 +109,7 @@ export default {
     blacknext() {
       this.$router.go(-1)
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
+    handleRemove(file, fileList) {},
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
@@ -127,7 +118,7 @@ export default {
       const { data } = await getAddReimbursement(
         this.getAddReimbursementparamsData
       )
-      console.log('getAddReimbursementData', data)
+
       this.optionstype = data.type
       data.type.forEach((item) => {
         let optionsObj = {
@@ -148,7 +139,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #addDetails {
   padding-top: 5.428571rem;
@@ -237,11 +228,9 @@ export default {
         i {
           margin-left: 0.714286rem;
           font-size: 1.285714rem;
-          // font-weight: 700;
         }
         span {
           color: #101010;
-          // font-weight: 700;
           font-size: 1.428571rem;
         }
       }
@@ -273,7 +262,6 @@ export default {
         align-items: center;
         span {
           color: #101010;
-          // font-weight: 700;
           font-size: 1.042857rem;
         }
       }

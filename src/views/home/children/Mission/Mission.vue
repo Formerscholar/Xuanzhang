@@ -1,7 +1,6 @@
 <template>
   <div id="Mission">
     <mHeader />
-    <!-- btns -->
     <cardbtns
       :designatedTasksList="designatedTasksList"
       :UserDesignatedTasksData="UserDesignatedTasksData"
@@ -17,7 +16,7 @@
     <i class="el-icon-plus" @click="tike" v-if="istike"></i>
   </div>
 </template>
-    
+
 <script>
 import {
   getUserDesignatedTasks,
@@ -103,7 +102,6 @@ export default {
       }
     },
     loadMore(str) {
-      console.log('加载更多', str)
       switch (str) {
         case 'participate':
           this.allpage = ++this.partici
@@ -157,7 +155,6 @@ export default {
         ...this.designatedTasksList,
         ...data.designatedTasksList,
       ]
-      console.log('designatedTasksList', this.designatedTasksList)
     },
     async getCompleteDesignated() {
       const { data } = await getCompleteDesignatedTasks(
@@ -168,15 +165,11 @@ export default {
         ...this.UserDesignatedTasksData,
         ...data.designatedTasksList,
       ]
-
-      console.log('UserDesignatedTasks', this.UserDesignatedTasksData)
     },
     async getDesignated() {
       const { data } = await getDesignatedTasks(this.getUserDesignatedTasksData)
       this.DesignatedCount = data.count
       this.Designated = [...this.Designated, ...data.designatedTasksList]
-
-      console.log('Designated', this.Designated)
     },
     async tike() {
       this.$router.push('/newtask')
@@ -184,7 +177,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #Mission {
   padding-top: 5.428571rem;

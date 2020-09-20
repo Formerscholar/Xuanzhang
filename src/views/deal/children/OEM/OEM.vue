@@ -23,7 +23,9 @@
           />
           <el-row class="DeliveryDate van-cell">
             <span class="lable">承诺交期</span>
-            <span class="time" @click="tiemrClick">{{timersList.SigningDate}}</span>
+            <span class="time" @click="tiemrClick">{{
+              timersList.SigningDate
+            }}</span>
           </el-row>
           <van-field
             v-model="states"
@@ -38,36 +40,50 @@
           <van-field v-model="knowingly" label="合同编号" class="newStyle" />
         </el-card>
         <el-card class="box-card item1">
-          <el-row class="tanle line" style="border-bottom: .714286rem solid #f2f2f2;">
-            <div class="product_box" v-for="(item,index) in tableData" :key="index">
+          <el-row
+            class="tanle line"
+            style="border-bottom: .714286rem solid #f2f2f2;"
+          >
+            <div
+              class="product_box"
+              v-for="(item, index) in tableData"
+              :key="index"
+            >
               <van-swipe-cell>
                 <div class="wrap_item">
                   <div class="wrap_left">
                     <img
-                      v-if="item.product_img && item.product_img != 0 "
+                      v-if="item.product_img && item.product_img != 0"
                       class="img"
                       :src="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">
                       <div class="title">
-                        <p>{{item.goods}}</p>
+                        <p>{{ item.goods }}</p>
                       </div>
-                      <p class="model">{{item.model}}</p>
+                      <p class="model">{{ item.model }}</p>
                       <div class="wrap_right">
-                        <span
-                          class="wrap_right_text"
-                        >({{item.price}}×{{item.weight}}+{{item.process_cost}})×{{item.nums}}</span>
+                        <span class="wrap_right_text"
+                          >({{ item.price }}×{{ item.weight }}+{{
+                            item.process_cost
+                          }})×{{ item.nums }}</span
+                        >
                         <span class="funds_box">
                           <span>￥</span>
-                          <span class="funds">{{item.totalPrice}}</span>
+                          <span class="funds">{{ item.totalPrice }}</span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <template #right>
-                  <van-button class="delect" type="danger" @click="tableClick(index)" text="删除" />
+                  <van-button
+                    class="delect"
+                    type="danger"
+                    @click="tableClick(index)"
+                    text="删除"
+                  />
                 </template>
               </van-swipe-cell>
             </div>
@@ -81,7 +97,11 @@
           </el-row>
 
           <van-field v-model="contractAmount" label="加工费" class="newStyle" />
-          <van-field v-model="DiscountedAmount" label="折后加工" class="newStyle" />
+          <van-field
+            v-model="DiscountedAmount"
+            label="折后加工"
+            class="newStyle"
+          />
         </el-card>
       </div>
     </scroll>
@@ -120,7 +140,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { setTimerType } from '@/common/filter'
 import { TotalPriceCalc } from '@/common/utils'
@@ -293,7 +313,6 @@ export default {
   },
   methods: {
     tableClick(index) {
-      console.log(index)
       this.$dialog
         .confirm({
           title: '提示',
@@ -313,7 +332,6 @@ export default {
           })
           this.Shipment = allmonpement
           this.Amounts = allmonpement
-          console.log(index, this.tableData, this.shippingData)
         })
     },
     arrowheadConfirm(value, index) {
@@ -323,7 +341,6 @@ export default {
     },
     arrowheadradiatorClick() {
       this.isarrowhead = true
-      console.log('arrowheadradiatorClick')
     },
     cancel() {
       this.isDatetime = false
@@ -348,7 +365,6 @@ export default {
       })
       this.$bus.$off('nameSupplier')
       this.$bus.$on('nameSupplier', (item) => {
-        console.log(item)
         if (typeof item == 'string') {
           this.state = item
         } else {
@@ -396,15 +412,9 @@ export default {
     },
     async getAddOemOrders() {
       const { data } = await getAddOemOrder(this.getAddOemOrderData)
-      console.log('getAddOemOrder', data)
+
       this.distributors = data.distributors
-      // this.distributors.forEach((item, index) => {
-      //   let obj = {
-      //     value: item.name,
-      //     address: item.id,
-      //   }
-      //   this.restaurants.push(obj)
-      // })
+
       if (data.customerProductField.weight == '1') {
         this.isWeightShow = true
       } else {
@@ -421,7 +431,6 @@ export default {
       for (let i = 0; i < this.form.selectedOptions.length; i++) {
         loc += CodeToText[this.form.selectedOptions[i]]
       }
-      console.log(loc)
     },
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-3)
@@ -437,7 +446,6 @@ export default {
       })
       this.$bus.$off('SelectProducts')
       this.$bus.$on('SelectProducts', (item) => {
-        console.log(item)
         this.productName = item.selectData.productName
         this.Products = item.selectData.productModel
         this.productPrice = item.selectData.productPrice
@@ -494,7 +502,7 @@ export default {
             newArr.push(this.productWeight)
             newArr.push([null, 1])
             this.shippingData.push(newArr)
-            console.log(this.shippingData)
+
             let allmonpement = 0
             this.tableData.forEach((item) => {
               allmonpement += parseFloat(item.totalPrice)
@@ -540,7 +548,7 @@ export default {
         newArr.push(this.productWeight)
         newArr.push([null, 1])
         this.shippingData.push(newArr)
-        console.log(this.shippingData)
+
         let allmonpement = 0
         this.tableData.forEach((item) => {
           allmonpement += parseFloat(item.totalPrice)
@@ -587,7 +595,7 @@ export default {
     },
     async getReceiving() {
       const { data } = await getReceivingInformationList(this.getReceiveDate)
-      console.log('getReceivingInformationList', data)
+
       this.listData = data.receivingInformationList
       this.addressData.name = this.listData[0].consignee
       this.addressData.id = this.listData[0].id
@@ -613,7 +621,7 @@ export default {
     },
     handleSelect(val) {
       this.selectedID = val.address
-      console.log(this.selectedID)
+
       this.getReceiving()
     },
     handleSelectss(val) {
@@ -692,7 +700,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #OEM {
   padding-top: 5.428571rem;

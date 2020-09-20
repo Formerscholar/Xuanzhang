@@ -13,27 +13,36 @@
       <el-card class="box-card" body-style="padding: 0.357143rem ;">
         <div @click="SelectionClick" class="newStyle van-cell DeliveryDate">
           <span class="lable">任务类型</span>
-          <span>{{SelectionData}}</span>
+          <span>{{ SelectionData }}</span>
         </div>
 
         <div @click="propertiesClick" class="newStyle DeliveryDate van-cell">
           <span class="lable">任务属性</span>
-          <span>{{propertiesData}}</span>
+          <span>{{ propertiesData }}</span>
         </div>
 
         <div class="newStyle DeliveryDate van-cell">
           <span class="lable">截止时间</span>
-          <span class="time" @click="tiemrClick">{{end_time}}</span>
+          <span class="time" @click="tiemrClick">{{ end_time }}</span>
         </div>
-        <van-field v-model="title" class="newStyle DeliveryDate van-cell" label="任务标题" />
+        <van-field
+          v-model="title"
+          class="newStyle DeliveryDate van-cell"
+          label="任务标题"
+        />
         <div @click="AobjectsClick" class="newStyle DeliveryDate van-cell">
           <span class="lable">指派对象</span>
-          <span>{{AobjectsData}}</span>
+          <span>{{ AobjectsData }}</span>
         </div>
-        <div @click="ccpepolClick" class="newStyle DeliveryDate van-cell ccpepolData">
+        <div
+          @click="ccpepolClick"
+          class="newStyle DeliveryDate van-cell ccpepolData"
+        >
           <span class="lable">抄送人</span>
           <div>
-            <span v-for="(item,index) in ccpepolData" :key="index">{{item}},</span>
+            <span v-for="(item, index) in ccpepolData" :key="index"
+              >{{ item }},</span
+            >
           </div>
           <van-icon name="close" @click.stop="clearcpepol" />
         </div>
@@ -48,7 +57,12 @@
         />
         <div class="img_upload van-cell DeliveryDate">
           <span class="lable">上传图片</span>
-          <img class="img_box" v-if="userImg" :src="userImg" @click="httpRequest" />
+          <img
+            class="img_box"
+            v-if="userImg"
+            :src="userImg"
+            @click="httpRequest"
+          />
           <div v-else class="img_box" @click="httpRequest"></div>
         </div>
       </el-card>
@@ -61,7 +75,11 @@
       </span>
     </myBtns>
 
-    <SimpleCroppes :initParam="uploadParam" :successCallback="uploadHandle" ref="croppers" />
+    <SimpleCroppes
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="croppers"
+    />
     <van-datetime-picker
       class="datetime"
       v-if="isDatetime"
@@ -111,7 +129,7 @@
     />
   </div>
 </template>
-    
+
 <script>
 import { addDesignatedTasks, getAddDesignatedTasks } from '@/network/home'
 import { setTimerType } from '@/common/filter'
@@ -166,7 +184,7 @@ export default {
       token: this.$store.state.token,
       _: new Date().getTime(),
     })
-    console.log('UserDesignatedTasksData', data)
+
     this.designatedTasksType = data.designatedTasksType
     data.designatedTasksType.map((item) => {
       this.selectionArr.push(item.name)
@@ -227,7 +245,7 @@ export default {
           this.Ccpeople.push(item.id)
         }
       })
-      console.log(value, index, this.Ccpeople)
+
       this.isccpepol = false
     },
     ccpepolCancel() {
@@ -243,7 +261,7 @@ export default {
           this.Assign = item.id
         }
       })
-      console.log(value, index, this.AobjectsData)
+
       this.isAobjects = false
     },
     AobjectsnCancel() {
@@ -255,7 +273,7 @@ export default {
     propertiesonConfirm(value, index) {
       this.propertiesData = value
       this.propertieValue = index + 1
-      console.log(value, index, this.propertieValue)
+
       this.isproperties = false
     },
     propertiesnCancel() {
@@ -274,7 +292,7 @@ export default {
           this.value = item.id
         }
       })
-      console.log(value, index, this.value)
+
       this.isSelection = false
     },
     SelectiononCancel() {
@@ -352,7 +370,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Newtask {
   padding-top: 5.428571rem;
@@ -428,5 +446,3 @@ export default {
   }
 }
 </style>
-
-

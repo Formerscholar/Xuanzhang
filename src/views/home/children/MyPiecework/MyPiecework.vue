@@ -9,7 +9,11 @@
       </div>
       <div slot="right"></div>
     </navbar>
-    <van-search v-model="state.value" show-action placeholder="请输入搜索关键词" />
+    <van-search
+      v-model="state.value"
+      show-action
+      placeholder="请输入搜索关键词"
+    />
     <scroll
       class="scroll-wrapper"
       ref="scroll"
@@ -20,110 +24,139 @@
     >
       <van-tabs v-model="state.active">
         <van-tab title="我的计价">
-          <van-swipe-cell v-for="item in state.userValuationWagesLists" :key="item.id">
-            <div :class="item.status == 1? 'item_warp' :'item_warp warp_color'">
+          <van-swipe-cell
+            v-for="item in state.userValuationWagesLists"
+            :key="item.id"
+          >
+            <div
+              :class="item.status == 1 ? 'item_warp' : 'item_warp warp_color'"
+            >
               <div class="items">
                 <span>员工</span>
-                <em>{{item.user_name}}</em>
+                <em>{{ item.user_name }}</em>
               </div>
               <div class="items">
                 <span>计件物料</span>
-                <em>{{item.materiel_name}}</em>
+                <em>{{ item.materiel_name }}</em>
               </div>
               <div class="items">
                 <span>工资</span>
-                <em>{{item.money}}</em>
+                <em>{{ item.money }}</em>
               </div>
               <div class="items">
                 <span>日期</span>
-                <em>{{item.apply_time}}</em>
+                <em>{{ item.apply_time }}</em>
               </div>
               <div class="items">
                 <span>操作人</span>
-                <em>{{item.operator_name}}</em>
+                <em>{{ item.operator_name }}</em>
               </div>
               <div class="items">
                 <span>备注</span>
-                <em>{{item.remark}}</em>
+                <em>{{ item.remark }}</em>
               </div>
             </div>
             <template #right>
-              <van-button style="height:100%;" square type="danger" text="编辑" />
+              <van-button
+                style="height:100%;"
+                square
+                type="danger"
+                text="编辑"
+              />
             </template>
           </van-swipe-cell>
         </van-tab>
         <van-tab title="简易计件">
-          <van-swipe-cell v-for="item in state.userValuationWagesList" :key="item.id">
-            <div :class="item.status == 1? 'item_warp' :'item_warp warp_color'">
+          <van-swipe-cell
+            v-for="item in state.userValuationWagesList"
+            :key="item.id"
+          >
+            <div
+              :class="item.status == 1 ? 'item_warp' : 'item_warp warp_color'"
+            >
               <div class="items">
                 <span>员工</span>
-                <em>{{item.user_name}}</em>
+                <em>{{ item.user_name }}</em>
               </div>
               <div class="items">
                 <span>计件物料</span>
-                <em>{{item.materiel_name}}</em>
+                <em>{{ item.materiel_name }}</em>
               </div>
               <div class="items">
                 <span>工资</span>
-                <em>{{item.money}}</em>
+                <em>{{ item.money }}</em>
               </div>
               <div class="items">
                 <span>日期</span>
-                <em>{{item.apply_time}}</em>
+                <em>{{ item.apply_time }}</em>
               </div>
               <div class="items">
                 <span>操作人</span>
-                <em>{{item.operator_name}}</em>
+                <em>{{ item.operator_name }}</em>
               </div>
               <div class="items">
                 <span>备注</span>
-                <em>{{item.remark}}</em>
+                <em>{{ item.remark }}</em>
               </div>
             </div>
             <template #right>
-              <van-button style="height:100%;" square type="danger" text="编辑" />
+              <van-button
+                style="height:100%;"
+                square
+                type="danger"
+                text="编辑"
+              />
             </template>
           </van-swipe-cell>
         </van-tab>
         <van-tab title="工序计件">
-          <van-swipe-cell v-for="item in state.userValuationWagesListss" :key="item.id">
-            <div :class="item.status == 1? 'item_warp' :'item_warp warp_color'">
+          <van-swipe-cell
+            v-for="item in state.userValuationWagesListss"
+            :key="item.id"
+          >
+            <div
+              :class="item.status == 1 ? 'item_warp' : 'item_warp warp_color'"
+            >
               <div class="items">
                 <span>员工</span>
-                <em>{{item.user_name}}</em>
+                <em>{{ item.user_name }}</em>
               </div>
               <div class="items">
                 <span>计件物料</span>
-                <em>{{item.materiel_name}}</em>
+                <em>{{ item.materiel_name }}</em>
               </div>
               <div class="items">
                 <span>工资</span>
-                <em>{{item.money}}</em>
+                <em>{{ item.money }}</em>
               </div>
               <div class="items">
                 <span>日期</span>
-                <em>{{item.apply_time}}</em>
+                <em>{{ item.apply_time }}</em>
               </div>
               <div class="items">
                 <span>操作人</span>
-                <em>{{item.operator_name}}</em>
+                <em>{{ item.operator_name }}</em>
               </div>
               <div class="items">
                 <span>备注</span>
-                <em>{{item.remark}}</em>
+                <em>{{ item.remark }}</em>
               </div>
             </div>
             <template #right>
-              <van-button style="height:100%;" square type="danger" text="编辑" />
+              <van-button
+                style="height:100%;"
+                square
+                type="danger"
+                text="编辑"
+              />
             </template>
           </van-swipe-cell>
         </van-tab>
       </van-tabs>
     </scroll>
-    <!-- <i class="el-icon-plus" @click="addClick"></i> -->
   </div>
 </template>
-    
+
 <script>
 import { reactive, computed, onActivated } from '@vue/composition-api'
 import {
@@ -144,7 +177,7 @@ export default {
       Spage: 1,
     })
     onActivated(() => {
-      root.$Jurisdiction('168', root.$store.state.catearr, () => {
+      root.$Jurisdiction('168', localStorage.getItem('catearr'), () => {
         root.$router.replace('/home')
         root.$toast('您的账号无该模块权限!')
       })
@@ -167,13 +200,12 @@ export default {
       const { data } = await getMySimplePieceWorkWagesList(
         getUserValuaData.value
       )
-      console.log('getMySimplePieceWorkWagesList', data)
+
       const { simplePieceWorkWages } = data
       state.userValuationWagesList = [
         ...state.userValuationWagesList,
         ...simplePieceWorkWages,
       ]
-      console.log(state.userValuationWagesList)
     }
 
     async function getMyValuationList() {
@@ -183,7 +215,6 @@ export default {
         ...state.userValuationWagesLists,
         ...userValuationWagesList,
       ]
-      console.log(state.userValuationWagesLists)
     }
 
     async function getMyProcessPieceList() {
@@ -195,7 +226,6 @@ export default {
         ...state.userValuationWagesListss,
         ...processPieceWorkWages,
       ]
-      console.log(state.userValuationWagesListss)
     }
 
     function clickScroll() {
@@ -248,7 +278,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #PieceworkList {
   padding-top: 5.428571rem;

@@ -11,27 +11,35 @@
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <el-card class="product_box">
-        <div class="wrap_item" v-for="(item,index) in orderProducts" :key="index">
+        <div
+          class="wrap_item"
+          v-for="(item, index) in orderProducts"
+          :key="index"
+        >
           <div class="wrap_left">
             <div @touchstart="touchin" @touchend="cleartime(item.materiel_id)">
               <img
-                v-if="item.img_url && item.img_url != 0 "
+                v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url  | getUrl"
+                :src="item.img_url | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
             <div class="text">
               <div class="title">
-                <p>{{item.product_name}}</p>
+                <p>{{ item.product_name }}</p>
                 <div>
                   <span>￥</span>
-                  <span class="funds">{{item.total_price}}</span>
+                  <span class="funds">{{ item.total_price }}</span>
                 </div>
               </div>
-              <p class="model">{{item.product_model}}</p>
+              <p class="model">{{ item.product_model }}</p>
               <div class="wrap_right">
-                <span>({{item.unit_price}}×{{item.weight}}+{{item.process_cost}})×{{item.number}}</span>
+                <span
+                  >({{ item.unit_price }}×{{ item.weight }}+{{
+                    item.process_cost
+                  }})×{{ item.number }}</span
+                >
               </div>
             </div>
           </div>
@@ -41,7 +49,12 @@
             type="number"
             label="总损失费"
           />
-          <van-field v-model="parseAmount[index]" readonly type="number" label="最终金额" />
+          <van-field
+            v-model="parseAmount[index]"
+            readonly
+            type="number"
+            label="最终金额"
+          />
         </div>
         <van-field v-model="Amount" readonly type="number" label="总金额" />
         <van-field v-model="amount_validator" type="number" label="折后金额" />
@@ -50,13 +63,13 @@
     <myBtns :commitFun="quoteclick" :cancelFun="quxiaoClick">
       <span slot="cancel-btn">取消</span>
       <span slot="commit-btn">
-        ￥{{amount_validator}}
+        ￥{{ amount_validator }}
         <span>立即提交</span>
       </span>
     </myBtns>
   </div>
 </template>
-    
+
 <script>
 import {
   getChangeOutsourcingOrder,
@@ -100,10 +113,7 @@ export default {
   },
   methods: {
     inputChange(index) {
-      console.log(index)
       this.orderProducts.forEach((item1, index1) => {
-        // this.parseAmount[index] = item.total_price
-        // nums += item.total_price * 1
         if (index == index1) {
           this.parseAmount[index1] =
             item1.total_price - this.bawaylosses[index1]
@@ -147,7 +157,7 @@ export default {
         itemArr.push(this.parseAmount[index])
         arr.push(itemArr)
       })
-      console.log(arr)
+
       const { code, msg } = await changeOutsourcingOrder({
         product_data: arr,
         token: this.$store.state.token,
@@ -182,7 +192,7 @@ export default {
       const { data } = await getChangeOutsourcingOrder(
         this.getChangeOutsourcingOrderData
       )
-      console.log('getChangeOutsourcingOrder', data)
+
       this.orderProducts = data.orderProducts
       let nums = 0
       this.orderProducts.forEach((item, index) => {
@@ -195,7 +205,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #completions {
   padding-top: 5.428571rem;

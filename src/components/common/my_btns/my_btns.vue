@@ -60,9 +60,7 @@ export default {
     border-bottom-right-radius: 0.571429rem;
     overflow: hidden;
     background-color: #4692c4;
-    // background: url('../../../assets/image/right_btns.jpg') no-repeat;
-    // background-size: 100% 100%;
-    // background-position: 0 0;
+    
   }
 }
 </style>
