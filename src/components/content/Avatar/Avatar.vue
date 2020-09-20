@@ -1,20 +1,24 @@
 <template>
   <div id="fileInfoList">
-    <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
+    <simple-cropper
+      :initParam="uploadParam"
+      :successCallback="uploadHandle"
+      ref="cropper"
+    >
       <div @click="upload" class="content_box">
-        <img v-if="userImg" :src="userImg" />
-        <img v-else-if="PropsImg" :src="PropsImg" />
+        <img v-if="userImg" v-lazy="userImg" />
+        <img v-else-if="PropsImg" v-lazy="PropsImg" />
         <van-icon v-else name="photograph" />
       </div>
     </simple-cropper>
   </div>
 </template>
-    
+
 <script>
 export default {
   data() {
     return {
-      uploadParam: 4, 
+      uploadParam: 4,
       userImg: '',
     }
   },
@@ -39,7 +43,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #fileInfoList {
   .content_box {

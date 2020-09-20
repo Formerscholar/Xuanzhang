@@ -1,16 +1,19 @@
 <template>
   <div class="selection wrapper" ref="wrapper">
     <ul class="list text-white" ref="list">
-      <li v-for="(item) in selectionList" class="mui-control-item" :key="item.id">
-        <img v-if="item.img_url && item.img_url != 0 " class="img" :src="item.img_url | getUrl" />
+      <li v-for="item in selectionList" class="mui-control-item" :key="item.id">
         <img
-          v-else-if="item.img_url_lin && item.img_url_lin != 0 "
+          v-if="item.img_url && item.img_url != 0"
           class="img"
-          :src="item.img_url_lin  | getUrl"
+          :src="item.img_url | getUrl"
+        />
+        <img
+          v-else-if="item.img_url_lin && item.img_url_lin != 0"
+          class="img"
+          :src="item.img_url_lin | getUrl"
         />
         <img src="@/assets/image/Default.png" class="img" v-else />
-        
-        <div class="text">{{item.product_name || item.materiel_name}}</div>
+        <div class="text">{{ item.product_name || item.materiel_name }}</div>
       </li>
     </ul>
   </div>
@@ -62,7 +65,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 .wrapper {
   width: 100%;

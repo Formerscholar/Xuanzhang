@@ -24,7 +24,7 @@
         <img
           id="scream"
           ref="scream"
-          :src="imgRandom"
+          v-lazy="imgRandom"
           :style="'width:' + dataWidth + 'px;height:' + dataHeight + 'px;'"
         />
         <canvas

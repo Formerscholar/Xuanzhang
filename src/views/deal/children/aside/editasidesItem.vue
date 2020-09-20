@@ -35,12 +35,12 @@
                     <img
                       v-if="item.product_img && item.product_img != 0"
                       class="img"
-                      :src="item.product_img | getUrl"
+                      v-lazy="item.product_img | getUrl"
                     />
                     <img
                       v-else-if="item.img_url_lin && item.img_url_lin != 0"
                       class="img"
-                      :src="item.img_url_lin | getUrl"
+                      v-lazy="item.img_url_lin | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">

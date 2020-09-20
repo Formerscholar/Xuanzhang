@@ -27,7 +27,7 @@
                     <img
                       v-if="item.product_img && item.product_img != 0"
                       class="img"
-                      :src="item.product_img | getUrl"
+                      v-lazy="item.product_img | getUrl"
                     />
                     <img src="@/assets/image/Default.png" class="img" v-else />
                     <div class="text">

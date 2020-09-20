@@ -15,7 +15,7 @@
           <div class="topbox">
             <div class="name">
               <div class="left">
-                <img class="title_logo" :src="imgSrc" />
+                <img class="title_logo" v-lazy="imgSrc" />
               </div>
               <div class="right">
                 <div class="title">

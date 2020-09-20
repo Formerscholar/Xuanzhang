@@ -8,7 +8,7 @@
     </navbar>
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="swiper" @click="imgClick">
-        <img :src="img_URL" alt="logo" />
+        <img v-lazy="img_URL" alt="logo" />
         <i class="iconfont icon-jpg img_btn"></i>
       </div>
       <div class="titleItem">

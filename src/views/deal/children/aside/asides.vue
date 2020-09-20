@@ -256,12 +256,9 @@
     </scroll>
     <van-action-sheet
       v-model="show"
-      @click-overlay="closedClick"
-      @cancel="closedClick"
       :close-on-click-action="true"
       :close-on-popstate="true"
       @select="onSelect"
-      @open="openClick"
       :actions="actions"
       cancel-text="取消"
       safe-area-inset-bottom
@@ -485,7 +482,6 @@ export default {
           this.$router.push('/warehouseRet')
         }
       }, 10)
-      this.closedClick()
     },
     gotodetails(id) {
       this.$router.push(`/storageCom/${id}`)

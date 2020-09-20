@@ -1,4 +1,24 @@
+const CompressionPlugin = require('compression-webpack-plugin')
+
 module.exports = {
+  chainWebpack: (config) => {
+    config
+      .plugin('webpack-bundle-analyzer')
+      .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+  },
+  configureWebpack: (config) => {
+    if (progress.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.js$|\.html$|.\css/,
+            threshold: 10240,
+            deleteOriginalAssets: false,
+          }),
+        ],
+      }
+    }
+  },
   publicPath: process.env.NODE_ENV === 'production' ? '././' : '/',
   outputDir: 'dist',
   lintOnSave: true,

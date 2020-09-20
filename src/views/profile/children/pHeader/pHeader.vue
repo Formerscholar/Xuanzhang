@@ -2,15 +2,15 @@
   <div id="pHeader" class="my_header text-white bg-primary">
     <div class="topbox d-flex">
       <div class="logo d-flex">
-        <img v-if="imgUrl" :src="imgUrl" alt="logo" />
+        <img v-if="imgUrl" v-lazy="imgUrl" alt="logo" />
         <img src="../../../../assets/image/dpng.png" v-else alt="logo" />
         <div class="info">
           <div class="name">
-            <div>{{name || '姓名'}}</div>
-            <div class="span">{{jobName || '职位'}}</div>
-            <div class="phone">{{phone}}</div>
+            <div>{{ name || '姓名' }}</div>
+            <div class="span">{{ jobName || '职位' }}</div>
+            <div class="phone">{{ phone }}</div>
           </div>
-          <div class="companys">{{company}}</div>
+          <div class="companys">{{ company }}</div>
         </div>
       </div>
       <div class="icons" @click="toProfileInfo">
@@ -19,7 +19,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 export default {
   name: 'pHeader',
@@ -52,7 +52,7 @@ export default {
   },
 }
 </script>
-    
+
 <style lang="scss" scoped>
 #pHeader {
   padding: 0 1rem;

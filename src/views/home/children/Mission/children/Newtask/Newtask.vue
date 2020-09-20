@@ -60,7 +60,7 @@
           <img
             class="img_box"
             v-if="userImg"
-            :src="userImg"
+            v-lazy="userImg"
             @click="httpRequest"
           />
           <div v-else class="img_box" @click="httpRequest"></div>

@@ -15,7 +15,7 @@
           <img
             class="img_box"
             v-if="state.img_URL"
-            :src="state.img_URL"
+            v-lazy="state.img_URL"
             @click="imgClick"
           />
           <div v-else class="img_box" @click="imgClick"></div>

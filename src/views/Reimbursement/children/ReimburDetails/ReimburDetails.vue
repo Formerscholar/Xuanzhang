@@ -16,7 +16,7 @@
             <div class="picter">
               <img
                 v-if="state.userInfo.img_url"
-                :src="state.userInfo.img_url.substr(1)"
+                v-lazy="state.userInfo.img_url.substr(1)"
                 alt="logo"
               />
               <img v-else src="@/assets/image/dpng.png" />

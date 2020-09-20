@@ -32,7 +32,7 @@
                   <img
                     class="left_card"
                     v-if="item.img_url && item.img_url != '0'"
-                    :src="bestURL + item.img_url"
+                    v-lazy="bestURL + item.img_url"
                     alt="logo"
                   />
                   <img
@@ -90,7 +90,7 @@
                   <img
                     class="left_card"
                     v-if="item.img_url && item.img_url != '0'"
-                    :src="bestURL + item.img_url"
+                    v-lazy="bestURL + item.img_url"
                     alt="logo"
                   />
                   <img

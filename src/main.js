@@ -14,12 +14,7 @@ Vue.component('scroll', () => import('@/components/common/scroll/scroll'))
 Vue.component('timers', () => import('@/components/content/timers/timers'))
 Vue.component('navbar', () => import('@/components/common/navbar/NavBar'))
 
-import 'ant-design-vue/dist/antd.css'
-import antd from 'ant-design-vue'
-Vue.use(antd)
-
 import lrz from 'lrz'
-
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -32,10 +27,18 @@ Vue.use(preview)
 import { setJurisdiction } from '@/common/utils'
 Vue.prototype.$Jurisdiction = setJurisdiction
 
-import Vant, { Toast, Dialog } from 'vant'
+import Vant, { Toast, Dialog, Lazyload } from 'vant'
 import 'vant/lib/index.css'
+
 Vue.use(Vant)
+
 Vue.use(Toast)
+
+Vue.use(Lazyload, {
+  lazyComponent: true,
+  loading: '@/assets/image/Default.png',
+})
+
 Vue.prototype.$dialog = Dialog
 
 import FastClick from 'fastclick'

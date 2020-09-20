@@ -14,7 +14,7 @@
           <span>头像</span>
         </div>
         <div class="itemContent">
-          <img :src="PropsImg" />
+          <img v-lazy="PropsImg" />
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>

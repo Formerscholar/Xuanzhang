@@ -49,12 +49,12 @@
               <img
                 v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url | getUrl"
+                v-lazy="item.img_url | getUrl"
               />
               <img
                 v-else-if="item.img_url_lin && item.img_url_lin != 0"
                 class="img"
-                :src="item.img_url_lin | getUrl"
+                v-lazy="item.img_url_lin | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>

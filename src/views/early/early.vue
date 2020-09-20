@@ -12,16 +12,20 @@
 
     <scroll class="scroll-wrapper" :probeType="3">
       <div class="content">
-        <el-card class="box-card" v-for="(item,index) in listItem " :key="index">
+        <el-card
+          class="box-card"
+          v-for="(item, index) in listItem"
+          :key="index"
+        >
           <div class="box-content">
             <div class="item-logo">
-              <img :src="bestURL+'/view/image/'+item.logo" alt="logo" />
-              <div class="item-title">{{item.title}}</div>
+              <img v-lazy="bestURL + '/view/image/' + item.logo" alt="logo" />
+              <div class="item-title">{{ item.title }}</div>
             </div>
             <div class="item-content">
               <span>
-                {{item.right_text}}:
-                <em>{{item.right_content}}</em>
+                {{ item.right_text }}:
+                <em>{{ item.right_content }}</em>
               </span>
             </div>
           </div>
@@ -30,7 +34,7 @@
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { bestURL } from '@/network/baseURL'
 
@@ -101,7 +105,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #early {
   padding-top: 5.428571rem;

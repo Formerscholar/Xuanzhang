@@ -18,13 +18,13 @@
           <div class="left_img" @click="imgClick">
             <img
               v-if="img_URL && img_URL != 0"
-              :src="img_URL | getUrl"
+              v-lazy="img_URL | getUrl"
               alt="logo"
             />
             <img
               v-else-if="img_url_lin && img_url_lin != 0"
               class="img"
-              :src="img_url_lin | getUrl"
+              v-lazy="img_url_lin | getUrl"
             />
             <img src="@/assets/image/Default.png" v-else />
           </div>

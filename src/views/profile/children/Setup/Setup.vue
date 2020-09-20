@@ -13,7 +13,7 @@
         <img src="@/assets/image/logo.png" alt="logo" />
         <span>
           版本号
-          <em>V{{state.version}}</em>
+          <em>V{{ state.version }}</em>
         </span>
       </div>
       <div class="UserActions" @click="getUpdate">
@@ -33,7 +33,7 @@
     </scroll>
   </div>
 </template>
-    
+
 <script>
 import { reactive } from '@vue/composition-api'
 import { getAppVersion } from '@/network/login'
@@ -105,7 +105,7 @@ export default {
   },
 }
 </script>
-    
+
 <style scoped lang="scss">
 #Setup {
   .p_root_box {

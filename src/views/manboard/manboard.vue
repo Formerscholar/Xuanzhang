@@ -41,7 +41,7 @@
               <img
                 v-if="item.img_url"
                 class="img"
-                :src="
+                v-lazy="
                   item.img_url.substr(0, 1) == '#'
                     ? item.img_url.substr(1)
                     : item.img_url
@@ -107,7 +107,7 @@
             <img
               v-if="item.img_url"
               class="img"
-              :src="item.img_url.substr(1)"
+              v-lazy="item.img_url.substr(1)"
               alt="logo"
             />
             <div v-else class="imgs"></div>

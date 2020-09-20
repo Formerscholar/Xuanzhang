@@ -11,7 +11,7 @@
     <div class="titlebox">
       <div class="topbox d-flex">
         <div class="logo d-flex">
-          <img v-if="state.img_url" :src="state.img_url" alt="logo" />
+          <img v-if="state.img_url" v-lazy="state.img_url" alt="logo" />
           <img src="@/assets/image/dpng.png" v-else alt="logo" />
           <div class="info">
             <div class="name">

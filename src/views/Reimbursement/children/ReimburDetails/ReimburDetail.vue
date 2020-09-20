@@ -22,7 +22,7 @@
             <div class="picter">
               <img
                 v-if="userInfo.img_url"
-                :src="
+                v-lazy="
                   userInfo.img_url.indexOf('#') == -1
                     ? userInfo.img_url
                     : userInfo.img_url.substr(1)

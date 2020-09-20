@@ -21,7 +21,7 @@
               <img
                 v-if="item.img_url && item.img_url != 0"
                 class="img"
-                :src="item.img_url | getUrl"
+                v-lazy="item.img_url | getUrl"
               />
               <img src="@/assets/image/Default.png" class="img" v-else />
             </div>
